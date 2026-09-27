@@ -1,41 +1,64 @@
 name: Refresh flood data
+# GitHub's own cron is best-effort (runs can be delayed an hour or skipped), so
+# each run stays alive and refreshes every 30 minutes for ~5.5 hours, then
+# dispatches the next run of itself. The cron below is only a backup that
+# restarts the loop if the chain ever breaks; `concurrency` keeps runs from
+# overlapping.
 on:
   schedule:
-    - cron: "17,47 * * * *"   # every 30 min (off the :00 rush)
+    - cron: "17 */2 * * *"
   workflow_dispatch:
 permissions:
   contents: write
-concurrency: refresh
+  actions: write
+concurrency:
+  group: refresh
+  cancel-in-progress: false
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 350
+    env:
+      INTERVAL_MIN: 30
+      LOOP_MIN: 330
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with: { python-version: "3.12" }
       - run: pip install pillow
-      - name: Fetch feeds
+      - name: Refresh every 30 minutes
         env:
-          PREV_FEED: data/feed.json
           GEO_CACHE: data/geocache.json
           RADAR_DIR: data/radar
         run: |
-          cp data/feed.json /tmp/prev.json
-          PREV_FEED=/tmp/prev.json python fetch_feed.py data/feed.json
-          python build_site.py
-      - name: Commit
-        run: |
           git config user.name "weather-fight-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data index.html
-          git diff --cached --quiet && exit 0
-          git commit -m "data: refresh $(date -u +%FT%TZ)"
-          # main may have moved while we fetched (code pushes, another run):
-          # rebase onto it, keeping this run's freshly generated data on conflict
-          for i in 1 2 3; do
-            git pull --rebase -X theirs origin main && git push && exit 0
-            git rebase --abort 2>/dev/null || true
-            sleep $((i * 10))
+          end=$(( $(date +%s) + LOOP_MIN * 60 ))
+          while :; do
+            start=$(date +%s)
+            # pick up code changes pushed since the last cycle
+            git pull -q --rebase -X theirs origin main || git rebase --abort || true
+            cp data/feed.json /tmp/prev.json
+            if PREV_FEED=/tmp/prev.json python fetch_feed.py data/feed.json && python build_site.py; then
+              git add -A data index.html
+              if ! git diff --cached --quiet; then
+                git commit -q -m "data: refresh $(date -u +%FT%TZ)"
+                for i in 1 2 3; do
+                  git pull -q --rebase -X theirs origin main && git push -q && break
+                  git rebase --abort 2>/dev/null || true
+                  sleep $((i * 10))
+                done
+              fi
+            else
+              echo "::warning::fetch failed this cycle; keeping previous data"
+              git checkout -- data index.html 2>/dev/null || true
+            fi
+            next=$(( start + INTERVAL_MIN * 60 ))
+            [ "$next" -ge "$end" ] && break
+            sleep $(( next - $(date +%s) > 0 ? next - $(date +%s) : 0 ))
           done
-          exit 1
+      - name: Start the next run
+        if: success() || failure()   # not when a person cancels the run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run refresh.yml --ref main
