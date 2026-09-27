@@ -1,4 +1,4 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="description" content="Dashboard ติดตามฝน น้ำท่วม ระดับน้ำ และพยากรณ์อากาศ กรุงเทพฯ 2569"></head><body><title>Weather Fight กทม.</title>
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="description" content="Dashboard ติดตามฝน น้ำท่วม ระดับน้ำ และพยากรณ์อากาศ กรุงเทพฯ 2569"></head><body><title>FloodFight69</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -184,25 +184,26 @@ footer{font-size:12.5px;color:var(--ink-3)}
 <div class="wrap">
   <header class="top">
     <div>
-      <div class="lbl">Weather Fight · กรุงเทพฯ 2569</div>
-      <h1>ศูนย์ติดตามฝน น้ำท่วม และพยากรณ์อากาศ</h1>
+      <div class="lbl">ศูนย์ติดตามฝน น้ำท่วม และพยากรณ์อากาศ · กรุงเทพฯ 2569</div>
+      <h1>FloodFight69</h1>
     </div>
     <div class="fresh" id="fresh"><span class="dot" id="dot"></span><span id="freshTxt">กำลังโหลด…</span></div>
   </header>
 
   <section id="alerts" style="display:grid;gap:10px" aria-label="ประกาศเตือนภัย"></section>
 
-  <section class="panel" aria-labelledby="hcb" id="cbsec">
-    <div class="panel-h"><h2 id="hcb">ประกาศ ปภ. · ศูนย์พักพิง</h2><span class="lbl">DDPM Cell Broadcast</span></div>
-    <div class="cb" id="cblist"></div>
-    <details class="addbox" id="addbox" hidden>
-      <summary class="small" style="cursor:pointer;color:var(--accent)">เพิ่มประกาศจากมือถือ (วางข้อความแจ้งเตือน)</summary>
-      <label for="cbtext" class="small muted">คัดลอกข้อความจากการแจ้งเตือน ปภ. บนมือถือแล้ววางที่นี่ ระบบจะแยกเวลา เขต และรายชื่อศูนย์พักพิงให้</label>
-      <textarea id="cbtext" placeholder="แจ้งศูนย์พักพิงผู้ประสบอุทกภัย กทม. 27-09-2026 10:13:36 กทม. แจ้งศูนย์พักพิงผู้ประสบอุทกภัย เขตบางแค ได้แก่ ..."></textarea>
-      <div class="small muted" id="cbprev"></div>
-      <div class="row"><button class="btn primary" id="cbsave" disabled>บันทึกประกาศ</button><span class="small" id="cbmsg" role="status"></span></div>
-    </details>
-    <div class="small muted" style="margin-top:10px">ปภ. ยังไม่มีฟีดสาธารณะให้ดึงอัตโนมัติ (เว็บ disaster.go.th ปิดการเข้าถึงจากระบบอัตโนมัติ) ประกาศในส่วนนี้จึงมาจากข้อความที่วางเข้ามา ส่วนข่าวที่เกี่ยวข้องดูได้ในแท็บ "ปภ./ศูนย์พักพิง" ของฟีดข่าว · สายด่วน ปภ. 1784 · กทม. 1555</div>
+  <section class="panel" aria-labelledby="htmd">
+    <div class="panel-h"><h2 id="htmd">ประกาศกรมอุตุนิยมวิทยา · พยากรณ์ 24 ชม.</h2><span class="lbl num" id="tmdDate"></span></div>
+    <div class="tmdtxt" id="tmd"></div>
+  </section>
+
+  <section class="now" id="now" aria-label="สภาพอากาศตอนนี้"></section>
+
+  <section class="panel" aria-labelledby="h48">
+    <div class="panel-h"><h2 id="h48">ฝน 48 ชั่วโมงข้างหน้า</h2>
+      <div class="legend"><span><i class="sw" style="background:var(--water);height:8px"></i>มม./ชม.</span><span><i class="sw" style="background:var(--warn)"></i>โอกาสฝน %</span></div></div>
+    <div id="c48"></div>
+    <div class="small muted" id="s48" style="margin-top:6px"></div>
   </section>
 
   <section class="panel" aria-labelledby="hradar" id="radar">
@@ -230,6 +231,37 @@ footer{font-size:12.5px;color:var(--ink-3)}
     </div>
   </section>
 
+  <section class="panel" aria-labelledby="hriver">
+    <div class="panel-h"><h2 id="hriver">เจ้าพระยา · อัตราการไหล</h2><span class="lbl">ม³/วินาที · GloFAS</span></div>
+    <div id="criver"></div>
+    <div class="legend" style="margin-top:6px"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span></div>
+    <div class="small muted" id="sriver" style="margin-top:6px"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="htw" id="tw">
+    <div class="panel-h"><h2 id="htw">ระดับน้ำ · ThaiWater</h2><span class="lbl">สสน. · สถานีโทรมาตร</span></div>
+    <div class="chips" id="twsum"></div>
+    <h3 style="font-size:14.5px;font-weight:600;margin:16px 0 8px">แม่น้ำเจ้าพระยา เหนือ → ใต้</h3>
+    <div class="profile" id="twriver"></div>
+    <div class="legend small" style="margin-top:6px"><span><i class="sw" style="background:var(--ink);height:0;border-top:1.5px dashed var(--ink)"></i>ระดับตลิ่ง</span><span>% = ระดับน้ำเทียบความจุลำน้ำ (100% = เต็มตลิ่ง)</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin:18px 0 6px"><h3 style="font-size:14.5px;font-weight:600">กรุงเทพฯ และปริมณฑล</h3><div class="tabs" id="twprov"></div></div>
+    <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="twtbl"></tbody></table></div>
+    <div id="twmore"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="hcb" id="cbsec">
+    <div class="panel-h"><h2 id="hcb">ประกาศ ปภ. · ศูนย์พักพิง</h2><span class="lbl">DDPM Cell Broadcast</span></div>
+    <div class="cb" id="cblist"></div>
+    <details class="addbox" id="addbox" hidden>
+      <summary class="small" style="cursor:pointer;color:var(--accent)">เพิ่มประกาศจากมือถือ (วางข้อความแจ้งเตือน)</summary>
+      <label for="cbtext" class="small muted">คัดลอกข้อความจากการแจ้งเตือน ปภ. บนมือถือแล้ววางที่นี่ ระบบจะแยกเวลา เขต และรายชื่อศูนย์พักพิงให้</label>
+      <textarea id="cbtext" placeholder="แจ้งศูนย์พักพิงผู้ประสบอุทกภัย กทม. 27-09-2026 10:13:36 กทม. แจ้งศูนย์พักพิงผู้ประสบอุทกภัย เขตบางแค ได้แก่ ..."></textarea>
+      <div class="small muted" id="cbprev"></div>
+      <div class="row"><button class="btn primary" id="cbsave" disabled>บันทึกประกาศ</button><span class="small" id="cbmsg" role="status"></span></div>
+    </details>
+    <div class="small muted" style="margin-top:10px">ปภ. ยังไม่มีฟีดสาธารณะให้ดึงอัตโนมัติ (เว็บ disaster.go.th ปิดการเข้าถึงจากระบบอัตโนมัติ) ประกาศในส่วนนี้จึงมาจากข้อความที่วางเข้ามา ส่วนข่าวที่เกี่ยวข้องดูได้ในแท็บ "ปภ./ศูนย์พักพิง" ของฟีดข่าว · สายด่วน ปภ. 1784 · กทม. 1555</div>
+  </section>
+
   <section class="panel" aria-labelledby="hroads" id="roads">
     <div class="panel-h"><h2 id="hroads">ถนนน้ำท่วม · ควรหลีกเลี่ยง</h2><span class="lbl" id="roadsAsof"></span></div>
     <div class="roadhead" id="roadsHead"></div>
@@ -245,71 +277,36 @@ footer{font-size:12.5px;color:var(--ink-3)}
     </div>
   </section>
 
-  <section class="now" id="now" aria-label="สภาพอากาศตอนนี้"></section>
-
-  <div class="grid2">
-    <section class="panel" aria-labelledby="h48">
-      <div class="panel-h"><h2 id="h48">ฝน 48 ชั่วโมงข้างหน้า</h2>
-        <div class="legend"><span><i class="sw" style="background:var(--water);height:8px"></i>มม./ชม.</span><span><i class="sw" style="background:var(--warn)"></i>โอกาสฝน %</span></div></div>
-      <div id="c48"></div>
-      <div class="small muted" id="s48" style="margin-top:6px"></div>
-    </section>
-    <section class="panel" aria-labelledby="hriver">
-      <div class="panel-h"><h2 id="hriver">เจ้าพระยา · อัตราการไหล</h2><span class="lbl">ม³/วินาที · GloFAS</span></div>
-      <div id="criver"></div>
-      <div class="legend" style="margin-top:6px"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span></div>
-      <div class="small muted" id="sriver" style="margin-top:6px"></div>
-    </section>
-  </div>
-
-  <section class="panel" aria-labelledby="htw" id="tw">
-    <div class="panel-h"><h2 id="htw">ระดับน้ำ · ThaiWater</h2><span class="lbl">สสน. · สถานีโทรมาตร</span></div>
-    <div class="chips" id="twsum"></div>
-    <h3 style="font-size:14.5px;font-weight:600;margin:16px 0 8px">แม่น้ำเจ้าพระยา เหนือ → ใต้</h3>
-    <div class="profile" id="twriver"></div>
-    <div class="legend small" style="margin-top:6px"><span><i class="sw" style="background:var(--ink);height:0;border-top:1.5px dashed var(--ink)"></i>ระดับตลิ่ง</span><span>% = ระดับน้ำเทียบความจุลำน้ำ (100% = เต็มตลิ่ง)</span></div>
-    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin:18px 0 6px"><h3 style="font-size:14.5px;font-weight:600">กรุงเทพฯ และปริมณฑล</h3><div class="tabs" id="twprov"></div></div>
-    <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="twtbl"></tbody></table></div>
-    <div id="twmore"></div>
-  </section>
-
   <section class="panel" aria-labelledby="h7">
     <div class="panel-h"><h2 id="h7">พยากรณ์ 7 วัน · กรุงเทพฯ</h2><span class="lbl">Open-Meteo</span></div>
     <div class="days" id="days"></div>
   </section>
 
-  <div class="grid2">
-    <section class="panel" aria-labelledby="hnews">
-      <div class="panel-h"><h2 id="hnews">ฟีดข่าว (3 วันล่าสุด)</h2><span class="lbl">Google News</span></div>
-      <div class="tabs" role="tablist" id="tabs"></div>
-      <label class="lbl" for="q" style="position:absolute;left:-9999px">ค้นหาข่าว</label>
-      <input id="q" class="search" type="search" placeholder="กรองหัวข้อข่าว เช่น ลาดกระบัง, ทางด่วน, สุวรรณภูมิ">
-      <ul class="news" id="news"></ul>
-    </section>
-    <div style="display:grid;gap:16px;align-content:start">
-      <section class="panel" aria-labelledby="htmd">
-        <div class="panel-h"><h2 id="htmd">พยากรณ์ 24 ชม. · กรมอุตุฯ</h2><span class="lbl num" id="tmdDate"></span></div>
-        <div class="tmdtxt" id="tmd"></div>
-      </section>
-      <section class="panel" aria-labelledby="hct">
-        <div class="panel-h"><h2 id="hct">สายด่วน</h2><span class="lbl">แตะค้างเพื่อคัดลอก</span></div>
-        <div class="contacts">
-          <div class="ct"><b>1555</b><span>ศูนย์รับแจ้ง กทม.</span></div>
-          <div class="ct"><b>1784</b><span>ปภ. สาธารณภัย</span></div>
-          <div class="ct"><b>1182</b><span>กรมอุตุนิยมวิทยา</span></div>
-          <div class="ct"><b>1669</b><span>เจ็บป่วยฉุกเฉิน</span></div>
-        </div>
-        <div class="links">
-          <a href="https://www.tmd.go.th" target="_blank" rel="noopener">กรมอุตุนิยมวิทยา</a>
-          <a href="https://weather.bangkok.go.th/radar" target="_blank" rel="noopener">เรดาร์ฝน กทม.</a>
-          <a href="https://www.thaiwater.net" target="_blank" rel="noopener">ThaiWater (สสน.)</a>
-          <a href="https://www.rid.go.th" target="_blank" rel="noopener">กรมชลประทาน</a>
-        </div>
-      </section>
-    </div>
-  </div>
+  <section class="panel" aria-labelledby="hnews">
+    <div class="panel-h"><h2 id="hnews">ฟีดข่าว (3 วันล่าสุด)</h2><span class="lbl">Google News</span></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <label class="lbl" for="q" style="position:absolute;left:-9999px">ค้นหาข่าว</label>
+    <input id="q" class="search" type="search" placeholder="กรองหัวข้อข่าว เช่น ลาดกระบัง, ทางด่วน, สุวรรณภูมิ">
+    <ul class="news" id="news"></ul>
+  </section>
 
-  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 3 ชั่วโมง ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
+    <section class="panel" aria-labelledby="hct">
+      <div class="panel-h"><h2 id="hct">สายด่วน</h2><span class="lbl">แตะค้างเพื่อคัดลอก</span></div>
+      <div class="contacts">
+        <div class="ct"><b>1555</b><span>ศูนย์รับแจ้ง กทม.</span></div>
+        <div class="ct"><b>1784</b><span>ปภ. สาธารณภัย</span></div>
+        <div class="ct"><b>1182</b><span>กรมอุตุนิยมวิทยา</span></div>
+        <div class="ct"><b>1669</b><span>เจ็บป่วยฉุกเฉิน</span></div>
+      </div>
+      <div class="links">
+        <a href="https://www.tmd.go.th" target="_blank" rel="noopener">กรมอุตุนิยมวิทยา</a>
+        <a href="https://weather.bangkok.go.th/radar" target="_blank" rel="noopener">เรดาร์ฝน กทม.</a>
+        <a href="https://www.thaiwater.net" target="_blank" rel="noopener">ThaiWater (สสน.)</a>
+        <a href="https://www.rid.go.th" target="_blank" rel="noopener">กรมชลประทาน</a>
+      </div>
+    </section>
+
+  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุกชั่วโมง ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
 </div>
 
 <script type="application/json" id="seed">{
@@ -2839,7 +2836,7 @@ function renderNow(d){
 
 function render48(d){
   const w=d.weather; if(!w){$("c48").innerHTML="<div class='empty'>ไม่มีข้อมูล</div>";return;}
-  const h=w.hourly, W=560,H=200,L=30,R=30,T=12,B=30, iw=W-L-R, ih=H-T-B, n=h.length||1, bw=iw/n;
+  const h=w.hourly, W=1000,H=220,L=30,R=30,T=12,B=30, iw=W-L-R, ih=H-T-B, n=h.length||1, bw=iw/n;
   const maxP=Math.max(5,Math.ceil(Math.max(...h.map(x=>x.p||0))));
   const y=v=>T+ih-(v/maxP)*ih, yp=v=>T+ih-(v/100)*ih;
   let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="กราฟปริมาณฝนรายชั่วโมง 48 ชั่วโมง">`;
@@ -2855,7 +2852,7 @@ function render48(d){
 
 function renderRiver(d){
   const r=d.river||[]; if(!r.length){$("criver").innerHTML="<div class='empty'>ไม่มีข้อมูล</div>";return;}
-  const W=460,H=200,L=44,R=10,T=12,B=26, iw=W-L-R, ih=H-T-B, n=r.length;
+  const W=1000,H=220,L=44,R=10,T=12,B=26, iw=W-L-R, ih=H-T-B, n=r.length;
   const mx=Math.max(...r.map(x=>Math.max(x.q||0,x.qmax||0))); const top=Math.ceil(mx/2000)*2000;
   const x=i=>L+(i/(n-1))*iw, y=v=>T+ih-(v/top)*ih; const t=todayStr(); const ti=r.findIndex(z=>z.date===t);
   let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="กราฟอัตราการไหลแม่น้ำเจ้าพระยา">`;
