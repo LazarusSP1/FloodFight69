@@ -2,7 +2,7 @@
 
 Dashboard ติดตามสถานการณ์น้ำท่วมกรุงเทพฯ: ประกาศเตือนภัยกรมอุตุฯ, ประกาศ ปภ./ศูนย์พักพิง, เรดาร์ฝนสุวรรณภูมิ, แผนที่ถนนน้ำท่วมที่ กทม. แนะให้เลี่ยง, ระดับน้ำ ThaiWater, อัตราการไหลเจ้าพระยา (GloFAS), พยากรณ์ 48 ชม./7 วัน และฟีดข่าว
 
-อัปเดตอัตโนมัติทุกชั่วโมงด้วย GitHub Actions (`.github/workflows/refresh.yml`) แล้วเผยแพร่ผ่าน GitHub Pages
+อัปเดตอัตโนมัติทุก 15 นาทีด้วย GitHub Actions (`.github/workflows/refresh.yml`) แล้วเผยแพร่ผ่าน GitHub Pages
 
 ## ไฟล์
 - `fetch_feed.py` ดึงข้อมูลทุกแหล่ง เขียน `data/feed.json` และ `data/radar/f*.json`

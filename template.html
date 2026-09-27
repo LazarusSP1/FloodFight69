@@ -306,7 +306,7 @@ footer{font-size:12.5px;color:var(--ink-3)}
       </div>
     </section>
 
-  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุกชั่วโมง ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
+  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 15 นาที ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
 </div>
 
 <script type="application/json" id="seed">__SEED__</script>
@@ -337,8 +337,8 @@ function render(d){
   if(!d) return; DATA=d;
   // freshness
   const ageH=(Date.now()-new Date(d.updatedAt).getTime())/3.6e6;
-  $("dot").className="dot"+(ageH>6?" stale":"");
-  $("freshTxt").innerHTML="อัปเดต <span class='num'>"+esc(fmtTs(d.updatedAt).replace("<br>"," "))+"</span> · "+rel(d.updatedAt)+(ageH>6?" (ข้อมูลเก่า)":"");
+  $("dot").className="dot"+(ageH>2?" stale":"");
+  $("freshTxt").innerHTML="อัปเดต <span class='num'>"+esc(fmtTs(d.updatedAt).replace("<br>"," "))+"</span> · "+rel(d.updatedAt)+(ageH>2?" (ข้อมูลเก่า)":"");
   renderAlerts(d); renderRoads(d); renderNow(d); render48(d); renderRiver(d); renderTw(d); renderDays(d); renderTmd(d); renderTabs(); renderNews();
 }
 
