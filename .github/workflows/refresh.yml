@@ -1,0 +1,33 @@
+name: Refresh flood data
+on:
+  schedule:
+    - cron: "17 * * * *"   # hourly
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: refresh
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pillow
+      - name: Fetch feeds
+        env:
+          PREV_FEED: data/feed.json
+          GEO_CACHE: data/geocache.json
+          RADAR_DIR: data/radar
+        run: |
+          cp data/feed.json /tmp/prev.json
+          PREV_FEED=/tmp/prev.json python fetch_feed.py data/feed.json
+          python build_site.py
+      - name: Commit
+        run: |
+          git config user.name "weather-fight-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A data index.html
+          git diff --cached --quiet || git commit -m "data: refresh $(date -u +%FT%TZ)"
+          git push

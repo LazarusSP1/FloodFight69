@@ -1,0 +1,352 @@
+#!/usr/bin/env python3
+"""Weather Fight feed builder — fetches flood/rain/forecast data for Bangkok
+and writes feed.json (one document for the dashboard's db at feed/latest).
+Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, TMD open data API, Google News RSS.
+Usage: python3 fetch_feed.py [out.json]
+Optional env: ROADS_URL=<thairath article url> forces the flooded-roads source article;
+PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found.
+Also writes radar/f0.json..f7.json: batch-write each to db collection "radar", doc ids f0..f7.
+If roads come back null, keep the previous roads block (see refresh task).
+"""
+import json, sys, re, html, urllib.request, urllib.parse, datetime as dt
+import xml.etree.ElementTree as ET
+from email.utils import parsedate_to_datetime
+
+LAT, LON = 13.7563, 100.5018
+TZ = dt.timezone(dt.timedelta(hours=7))
+UA = {"User-Agent": "Mozilla/5.0 WeatherFight/1.0"}
+
+def get(url, timeout=30):
+    req = urllib.request.Request(url, headers=UA)
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read()
+
+def safe(fn, default):
+    try:
+        return fn()
+    except Exception as e:
+        print("WARN", fn.__name__, e, file=sys.stderr)
+        return default
+
+def weather():
+    q = urllib.parse.urlencode({
+        "latitude": LAT, "longitude": LON, "timezone": "Asia/Bangkok",
+        "current": "temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m",
+        "hourly": "precipitation,precipitation_probability",
+        "daily": "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max",
+        "past_days": 7, "forecast_days": 7,
+    })
+    d = json.loads(get("https://api.open-meteo.com/v1/forecast?" + q))
+    c = d["current"]
+    now = c["time"][:13]
+    h = d["hourly"]
+    idx = next((i for i, t in enumerate(h["time"]) if t[:13] >= now), 0)
+    hourly = [{"t": h["time"][i][11:16], "d": h["time"][i][:10],
+               "p": h["precipitation"][i], "pp": h["precipitation_probability"][i]}
+              for i in range(idx, min(idx + 48, len(h["time"])))]
+    dd = d["daily"]
+    daily = [{"date": dd["time"][i], "code": dd["weather_code"][i],
+              "tmax": dd["temperature_2m_max"][i], "tmin": dd["temperature_2m_min"][i],
+              "rain": dd["precipitation_sum"][i], "pp": dd["precipitation_probability_max"][i]}
+             for i in range(len(dd["time"]))]
+    return {"current": {"time": c["time"], "temp": c["temperature_2m"], "rh": c["relative_humidity_2m"],
+                        "rain": c["precipitation"], "code": c["weather_code"], "wind": c["wind_speed_10m"]},
+            "hourly": hourly, "daily": daily}
+
+def river():
+    q = urllib.parse.urlencode({"latitude": 13.75, "longitude": 100.49,
+                                "daily": "river_discharge,river_discharge_max",
+                                "past_days": 14, "forecast_days": 14})
+    d = json.loads(get("https://flood-api.open-meteo.com/v1/flood?" + q))["daily"]
+    return [{"date": d["time"][i], "q": d["river_discharge"][i], "qmax": d["river_discharge_max"][i]}
+            for i in range(len(d["time"]))]
+
+TW_URL = "https://api-v3.thaiwater.net/api/v1/thaiwater30/public/waterlevel_load"
+TW_RIVER = ["C.2", "C.13", "C.3", "C.7A", "C.35", "CPY014", "C.12", "CPY015"]
+TW_PROV = {"กรุงเทพมหานคร", "นนทบุรี", "ปทุมธานี", "สมุทรปราการ", "สมุทรสาคร", "นครปฐม"}
+
+def _f(v):
+    try:
+        return round(float(v), 2)
+    except (TypeError, ValueError):
+        return None
+
+def thaiwater():
+    d = json.loads(get(TW_URL, timeout=60))
+    rows = d["waterlevel_data"]["data"]
+    def pack(r):
+        s = r.get("station") or {}
+        g = r.get("geocode") or {}
+        wl, prev = _f(r.get("waterlevel_msl")), _f(r.get("waterlevel_msl_previous"))
+        return {"code": s.get("tele_station_oldcode"), "name": (s.get("tele_station_name") or {}).get("th"),
+                "prov": (g.get("province_name") or {}).get("th"), "amphoe": (g.get("amphoe_name") or {}).get("th"),
+                "basin": ((r.get("basin") or {}).get("basin_name") or {}).get("th"),
+                "t": r.get("waterlevel_datetime"), "wl": wl,
+                "dwl": round(wl - prev, 2) if wl is not None and prev is not None else None,
+                "bank": _f(s.get("min_bank")), "pct": _f(r.get("storage_percent")),
+                "lvl": r.get("situation_level"), "diff": _f(r.get("diff_wl_bank")),
+                "over": "ล้น" in (r.get("diff_wl_bank_text") or ""), "q": _f(r.get("discharge"))}
+    by_code = {}
+    area = []
+    for r in rows:
+        p = pack(r)
+        if p["code"]:
+            by_code[p["code"]] = p
+        if p["prov"] in TW_PROV:
+            area.append(p)
+    area.sort(key=lambda x: x["pct"] if x["pct"] is not None else -1, reverse=True)
+    return {"river": [by_code[c] for c in TW_RIVER if c in by_code], "area": area}
+
+# ---- flooded roads (BMA road-flood alerts as republished by Thairath) ----
+import os, time
+TR_RSS = "https://www.thairath.co.th/rss/news"
+TR_SITEMAP = "https://www.thairath.co.th/sitemap-daily.xml"
+ROAD_TITLE = re.compile(r"(เลี่ยง|น้ำท่วมขัง|ท่วมขัง).*?\d+\s*(เส้นทาง|ถนน|สาย|จุด)|\d+\s*(เส้นทาง|ถนน|สาย)\s*.*ท่วม")
+GEO_BOX = (100.30, 13.45, 100.98, 14.15)  # lon_min, lat_min, lon_max, lat_max
+
+def _road_candidates():
+    cands = []
+    try:
+        r = ET.fromstring(get(TR_RSS))
+        for i in r.iter("item"):
+            cands.append((i.findtext("title") or "", i.findtext("link") or ""))
+    except Exception as e:
+        print("WARN thairath rss", e, file=sys.stderr)
+    try:
+        sm = get(TR_SITEMAP).decode("utf-8", "ignore")
+        for loc, title in re.findall(r"<loc>(https://www\.thairath\.co\.th/news/[^<]+)</loc>.*?<image:title><!\[CDATA\[(.*?)\]\]>", sm, re.S):
+            cands.append((title, loc))
+    except Exception as e:
+        print("WARN thairath sitemap", e, file=sys.stderr)
+    seen, out = set(), []
+    for title, link in cands:
+        if link in seen or "ท่วม" not in title or not ROAD_TITLE.search(title):
+            continue
+        seen.add(link)
+        m = re.search(r"/(\d{6,})", link)
+        out.append((int(m.group(1)) if m else 0, title, link))
+    out.sort(reverse=True)  # newest article id first
+    return out
+
+def _article(url):
+    page = get(url).decode("utf-8", "ignore")
+    body, published, headline = "", "", ""
+    for block in re.findall(r'<script[^>]*application/ld\+json[^>]*>(.*?)</script>', page, re.S):
+        try:
+            j = json.loads(block)
+        except Exception:
+            continue
+        for obj in (j if isinstance(j, list) else [j]):
+            if isinstance(obj, dict) and obj.get("articleBody"):
+                body, published, headline = obj["articleBody"], obj.get("datePublished", ""), obj.get("headline", "")
+    return body, published, headline
+
+def parse_roads(body):
+    items, pos, n = [], 0, 1
+    starts = []
+    while True:
+        k = body.find(f"{n}. ถ.", pos)
+        if k < 0:
+            break
+        starts.append(k + len(f"{n}. "))
+        pos, n = k + 3, n + 1
+    for i, s in enumerate(starts):
+        end = starts[i + 1] - len(f"{i + 2}. ") if i + 1 < len(starts) else len(body)
+        chunk = body[s:end].strip()
+        m = re.match(r"(ถ\.[^:]*?)(?:\s*ท่วมสูง\s*(\d+)\s*ซม\.[^ช]*)?ช่วงน้ำท่วม:\s*(.*)$", chunk, re.S)
+        if not m:
+            m2 = re.match(r"(ถ\.\S+(?:\s\S+)?)\s*ท่วมสูง\s*(\d+)\s*ซม", chunk)
+            if m2:
+                items.append({"road": m2.group(1).strip(), "depth": int(m2.group(2)), "segs": []})
+            continue
+        road, depth, rest = m.group(1).strip(), m.group(2), m.group(3)
+        md = re.search(r"ท่วมสูง\s*(\d+)\s*ซม\.?\s*(หรือมากกว่า)?", rest)
+        if md and not depth:
+            depth = md.group(1)
+        rest = re.sub(r"\s*ท่วมสูง\s*\d+\s*ซม\.?\s*(หรือมากกว่า)?", "", rest)
+        rest = re.split(r"\s{2,}|\n", rest.strip())[0]
+        segs = []
+        for part in [p.strip() for p in rest.split("·") if p.strip()]:
+            mm = re.match(r"จาก\s+(.+?)\s+ถึง\s+(.+)$", part)
+            if mm:
+                segs.append({"from": mm.group(1).strip(), "to": mm.group(2).strip()})
+            else:
+                segs.append({"near": re.sub(r"^บริเวณใกล้\s*", "", part).strip()})
+        items.append({"road": road, "depth": int(depth) if depth else None, "segs": segs})
+    return items
+
+_geo_cache = {}
+_GEO_CACHE_PATH = os.environ.get("GEO_CACHE")
+if _GEO_CACHE_PATH and os.path.exists(_GEO_CACHE_PATH):
+    try:
+        _geo_cache.update(json.load(open(_GEO_CACHE_PATH, encoding="utf-8")))
+    except Exception:
+        pass
+def _norm(q):
+    q = re.sub(r"ซ\.\s*(?=\d)", "ซอย ", q)
+    q = re.sub(r"ซ\.\s*", "ซอย", q)
+    q = re.sub(r"\bถ\.\s*", "ถนน", q)
+    return re.sub(r"\s+", " ", q).strip()
+
+def geocode(q):
+    q = _norm(q)
+    if q in _geo_cache:
+        return _geo_cache[q]
+    url = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode({
+        "format": "json", "limit": 1, "countrycodes": "th", "bounded": 1,
+        "viewbox": f"{GEO_BOX[0]},{GEO_BOX[3]},{GEO_BOX[2]},{GEO_BOX[1]}", "q": q})
+    res = None
+    try:
+        time.sleep(1.1)  # Nominatim usage policy: max 1 request/second
+        r = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "WeatherFightDashboard/1.0"}), timeout=20).read())
+        if r:
+            res = [round(float(r[0]["lat"]), 5), round(float(r[0]["lon"]), 5)]
+    except Exception as e:
+        print("WARN geocode", q, e, file=sys.stderr)
+    _geo_cache[q] = res
+    return res
+
+def _geo_point(name, road):
+    rn = _norm(road)
+    for q in ([name] if name.startswith(("ซ.", "ถ.", "แยก", "ซอย", "ถนน")) else []) + [f"{name} {rn}", name]:
+        p = geocode(q)
+        if p:
+            return p
+    return None
+
+def roads():
+    url = os.environ.get("ROADS_URL")
+    cands = [(0, "", url)] if url else _road_candidates()
+    for _, title, link in cands[:4]:
+        try:
+            body, published, headline = _article(link)
+        except Exception as e:
+            print("WARN article", link, e, file=sys.stderr)
+            continue
+        items = parse_roads(body)
+        if len(items) < 3:
+            continue
+        mt = re.search(r"เวลา\s*(\d{1,2}[.:]\d{2})\s*น\.", body)
+        road_pts = {}
+        for it in items:
+            if it["road"] not in road_pts:
+                road_pts[it["road"]] = geocode(it["road"] + " กรุงเทพมหานคร")
+            for s in it["segs"]:
+                if "near" in s:
+                    s["p"] = _geo_point(s["near"], it["road"])
+                else:
+                    s["a"] = _geo_point(s["from"], it["road"])
+                    s["b"] = _geo_point(s["to"], it["road"])
+            it["p"] = road_pts[it["road"]]
+        return {"source": link, "headline": headline or title, "published": published,
+                "asof": mt.group(1).replace(".", ":") if mt else "", "items": items}
+    return None
+
+# ---- rain radar (TMD Suvarnabhumi 120 km loop) ----
+import base64, io
+RADAR_GIF = "https://weather.tmd.go.th/svp/svp120loop.gif"
+RADAR_FRAMES = 8
+
+def radar(out_dir=None):
+    out_dir = out_dir or os.environ.get("RADAR_DIR", "radar")
+    """Writes the most recent loop frames as radar/f<i>.json ({i, n, img: data-URI webp, fetched})
+    for the dashboard's db collection "radar". Returns metadata for the main feed doc."""
+    from PIL import Image, ImageSequence
+    im = Image.open(io.BytesIO(get(RADAR_GIF, timeout=60)))
+    frames = [f.convert("RGB") for f in ImageSequence.Iterator(im)][-RADAR_FRAMES:]
+    os.makedirs(out_dir, exist_ok=True)
+    fetched = dt.datetime.now(TZ).isoformat(timespec="minutes")
+    for i, fr in enumerate(frames):
+        b = io.BytesIO()
+        fr.save(b, "WEBP", quality=58, method=6)
+        doc = {"i": i, "n": len(frames), "fetched": fetched,
+               "img": "data:image/webp;base64," + base64.b64encode(b.getvalue()).decode()}
+        with open(os.path.join(out_dir, f"f{i}.json"), "w") as fh:
+            json.dump(doc, fh)
+    return {"frames": len(frames), "fetched": fetched, "source": "https://weather.tmd.go.th/svp120loop.php"}
+
+def clean(s):
+    return re.sub(r"\s+\n", "\n", (s or "").replace("\r", "")).strip()
+
+def tmd_warnings():
+    r = ET.fromstring(get("https://data.tmd.go.th/api/WeatherWarningNews/v2/?uid=api&ukey=api12345"))
+    out = []
+    for w in r.iter("Warning"):
+        out.append({"no": w.findtext("IssueNo"), "title": clean(w.findtext("TitleThai")),
+                    "headline": clean(w.findtext("HeadlineThai"))[:1200],
+                    "start": w.findtext("EffectStartDate"), "end": w.findtext("EffectEndDate"),
+                    "announced": w.findtext("AnnounceDate"), "url": w.findtext("WebUrlThai")})
+    return out
+
+def tmd_daily():
+    r = ET.fromstring(get("https://data.tmd.go.th/api/DailyForecast/v2/?uid=api&ukey=api12345"))
+    f = r.find("DailyForecast")
+    regions = {x.findtext("RegionNameThai"): clean(x.findtext("DescriptionThai")) for x in f.iter("RegionForecast")}
+    return {"date": clean(f.findtext("Date")), "overall": clean(f.findtext("OverallDescriptionThai"))[:1500],
+            "bkk": regions.get("กรุงเทพและปริมณฑล", ""), "central": regions.get("ภาคกลาง", ""),
+            "east": regions.get("ภาคตะวันออก", "")}
+
+def gnews(query, n=20):
+    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode(
+        {"q": query + " when:3d", "hl": "th", "gl": "TH", "ceid": "TH:th"})
+    r = ET.fromstring(get(url))
+    items = []
+    for i in r.iter("item"):
+        src = i.findtext("source") or ""
+        title = html.unescape(i.findtext("title") or "")
+        if src and title.endswith(" - " + src):
+            title = title[: -len(src) - 3]
+        try:
+            ts = parsedate_to_datetime(i.findtext("pubDate")).astimezone(TZ).isoformat(timespec="minutes")
+        except Exception:
+            ts = ""
+        items.append({"title": title.strip(), "src": src, "url": i.findtext("link"), "ts": ts})
+    items.sort(key=lambda x: x["ts"], reverse=True)
+    return items[:n]
+
+def news():
+    feeds = {"shelter": "ศูนย์พักพิง OR อพยพ OR \"ปภ. แจ้งเตือน\" OR \"ปภ. เตือน\"",
+             "flood": "น้ำท่วม กรุงเทพ", "rain": "ฝนตกหนัก", "forecast": "พยากรณ์อากาศ กรมอุตุนิยมวิทยา"}
+    out, seen = {}, set()
+    for k, q in feeds.items():
+        lst = []
+        for it in safe(lambda: gnews(q, 30), []):
+            key = re.sub(r"\W", "", it["title"])[:40]
+            if key in seen:
+                continue
+            seen.add(key)
+            lst.append(it)
+        out[k] = lst[:20]
+    return out
+
+def main():
+    doc = {
+        "updatedAt": dt.datetime.now(TZ).isoformat(timespec="minutes"),
+        "weather": safe(weather, None),
+        "river": safe(river, []),
+        "thaiwater": safe(thaiwater, None),
+        "roads": safe(roads, None),
+        "radar": safe(radar, None),
+        "tmd": {"warnings": safe(tmd_warnings, []), "daily": safe(tmd_daily, None)},
+        "news": news(),
+    }
+    prev_path = os.environ.get("PREV_FEED")
+    if doc["roads"] is None and prev_path and os.path.exists(prev_path):
+        try:
+            prev = json.load(open(prev_path, encoding="utf-8"))
+            prev = prev.get("data", prev) if isinstance(prev, dict) else {}
+            if prev.get("roads"):
+                doc["roads"] = dict(prev["roads"], carried=True)
+        except Exception as e:
+            print("WARN prev feed", e, file=sys.stderr)
+    if _GEO_CACHE_PATH:
+        json.dump(_geo_cache, open(_GEO_CACHE_PATH, "w", encoding="utf-8"), ensure_ascii=False)
+    out = sys.argv[1] if len(sys.argv) > 1 else "feed.json"
+    s = json.dumps(doc, ensure_ascii=False, separators=(",", ":"))
+    open(out, "w", encoding="utf-8").write(s)
+    print(f"wrote {out}: {len(s.encode())} bytes; news " +
+          ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
+          f"; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
+
+if __name__ == "__main__":
+    main()
