@@ -29,5 +29,13 @@ jobs:
           git config user.name "weather-fight-bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A data index.html
-          git diff --cached --quiet || git commit -m "data: refresh $(date -u +%FT%TZ)"
-          git push
+          git diff --cached --quiet && exit 0
+          git commit -m "data: refresh $(date -u +%FT%TZ)"
+          # main may have moved while we fetched (code pushes, another run):
+          # rebase onto it, keeping this run's freshly generated data on conflict
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 10))
+          done
+          exit 1
