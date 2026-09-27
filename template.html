@@ -381,7 +381,7 @@ function render48(d){
   s+=`<polyline fill="none" stroke="var(--warn)" stroke-width="1.8" points="${h.map((x,i)=>`${(L+i*bw+bw/2).toFixed(1)},${yp(x.pp||0).toFixed(1)}`).join(" ")}"/>`;
   s+=`</svg>`; $("c48").innerHTML=s;
   const pk=h.reduce((a,x)=>(x.p||0)>(a.p||0)?x:a,h[0]||{});
-  $("s48").innerHTML=pk&&pk.p>0?`ฝนหนักสุดช่วง <span class="num">${esc(pk.t)}</span> น. ${pk.d===todayStr()?"วันนี้":pd(pk.d).getDate()+" "+TH_M[pd(pk.d).getMonth()]} ราว <span class="num">${pk.p}</span> มม./ชม. แกนเวลาเป็นเวลาไทย`:"ไม่มีฝนที่วัดได้ใน 48 ชม. ข้างหน้า";
+  $("s48").innerHTML=pk&&pk.p>0?`ฝนหนักสุดช่วง <span class="num">${esc(pk.t)}</span> น. ${pk.d===todayStr()?"วันนี้":pd(pk.d).getDate()+" "+TH_M[pd(pk.d).getMonth()]} ราว <span class="num">${pk.p}</span> มม./ชม. แกนเวลาเป็นเวลาไทย`:"ไม่มีฝนที่วัดได้ใน 48 ชม. ข้างหน้า"+(w.stale?' · <span style="color:var(--warn)">รอบนี้ดึงพยากรณ์ใหม่ไม่สำเร็จ แสดงข้อมูลรอบก่อน</span>':"");
 }
 
 function renderRiver(d){

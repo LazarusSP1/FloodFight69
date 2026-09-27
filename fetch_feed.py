@@ -8,7 +8,7 @@ PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no ne
 Also writes radar/f0.json..f7.json: batch-write each to db collection "radar", doc ids f0..f7.
 If roads come back null, keep the previous roads block (see refresh task).
 """
-import json, sys, re, html, urllib.request, urllib.parse, datetime as dt
+import json, sys, re, html, os, time, urllib.request, urllib.parse, datetime as dt
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 
@@ -16,10 +16,16 @@ LAT, LON = 13.7563, 100.5018
 TZ = dt.timezone(dt.timedelta(hours=7))
 UA = {"User-Agent": "Mozilla/5.0 WeatherFight/1.0"}
 
-def get(url, timeout=30):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+def get(url, timeout=30, tries=3):
+    for k in range(tries):
+        try:
+            req = urllib.request.Request(url, headers=UA)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except Exception:
+            if k == tries - 1:
+                raise
+            time.sleep(3 * (k + 1))
 
 def safe(fn, default):
     try:
@@ -331,12 +337,18 @@ def main():
         "news": news(),
     }
     prev_path = os.environ.get("PREV_FEED")
-    if doc["roads"] is None and prev_path and os.path.exists(prev_path):
+    if prev_path and os.path.exists(prev_path):
         try:
             prev = json.load(open(prev_path, encoding="utf-8"))
             prev = prev.get("data", prev) if isinstance(prev, dict) else {}
-            if prev.get("roads"):
+            if doc["roads"] is None and prev.get("roads"):
                 doc["roads"] = dict(prev["roads"], carried=True)
+            # keep the last good block when a source fails this run
+            for k in ("weather", "river", "thaiwater", "radar"):
+                if not doc.get(k) and prev.get(k):
+                    doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
+            if not (doc.get("tmd") or {}).get("daily") and (prev.get("tmd") or {}).get("daily"):
+                doc["tmd"]["daily"] = prev["tmd"]["daily"]
         except Exception as e:
             print("WARN prev feed", e, file=sys.stderr)
     if _GEO_CACHE_PATH:

@@ -1,1 +1,2469 @@
-{"updatedAt":"2026-09-27T10:17+07:00","weather":null,"river":[{"date":"2026-09-13","q":4569.88,"qmax":4644.15},{"date":"2026-09-14","q":4580.42,"qmax":4590.98},{"date":"2026-09-15","q":4364.16,"qmax":4435.09},{"date":"2026-09-16","q":4254.98,"qmax":4384.31},{"date":"2026-09-17","q":4158.11,"qmax":4225.69},{"date":"2026-09-18","q":4206.27,"qmax":4235.43},{"date":"2026-09-19","q":4364.16,"qmax":4374.22},{"date":"2026-09-20","q":4424.88,"qmax":4496.8},{"date":"2026-09-21","q":4633.47,"qmax":4676.35},{"date":"2026-09-22","q":4874.28,"qmax":4919.39},{"date":"2026-09-23","q":5115.82,"qmax":5151.29},{"date":"2026-09-24","q":4999.34,"qmax":5057.25},{"date":"2026-09-25","q":5068.91,"qmax":5356.97},{"date":"2026-09-26","q":5583.7,"qmax":5983.12},{"date":"2026-09-27","q":5766.66,"qmax":6066.36},{"date":"2026-09-28","q":6294.06,"qmax":7815.28},{"date":"2026-09-29","q":6515.28,"qmax":9637.29},{"date":"2026-09-30","q":6590.74,"qmax":10763.65},{"date":"2026-10-01","q":6545.36,"qmax":11613.49},{"date":"2026-10-02","q":6425.88,"qmax":11427.79},{"date":"2026-10-03","q":6236.35,"qmax":10542.86},{"date":"2026-10-04","q":6066.36,"qmax":9681.78},{"date":"2026-10-05","q":5873.89,"qmax":9014.71},{"date":"2026-10-06","q":5726.96,"qmax":8510.38},{"date":"2026-10-07","q":5687.53,"qmax":8127.31},{"date":"2026-10-08","q":5726.96,"qmax":7797.3},{"date":"2026-10-09","q":5687.53,"qmax":7497.94},{"date":"2026-10-10","q":5583.7,"qmax":7226.7}],"thaiwater":{"river":[{"code":"C.2","name":"ค่ายจิรประวัติ","prov":"นครสวรรค์","amphoe":"เมืองนครสวรรค์","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":22.31,"dwl":0.0,"bank":25.7,"pct":72.62,"lvl":4,"diff":3.39,"over":false,"q":1846.0},{"code":"C.13","name":"ท้ายเขื่อนเจ้าพระยา","prov":"ชัยนาท","amphoe":"สรรพยา","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":14.52,"dwl":0.0,"bank":16.34,"pct":87.24,"lvl":4,"diff":1.82,"over":false,"q":1950.0},{"code":"C.3","name":"บ้านบางพุทรา","prov":"สิงห์บุรี","amphoe":"เมืองสิงห์บุรี","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":11.04,"dwl":0.01,"bank":13.2,"pct":86.06,"lvl":4,"diff":2.16,"over":false,"q":2044.0},{"code":"C.7A","name":"บ้านบางแก้ว","prov":"อ่างทอง","amphoe":"เมืองอ่างทอง","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":7.75,"dwl":0.0,"bank":9.9,"pct":87.07,"lvl":4,"diff":2.15,"over":false,"q":1941.0},{"code":"C.35","name":"บ้านป้อม","prov":"พระนครศรีอยุธยา","amphoe":"พระนครศรีอยุธยา","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":4.59,"dwl":0.01,"bank":4.35,"pct":101.76,"lvl":5,"diff":0.24,"over":true,"q":1224.0},{"code":"CPY014","name":"สะพานนวลฉวี","prov":"นนทบุรี","amphoe":"ปากเกร็ด","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":2.32,"dwl":-0.02,"bank":2.5,"pct":98.86,"lvl":4,"diff":0.18,"over":false,"q":null},{"code":"C.12","name":"กรมชลประทานสามเสน","prov":"กรุงเทพมหานคร","amphoe":"ดุสิต","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":1.79,"dwl":-0.11,"bank":2.26,"pct":97.2,"lvl":4,"diff":0.47,"over":false,"q":null},{"code":"CPY015","name":"สะพานกรุงเทพ","prov":"กรุงเทพมหานคร","amphoe":"ธนบุรี","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:10","wl":1.13,"dwl":-0.13,"bank":2.16,"pct":94.23,"lvl":4,"diff":1.03,"over":false,"q":null}],"area":[{"code":"BKC004","name":"ปตร. คลองลัดบางยอ 2","prov":"สมุทรปราการ","amphoe":"พระประแดง","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-24 17:40","wl":1.5,"dwl":0.15,"bank":0.91,"pct":123.47,"lvl":5,"diff":0.59,"over":true,"q":null},{"code":"BKK021","name":"คลองลาดพร้าว วัดบางบัว","prov":"กรุงเทพมหานคร","amphoe":"บางเขน","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":2.76,"dwl":0.01,"bank":2.2,"pct":122.09,"lvl":5,"diff":0.56,"over":true,"q":null},{"code":"BKK002","name":"คลองเปรมประชากร หลักหก","prov":"ปทุมธานี","amphoe":"เมืองปทุมธานี","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":1.78,"dwl":0.01,"bank":1.29,"pct":118.36,"lvl":5,"diff":0.49,"over":true,"q":null},{"code":"T.15","name":"วัดบางไผ่นารถ","prov":"นครปฐม","amphoe":"บางเลน","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 09:00","wl":2.4,"dwl":0.0,"bank":1.8,"pct":107.96,"lvl":5,"diff":0.6,"over":true,"q":null},{"code":"BKK017","name":"คลองจระเข้ใหญ่ บางเสาธง (วัดศรีวารีน้อย)","prov":"สมุทรปราการ","amphoe":"บางเสาธง","basin":"ลุ่มน้ำบางปะกง","t":"2026-09-26 02:20","wl":0.6,"dwl":0.01,"bank":0.43,"pct":106.31,"lvl":5,"diff":0.16,"over":true,"q":null},{"code":"T.1","name":"ที่ว่าการอ.นครชัยศรี","prov":"นครปฐม","amphoe":"นครชัยศรี","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 09:00","wl":2.16,"dwl":0.03,"bank":1.5,"pct":106.23,"lvl":5,"diff":0.66,"over":true,"q":null},{"code":"THA007","name":"บางเลน","prov":"นครปฐม","amphoe":"บางเลน","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 10:00","wl":2.54,"dwl":0.0,"bank":2.21,"pct":103.44,"lvl":5,"diff":0.33,"over":true,"q":null},{"code":"BKK013","name":"คลองระพีพัฒน์แยกใต้ หนองเสือ","prov":"ปทุมธานี","amphoe":"หนองเสือ","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":4.08,"dwl":0.0,"bank":3.96,"pct":102.64,"lvl":5,"diff":0.12,"over":true,"q":null},{"code":"T.14","name":"ร.ร.บ้านสามพราน","prov":"นครปฐม","amphoe":"สามพราน","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 09:00","wl":1.68,"dwl":-0.08,"bank":1.5,"pct":101.75,"lvl":5,"diff":0.18,"over":true,"q":null},{"code":"BKK003","name":"คลองมหาสวัสดิ บางกรวย-สวนผัก","prov":"กรุงเทพมหานคร","amphoe":"ตลิ่งชัน","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":2.15,"dwl":0.0,"bank":2.07,"pct":101.47,"lvl":5,"diff":0.08,"over":true,"q":null},{"code":"BKK009","name":"คลองลำปลาทิว ลาดกระบัง","prov":"กรุงเทพมหานคร","amphoe":"ลาดกระบัง","basin":"ลุ่มน้ำบางปะกง","t":"2026-09-27 10:00","wl":0.64,"dwl":0.0,"bank":0.62,"pct":100.56,"lvl":5,"diff":0.02,"over":true,"q":null},{"code":"THA008","name":"สะพานนครชัยศรี","prov":"นครปฐม","amphoe":"นครชัยศรี","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 10:00","wl":1.98,"dwl":-0.01,"bank":1.95,"pct":100.36,"lvl":5,"diff":0.04,"over":true,"q":null},{"code":"CPY014","name":"สะพานนวลฉวี","prov":"นนทบุรี","amphoe":"ปากเกร็ด","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":2.32,"dwl":-0.02,"bank":2.5,"pct":98.86,"lvl":4,"diff":0.18,"over":false,"q":null},{"code":"C.12","name":"กรมชลประทานสามเสน","prov":"กรุงเทพมหานคร","amphoe":"ดุสิต","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:00","wl":1.79,"dwl":-0.11,"bank":2.26,"pct":97.2,"lvl":4,"diff":0.47,"over":false,"q":null},{"code":"CPY015","name":"สะพานกรุงเทพ","prov":"กรุงเทพมหานคร","amphoe":"ธนบุรี","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 09:10","wl":1.13,"dwl":-0.13,"bank":2.16,"pct":94.23,"lvl":4,"diff":1.03,"over":false,"q":null},{"code":"CAN001","name":"คลองระพีพัฒน์แยกตก","prov":"ปทุมธานี","amphoe":"คลองหลวง","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":4.13,"dwl":0.0,"bank":4.56,"pct":91.67,"lvl":4,"diff":0.43,"over":false,"q":null},{"code":"MKG005","name":"บ้านแพ้ว","prov":"สมุทรสาคร","amphoe":"บ้านแพ้ว","basin":"ลุ่มน้ำแม่กลอง","t":"2026-09-27 10:00","wl":0.68,"dwl":0.0,"bank":0.96,"pct":91.52,"lvl":4,"diff":0.28,"over":false,"q":null},{"code":"BKC002","name":"ปตร.วัดบางกระเจ้านอก","prov":"สมุทรปราการ","amphoe":"พระประแดง","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":1.03,"dwl":-0.05,"bank":1.26,"pct":91.39,"lvl":4,"diff":0.23,"over":false,"q":null},{"code":"BKK001","name":"คลองลาดพร้าว ท้ายปตร.คลอง2","prov":"กรุงเทพมหานคร","amphoe":"สายไหม","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":1.81,"dwl":0.0,"bank":2.56,"pct":83.15,"lvl":4,"diff":0.75,"over":false,"q":null},{"code":"THA009","name":"เมืองสมุทรสาคร","prov":"สมุทรสาคร","amphoe":"เมืองสมุทรสาคร","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 10:00","wl":0.24,"dwl":-0.04,"bank":1.93,"pct":80.98,"lvl":4,"diff":1.69,"over":false,"q":null},{"code":"BKK006","name":"คลองมหาชัย วัดพันท้ายนรสิงห์","prov":"สมุทรสาคร","amphoe":"เมืองสมุทรสาคร","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 10:00","wl":0.53,"dwl":-0.02,"bank":1.3,"pct":80.55,"lvl":4,"diff":0.77,"over":false,"q":null},{"code":"BKK015","name":"คลองหกวา ลำลูกกา คลอง8","prov":"ปทุมธานี","amphoe":"ลำลูกกา","basin":"ลุ่มน้ำบางปะกง","t":"2026-09-27 10:00","wl":1.65,"dwl":0.0,"bank":2.71,"pct":79.66,"lvl":4,"diff":1.05,"over":false,"q":null},{"code":"BKC003","name":"ปตร. คลองลัดบางยอ 1","prov":"สมุทรปราการ","amphoe":"พระประแดง","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":1.01,"dwl":-0.04,"bank":1.51,"pct":79.21,"lvl":4,"diff":0.5,"over":false,"q":null},{"code":"VLGE20","name":"ศาลาดิน","prov":"นครปฐม","amphoe":"พุทธมณฑล","basin":"ลุ่มน้ำท่าจีน","t":"2026-09-27 10:00","wl":1.06,"dwl":0.0,"bank":2.31,"pct":71.21,"lvl":4,"diff":1.25,"over":false,"q":null},{"code":"BKK018","name":"คลองพระพิมล (ไทรน้อย)","prov":"นนทบุรี","amphoe":"ไทรน้อย","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":2.29,"dwl":0.0,"bank":4.05,"pct":71.15,"lvl":4,"diff":1.76,"over":false,"q":null},{"code":"BKK019","name":"คลองนราภิรมย์ (บางเลน)","prov":"นครปฐม","amphoe":"บางเลน","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":2.21,"dwl":0.0,"bank":3.96,"pct":68.47,"lvl":3,"diff":1.75,"over":false,"q":null},{"code":"BKK020","name":"คลองลาดพร้าว ปากคลอง2สายใต้","prov":"กรุงเทพมหานคร","amphoe":"ลาดพร้าว","basin":"ลุ่มน้ำบางปะกง","t":"2026-09-27 10:00","wl":2.16,"dwl":0.01,"bank":4.46,"pct":57.95,"lvl":3,"diff":2.3,"over":false,"q":null},{"code":"BKK005","name":"คลองภาษีเจริญ เพชรเกษม69","prov":"กรุงเทพมหานคร","amphoe":"บางแค","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":-2.0,"dwl":0.0,"bank":1.42,"pct":57.39,"lvl":3,"diff":3.42,"over":false,"q":null},{"code":"AIT001","name":"อโศก","prov":"กรุงเทพมหานคร","amphoe":"วัฒนา","basin":"ลุ่มน้ำเจ้าพระยา","t":"2026-09-27 10:00","wl":1.56,"dwl":-0.02,"bank":2.39,"pct":56.08,"lvl":3,"diff":0.83,"over":false,"q":null}]},"roads":{"source":"https://www.thairath.co.th/news/local/bangkok/2962310","headline":"เช้านี้ กทม. แนะเลี่ยง 31 เส้นทาง บางจุดยังอ่วมน้ำท่วมขังสูง เช็กเลยมีที่ไหนบ้าง","published":"2026-09-27T08:59:15+07:00","asof":"08:00","items":[{"road":"ถ.รามอินทรา","depth":20,"segs":[{"from":"ซ.รามอินทรา 5","to":"ซ.รามอินทรา 13/1","a":[13.87144,100.61552],"b":[13.86628,100.6128]}],"p":[13.86542,100.61273]},{"road":"ถ.พหลโยธิน","depth":20,"segs":[{"from":"ซ.พหลโยธิน 51","to":"ถ.ผลาสินธุ์","a":[13.86832,100.58953],"b":[13.85425,100.589]},{"near":"ถ.ประเสริฐมนูกิจ","p":[13.84073,100.58454]},{"near":"ซ.พหลโยธิน 55","p":[13.87121,100.59264]}],"p":null},{"road":"ถ.เทพรักษ์","depth":20,"segs":[{"from":"ถ.พหลโยธิน","to":"ซ.พหลโยธิน 50","a":[13.84097,100.57622],"b":null}],"p":null},{"road":"ถ.วัชรพล","depth":20,"segs":[{"near":"ซ.วัชรพล 3","p":[13.88839,100.63879]},{"from":"ซ.วัชรพล 2/7","to":"ถ.เทพรักษ์","a":[13.87916,100.64445],"b":[13.88929,100.59408]}],"p":[13.85865,100.64484]},{"road":"ถ.แจ้งวัฒนะ","depth":20,"segs":[{"from":"หลักสี่สแควร์ ซ.1","to":"วงเวียนอนุสาวรีย์หลักสี่","a":null,"b":[13.87638,100.59733]},{"from":"ซ.แจ้งวัฒนะ 10 แยก 1-1-6","to":"ถ.กำแพงเพชร 6","a":[13.88729,100.57734],"b":[13.81479,100.54709]}],"p":[13.88438,100.5815]},{"road":"ถ.นวมินทร์","depth":20,"segs":[{"near":"ซ.นวมินทร์ 155","p":[13.82867,100.65515]},{"from":"ซ.นวมินทร์ 38","to":"ซ.นวมินทร์ 59 แยก 1","a":[13.79458,100.65232],"b":[13.7888,100.64953]},{"near":"ซ.นวมินทร์ 107","p":[13.80579,100.64621]}],"p":[13.77193,100.64716]},{"road":"ถ.ประเสริฐมนูกิจ","depth":20,"segs":[{"near":"ถ.นวมินทร์","p":[13.7771,100.64469]}],"p":[13.84077,100.59694]},{"road":"ถ.รามคำแหง","depth":20,"segs":[{"from":"ซ.รามคำแหง 53","to":"ซ.รามคำแหง 55 (ฉิมหิรัญ 1)","a":[13.76066,100.61992],"b":[13.76089,100.62132]},{"from":"ซ.รามคำแหง 41/1","to":"ซ.รามคำแหง 43/1","a":[13.75878,100.61622],"b":[13.75997,100.61656]},{"from":"ซ.รามคำแหง 20","to":"ซ.รามคำแหง 13","a":[13.75349,100.61333],"b":null},{"from":"ซ.รามคำแหง 21","to":"ถ.พระราม 9","a":[13.75958,100.60506],"b":[13.74806,100.6041]},{"from":"ซ.รามคำแหง 35","to":"ซ.รามคำแหง 33","a":[13.75765,100.61354],"b":[13.75727,100.61316]}],"p":[13.76386,100.65103]},{"road":"ถ.หัวหมาก","depth":20,"segs":[{"near":"ซ.รามคำแหง 24","p":[13.75365,100.61569]}],"p":[13.75479,100.62956]},{"road":"ถ.ศรีนครินทร์","depth":20,"segs":[{"from":"แยกลำสาลี","to":"ซ.ศรีนครินทร์ 1","a":[13.76182,100.64557],"b":[13.75723,100.64685]},{"from":"ทางบริการด้านขวาทาง ถนนกรุงเทพฯ-ชลบุรี","to":"ทางลอดใต้ทางแยกพัฒนาการ","a":[13.74021,100.64642],"b":[13.7345,100.64114]}],"p":null},{"road":"ถ.เสนานิคม 1","depth":20,"segs":[{"from":"เสนานิคม 1 ซ.11","to":"ถ.เสนานิคม 1 ซ.22","a":[13.83589,100.58225],"b":[13.83261,100.58407]},{"near":"ซ.เสนานิเวศน์ 117/1","p":[13.8286,100.608]}],"p":[13.8265,100.6085]},{"road":"ถ.วิภาวดีขาออก","depth":20,"segs":[{"near":"ถ.วิภาวดีรังสิต","p":[13.92737,100.60547]}],"p":null},{"road":"ถ.ช่างอากาศอุทิศ","depth":20,"segs":[{"from":"ซ.นิเวศน์ชาวฟ้า","to":"ซ.ช่างอากาศอุทิศ 5","a":null,"b":[13.91194,100.58966]}],"p":null},{"road":"ถ.หลวงแพ่ง","depth":20,"segs":[{"from":"ซ.ยุคลรัตน์","to":"ถ.ประชาพัฒนา","a":[13.71917,100.7912],"b":[13.71496,100.82147]}],"p":[13.69505,100.85818]},{"road":"ถ.เจ้าคุณทหาร","depth":20,"segs":[{"from":"ซ.คุ้มเกล้า 44","to":"ถ.คุ้มเกล้า","a":[13.75243,100.77279],"b":[13.76004,100.77627]},{"from":"ถ.คุ้มเกล้า","to":"ซ.ยุพลพัฒน์วัฒนา","a":[13.76004,100.77627],"b":[13.75415,100.78682]},{"near":"ซ.หลังไอซีดี","p":[13.76375,100.76139]},{"near":"ซ.ฉลองกรุง 17","p":[13.75005,100.79064]}],"p":[13.75385,100.76668]},{"road":"ถ.สุคนธสวัสดิ์","depth":20,"segs":[{"near":"ซ.สุคนธสวัสดิ์ 27","p":[13.83731,100.63004]}],"p":[13.82426,100.61699]},{"road":"ถ.โชคชัย 4","depth":20,"segs":[{"near":"โชคชัย 4 ซ.42","p":[13.81192,100.59821]},{"from":"ซ.โชคชัย 4 ซ.30","to":"โชคชัย 4 ซ.29","a":[13.80924,100.5986],"b":[13.80667,100.59597]}],"p":[13.79751,100.59557]},{"road":"ถ.ลาดพร้าววังหิน","depth":20,"segs":[{"from":"ซ.ลาดพร้าววังหิน 83","to":"ถ.โชคชัย 4","a":[13.8256,100.5908],"b":[13.79751,100.59557]}],"p":[13.82163,100.59153]},{"road":"ถ.สุวินทวงศ์","depth":20,"segs":[{"from":"ถ.สีหบุรานุกิจ","to":"ถ.หทัยราษฎร์","a":[13.81255,100.72786],"b":[13.92209,100.70535]}],"p":null},{"road":"ถ.สีหบุรานุกิจ","depth":20,"segs":[{"near":"ซ.สีหบุรากิจ 5","p":[13.81313,100.72328]}],"p":[13.81246,100.72191]},{"road":"ถ.วชิรธรรมสาธิต","depth":20,"segs":[{"near":"ซ.วัดทุ่ง","p":[13.68776,100.63522]}],"p":null},{"road":"ถ.อ่อนนุช","depth":null,"segs":[{"from":"ถ.พัฒนาการ","to":"ซ.อ่อนนุช 84","a":[13.7336,100.64667],"b":[13.72024,100.68481]}],"p":[13.71246,100.60663]},{"road":"ถ.สุขุมวิท 71","depth":20,"segs":[{"from":"ซ.ปรีดี พนมยงค์ 54","to":"ซ.ปรีดี พนมยงค์ 47","a":[13.73963,100.59991],"b":[13.73874,100.59777]}],"p":null},{"road":"ถ.พัฒนาการ","depth":20,"segs":[{"from":"ซ.พัฒนาการ 58","to":"ซ.พัฒนาการ 57/1","a":[13.72314,100.64716],"b":[13.73045,100.65518]}],"p":[13.74047,100.60131]},{"road":"ถ.ลาดพร้าว","depth":20,"segs":[{"from":"ซ.ลาดพร้าว 87","to":"ซ.ลาดพร้าว 126","a":[13.79085,100.61862],"b":[13.79658,100.6384]},{"from":"ซ.ลาดพร้าว 112","to":"ซ.ลาดพร้าว 122 แยก 1","a":[13.77159,100.6154],"b":[13.7761,100.62597]}],"p":null},{"road":"ถ.อินทราภรณ์","depth":20,"segs":[{"from":"ทาวน์อินทาวน์ ซ.2","to":"ซ.หมู่บ้านบดินทรรักษา","a":[13.77179,100.61055],"b":[13.77004,100.6126]}],"p":[13.77454,100.61115]},{"road":"ถ.นาคนิวาส","depth":15,"segs":[{"from":"ซ.นาคนิวาส 40","to":"ซ.นาคนิวาส 45","a":[13.81422,100.61227],"b":[13.81303,100.61003]}],"p":[13.80593,100.60777]},{"road":"ถ.เฉลิมพระเกียรติ ร.9","depth":15,"segs":[{"near":"เฉลิมพระเกียรติ ร.9 ซ.45","p":[13.69519,100.67116]}],"p":[13.67715,100.65475]},{"road":"ถ.เสรีไทย","depth":10,"segs":[{"near":"ซ.เสรีไทย 56","p":[13.79791,100.70066]}],"p":[13.76999,100.65246]},{"road":"ถ.ลาดกระบัง","depth":10,"segs":[{"from":"ซ.ลาดกระบัง 24/1","to":"ถ.กิ่งแก้ว","a":[13.71985,100.73377],"b":null}],"p":[13.72156,100.75919]},{"road":"ถ.สุขาภิบาล 5","depth":10,"segs":[{"from":"ซ.สุขาภิบาล 5 ซ.41","to":"ซ.สุขาภิบาล 5 ซ.46","a":null,"b":null}],"p":null}]},"radar":{"frames":8,"fetched":"2026-09-27T10:21+07:00","source":"https://weather.tmd.go.th/svp120loop.php"},"tmd":{"warnings":[{"no":"14","title":"ฝนตกหนักถึงหนักมากบริเวณประเทศไทย (มีผลกระทบจนถึงวันที่ 27 กันยายน 2569) ฉบับที่ 14 (230/2569)","headline":"ด้านตะวันตกของภาคกลางมีฝนตกหนักหลายพื้นที่และมีฝนตกหนักมากบางแห่ง ส่วนกรุงเทพมหานครและปริมณฑล ภาคตะวันออก ฝนเริ่มลดลงแต่ยังคงมีฝนตกต่อเนื่องและมีฝนตกหนักบางแห่ง\nทั้งนี้เนื่องจากหย่อมความกดอากาศต่ำปกคลุมด้านตะวันตกของภาคกลาง ประกอบกับมรสุมตะวันตกเฉียงใต้กำลังค่อนข้างแรงพัดปกคลุมทะเลอันดามัน ภาคใต้ และอ่าวไทย","start":"2026-09-27 05:00:00","end":"2026-09-27 12:00:00","announced":"2026-09-27 05:47:36","url":"https://tmd.go.th/media/forecast/daily-forecast/2026-09_27_05_warning_th.pdf"}],"daily":{"date":"ประจำวันที่ 27 กันยายน 2569 05.00 น.","overall":"พยากรณ์อากาศ 24 ชั่วโมงข้างหน้า ด้านตะวันตกของภาคกลางมีฝนตกหนักหลายพื้นที่และมีฝนตกหนักมากบางแห่ง กรุงเทพมหานครและปริมณฑล และภาคตะวันออก ฝนเริ่มลดลงแต่ยังคงมีฝนตกต่อเนื่อง และมีฝนตกหนักบางแห่ง ขอให้ประชาชนระวังอันตรายจากฝนตกหนักถึงหนักมากและฝนที่ตกสะสม ซึ่งอาจทำให้เกิดน้ำท่วมฉับพลัน น้ำท่วมสะสม น้ำล้นตลิ่ง และน้ำป่าไหลหลาก รวมทั้งดินโคลนถล่ม โดยเฉพาะพื้นที่ลาดเชิงเขาใกล้ทางน้ำไหลผ่านและพื้นที่ลุ่ม ควรหลีกเลี่ยงการเดินทางผ่านเส้นทางที่มีปัญหาน้ำท่วมซ้ำซาก โดยเฉพาะพื้นที่ลุ่มต่ำซึ่งอาจเกิดน้ำท่วมขังในระยะสั้นได้\n\tทั้งนี้ เนื่องจากหย่อมความกดอากาศต่ำปกคลุมด้านตะวันตกของภาคกลาง ประกอบกับมรสุมตะวันตกเฉียงใต้กำลังค่อนข้างแรงพัดปกคลุมทะเลอันดามัน ภาคใต้ และอ่าวไทย\n\tสำหรับคลื่นลมบริเวณทะเลอันดามันตอนบน และอ่าวไทยตอนบนมีกำลังค่อนข้างแรง โดยมีคลื่นสูง 2-3 เมตร บริเวณที่มีฝนฟ้าคะนองคลื่นสูงมากกว่า 3 เมตร ขอให้ชาวเรือบริเวณทะเลอันดามันและอ่าวไทยเดินเรือด้วยความระมัดระวัง และหลีกเลี่ยงการเดินเรือในบริเวณที่มีฝนฟ้าคะนอง ส่วนเรือเล็กบริเวณทะเลอันดามันตอนบนและอ่าวไทยตอนบนควรงดออกจากฝั่งจนถึงวันที่ 28 ก.ย. 69","bkk":"มีฝนฟ้าคะนอง ร้อยละ 80 ของพื้นที่ และมีฝนตกหนักบางแห่ง\nอุณหภูมิต่ำสุด 24-25 องศาเซลเซียส\nอุณหภูมิสูงสุด 27-29 องศาเซลเซียส\nลมแปรปรวน ความเร็ว 10-25 กม./ชม.","central":"มีฝนฟ้าคะนอง ร้อยละ 80 ของพื้นที่ และมีฝนตกหนักบางแห่ง\nบริเวณจังหวัดชัยนาท ลพบุรี สระบุรี สิงห์บุรี อ่างทอง พระนครศรีอยุธยา\nนครปฐม สมุทรสาคร สมุทรสงคราม\nโดยมีฝนตกหนักมากบางพื้นที่บริเวณจังหวัดนครสวรรค์ อุทัยธานี สุพรรณบุรี\nกาญจนบุรี และราชบุรี\nอุณหภูมิต่ำสุด 22-25 องศาเซลเซียส อุณหภูมิสูงสุด 27-31 องศาเซลเซียส\nลมแปรปรวน ความเร็ว 10-25 กม./ชม.","east":"มีฝนฟ้าคะนอง ร้อยละ 70 ของพื้นที่ และมีฝนตกหนักบางแห่ง\nบริเวณจังหวัดปราจีนบุรี สระแก้ว ฉะเชิงเทรา ชลบุรี และระยอง\nโดยมีฝนตกหนักมากบางพื้นที่บริเวณจังหวัดนครนายก จันทบุรี และตราด\nอุณหภูมิต่ำสุด 23-25 องศาเซลเซียส อุณหภูมิสูงสุด 26-28 องศาเซลเซียส\nลมแปรปรวน ความเร็ว 20-40 กม./ชม.\nทะเลมีคลื่นสูง 2-3 เมตร บริเวณที่มีฝนฟ้าคะนองคลื่นสูงมากกว่า 3 เมตร"}},"news":{"shelter":[{"title":"รัฐบาล เผย กองทัพระดมช่วยผู้ประสบอุทกภัยกทม.–9 จว. อพยพกลุ่มเปราะบาง เสริมแนวป้องกันดูแลรพ.–ชุมชน","src":"ผู้จัดการออนไลน์","url":"https://news.google.com/rss/articles/CBMiYEFVX3lxTE5yUy02V2hXeUZlMG5lbXNQX1dEVk5oYm52SnNLLVNUajZwc19nLXdiTVVsVTR3c0xicEQzaV9uS3lpSk03Y2lsekEzeDJ2eU1HRHBQUHk1akxWLTlNNVh0TQ?oc=5","ts":"2026-09-27T10:10+07:00"},{"title":"เตือนพหลโยธินน้ำท่วมสูง! ปภ.ส่งแจ้งศูนย์พักพิงเข้ามือถือประชาชน","src":"thaipost.net","url":"https://news.google.com/rss/articles/CBMiWEFVX3lxTE5FSXB6YW02SkdJQWtETUpFMUY4SFBEQ0V5SW15akJZRXgyMFNOTFdLTkZuUmlabnNsMk1uT0RCSkt5bzRRa1FCY1ItWGFHLTdKbDFNbUp5SHU?oc=5","ts":"2026-09-27T09:42+07:00"},{"title":"ปภ.จันทบุรีขึ้นธงแดง เตือนมวลน้ำทะลักเมือง ระดมเจ็ตสกี-เรือกู้ภัยอพยพชาวบ้าน เสียชีวิต 2 ราย","src":"ข่าวสด","url":"https://news.google.com/rss/articles/CBMiZkFVX3lxTE1sbkJYZnpESFczM204RlJkUWJva282LURzUElybmNsWWJZd04wUXZkZS0zaVlzRDlBd1J4QlM1OGpELTFHMGRfT0wzR016RldGeERpakx1SFRTYnpoLUFrbHdqMDA3dw?oc=5","ts":"2026-09-27T09:42+07:00"},{"title":"เจ้าหน้าที่เร่งอพยพผู้ประสบภัยน้ำท่วมซอยสามัคคีช่วยเหลือผู้สูงอายุ-ผู้ป่วยค้างในพื้นกว่า 70 ราย","src":"ผู้จัดการออนไลน์","url":"https://news.google.com/rss/articles/CBMiXEFVX3lxTFA3OGdOak1pQVg2S1JLSW1SMXlqOEJkOWIzRTU2TGJLdFg4cUhOT2lHdk1wSy0xWkVVSjFGdE02eWh5VkdObk5OOE9wR2RpRWhIUmNOaUtZZmlQcEd5?oc=5","ts":"2026-09-27T08:39+07:00"},{"title":"น้ำท่วมกรุงเทพฯ รู้ไว้…หากต้องอพยพ พักที่ไหน?","src":"prd.go.th","url":"https://news.google.com/rss/articles/CBMic0FVX3lxTE9xRFNMWFNvMndxRUVsNEViOHdmNnRWaWhSdGlCN1FxSEdoak8yeDcwZVNqb2o2TUpYYkFpdTlzbzRDUXplUVZpMjNCOVJvR3pKdHplR1BlRXFlZktHR3dEcEgwSDYyMHJmZXpuLUo4WFR4V1U?oc=5","ts":"2026-09-27T08:18+07:00"},{"title":"แอ๊ด คาราบาว เจอน้ำท่วมถึงในบ้าน อพยพน้องหมา 2 ตัว ลั่นไม่เคยเจอหนักขนาดนี้","src":"thairath.co.th","url":"https://news.google.com/rss/articles/CBMiXkFVX3lxTE5mbUdoSENCR1NjR1dWWnlQbi1jeGtrRjlhdFFuam41Y3p3MmxnVTJWdkYzLVFPVTNFSVFRbGtoeFp2a2R0S2xfUlBOMmtaZXdDT3lnOE83Zkd0bDRiZHc?oc=5","ts":"2026-09-27T07:30+07:00"},{"title":"สระแก้วเร่งอพยพกลุ่มเปรทะบางริมน้ำ","src":"สำนักสารนิเทศ สำนักงานปลัดกระทรวงสาธารณสุข","url":"https://news.google.com/rss/articles/CBMiWkFVX3lxTFBZNGxyajVLWkhzNTJzU2lhaklPZXpWdkNfYVhhWUtwSFRyM01iWXdKQkxxOEtnOVhNYkVhRlI2cTFpMWVlNXpKeWRSRzFjRUpQQmNzYl9feGpZZw?oc=5","ts":"2026-09-27T04:07+07:00"},{"title":"ผอ.เขตจตุจักร ลงพื้นที่ ศูนย์พักพิงโรงเรียนวัดเทวสุนทร ส่งต่อความห่วงใย ดูแลประชาชนตลอดคืน","src":"LINE TODAY","url":"https://news.google.com/rss/articles/CBMiVkFVX3lxTE9lSF9MSkEtcUxFSXhqQ1pUekY5Yk12ejBlcmp4R2dFTHFEc19MRy1hM3VsOU0wME16RUEyRUJWa2dBaWxaaktxbE5pUmVZSDBKYjNRSHZ3?oc=5","ts":"2026-09-27T03:16+07:00"},{"title":"ทหารเร่งช่วยผู้ประสบภัยน้ำท่วม ขนย้ายสิ่งของ-อพยพกลุ่มเปราะบางหลายพื้นที่","src":"ททบ. 5","url":"https://news.google.com/rss/articles/CBMipAdBVV95cUxNb2JyTjVKUF9oYW5OOGYzU2ExSktlTEJETjNhdVJBOTVPMld2c0M2ZnFJM1d0Uk1JUHhmV0lqYWpGeFVMNzV2V3RTaGd0MjNfbnlJaU1Kd0ZTeWtOWWx1Z2RUUjBZMnY5bWlJeXZWT0dERXFVS2ZFRE1WendrZjNFN3JTd0JmdS1kUFhEZ04tVjdPSkJzTUdVd09qVHNFeHNnTS1oMzVvOTlBMXRVYXNJWHNiQzdzYkxtYlVkNkxOVzZkVVY2bnlGTzdLaldXTmRab0ZIdFV1NTRtUTJNTEhXMmdub1dvaHhKcHphcUNpQnpQMnFjeHRoZ21TOGpDZzNEQXNYRU1PQVBJTG9temtiNjV6Z2dHUnplTnVaaFJWdGR0ZV94UTJReS1vUFFORURLOWFQaDlCVkxpM1dWQlF5ZmNSd3lIbm1HTzN1UWVfT0hvN0JEQlNhbEJELWRFVnM3Y0RfeFRjbFh6d0lPQmRoLURhVTIxQU1QOVVXdFFtakNqa1N5UWdkMmVLSDh4VC0xdlJZeXJkQTEzc2M5cC1EOXdRZDkwUGszbW5zRWpneGtWc3pmQ3RReUl6cWhLLWZSQ05WSi1hXzQ1M0dTQUlwRjVVek5TSmNqSGtFMVhKSzUxTG5hTXJkT1hhM2R3V3JFeFNZdVl2ak42WGpMRjFKS056cjZPM0hMOENxT0NxRko1eGZVanlNUk5HcnE3QXhDSHhjbkJHZC1JTEdZYk83UkE5UEEyZGlBQTdJYnB3alpGTkNYd2s5UVQwZmtpZVIxc1NrRmVkd0gzeDVIMDQ4bzJpczByT0l1X2lWZFNmRnVVS0xwQzMyYlJXVjltUWo2ZkpLd21zeFp6azF1T0ZwVzZGek9CcGprV0VxNlp2RGhxaXZpalpsMGZyWW43eFprN2JHS2JCZmo4X0l3ZXVvX0RSQ0xpcW84Yl9OSjhUQ2hYdURKZE03Y3pCSWZnYm1wcGRkelVjYnBHdmJQOFlaNF9xTTZYT1p2cVlJVU9yRG5FNk5FajNpNFp6VVZQLVEwVlJCT1dRdkVRaG9EWHNpMzRVRm52cVVwakRwNjREY1RvY2QzQnVLck9VX2hUR0N4U2dJaWZVZTI0Tm5FWHNrYXJmeTZzVU05cFNlT1oxQ2luU01GY2ZfVG5tVlYyY29BZDNYUjlrYjJ1RUFVUXFzbGZpNmhNRmRtV3FiVUtZQU9GeF9PZGUyR2hzcUVMQTB1Ujl6cg?oc=5","ts":"2026-09-27T03:00+07:00"},{"title":"ผู้ว่าฯ ชัชชาติ ลงพื้นที่เคหะชุมชนร่มเกล้า เร่งส่งความช่วยเหลือ–เตรียมแผนอพยพ","src":"js100.com","url":"https://news.google.com/rss/articles/CBMiWkFVX3lxTE5LNGdUZUxaQ0lmR3ZoTHBZRTdNWmFvcHFQQmh0dkR2amY2LXBBOTgwekhTT0hCMW9IZ2RadEJLbEplN0o2bVBWV0xYZDhGd0JTbDBEUTFkREZaUQ?oc=5","ts":"2026-09-27T02:30+07:00"},{"title":"ปภ.เตือนด่วน! ฝนเขาใหญ่เกิน 177 มม. เสี่ยงน้ำป่า","src":"ททบ. 5","url":"https://news.google.com/rss/articles/CBMioARBVV95cUxPeDZPakNta1QxZjE2bDktZUZhcnQ4el9KREhCUWJXajhmTlFSNF9ibGZhTkpueldTTWstYzRCNzNfOVI1ekFZZkZDbnV2SWJVQUhZRVdtM1NBRnFQTXBoaWQyYWctNjRXRW0xbzV3aXRPOTg3ZmdpS2lreUIyaGFqNVlBNUhscTF4a1Z2NTlKUmU1VXBHcjBHSlJvMmdKRHlERzFYbzlyaUt5TEV5alVXcmJEVVlSU3l3VzRFZHktdWtaeDJROWs4S0VzekVlWkJRS3I4RC1NVnFLSWtGTnB1bDVtRG9uaV9rMEN4ZFZRTXhXUEg1aGVsLVZtaTBmQ1RUb1hSSmtyd2lhM2V0c1o5VHVfbTk5Mk5YUWNNLXVoZmYwZk1UNkktdHBTWmtTWGtHSEVOYm1QemlrNzBXWldtQVJLdDgyYTJES2t4MktNWEJ1TzlwdmxLelpZUmRraTVROTVncjMyN2Zmd0ZQQjBGZUF0X3RmUE1ZZHpQWmpnWGhmQkotazhDVTQzVTdoSGY3UXlHVDlIckZoWUNwOFpKcVF6V1dCdjM5Q01WeFg3bDdFdmpmSloxX202Q3lEa0x5Uzl5YUp4d2pPLVVhODlBM2ZRZ3MwUGR2OGhqdmc3aDl1Q002OWRTcmpZS0FUMlk1N2l4aTVLOVJLMDIzMXl2cDhiU01FemZPSWphMHluY2oxZnZkWGFPdTlfc213Zzc3?oc=5","ts":"2026-09-27T01:54+07:00"},{"title":"กทม. ประชุมออนไลน์ร่วมกับนายกฯ ติดตามน้ำท่วม ฝนสะสมกว่า 300 มม. อพยพแล้ว 4,200 คน เปิดศูนย์พักพิง 233 แห่ง","src":"LINE TODAY","url":"https://news.google.com/rss/articles/CBMiZEFVX3lxTE94OXdUUVM4OXJXMXlHM3dKSk1BSGl2SzBaZ3dsTGRYWnVkSmI2RVpESk1sSEg4MmFrUDZrZkR5OHRIdWF2d1o4VUs4azlxSFk3SEpKNkZXLXdESmxEUjVYaEgyaWw?oc=5","ts":"2026-09-27T00:48+07:00"},{"title":"กู้ภัยฯ ลุยน้ำอพยพชาวบ้าน","src":"ch7.com","url":"https://news.google.com/rss/articles/CBMiS0FVX3lxTFBzYVpKV3FWajY5Sm5tYmMxSjVqRVM3YTE4U0lBdVg5am93S3lnVDAxUC03YWRGU1NqOTJyVFV2My1Hb2JkOXBTLXVJZw?oc=5","ts":"2026-09-26T23:04+07:00"},{"title":"ในหลวง-พระราชินี ทรงห่วงปชช. โปรดเกล้าฯ จัดเตรียมสิ่งของพระราชทาน มอบศูนย์พักพิงในพื้นที่กทม.","src":"แนวหน้า","url":"https://news.google.com/rss/articles/CBMiTkFVX3lxTE1BVmZIcGl4ME9qSWdTU3pyckVTN21zSjMyQ3dQUUw2VnA3YkFSckhjWl9sSk16TjIySm1UVWlWOHhkTzVtbV9RdkUzZTVIZw?oc=5","ts":"2026-09-26T22:24+07:00"},{"title":"กทม. รายงาน รมว.ดีอี–มท.4 เร่งระบายน้ำ–จัดรถยกสูงช่วยอพยพ เปิดศูนย์พักพิง–เตรียม Cell Broadcast แจ้งข้อมูลรายเขต","src":"สวพ.FM91","url":"https://news.google.com/rss/articles/CBMiU0FVX3lxTE1LSERraXNsSDFwTF9MQk41Qkh4dlFmRS1YaXl4c3Z2OW83SVFqMC1WS3RtVXhoalNaSk01R2dHanhIQkVtbDVOd3BieWl4V2lWLUs4?oc=5","ts":"2026-09-26T22:22+07:00"},{"title":"ในหลวง ทรงห่วงใยผู้ประสบอุทกภัย โปรดเกล้าฯ ตั้งโรงครัวพระราชทาน-ศูนย์พักพิง","src":"ประชาชาติธุรกิจ","url":"https://news.google.com/rss/articles/CBMiYEFVX3lxTFB2VUpmTjBWWTNtM2RrUEIzNGhhQXg4U1BxbEZNd253NEhpamtIWTRtQ3YwZndPMTJzQ29VOHBxSmF6Q3BjbWdPOU1NQm1SNVFEUV85RHlPaEdxWVZTNW9ZVA?oc=5","ts":"2026-09-26T22:14+07:00"},{"title":"FLOOD: ‘ไชยชนก - เจเศรษฐ์ - วรศิษฏ์‘ ประชุมติดตามการช่วยเหลืออุทกภัย พร้อมประสานงานระหว่างกระทรวงสนับสนุนการช่วยเหลือประชาชนทุกมิติ วันนี้ (26 ก.ย. 69) เวลา 20.00 น. ที่ห้องกองบัญชาการป้องกันและบรรเทาสาธารณภัย กรมป้องกันและบรรเทาสาธารณภัย นายไชยชนก ชิดชอบ","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMixwdBVV95cUxQTkV5aV9pVThLSTFOSWlPX3ptR3l1V1I3amtXLU5hd3MyYlc5N3ZUMXEyMU8yOG1kT1NFampRTEdmZ1kyZlV1YmFIdm1yQlFoZVFVdHVFT1l3SkNjZVZTZG9TeDVjSXZvZ0JkaEFqQklUaEFDVjlERHRoZW5kYXgwQXplU1NWVF9tQVVfdmV5ZktNOVR0OUN0d0hDWDdpUjNzWEJOcTNJNnBPVVRpZlhTNExqcHl6bVI0Rm5sM2Nuby1oaWstcUp6c01PZTREWEFxOFN6TjlJdEwtbmlRWGx3NmlQSG9sVXdKQVJCSlpYTlNUeGZUeG1PT0RlVy1pbkpBcmYwNzEyeENGX1Nkd2UwdG9SblFEQTBkRkxJYU5vZHlhR3FveDNyNXFyaFAtYnZsUlFDS3hTbjFFZ2M4ZWhHN1hBSXdnbTc0bXljd1lVZ3NMSkwxcEV3SFdFeXB6QXB3TEkyQkd0VVp1dmd2WlJZaUp0OEkyZXl1emlrd2FTRGZqcGtBaVdYX240WlNFQ3hZMFdCVGRVRHNKN0t3QmY4YmlmTUJjWWR3SHBHRW9adTVfajBMWGI0MTJsNUJMQlNtWm9FblNLWHFnd2JzdmdfbXlnbHk3dkZ1NUtwZF9xSHYxenYtQzVQcEpjNk9HYWdCSkR2Z2ViNHpoWE9zdTJpd291TUV2SWpjMjFldVNORjZhZ3cweVo2ZllleTFBak1EbHlycW1LYktwQkNjeWJYQXJzMGI2a3QxX3ZybnpJdTBFOE5PeHJwb2MyV0x1NHRVUjdTNmg5RU9RQmJVMVZ3MC1KeXFpVTJmSGxLd2wxV2NIWUVRNDJ6MTBod2d5QlhkSkFDaGZLekRoNEd3Y2hmX2RqdGlWbjVMMEpwckxhRmEyNDlmRUxBMkVuc1pRdHhFWXpLWjZoRE5Vd3RtNlNXcW9PbWF4VFJtMTYyaVdHNnZIRFpVS3FXQUVqY2cyZjVYbnF1LURYUTZuVGdhVG1xRHo2Y1h3SXB2cGg0eUZTbUdKT2hwZG9NMHh5MDg1MmZORTRNX0NZdGUzREttLWF3NEpwWnZyMFI2VHY3cDNuUUZxemVqcmlxY2FZX182SmtvVTh0N1MxLW04dC1ibVpFSERmczB3OEh1VkpZQ3h5djYwR3pET3ZiODJFNkxneHdzbDhsSGxmeEpKa2N3NmF6VF9nY0h5cTJuQl96MTBUWkExV1J6UlNOQ3ZpTjgtUDlzbkxKbmlkenlXN3d5Y0Vhcmx3bUZxU19rVU85WGRESmlCMXhFZ2ow?oc=5","ts":"2026-09-26T22:13+07:00"},{"title":"อรัญประเทศเร่งอพยพหลังจมบาดาลทั้งเมือง-น้ำไม่ลด | 26 ก.ย. 69 | ไทยรัฐนิวส์โชว์","src":"thairath.co.th","url":"https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZEdVdUtIek5iaDN6US1DRFBic01CbG1OT3NEbERvQXF1c1pqb1lDdXFTZktRdmdJYVJzMVZZdGNvN240VDlFMy1jcTZoelB2TU9Xa0w4YnNFbk9McDltc3F5OThPcGh1Sk1VSjh4WUxIUHF2UjB0eWRKNDNZRHBsaUVUUEpsaE1U?oc=5","ts":"2026-09-26T22:11+07:00"},{"title":"‘จุลพันธ์’ แจงมาตรการช่วยน้ำท่วม ‘ตั้งศูนย์พักพิง ขรก.แรงงาน เวิร์ค ฟอร์ม โฮม","src":"เดลินิวส์","url":"https://news.google.com/rss/articles/CBMiU0FVX3lxTFBSX1ZKZjhVS21fWFRDZnpvUGprR0ZTSFRMem95MkRMZ1lQOVJ6VUcxVWJkMlRHTU1fYlhJcENtUnlocFpfR3FrNFJ5b2lmZXhXWFJ3?oc=5","ts":"2026-09-26T21:25+07:00"},{"title":"FLOOD: ’สิริพงศ์‘ นำทีมกรมการขนส่งทางบกลงพื้นที่บรรเทาความเดือดร้อนจากน้ำท่วม มอบอาหารหนุนศูนย์พักพิงเขตจตุจักร เปิดให้บริการเส้นทางรถพิเศษ ‘อนุสาวรีย์ชัยฯ - รังสิต’ วันนี้ (26 ก.ย. 69) นายสิริพงศ์ อังคสกุลเกียรติ รัฐมนตรีช่วยว่าการกระทรวงคมนาคม นำคณะผู้บริหารกรมการขนส่ง","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMi3AdBVV95cUxOOXhSczZLR0dTOHlmenJMRzhmelRCUnZ3NFlwSTdsZmZzakVkTUFlcFllekhPZ1lDblRaT1AzRkJIYlE0U1JLbktnV2tOZmsyTkZDd0lrbTNoSVNwSWJNZFFDRzF0dms4djJ2X3BnZ085RDZVZzMzRTkzWFREd3gxZHJiQlk5YzNTTHZHQlJXYzdUMVcxc1c1ajZ5M21VRkZtU0tuWkxxTTh3Rklabmg4TzdjX1BnOVRhUFRneGNVMHREbEhRZlQ5Ni1uZDNkbHp2V19pZWZZWjRVZU5pN1NkRjB3RXhyM2czOW9WUkcyb21ZR3F4Sm1jWGJzdmlVWHctZXVSbEMzZmFJZ1FzRThhQTlkbDhEandKNkFuZm5mT25nWUItYjVrU2tFZFVpTm5Tekh6a2VSQTZUQUhSNE5ISDMwNjFJdFhEMk1kQzN5c2N4MmRiQnNkMmpxS2txa2ZOZ2VQbi1fLTZUSTNMOFRGMXRCSmVGQkphQVgyRmhxekZod2dqZ3V0R0tjYThWMXR6ckZvWG9ZVG8yRWl6NmxrQ2lNVzF6Y2toQlpwZ3F0Tm5UZlljaVFjcG1NVU5TQkRNQ25lRjBXSjJUSlk1OHRMbC1ZbWcxYzdlWmpEU2FjSzFLRmZheFdfQWxpMTlGWUdLT2JoZGtsLU42S1FERmtKamdna25PZ3VsNWRtdzVvZVRENVEteGdMWC01MnNYUVdSbDVSblBWQThXRHljcTlWajZaYjE2djA0X1pUbzFxbm5CTU9ScW5FaEZxdjkza2ZmcGtJRWN3SDNzVF9GVHpCZEhHbGMtdktkMjBVSjRfZnUtbFFfclFXWUNDMF83VUVsZ2FxOXpuQmc1UlE5RUxhVlptRGN0M0tIUk1LcFgxZkNwNTdPYVdWTDBfRTA0ZC0tTWxXbXdhM3dzSG1yY2ZPenliZ05ZeHRtTGFRM3A1WjIzNWUtMHVydEJod1RDdUF4XzhWODBKVDNnX09Hb2gwVHFYR2hobzZJazJfdjVKWXZ3N0pkWVhUQlJxeUdVR1JNVXFkUVVUNS1PS3laQ2tMbTFhcE1DT0taQWw2YURjdFNzVVlnS0NMa3RBUm52MkZ0R0trRENLZDdkQmRCRzFMM1ZUSzBfUXdRQURxVXF5V09oc0pzUnozQllDaktVRFpEQ0xZQkpYeFlzLUtneHB3T2ZsajdSWTRLUFBZSmU1ZmdCU0RYYnpKdWxEWTBlRjlIVE9PUU5lVHdPdmxZVXBJc0pZdFFrOHVqM3BRSEg5T2ppN1lCUndfTEhTZEd0aWJfQmF1NWJxWGtXZWdX?oc=5","ts":"2026-09-26T21:23+07:00"}],"flood":[{"title":"SHORT NEWS : กทม. อัปเดตเส้นทางน้ำท่วมขังรอบ 10.00 น. ถนนสายหลักและซอยย่อยยังรอการระบาย เตือนผู้ใช้รถวางแผนหลีกเลี่ยง ศูนย์ควบคุมระบบป้องกันน้ำท่วม กรุงเทพมหานคร รายงานข้อมูลอัปเดตสถานการณ์น้ำท่วมขังบนพื้นผิวจราจร ประจำวันที่ 27 กันยายน 2569 เวลา 10.00 น.","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMi5gZBVV95cUxQSHYxSTFYRFRDNFVUUDIzUUJGNGJYNkJhNDJNM2dJNDFsZkpjWXlnRkVyb0Q5WFpIbDRIdVpwbU9mZFRyTnVOWmRMWF9DcEJpSWpaQ19RR2NQWnJ4dXFUVHE4NklRUzY2V1RJM3dCQXhjUWl0Z1B3Q1RmWkVLbE54NXRlazhjVHVEM3A2RTRJRzl6dlJWQXdiTHJkWGd5SC15enphc0ptY2dENWtKSTc1NTE5UERUUmZkTmk4M2JrRkhJZUxoQy1HWnNHVGhWd2NfWXlQU3d3NlI4V2VRdmc5LXlpYjBVX3JFRnBfcTJDSGlNOENQSkNza3EtTkVIR2txZVh5c181cTlMTWFUMFE3MjAycnFEUzh3aW5pWTNqU1dzRmNaVjZCVmZtclFUbEYwczJIZXBlR0ZoZ2djVlFvaVRpQU1pMVo0TWc5emJhekxrRDZaM0ZjUHJLRl90THRKUEVFS1g2ZkdWZ3QyRVF0Zm05bEdvb3VVU3JmTkpvOE4ySHVaOFBsRjdzcW90aFF1M1JZV3lRUjRzZ0VQanN4V01GdF92SG03Z1FVRWZQVlVWSWhJejJTeGl5bjJ1bnBrcHNCZ1k0NEcxazhBOUxaSEtjaXdRYTA0RUx2NTkzV283bVBtREF3cGtDMS1hS1UwcXpySVZnd0E4ak9sZEJXMUF6SWdnVGxtQmh5TVdXVWpiV0R2Q2F0M3Z5MFhMNDkzSEhTN0VyR1E0VE4xSndudGlKSUVidjRuS0R1bVczT1VUV3BFa2s0aU4xbmdMX29TV3pWS2NDNmdnTzBEN1kwRzNId3JsR0VXZWJMZUc0WUJVRlBIRU5yZTlBSkdlRzVIaWUzcTJqWjJUQ0ZaSVVEb0hnbkZQR0h3X3FaZlRXRFo1eTJ6NnRLLWxta01sVkxwYzR2N0dLT3lFcS04bjZMb1ZybTFKWDFvOFJzWGcwa3I3SVl4TGRWRTVGQmU2U2VPYlNlaTBDM1NKU2NuT2hXcFFEcjVlSk5TYWdIblplQmN2THFnaEVtcmxrcDZlLXdZV1cwN2VtVHlBZUNhZExjeF9DM1Z3UVUyQlRoYXBYMkhIaFhvYkJCU2RVc2lDQVJsOHVKVVVkV0tKX3A5T19EYm9aQ0c5LXNlMHk3YThLZThWeEFEc0E?oc=5","ts":"2026-09-27T10:20+07:00"},{"title":"สุดารัตน์ จี้ กทม. ชดเชยน้ำท่วม ครอบคลุมรถยนต์-มอเตอร์ไซค์","src":"อมรินทร์ทีวี ช่อง 34","url":"https://news.google.com/rss/articles/CBMiV0FVX3lxTE5JUGpEVnh2SjZIWUsyRkx2ZGJ6Zm1CN0wxTDg2Vk5VYkdNZHllVWZmbkRrYTQtZGNGN2tfTDFsNC0zUTNLQlRQWjVudkFLbHkxNjNEMXNrTQ?oc=5","ts":"2026-09-27T10:13+07:00"},{"title":"กทม.เตือนด่วน! เปิด 31 ถนน น้ำท่วมขังสูง เลี่ยงก่อนออกจากบ้าน | มุมข่าว","src":"LINE TODAY","url":"https://news.google.com/rss/articles/CBMiVkFVX3lxTE54YzJYN2FlNVl1dE5ZSXh5M2lYdnJLNlhjRkl1dktlVVZtb1hRZ1ExckNNQ25tOWhwZFZaQTBVUlE3RUtmdlc0X3JTNkNKZ0prVnNDWXdn?oc=5","ts":"2026-09-27T09:53+07:00"},{"title":"เว็บตรวจสอบน้ำท่วมถนน กทม. เส้นไหนควรเลี่ยง อัปเดตแบบเรียลไทม์ สร้างด้วย Claude AI","src":"iT24Hrs by ปานระพี","url":"https://news.google.com/rss/articles/CBMibkFVX3lxTE9KZDg5bTFMdS1NY2hVeHlzb1hWMFRjTmhNcWY2dGtKVWhUWHNOdkRPdGI5RC1OMVVhX0VwNk80Z0o5MkVGVVRWMU13NGNBWDVBODBlMlY0cUJSVTVYYlZBU0xsME1Sc3lFTGtRZDRR?oc=5","ts":"2026-09-27T09:38+07:00"},{"title":"กทม.เตือนเลี่ยง 31 ถนนน้ำท่วม รามคำแหง–พหลโยธินหลายจุดอ่วม","src":"posttoday","url":"https://news.google.com/rss/articles/CBMiYEFVX3lxTE80aEJOeGI5NTFyNzh4WTh6czZUN3FRWUtiNGNoSFJBTV96UjE3dVNyU3VCamlFaWs2bk5ndXZLbjF5QVFPQ1BUcWFWVVQzWldGTk9icU9Da1Z6ZVVOa3lLcw?oc=5","ts":"2026-09-27T09:37+07:00"},{"title":"เช้านี้ กทม. แนะเลี่ยง 31 เส้นทาง บางจุดยังอ่วมน้ำท่วมขังสูง เช็กเลยมีที่ไหนบ้าง","src":"thairath.co.th","url":"https://news.google.com/rss/articles/CBMiY0FVX3lxTFBoRnA1eTAtVmVNbnRWOGVtVU83bE84a1BtQVlRMWVtM1N4WEdzT2ctek5kSDRwUnQwZm5yb1hrRDZvc1lGM1A2bWhsLThEb1Y4MjZRYnFBem5uT3FNSGpBN0h5TQ?oc=5","ts":"2026-09-27T08:59+07:00"},{"title":"“เทพไท” ฉะแหลก! เปิด 7 ข้อสังเกตน้ำท่วม กทม. อัดรัฐบาล-ชัชชาติ เอาไม่อยู่ ไร้เตือนภัย ทำเศรษฐกิจพังยับ","src":"สยามรัฐ","url":"https://news.google.com/rss/articles/CBMiT0FVX3lxTE1MZDNmZnB6NVRzTHg4aW1ZX0pkYlNpRHhyZ19mUXo5czB2cUI4eVNjSDJHUFdtZVhHc2V5T2NuTkR3OElyOEc4YzA2d1d3Tzg?oc=5","ts":"2026-09-27T08:59+07:00"},{"title":"เปิดขั้นตอนผู้ประสบภัยน้ำท่วม กทม. ขอรับเงินช่วยเหลือ ต้องทำอย่างไร","src":"thaipost.net","url":"https://news.google.com/rss/articles/CBMiVEFVX3lxTFBPYU8yblMwQnBNUW4xNzEyUW85d2Vma280STBlenFiTERpaDdaYW1lV0VyMTV4aXloR0lES2E0QUJ2OHc2WlFnaG9hb1JIMnhERzA0Vw?oc=5","ts":"2026-09-27T08:43+07:00"},{"title":"น้ำท่วมกรุงเทพล่าสุด 'ลาดพร้าว บางกะปิ' ยังท่วมสูง รถเล็กผ่านไม่ได้","src":"bangkokbiznews","url":"https://news.google.com/rss/articles/CBMiZkFVX3lxTE1faVJZSHFGS0hqWFRlU0Q0UmxWbkRiLXlveDdNdW80MmtPMXZOeDZRUENaUC1mOXFnQWRmMjBBSk1rSzFteFJ4MjU0eE1Sd0RQTTk2TFM1QjZ2M2p2LUZfSC1VNUswQQ?oc=5","ts":"2026-09-27T08:37+07:00"},{"title":"หญิงหน่อย เรียกร้อง กทม.พิจารณาเยียวยา รถยนต์-จยย. ที่จมน้ำท่วมทุกคัน","src":"Matichon Online","url":"https://news.google.com/rss/articles/CBMiXEFVX3lxTE5uSDJPV0I2NDVuWFFEVUl5U2RLc2VPN2pUaDdRVUx5bU9QOHJMR2g4RXBjOXdKRlNiRzNpclpSRVdPTlItc3pra2RrSHZRRmY3WWVRYi1Qem9Vanht?oc=5","ts":"2026-09-27T08:32+07:00"},{"title":"น้ำท่วมกทม.วันนี้ 27 ก.ย. เช็กถนนน้ำท่วม - ฝนสะสมสูงสุดสะพานสูง","src":"TNN Thailand","url":"https://news.google.com/rss/articles/CBMiU0FVX3lxTFBCallNRDd5OTJLbkE2Z01pOEtMUTlmeWR6WHZoeFZ3YkZJYjNCODVHQmpWczVILWk0REJVQkljN3hNaFZiSzNsVWp1UlVXSVBhcEtR?oc=5","ts":"2026-09-27T08:27+07:00"},{"title":"หนุ่มฟาดกรมอุตุฯ! ลั่น “โทษอุตุนี่แหละ” คนกรุงไม่ได้เตรียมตัวเxี้ยอะไรเลย วันที่ 26 กันยายน 2569 ภานุพงศ์ อั๋น น้อยวัน โพสต์คลิปผ่านเฟซบุ๊ก พร้อมแคปชั่นสั้นๆ ว่า “เละมากกรุงเทพ” หลังเจ้าตัวเผชิญสภาพการจราจรในกรุงเทพฯ ท่ามกลางฝนและน้ำท่วมขังหลายจุด ก่อนระบายถึงการแจ้งเตือนข","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMi1AdBVV95cUxQeUh4RmNHYWQtRWQ4MEZTVmpUcS12OVBScl8td01RbVo1SV9FeU1JY1NweWJFc0NaZzZzSmRubkk1a2I3Q2xOcFo3NVBaczZiSXZSUkVwSFZYSTRoOGRseWNNMlNELTFEN09RaVc3Y3owcmRSQXVXN1pOOVN1NHFDZFVtN3prUFlzMHBYMHdSR21XQkZJaWRrRVQ3NlR1LWZ1OFYySGtsN1VmaFdEMV9lQWJnNzJrSjRRS0YzVXV1Nk1EZ1hKSTluWTlIMDZseU1wYlVtSTAyMXVQdFo0MFRudExOdFpLWVlLeDluVGdKbHljM3pKaVU0bUtLaG56SnYtanNibWhlQ3JTc1FjNGhaT05EMkk4MEJ4ejdrMmZ0RWE4Y1BJNkpqa09SUUoyZTFQY2FRNFVZUUtXb2VTaXJHVEFZUHNHZHR6Y193VTZfdXZ1TVJXM3VfdWZEQ2FIbXRsMkE1ZW1iRGNOMkk5cU5LWnIzMEVyQ2pkVjhVc1hqZ3hMVmNGYnU3cmwxZWlvZVc5aEdyZmg3Y2djLTBVX3BXdG1XdUF0aXA1ZmhZempLcUl2aEF2QnpyUnktd2pZN3U4ZkF0dFk2T3B1SXZjMWQtQ3QzQkRkRDZrMHBTd0Fhb3NOM3V4QVV2NmZCLTFacDl6blJ2Z1Z1ZEV3TDVjZUlSazVSRGlwclVTMEtnSzg5X2N0VVM4ZmRINFd4QmYwSENrUUdQa1IwSDRvNVpQNldNd21ocEhQaEpPamtNLVF2azFLc1N2djAyZFhJd2Z4NmZlV0ltVW1tdHA3M0dXYU4zZDgxbTAwUDU1Rk9NQk9rbldpZl9UU0xBNWJvRDR4aTR4ZUh0TVdkeUQ0NENZUVJCTXRPeFFMZm4yYkRobTYzbU1GbmZybExCSE1ybjEwbVMxNktXVDlCNU9veFJVcFBDS20zZ2JOc0ZsNXJqNm1VQUUxY0pZRGx5SU52WG5iRk9UTmRGMHhEUzZOY0s5R1JFRWtXY2NLQXE5OXFWZU9oN0tZU0NxNVdJdjhkZ3c4WGxndGtfU09MUXhPRWxQOXNQYUJVUDJyTkxVVVFvR1U1Wng3UzJ3RUJuMThOZTB1aHhjVzJmRkdlT0Y2SzN6ZzctUEJZR0JJRW54aWZHRTAyZ3ExLWtFb3dnZXI5ZW5ma2hERWFseFlCaHJkSFFNRFQwZ0tscTFHcGJsOGZvUEN4MW5VXzczckRWLU5NNzd1RVJxR2dyd2IwTU0zYzBMRzdJenNiOHVjblJpU2RLYm5DLXlHWk5QQkxkYlE1ZWtRbFp0bGRYRA?oc=5","ts":"2026-09-27T08:25+07:00"},{"title":"เช็กด่วน! กทม.เปิดวิธียื่นรับเงินเยียวยาน้ำท่วม สูงสุดไม่เกิน 5 หมื่น","src":"อมรินทร์ทีวี ช่อง 34","url":"https://news.google.com/rss/articles/CBMiVkFVX3lxTE9DVFB2cENSS0wwMVBVNmFiT01MNjRYR1lHZWJEaDFWZF9IeWE3aUYyS1c5RVBEeTNBNFp2cHIyR2FHMHJwWEhhY0xMUVNNTkhDSWJVYkFR?oc=5","ts":"2026-09-27T08:24+07:00"},{"title":"ฝนจ่อถล่มซ้ำ! เช็ก 33 ถนน กทม.ยังมีน้ำท่วม หลายสายหลักอ่วม","src":"thaipost.net","url":"https://news.google.com/rss/articles/CBMiVEFVX3lxTE1Oa3VMTEphMUpKR2VBem1OeDEtTUdhMURPbXdvV1ZjT2ZEcjNFWWlwYThGMTRWeGxTaGZaV05LRFdXQTlDQmJURDdHa0IyLWFVWHpZLQ?oc=5","ts":"2026-09-27T08:20+07:00"},{"title":"The Reporters. . อัพเดท!! สถานการณ์น้ำท่วม เขตดอนเมือง กทม.","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMipwRBVV95cUxNSUVtdFdkR3JWc2J5NE54N2tMVkFJbjRuYWxhNldIWG85cHVMMTBUYXlvZ0Qwd3ZDQ0xKd1NyckxfM2laXzIzYjhiYVQ0SjdrU29ZUUZrMmxjZkc2R0FFWlB3NlRkS3M3UjZTV2RjajlYR1VEMXFfQ3duZWZPVFpzSEJxbXRXSGUyYjNNbGhTaTBsS3RrTXlMdXFkS0hIN19qZnlLdC1vWUh3bnQweEdTTXZLaXB3V0h0MVBnR1A2bzl2ZENXdHhpV3dYYl9zSkdkOGNDNjhYSnltX1JNU3ZzX1hUdk1RWGtWN0hMR2Z3Wnp0WEFGd29PSWJQMkdpXzJTRzd6NVR0aEloMzI2Z0VoRHZPdGVtcFNySTlNX19sN0I2VVBRUGluMmZHOExqWGFDX2d1RGZTTXNMMWQzS1ZIZmktMnpFcGU4REhwTnNBRnhzQkU3S3hLLUNSVEFUMkZLRnNaSkdvZEM1RnBPbFlMdWdYNElzVFZGTWdOVWFOOVVZQmJhMDg3bHgwUEkyY2h1WThnZTZMazNyV3FSR2pvc3dqaENOY0RqN2tQQ1R3NzZsYURyM1ZWVnc3aWJlS0MzVmtSNUF2LTJBZ1lOSXdwREtHb3ZVX24ya0dVeThvZlFBYXVxcDNCNWhXZ1A4OUJVa1RBWm96M2x0NEhZRmdPSmo0eWY3eWNGQjVtbVpxZktfSzR5TF9HSzhyMzg0RUE0cnZkWlFaTQ?oc=5","ts":"2026-09-27T08:11+07:00"},{"title":"กทม.สั่งปิดโรงเรียนเนื่องจากเหตุพิเศษ 28 ก.ย.หลังฝนตกหนัก-น้ำท่วมขัง","src":"Thai PBS","url":"https://news.google.com/rss/articles/CBMiWEFVX3lxTE5tZERnbklrZFNmUHpKVFAxYkx1VjFiNHBGMm1RYUFXd25HVzA0MEF2OVltWlhfQTFlR2hHcVg5R29MZHBnTnVPeWN6Y1pvbnBhX1k2T3JueFQ?oc=5","ts":"2026-09-27T07:20+07:00"},{"title":"'เอกนิติ' ลุยศูนย์น้ำท่วม กทม. ยันรัฐบาลพร้อมหนุนงบ- อุปกรณ์เต็มที่","src":"bangkokbiznews","url":"https://news.google.com/rss/articles/CBMiZkFVX3lxTE1IZ2Y5RjV4SWxlM1UwRHlVaTFCcm5aQlB1RHZ0RTRDRUU4UjRaZ09lTW54RkRSVjhCMW94UmNhcEM5ZG4xZnIwd3lmcWU2TTNEQlhocXBzYkNlbEpVXzdjcjdmM0xwUQ?oc=5","ts":"2026-09-27T07:13+07:00"},{"title":"🔴 LIVE : วิกฤต! เกาะติดน้ำท่วม กทม. - ปริมณฑล ฝนถล่มข้ามคืน จมหลายจุด | สดไทยรัฐ | 26 ก.ย. 69","src":"thairath.co.th","url":"https://news.google.com/rss/articles/CBMigwFBVV95cUxPVzN1WGRfaE5XZE9VeGt2Mm9tMmxGUWFQelRZdS14T3ZtYWFnQlhobF9hMWpDODRUeThCd2xuOW5WbzVwUnNpR3NweVpQNWFERnJnaGhMZUNrT2lIUkhVbzBvTDZJWDdrZXF1dDJ1TzBncll4NnBSNGVQdEZnaEtCWm43QQ?oc=5","ts":"2026-09-27T07:11+07:00"},{"title":"น้ำท่วมทีไร การเมืองมาเต็ม!","src":"thaipost.net","url":"https://news.google.com/rss/articles/CBMiX0FVX3lxTE5VNXhoTFBlWWZ1QmtBaUVkOTl3eFpZT2dPYUJSTHJreHk5SWsxTmdISXVpX2xtSl9IVHBjVnVQN29UV0pLU2hFRTRCamx3aVR0Mk5Pa3l1OVRZSEJqTllz?oc=5","ts":"2026-09-27T06:50+07:00"},{"title":"วันนี้ฝนมาแต่เช้า ซ้ำน้ำท่วมกรุงเทพ ฝนตกหนัก ร้อยละ 80","src":"bangkokbiznews","url":"https://news.google.com/rss/articles/CBMiZkFVX3lxTE03dlVWRENMWFM1ZzJaZmZ4NGg3S0ZIU0V2bVY5eTI5Z0EyUWJ1LW5pNzl6UmduYUk5WXdmcGRMUUVvNk9vVkF0eFdyV0p3YUdYQXN6dFJqWE5mTlNxMHUzQlVyZ24xZw?oc=5","ts":"2026-09-27T06:42+07:00"}],"rain":[{"title":"รัฐบาลสั่งเกาะติดฝนหนัก เฝ้าระวังน้ำลุ่มแม่กลอง-เพชรบุรี-ประจวบฯ รายวัน","src":"LINE TODAY","url":"https://news.google.com/rss/articles/CBMiVkFVX3lxTE9TdVR2dmJzdWNDTnBtSUQ5WmN3QXRCRkdLRHhpT2FfQ3VYYUJGLS1Sb3lKU2JJWVdpVVNQVGxTTTl1eGpVNmhxNVZRTHNfZFNKUnVwQzhR?oc=5","ts":"2026-09-27T10:18+07:00"},{"title":"พยากรณ์อากาศวันนี้ 27 ก.ย.69 อุตุฯ เตือนฝนตกหนักหลายพื้นที่ จากนั้น 28 ก.ย.- 2 ต.ค.เริ่มมีฝนลดลง","src":"TNN Thailand","url":"https://news.google.com/rss/articles/CBMiUkFVX3lxTE1Xa0dWMGJ4ajhLUGJIVEE3aXQ0UDdOc1VuRjJVT0liMVJNb1JxUTVkQkVZQkxwM0V1Nmc0MzZiYlpPaUhFMHNGZGxucmYtR3hVcFE?oc=5","ts":"2026-09-27T10:14+07:00"},{"title":"สถานทูตมาเลเซีย-สหรัฐฯ ประกาศเตือนฝนตก-น้ำท่วม กรุงเทพฯ และหลายพื้นที่ในไทย","src":"thestandard.co","url":"https://news.google.com/rss/articles/CBMiZEFVX3lxTE12djFMbVZZVzVqSmIwMklfT2Z1ekNmU0h3V0VXMTY2OWJNM1VRbWluU3NneWduLVpILUc5Wjcza3JXZ3JuYU1XOVRlMG9ZZGFFekFRNTAyREJLZlhVbEx3YWt6U3U?oc=5","ts":"2026-09-27T10:01+07:00"},{"title":"กรมอุตุฯ ออกประกาศฉบับ 14 เผย กทม.-ภาคตะวันออกฝนเริ่มลดลง เตือนภาคกลางฝั่งตะวันตกรับมือฝนตกหนักถึงหนักมาก","src":"thestandard.co","url":"https://news.google.com/rss/articles/CBMiXkFVX3lxTE1oQjFBLW1hdzhMOTJDX29jNUVnT0VSRHNQZDl0bGxDazZlVk12WThPa2t5OGJDcThwMmgyVlhlWHpZR1FNOFV4bGV4VU0tNmlSVVd2RG85SzBOd21lWlE?oc=5","ts":"2026-09-27T09:51+07:00"},{"title":"น้ำท่วมหลายจุดใน กทม. ยังไม่คลี่คลาย กทม.-ตะวันออก มีฝนต่อเนื่อง เตือนฝนตกหนักในภาคตะวันตก","src":"bbc.com","url":"https://news.google.com/rss/articles/CBMiW0FVX3lxTE9zSEV5T0ZXaUJZaVF5THdlZElzYXhZVlFyck9wY0pvbE12T1ZUbEQ0Vmw1WWhCaGhYVnpoci1yM2JqaTZnRDBRUVdxSWYtdFV6eU8tZEc5bnZ0Z3fSAWBBVV95cUxPbzVyUFh6bHJIODlvamJwa3JxVC0wY1lMZWhrczVjV2VJNDdiQUd5V09idllmNHoxQkMyaGJnbHo5N1ZmYV9aSXdYQmYwdkJvb1htVDRIMHVUS0xKa3N1TG0?oc=5","ts":"2026-09-27T09:50+07:00"},{"title":"’ไชยชนก‘คาดวันนี้ฝนเริ่มลด สั่งกรมอุตุฯตั้งศูนย์ฯพยากรณ์-เตือนภัย ลดความตื่นตระหนก . ดีอี สั่งกรมอุตุฯ เปิดศูนย์ปฏิบัติการพยากรณ์อากาศและเตือนภัย เฝ้าระวังฝนต่อเนื่อง หลังฝนถล่ม กทม.-ปริมณฑล เตือนประชาชนยึดข้อมูลทางการ หวั่นข่าวบิดเบือนสร้างความตื่นตระหนก เผย 27 ก.ย. ภาพรวม","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMikghBVV95cUxPTHNSX19JMzhNbndtWW1HYndSN1l5a213UnFXampwUURaQnBKSEFRT0k0N21vUUV2TXZvMnhfb3pKOEw2aXQ0b3NiZXhPOTdPTEZnYXJVMDlfNmkyY2hfRXJIeWVaN3ZlYXdlVEIzSHk5MWZlMjBaS2lsUXNuUDhqbGtHSWZ6YjRRMWpSVnB5Y3pLMlRzYlQ4d2lqdXZUYzhzaWg4UFpJU2d6cnc3ajR6NWdpUk5UZ2Eybi1xTXN0WVJEbFFhLTA5NGxHajVpd0ZtdENZalBHZWVQNWgwaW1DYk9BMHBwLUpIT0gtd1NLNTZab1d4T0dvdnFydmo5MjZjblp1NTlRbmJ1ek5JS0Z6Tjd6WnhETERiYzMtNUZLeU1GWWNoaWc5NlBJcGxhSFVlNUJ3aTdZdkZ6X0tOU2xMOGdlbVZOYWZhbzFKaWpGVDVfSHRmR1ZscHlPTVJCRjZ4RkdBZkUtT1JoaHZVQ3dXSURfcHphYkRObXRZaGJvVVEzc3JEOWpyMHdPdVBrdnN5QlFmYVEyU3RnNEw4cW84cmw5ZFYzWGZUaHI5ckZCZzNEYUo3cHBqSmRQeWdualpwVU5saWVsWnhVejZOZ3NYTi0xUVBUWHlBc3V2UThwT2ExeEFPd0xhTmQ1b1N6cHZWWVZaV3l4eVg1MnhVZnlKbWZYX09iVjRTaVBzaGx3aU5LclFwNFRTaVBhYnZ0ZzZMWDVNS25DdXJIUHFfdms2Z09iVnlTeHZaR3hmRUp5eG40RTVzMUo0RzZIX3NVRDJUc3JleEdGdU9BX1JHVEsxWWdfdjFacHNUQ2hLaFVuaUVBZEtwYnpZeWVPSFR6ZW1HTUplb2loNUlnOUtpUkFXbXdSU2hqbVJsMGNSd3dlbHI1WWhBVGNZYjdIeXdJNTZfU1l2SmlnMERDVWM1THlUdTZzZ281a0M2WnFFSmI0dnNJU1FjNE1WVzFuRWJaVVdzUnNzZ3Vxem45M2lqaFNwclJ4UlFydjBTODlmaVJicEVhc2xSVDhoOEZHU0J3bXRjeDR5c2FUOGcwdVBZaFhwTTZRdGtsc2xpTUtucEgxRDUxRjZoOE9pNDBtcXRDckVmYVc1MDE2X2pMNUVRdXV3Z05SQmdUZG5LNHVfZDd2ZkMxNWtVNl9WM3UzZXo2VlBGaVR4UU12d0M2Xzl1bGZRd21Mbk5YX0FfQUpqZ21kTlpKbF82cTB6TTBCbDhwUlBrZzFqUkFHbmNudXlMLWRXRlJVVTRZM0RfdXBrZ2hUYm1MNmVRLUI0TGpUM1Q3X2RVREtjNXFaa1BWY05HLVRfa3RpRTZoWVNUZVNXYkxKSWZVNzMtMEtGYlViMVVHYXlWVlZub2tLNmE5bkwzWFJDZlpn?oc=5","ts":"2026-09-27T09:46+07:00"},{"title":"อัปเดต 27 ก.ย.! กทม.เตือนเลี่ยงถนน 31 เส้นทาง หลังฝนตกหนัก-น้ำท่วมขังหลายพื้นที่","src":"วารสารการเงินธนาคาร","url":"https://news.google.com/rss/articles/CBMiVEFVX3lxTE1xeVVBYnpMS0ZPemNDU2dwdXZ3dURoamxZT2xSMkFGN3VGQzBZc2c2aVJad3JCZzFvMDJsM0xZUnRTZHl5SUVGUXd4ekhKT3AwZ01scw?oc=5","ts":"2026-09-27T09:36+07:00"},{"title":"วุฒิสภาแจ้งยกเลิกประชุม 28-29 ก.ย. หลัง กทม. เจอวิกฤตฝนตกหนัก-น้ำท่วม","src":"อมรินทร์ทีวี ช่อง 34","url":"https://news.google.com/rss/articles/CBMiV0FVX3lxTE44SllnZzhMdjlKS1RiX1lXSnRvWDRpdTA5MWZzOWE4eDhIdi1PbTREcGVZVHI2RFk0R2RmZlJwUHA2dlZtZmxoTXgxOUdXN0lxZnpGeTBxYw?oc=5","ts":"2026-09-27T09:33+07:00"},{"title":"กรุงเทพฯ น้ำมีแนวโน้มลดระดับ แต่จันทบุรียังเพิ่มสูง ยก “ธงแดง” เตือนภัยจ่อทะลักท่วมพื้นที่เศรษฐกิจ วันที่ 27 กันยายน 2569 สถานการณ์น้ำต้องจับตาต่อเนื่อง แม้หลายจุดในกรุงเทพมหานครเริ่มมีแนวโน้มระดับน้ำลดลง แต่ที่ จังหวัดจันทบุรีสถานการณ์กลับน่าเป็นห่วง หลังฝนตกต่อเนื่องทั้งวันทั้ง","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMi9AdBVV95cUxNMy16LW1tZmJGdzhMaE1Na19BOGhGR1pZTjAtRUhUVEpRQkpfVi1jY2htZ29hcW9GTW5mZ3FQLTlwSVl0WkJKZTFNX0cxeHdmRVk2dy1OYldtS19OajNlcTdzU1FYZTNSRklycnZJQ3paMlVCRXVJanNtQzl6SzdfbnIxYWNiRk9tZzdyUUZncGpEeDhXNk4ySUFUallWWjZnVnZjNWVfRmtTY2lxYlJveFczS0tNSzN6cllnN0kzLUh6X1JMQ1JpVGh6cTVYNDM0N1RBM010aVZxVHY5b2dJemhvU0gyb3VKa2ZNWU1OcWdUdm5FLXcyeDlqUDZXMlJ2OUtHRUtJbzJQMk1ubFo0cm9XZ0tlQjlsOWFfNzdoVmxaX1BFTE5mT2I0cWpmSFlKN0RaSE85RjQ4M01KZEppSWVFRnJBTW4ybmR6N2s2QTRDVkVQREFPbVpSQTFlYURoaElETXpPNjlvblhmeEtZbnREdTlVamZTTVJkcTlhbzdyUmE4TzY0ZERTM2pzbXN3bnhTNmRCaWktNzF0SnZIYk9XSG91UW9jcEQxVUE4RFByeTVmcGpFSHpxbjBsWThBZUZIVXpxUFVWTjB5ZFpUeDQ0RVB0TlJlS2FyX25wc0cwaFh5ZnZ2OG9TR29uRzEzYmVCYW5GRWpJb1dCU3V3ZUJYU1dRbmxKZG9ybDNLRkNxZGtrWGxjczFZdF81WFhIaERJTURUbWxhMk05UmZMamROMjVuQ2diUDV2cVN1UVRoSHBjVmQ0M28yaGR5dTVhZ0NDSXhIaGZmYXlIMDlWU256SGh4QWtyRVNUVjdLMElPdnY3eFRsX0lmZWVwU2pJRjl6QWJnN3pLbXQzbGp4X1BNWHFQaXpzaUNkRXZPQVlBUHh1YlFXeEFwR0NiRGFzLThEQkhXdmZWUHRNMDVGNE9JUFIwV2dUOTNqQ0J3cmFRd3dvUWZFcldmZk9mQWRNM1dKTTBzV013bC11ZmpwaGtjN1RabG5HOGpKemFCZ3J0QTRpVWNZSnJndHNNZC1MVi15dm9TVDlCUVJVSmMxUFRQMk16UVMtLTktcmVFeG5Tc3FTeE5IdHFEX3I3d3lLTUxFSnl4OWpJeVR1OVI0RFJSSWpoblp2ZW1oYWRGbnQwMGtDZlZPWlM0dEpkeTRQYUJoOXF5UXNua1pHRVJVY29kY19JRVlaYXVYODFidmNwcHZ4SUxhcGY4ZDZaaU5JU2VpaGxjODZ6SmV5b0NOdGRpcE16SDJ1VkwtZEJLLUx1RG93OC1MTVJKZFFsWFQzbzV0UlhWVWhsbFJ1QWF0RzdNTXU5Yi0zdVp3OWhfUnptemFn?oc=5","ts":"2026-09-27T09:32+07:00"},{"title":"ไชยชนก เผย นายกฯ สั่งดีอี เฝ้าระวัง ข้อมูลบิดเบือน ทำประชาชนตื่นตระหนก","src":"komchadluek","url":"https://news.google.com/rss/articles/CBMiXEFVX3lxTE5hU01nYlpWM2dDRWRrN0dDeER4YWN5Q1dqS0lPVjJlMU9GTzZwcTQ3bnRYSlFtb2YzR0dQTEJhRWdHcUJONzBKcFd3S1JtZlFJeUs4OWM3NmtyRXJo?oc=5","ts":"2026-09-27T09:32+07:00"},{"title":"เปิดตัวเลขฝนทั่วไทย นครนายกสูงสุด 274 มม. เตือน 31 จว.รับมือน้ำท่วม","src":"TNN Thailand","url":"https://news.google.com/rss/articles/CBMiW0FVX3lxTE1oWVpHWlBQOE9BMjhxNHRSZzBqTmJaNFBGTVJreVVqMzJnZkpxS3hxc1VNUWVpWEtDY0wxTnVJbm84YW8teFNKSDRwRHJUNUNZT0prZ2ppdVJoOFE?oc=5","ts":"2026-09-27T08:58+07:00"},{"title":"มาตรการรับมือฝนตกหนัก–อุทกภัยของกระทรวงวัฒนธรรม","src":"prd.go.th","url":"https://news.google.com/rss/articles/CBMic0FVX3lxTE4wMmtsQVFnYkUyQ1g4TEhlMmhrMUt2Sl9qMG9YeGczZURXTXR5T2h1eTZJLUZVcEVsZXg4UXZmU1ZCdDF4STBzVG50d1lpbDFpcUVGNThqbURLZHZqS0dRSFVwOUJMZTV3M0Z5X3k3eGlURHM?oc=5","ts":"2026-09-27T08:38+07:00"},{"title":"เช็กเลย! กรมอุตุฯ เตือน 24-27 ก.ย. \"ฝนตกหนักถึงหนักมาก\" หลายพื้นที่ กทม.ก็ไม่รอด","src":"Sanook.com","url":"https://news.google.com/rss/articles/CBMiTEFVX3lxTE5mVTBtcW9kVTlQRU5ZeFlIQ196b3JIZks0dEdDNVI2YXZEbzZzMjB5Vy05ZHRNSk1jdEZYb0lWWEVZa0JpTVlzN1NTWmc?oc=5","ts":"2026-09-27T08:30+07:00"},{"title":"หรือใครจะเถียง? อ.ปานเทพโพสต์ “ภาครัฐมาเตือนภัยพิบัติ หลังน้ำท่วมไปแล้ว” วันที่ 26 กันยายน 2569 อ.ปานเทพ พัวพงษ์พันธ์ โพสต์ข้อความผ่านเฟซบุ๊กส่วนตัว สะท้อนประเด็นการแจ้งเตือนภัยของภาครัฐ ท่ามกลางสถานการณ์ฝนตกหนักและน้ำท่วมในหลายพื้นที่ อ.ปานเทพโพสต์ข้อความสั้นๆ","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMi3wdBVV95cUxPWDlzcm1XYnJ6T2wxdXhxdTBJTkJxUDVpVkxuM01tekdXRldCX0ZDVmdRRmtBTHVSODBYeTczeWZYSERwRzVMOW8tQV9yYjJFSGdqZ3dTakRHVUpZeGFvcXVibUZVSzEzRWd2NjZMZ1JNSHZCQ0tDUUk3WnV1UjdLUHVuMmpobkF0X2ZjMWtJZ25Fd0MzX21pUC01aXpaWHpzOWUzQzdtbTZPendXTjVNUmN4VEw1QnVTVDR3ZWZ3bmxoblJUTGd6NFBwZEtoRnZhTEQ2NkF4OGVWUS1qU3piOFVycmdGZnh3RUE5YWJ1a2dMNUMzcTJ6b1ZPdzU4RlZSRk5rSVBwYUVIQjVaXzdDbGxXQ3dseFRBLVNfTGtIclV5eVhCYWZqeUFUYm5GWnNXQUNRRDktQnd3OEF6YkJRa3ludEdmOHBTanVLVFc4WTBpNGlTcnB3U0FFWTNqdmsyd3QyXzRzT2doUXVseHhmbHFXN25HYm45cDhIV3JrWGNKbTh5SEdvY3djMVhsa1FsMzI0TWYzN1Nja3ZTVDUtZ1o1VTIzbkJuOWh5T0JZekdtZjFrcDNtV010cHhkTkwtckR0MHlfMVRsTjFraFZ6dXkxVWgyb21wQkFZQ01ZSVBYUG14VFdnb1JBQTBrLVJHb1FXMXdEM3pnenFDMUpTclplOU9jTUFJOU11SE1Rak5FV1pwV2VIM0lHb1V1NFZwMmV6LVFSZ1k0QXAxOEpaaW1QdEFYOHkzdHQ3NVJrTnZERExCRWpNNU5vSmNLRWNtMzNFUDZZMnJ3eFd6T0x1UVZycllwT3pXYlpGbWhpcEdwc2hmOFYwc2FsTjdXMUo3djlVZW82azRHSTNLMGR3MjhlSkUwV2ZRVjRmMTdHbzdSUUdPM3pwQkhfTjIwckpEQk85aEVKbVZUc0ZHRFRiT0dXUFZ4a0JnbWNlNUtNSUFZWUxyMzlaemRBTXIzUmJvVThxdE9sZW11ZlZiRHdrY2lMMWdnWXo4M050UDBQLTlVSDlGZ0NEa0h0UlVnQ3d6MHJ0TnN2VFRBVW5HNU5Hd2xFSldSLVB2UjJWbFlmLUVXSkZ6UnFkU09HRGVxYkd6dzQ4U0ExQmZKMlJ0dTU1T0dfQWpfV0lUMUt3WGdQVmRJOXBYeGYtUTZER3ZoVzNqYTVHSkxBX0t2dUhyek80dmxHNUp0a2tRUG9zRDF1cmJwVHBlaWJLenpHLUdySDZVR3hWb0xiaHN2UjJRUk1ORXVxRWJkZmdBUV9qcFNwTWo2VFh4NF9zSktFT0oxWEVlU3Y0MTVtZHo1YUJRb09V?oc=5","ts":"2026-09-27T08:30+07:00"},{"title":"จังหวัดภูเก็ตเตือนเฝ้าระวังฝนตกหนัก น้ำท่วมฉับพลัน น้ำป่าไหลหลาก ดินโคลนถล่ม และคลื่นลมแรง 26–29 กันยายน 2569","src":"prd.go.th","url":"https://news.google.com/rss/articles/CBMic0FVX3lxTE5ST0V5TTZzN1E5cGxiaXQ1R3d6T1JubTVoc0hKblN2OFhGS0lYaGRweVpTMGp1YW52LU5tdHJ6RUFtUFN6ZDlxNDQzeVRjOEIwYmpMTy1sNUJZMkI3U1lQaS1USXBWUkE5VW5fQy1JdVJLX00?oc=5","ts":"2026-09-27T08:27+07:00"},{"title":"เตือนภัยฉบับ 12! กรมอุตุฯ ชี้ฝนถล่มหนักถึงหนักมาก 26-27 ก.ย. | 26 ก.ย. 69 | ไทยรัฐนิวส์โชว์","src":"thairath.co.th","url":"https://news.google.com/rss/articles/CBMiiAFBVV95cUxNWm5leWU3REJDNDBNU3k4VkVVc2I1OXVBOC0taHJCZmtXUU1MRzBKQlg1MkJTLURfLTBpVUZWaXpGenZUUzVKVGFMSzNBeS1xMUhmRC0tVVRxbi1NbmFYdjhMemVfME00WTV2c1Z5a1ZONG5GUV81bEw1NlFRSGlzSVVZTVVsQmZu?oc=5","ts":"2026-09-27T08:11+07:00"},{"title":"สภาพอากาศวันนี้ 27 ก.ย. 69 อุตุฯ เตือนล่าสุด กรุงเทพฯ-ปริมณฑล ฝนถล่ม 80%","src":"komchadluek","url":"https://news.google.com/rss/articles/CBMiW0FVX3lxTE83QmNpdE1hUUthTzFQZzlTWFluLUZ5dm5lSy0zSFZoOF9ibk9nY25QQUZRaDFrbG0tMVRQNWdnQU52eU1QS3M4dGZlNDk5M1ZjYVczNS0zd1p3NTg?oc=5","ts":"2026-09-27T08:02+07:00"},{"title":"พยากรณ์อากาศวันนี้ (27 ก.ย. 69) ภาคกลางตะวันตกฝนหนักมาก กทม. ฝนลดลงแต่ยังตกต่อเนื่อง","src":"ประชาชาติธุรกิจ","url":"https://news.google.com/rss/articles/CBMiV0FVX3lxTFAtaGE5R2U2aTM1YUdPRkVmdHgxTGNqQjFOU20zZlR4Ul96cWFtalRpSkxrdGJ3V1NwZUN2TnlGaVJZU281RzVVVG14cUdRVXJPUXhGd19Hcw?oc=5","ts":"2026-09-27T07:50+07:00"},{"title":"กทม.-ปริมณฑลฝนเริ่มลด แต่ยังตกต่อเนื่อง เสี่ยงน้ำท่วมขังซ้ำซาก","src":"posttoday","url":"https://news.google.com/rss/articles/CBMiZkFVX3lxTE9UNEVQTW1aYnZnVnF0YmVLQXRMWjc0YUk0U2oxOE1NNGd3b1ZnMUtwT2x5ZGx3SUlKZXJWbTEtWVk5cGM0UWZhc2tZMnVEbkdOZHZmSXpiLTJvbERtYTZZa084aXVMZw?oc=5","ts":"2026-09-27T07:41+07:00"},{"title":"สภาพอากาศวันนี้ กทม.- ภาคกลาง ฝนฟ้าคะนอง ร้อยละ 80 ของพื้นที่","src":"Thai PBS","url":"https://news.google.com/rss/articles/CBMiWEFVX3lxTE5wRm5oZ2pqdVZNWmlUSy1qVi1sWUNBU2l0eURzbXBpWDZQZU5uZmRhWXUxWEcyMHRNbVF1ZWVwZVUzRllHZkdDSXNVWFc4T2lWbE9kejNCWlA?oc=5","ts":"2026-09-27T07:36+07:00"}],"forecast":[{"title":"กรมอุตุฯ ชี้ภาคกลางเฝ้าระวังฝนหนักมาก เสี่ยงน้ำท่วมฉับพลัน กทม.ฝน 80% | ข่าวหุ้นธุรกิจ","src":"LINE TODAY","url":"https://news.google.com/rss/articles/CBMiVkFVX3lxTE1qSE9pM2htLWZ0UDJaVUl6RHpEeHlZb214LVRvQ3RESWQ5ZDkydkhFVkk5c2NHVC1sTUJyWWJ5VU5kTmEzdjNoNmFERnBiZnIxTHBzVE9B?oc=5","ts":"2026-09-27T09:32+07:00"},{"title":"เตือนน้ำท่วมกลายเป็นคดี ตกลงใครกำลังตื่นตระหนก?!","src":"News1Live","url":"https://news.google.com/rss/articles/CBMiVEFVX3lxTE8yeFExS29DUkVBYTAxNnBDSHFEUUJoQkNZbTBjYm96djBVUHVMLTE5X21MZWRJc1BNaEdpY0ZhejBra1JncmNXTFY3bkVtNzdEQTF6Zw?oc=5","ts":"2026-09-27T09:09+07:00"},{"title":"สภาพอากาศวันที่ 28 ก.ย.-2 ต.ค.เหนือ -กลาง ฝนตกหนักบางพื้นที่","src":"thansettakij","url":"https://news.google.com/rss/articles/CBMiXEFVX3lxTE1IRVRzTkdqSU1BM3FCbFlCU0Zfd01tRmd3NE9ZckplRjRyUGRsaXFrZDg2MjFJbWJOSUpfd0dtVk1nODJkVXBEbC1JZTRQaEh0MTJEa0Jrd2NWMGw1?oc=5","ts":"2026-09-27T01:00+07:00"},{"title":"คนไม่เชื่อรับสภาพไป!! ที ลมฟ้าอากาศ โพสต์ตรงๆล่าสุด พยากรณ์ น้ำท่วมครั้งใหญ่","src":"LINE TODAY","url":"https://news.google.com/rss/articles/CBMicEFVX3lxTE83UVNZeEx3Y25NMWpNNWpjYVc2RkpHcTBwbzVVcERKZmd2T2VlOUxxSDRVU2k1RXh1NjBiSkRDQm05bkp2N3U4b3RsZGJMM3ZBUy1jeFZqT0puZm9HYldlNkk5azI0TVJ0cUtDbkVMNTM?oc=5","ts":"2026-09-26T23:01+07:00"},{"title":"ดีอี สั่ง กรมอุตุฯ เปิดศูนย์ปฏิบัติการฯ เตือนภัยสภาพอากาศ","src":"ผู้จัดการออนไลน์","url":"https://news.google.com/rss/articles/CBMiYEFVX3lxTE9JR1lZQlhvYjFqRmxENHMxS0YtR2VOSHgwWU85amhPSXBqWkxCUk45QTVtRG1ZNzBfdWF5YVpOS2JjY0Q4Skxhb1BEajlkbUhYVFI1TkpfNVBmRW5qQWNhYQ?oc=5","ts":"2026-09-26T22:14+07:00"},{"title":"กรมอุตุนิยมวิทยา. . 🌧️⛈️ อัปเดตเรดาห์ฝน กทม. ภาคตะวันออก เรียลไทม์ 📍26 -27 ก.ย. 69 🟢 ฝนเบา 🟡ฝนปานกลาง 🔴ฝนหนัก 📌ณ 26/09/69 เวลา 00.08 น. ฝนกำลังอ่อนลงเป็นฝนเบา ฝนโปรย ตกสลับหยุดตกได้บางพื้นที่ ส่วน มากยังคงปกคลุมจังหวัด ปทุมธานี พระนครศรีอยุธยา","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMiggZBVV95cUxOempkZW1WdFZ3N1JUNlN4aGJLTVBoUG9CX3VJRVhWQ3djaHgwWG9oNVkxZ3NOYWxITV9jekdfdW1FckZtWmM4TE9hOG9vVThyM1psMXVjcWZDOXRoVG56Q2MtcmdCaVNRN3V6OHk0bXVkNm44NWswQ0dTMDBPbng4cWFXMmw1N05KcTNSOGN3cmR4UkJKTENVdFppdC1ZeW5ndG5QMzZjcjJfanJPdEtFdVZQWi1zejY1Smtfbi1POXp2bFhRTDZEM25VbXk2UnZSbUUyZktNSmduOERwN2dBeWZjZ2l0Z0NQYmdxdHM1cnUyUXM5bExzWlNfQmwtRFctSDlVWk44VjVqSEVDWmZfaG1KVUVBeHlRRnc3dWppaUFSbTZkZUtEOHRtZGNtUXVNNm54aDlzQ2I1TjlxdVNvTlF2UWlDeEdpQzZWTWw1SnhUWnVQQ0k4NjFVN3AwOF84Qy1BNllmUUpfZ2RERmpPaU95ZkktNlVoQzNncnF4dm1vNHdLRjhVeDN2aUsweWxFZmR5Wmh4R0p5RzMzVkpESUpfdVdNbHNTbVd5NFhMVk5SVGEzSXF3aVk5MEZRajNqVUZiZkNDZ2RNVTd5Vy1oOXZmc3g2RjBEeWR5VWMzSjJMbGdSeHFRRDR0ZGpYYXFfT3F6MG5fV3FyM19wSGRiV050bU91NndjaW5QdW40VmtwY3RaNVZRRXlveXd6VmlsRU9qbFdWVFpXZW5Ka01fQnhZTlhYQWVJMC1TVkZGZUo3bThRN24teWV0R1lzN0NBYlJ0bTlnSUpDM284VlBTOXdaTlVteWxwanFFbWY0V1FXVmpnd1NwQzg3WkQtWU0zNGFXWXQ1aEgxcW1YV1pzbkZTdFJCRmVHVXI2UjlFYTZkMjBnQzVXR1BfSFJ1VU9GdGZlREFlSFBpV25jUkpmTW1aS0FKdnY0X2tCeXgzb1RrMHRXMVV3Tm5laGh3dldTdC1HQWJGZmw5Skpkdk55czJPeU9oYkVyTFprT1RKcVpVQQ?oc=5","ts":"2026-09-26T20:30+07:00"},{"title":"อุตุฯ เตือนฉบับ 12 \"ฝนยังไม่หยุด\" กทม.-ภาคตะวันออก ระวังน้ำท่วมขัง","src":"Thai PBS","url":"https://news.google.com/rss/articles/CBMiWEFVX3lxTFBOMjNTY0N0aVNCd3RHOWJnbm9PQkJSay00WHBjd1c5UGZRaVRrTzRmTHBzTG93RUx4QllaNDhOMjVpRVpkaHo4bnBfTjVzRTkzeTlTaEI1NHo?oc=5","ts":"2026-09-26T19:38+07:00"},{"title":"อุตุฯ ประกาศเตือนฉบับ 12 หลายพื้นที่ยังคงมีฝนตกต่อเนื่อง โดยฝนจะเริ่มลดลงในวันที่ 28 ก.ย.","src":"pptvhd36.com","url":"https://news.google.com/rss/articles/CBMiigFBVV95cUxNTFdyaGpzUjJsMWg2WHNxX3dyLTJDREc3dENzSTAwaWdUdXRNWnBCc2dsV3psWXdlR3lLckFsSFVPV01maWV1WjUyVDU5V29SbGREV0tiSk95TEprZGlXNkwzc01aeUNmNkwwalBGQWlWamJ6NVFvQlRqa0pDNUZ6RTB5dkhpS3BBYmc?oc=5","ts":"2026-09-26T17:50+07:00"},{"title":"6 แอปพยากรณ์อากาศสำหรับคนไทย ปี 2026","src":"iPhone-Droid","url":"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1wZ2FaeDY2VXVIcWhlVXNncGlMbVhVMjNjQW80Z2RrbXp5R09Rc2M4amwwUFVoUW5YdTc3UU04Zjl6Z1REUWpuRkdETjBlck9YV2VkOHZFeDRyZEdiNENsZmkxMGdWZkk?oc=5","ts":"2026-09-26T17:13+07:00"},{"title":"กรมอุตุนิยมวิทยา เตือนฉบับที่ 12 ฝนตกหนักถึงหนักมาก พรุ่งนี้ กทม.ยังโดนถล่ม เปิดชื่อจังหวัดไหนเสี่ยงบ้าง","src":"ข่าวสด","url":"https://news.google.com/rss/articles/CBMiY0FVX3lxTE95VGNfa3R4dmx6UU8xRWFKdUxwbkp5YXN0SVVqZm04a05CU3JwazVJSlZORlB4TGJvU0dVWTJjcEhlNjZXVEtYZGxSTUdkeTJTbXJkbWs4SnVkY3lxcHNHTVRfaw?oc=5","ts":"2026-09-26T17:08+07:00"},{"title":"น้ำท่วมกรุงเทพฯ และอีกหลายจังหวัด เลื่อนเลือกตั้งบอร์ดประกันสังคม เรารู้อะไรบ้าง","src":"bbc.com","url":"https://news.google.com/rss/articles/CBMiW0FVX3lxTE5DdlR4Q2xaZ2lrcEpnQ1dRWmkxbDQzNllqaFc3Wnhnc0xjMEJtZV91enZSd0xzYWJjZXBUX3NPOUV3TEFtMnlUWWhFamIwUzV1TTRXbFJhV19IOFHSAWBBVV95cUxNUi1rRWZzZjRoY094MHBBSDc0dk0yWVNaa2xDcC1xODQ5RHJEXy1HemVKUVNLUTdFMEpCZV9TckdCSHB2ZkNoZ1pCUDB5YmJwVmdTeDAwNW1lbGktQ1hQTDQ?oc=5","ts":"2026-09-26T17:05+07:00"},{"title":"กรมอุตุนิยมวิทยา. . 🚨อัปเดตเรดาร์เรียลไทม์ พร้อมติดตามสถานการณ์ฝน⛈️⚡️ ประจำวันที่ 26 ก.ย.69 ณ เวลา 17.00 น. โดย ผอ.สมควร ต้นจาน ผู้อำนวยการกองอุตุนิยมวิทยาการบิน","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMiigVBVV95cUxPbWpaOUM5U3F5XzhyVjdyd1RESEVDUUp0a21xckx5WDhYRjVXQklTSVMzU3MyZVRiWkhjV1hPS0MzaFNmdWFvSVNRbXlxTjlQdjlveUJGYTVlOVlBaU5FdXFMRzF5ZjF4aUZSeU9TcGF4S2wyVzdlendOeG02U21sVjZZdlBZblIyTjdWdm9xczFPMXNlMUtwMzZMTHVaNmFiTXlOQzYzRHpFajlpMmdHY2pEbGFYdXN6dnVxdlQ3TTU5SDVUNm1sVDBXM1hUR3owbWtmTk5wT1AxRlhFTF9YcW4tYUhHMkNNYk9UcldWVmI2a3g0RWRBM2tBUXRWaXlkWV9ZeUtCaXlRTTNHUDJlRWs2MGVGSGJxVzVpZTRqTGkyNlVuYzJLUHJQSTFiS21sM0txcXRiUFlCQnQ2OEM3b2xxbFlHZlJsTS1GMm1oUTBEaE5rc3dHUWM5a1A1bEdJQWtsa2h2WUhaODRkc0RwekFTdVdMQmN4QkR5bldvaFRfbF9nX01MWDhEN09lMGs0V3RuV0d4UkpITGpYdVdCX2NCTE1ySnk3ZVhYNjRDb195MzJqaTZJYWg3bW9sdlc5Qk85UTZlMFR4djUzMnpZX1FkX09jNnZxczE4ei1adWgtX003eUdRcERlYnVuZGozSmpwX0pYdGUtdXZtcUdwOERKRWpicGJpaXVXR2w0aDd2aU8zVlJPX3d0QTJvTDd2ZGpEQWROcHRkeEl1bzg5MEZTODNNRDFuaVBiUTRyUERoN0xPQXZFWmctTUhwYldaN1duQ05DMVl6cnE3VXNJclZsZFZ0enRlY2dqRF9OblNZWlE5cmtYdEdaMmJXZU55QmY2UlZEUXN5dw?oc=5","ts":"2026-09-26T17:00+07:00"},{"title":"กทม.ฝนตกต่อเนื่อง กรมอุตุฯเตือนฉบับ 12 ไทยฝนหนักจนถึงวันที่ 27 ก.ย.นี้","src":"thansettakij","url":"https://news.google.com/rss/articles/CBMiXEFVX3lxTE5RNUZlQWR4QkxmOWNTWUZ0R3RLVmE2SGp4SE5DQUNKYlh6MUNwSktLN19RVF9UVE0tNDFUYlNPYktrdGFKbV8zUHhWdFFKOERYYnp1UmlSYTkwT2Rr?oc=5","ts":"2026-09-26T16:53+07:00"},{"title":"กรมอุตุนิยมวิทยา on Reels","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMiigVBVV95cUxPUmI1b1ZwZklNSVR5NmtXNG1tX0E4MXVPNlZJUTFYb2c2MlBwUnByUnlydW5iRU5rd1REbGRreXhQVGN0UTlRUHdnMmM4cXV1VDdtbnhmSkVQT3QwWWZGVUxzMm9GeHJtX0xaMndDRDVTUlFXOG1YbVozVS1VUGJLREVBckFwQXFJZC1rT3djcG9iSXBfaVIxcVEwTFZZVzZwbllodU9mbmIxX1BjRkhxQTV3QzFKSS1Ed3NlMWhITDZBdGd5cWhXNTN5OTRDUEpHcWVHSlpQZ090MnlHNmo1WUJVYlFkUC1GZGpFWDcybFZKNHdRemxDU25qeUxMX2c2M1FpYXFhTV9zOXRYaWFCbXJxWFFyY3h2NVA2eC1JNlluWmEwY1lCOGJqdzB4UlQtR182Q1pNN3B5UFZweFhXb0VrNUdLaHdSSTBFOHExbUhDR2dxcjhuUkVBRUFKRXVuaF9rQzlBcXlUbU1tTUIyY05Yd2FobTBMdEI2OFlXTzZYalMtV2Y5U2ZmSGJ2TEVDYzBCOTJZOE9RWmhneVlRUHMxckZxMFgwQTNZRTItU0w2dGNaRW9TY3lqb0RTSkd5NmxlbmtUbnZ1dkFnaWZUZVpqNllsSlFvaGRkVy1zN0ZNdVVkZ1J3ODVoM0lKbXV2Ynp2X29oWUNsWlFUbjh0Ync1Q0JDRnJMX2tHTFl1TFFJZHI5bWlnY19hbG95OWM0QVNvdm4zZzNtTlRMQUpFRjdpYTYxLVNkeWdobkRRZ1NQWEZKdEFZallRTDdlSENrTXZMZEtLNC1vdEhUNzFHSlFFcW5Hb1ZaY2d1Vk5lUXNJX3RXZ1JrYkdkSkxUZVZIR2JRNjRfSWxVdw?oc=5","ts":"2026-09-26T16:41+07:00"},{"title":"กรมอุตุฯ ประกาศฉบับ 11 ฝนตกหนัก 26–27 ก.ย. รับมือน้ำท่วมซ้ำซาก","src":"แนวหน้า","url":"https://news.google.com/rss/articles/CBMiVkFVX3lxTE5zX0ltb0ZsVWpxSURORkhwSE9rRG51ZjUtYXl0UV9yaVdrRUlHN1VOcjVwblMyUFE3dzNKeV80TEFxNExFdE1JalJoM3RTdDVHZ2RQWlNB?oc=5","ts":"2026-09-26T16:28+07:00"},{"title":"“กรมอุตุฯ” สยบข่าวลือ! ยันไม่เคยฟ้องเพจพยากรณ์อากาศ เป็นเรื่องเอกชนเสียหายฟ้องเอง","src":"เดลินิวส์","url":"https://news.google.com/rss/articles/CBMiU0FVX3lxTE9JeldVazhVVHgwUHRfUGJDWW5uUE1rWXY1STRBc1pWdHdBZld5V0x3OW0yM3VTRVM3bnJjVnJFMVBqOW00dGpJMHhvcGJjT19NaEdj?oc=5","ts":"2026-09-26T16:27+07:00"},{"title":"กรมอุตุฯ ประเมินฝนตก กทม.เริ่มลดลง คาดคลี่คลาย 28 ก.ย.","src":"Thai PBS","url":"https://news.google.com/rss/articles/CBMiWEFVX3lxTE1ZMEYxbi15Sk12aTNPc1ZFNEJxUG43aEF2U0dZdWFjTTMwOFc0OEU4QlpEY0IxNGRqZ0hEaFJySWlkd1hBcUxiOVJVUVlJejRzNXBVTDlCZV8?oc=5","ts":"2026-09-26T15:29+07:00"},{"title":"ย้อนฟังความมั่นใจรองอธิบดีกรมอุตุฯ ยืนยัน “ไม่มีแน่นอน” ฝนตกข้ามวันข้ามคืน","src":"News1Live","url":"https://news.google.com/rss/articles/CBMiVEFVX3lxTE93SVhYYjJrRWRFRmJ3ZTNfZEYwcEh4eGZGQWhiY1pQN2tKVDh6UTU4Y29ocWZLLXR6dXF0cXcyZDg3TENxcGc1SU02YjlYZ3BQZ2p1Tg?oc=5","ts":"2026-09-26T14:00+07:00"},{"title":"ประกาศ ฉบับ 10 ไทยฝนตกหนักมาก 53 จว. เสี่ยงซ้ำรอยน้ำท่วม กทม. อ่วมสุด","src":"bangkokbiznews","url":"https://news.google.com/rss/articles/CBMiZkFVX3lxTE5vc1REQXJMSHFrbG1UT084Yzl5VzJDYmp2NFFOTlNpWG5DQjVlbXZud2lpdElyWU9sQ0VTLVVtNjU3bTlmM2NYekx0RG5YbUM0VExySzJQN0k2T3FhQXN5NnYybFpnZw?oc=5","ts":"2026-09-26T13:07+07:00"},{"title":"วันที่ 26 กันยายน 2569 เวลา 12.45 น. /พื้นที่ กทม. ฝนเล็กน้อยสลับปานกลางปกคลุมพื้นที่กรุงเทพมหานครทั้งหมด เคลื่อนตัวทิศตะวันออกเฉียงเหนือ แนวโน้มคงที่ ขณะที่ กรมอุตุฯ แจ้งพื้นที่เฝ้าระวังฝนตกหนักถึงหนักมาก วันที่ 26 ก.ย. 69 ภาคกลาง กทม. ปริมณฑล ภาคุตะวันออก ยังคงมีฝนตกต่","src":"facebook.com","url":"https://news.google.com/rss/articles/CBMi5wZBVV95cUxQbWhuM2pNMGVERFZYd0FBblc2amVQUHR5RHk3aDY3cVI2SFVSSy1zaDA0OWo1OXFscE5DS3lNUHZYUVRQcXZMSms2S0NCRm5ldEdJaTl4SDFBMkZER05CVVJjN1RjZnVFWkhZd2lyNEdwSGR2cUxWZGdqMzhuNVJTajN3RGd6UlgxX3JlUnVnZVNDLXFvdXp2WmJtOV9UeElybkJPSFVVa2dhNVhIdnprZXpBMTBhNHAwTkR0dTVSSlJzd25hTTBNT0dkSTZPQlVHZmstd0xGd2UwVFdiLU1xWnd5VXB6dFY3b2k2QkpDaTN4cW54X3l4blBLM29uS2tJaE9Rd3ppT1IyVHJaZVVYdGJraV91Xy1nSGtRRDJnWDZvTzA0RFdHbnlEalV1R3VUajFwUFQwZEtMSHF0eFpGV0cyQjh3RkZ0SXVlblBfcUZMbU5tZFRObUZFNmtTZGR0N0l1OFZ4Mjk4dHBhX21uUDc5V3BjU005VHNzY2tzTUh3S0k1R2o0akFFOU1IdmxCVmdOR0JPeTRaSjFWYVk2UEVnMWVTdjdFWUtHaWxrbFVLbWh1ZjJuSndkNjVhQTZoYTRUZ3UwSG1GUjY5Uy1NZUY5RW8tN0pDcjJFWWJYUWluNkhSRWFXdXdTdVFtaVRSTnlvVWlLamJOZmNXc0Z6a3YzUGg2THBvNUJ1QnhlUHh2VXZ2MGhVZW1UblBHVFpzTFhzSzBIbXVYZU94OVJ6QU9DQk5lVXZPT2FVTFJNWGpDa0w1dTFTcHdHMEJabnRTVVV0TWtscU8yaWpWRUVuTnZiS3FfbWRPbmlIcWtQdzV4a0RzTm94c2ZlMGpIMXB1MVc3azN2ckc4RzA5T1ZYYWVxN29HNUZGS0Z5c2UzZUFXYmpvXzRDWmJFRWl2Tk0tamZYLUxwRkZEd2J1cURMal82VUZFUEZLVGVCVmdGZ3FGMUZZV1ByeHgzUFB1NDNxTjB6OWQzX0FHQjZCVXJsYjdYUTVXWHVBSi0wQTFPUGtPQzRTZTRDWDZRbUE3SjVLTGxQMDdrUHpIRHYwNWZOY1R1Y29odXdRZmIxUi1jdEV4TnhJQTRiVnR6aEV6a3dnSEJSNFdheUFycmFFRTQtN3N3c09pMkE0SWJ5SUV3anF1ZDYwOEhj?oc=5","ts":"2026-09-26T13:03+07:00"}]}}
+{
+  "news": {
+    "flood": [
+      {
+        "src": "komchadluek",
+        "title": "ศูนย์ป้องกันน้ำท่วมฯ อัปเดตถนนในกรุงเทพฯ ยังมีน้ำท่วมขัง",
+        "ts": "2026-09-27T10:49+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE43YlFWLWZ0ZE9iX0Y2TnZVN0wyQ2RqQzhDd2k5TmF2MmxMbUUzek5NVGVTc05sV210ck1qUS03TVluZE5PaFR5QjZtdnVxT3k0WTc4QjFKNUlubmY2bmtpQ2hR?oc=5"
+      },
+      {
+        "src": "แนวหน้า",
+        "title": "อัษฎางค์ ชี้ปัญหาน้ำท่วมกรุง ต้องใช้มาตรฐานเดียวกัน ตรวจสอบทั้งผู้ว่าฯ-รัฐบาล ลั่น!ถ้าไม่ใช่หน้าที่ ผู้ว่าฯจะมีไปทำไม",
+        "ts": "2026-09-27T10:27+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5aUEE1RmpKM3RqWWZiVEo1ajZoZ1UzcTV6azQ1amRDLVV4UnRpWlhLd0N0THN5dVFTOXRvNzR1TGlwcEE0UVl4YnZqeG1CSVlYSUNKZ0dR?oc=5"
+      },
+      {
+        "src": "ททบ. 5",
+        "title": "กทม. เฝ้าระวังทั้งคืน น้ำพัฒนาการยังรอระบาย",
+        "ts": "2026-09-27T10:26+07:00",
+        "url": "https://news.google.com/rss/articles/CBMisARBVV95cUxPTnBjcUR1bTJzOEpDaW5kUGpLaG1pZFdFRTg2and1OWVvUTNDeEdYSjI3ckpvNEhHT2JkVVpwdFhxdW5JajJTWS1TaE1ReVkwT1BqUTRJeDlHdWtkV2xneFZmMHdIWVNsb2dFeGt2TFBIekVkTEJjS1dPeEdMYkRkRVI5N0NheXlKYlZSWFJicmtCWlFWZURPTHQ4YjljNVhndGFrWjFkZjM0VmpVeTFRVmphQ2NxeHVudnJhbGpsYUc2Nmo1Z1h1MFdQUDRpMmI5ZjFfeFNzTjFLWW50WVBlMWZoVHREOXZLRzJ2ODlRV3ZsSGUxTDVJYTA0aU9mWW50VC1CR0lnRGpmMnJZcEVOdUExTENXRXM4Q2ZRRC1lc0IxbWFvR3RJU0VVVzIxLXBpVUZCOTVMQVZhMVE5d1JCSWdhUk4wZ2xab1NiM2JWSnNubzQwMHdlZVNBSjJVZXU2MFNUSFdQdXBITGVubnRJalpzWnZ5b3pZSWJIZUE2dDcxU3NVQjViMkx6ZlBfS3ZMMkRkNjZEQVFQS0FTSnQ5ZEFWZ1BubllWTEZRQXo0VWhQdktwT0NGRTN0aWFoMlVaR3UzNVE0OFR1WTVObWlkbUZiZWVpNFlkOVZwYkl3X25YeXhZVW5HdFRXNHZ3QkQwMjdXZlRBLVRGZW5tOTRYemFJaW1jQU9PTHVWUEdVa25hOXJndXpPS1NTQ1FYMUdPMXNYNkhyUDJnYzZZc2NVeg?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "SHORT NEWS : กทม. อัปเดตเส้นทางน้ำท่วมขังรอบ 10.00 น. ถนนสายหลักและซอยย่อยยังรอการระบาย เตือนผู้ใช้รถวางแผนหลีกเลี่ยง ศูนย์ควบคุมระบบป้องกันน้ำท่วม กรุงเทพมหานคร รายงานข้อมูลอัปเดตสถานการณ์น้ำท่วมขังบนพื้นผิวจราจร ประจำวันที่ 27 กันยายน 2569 เวลา 10.00 น.",
+        "ts": "2026-09-27T10:20+07:00",
+        "url": "https://news.google.com/rss/articles/CBMi5gZBVV95cUxQSHYxSTFYRFRDNFVUUDIzUUJGNGJYNkJhNDJNM2dJNDFsZkpjWXlnRkVyb0Q5WFpIbDRIdVpwbU9mZFRyTnVOWmRMWF9DcEJpSWpaQ19RR2NQWnJ4dXFUVHE4NklRUzY2V1RJM3dCQXhjUWl0Z1B3Q1RmWkVLbE54NXRlazhjVHVEM3A2RTRJRzl6dlJWQXdiTHJkWGd5SC15enphc0ptY2dENWtKSTc1NTE5UERUUmZkTmk4M2JrRkhJZUxoQy1HWnNHVGhWd2NfWXlQU3d3NlI4V2VRdmc5LXlpYjBVX3JFRnBfcTJDSGlNOENQSkNza3EtTkVIR2txZVh5c181cTlMTWFUMFE3MjAycnFEUzh3aW5pWTNqU1dzRmNaVjZCVmZtclFUbEYwczJIZXBlR0ZoZ2djVlFvaVRpQU1pMVo0TWc5emJhekxrRDZaM0ZjUHJLRl90THRKUEVFS1g2ZkdWZ3QyRVF0Zm05bEdvb3VVU3JmTkpvOE4ySHVaOFBsRjdzcW90aFF1M1JZV3lRUjRzZ0VQanN4V01GdF92SG03Z1FVRWZQVlVWSWhJejJTeGl5bjJ1bnBrcHNCZ1k0NEcxazhBOUxaSEtjaXdRYTA0RUx2NTkzV283bVBtREF3cGtDMS1hS1UwcXpySVZnd0E4ak9sZEJXMUF6SWdnVGxtQmh5TVdXVWpiV0R2Q2F0M3Z5MFhMNDkzSEhTN0VyR1E0VE4xSndudGlKSUVidjRuS0R1bVczT1VUV3BFa2s0aU4xbmdMX29TV3pWS2NDNmdnTzBEN1kwRzNId3JsR0VXZWJMZUc0WUJVRlBIRU5yZTlBSkdlRzVIaWUzcTJqWjJUQ0ZaSVVEb0hnbkZQR0h3X3FaZlRXRFo1eTJ6NnRLLWxta01sVkxwYzR2N0dLT3lFcS04bjZMb1ZybTFKWDFvOFJzWGcwa3I3SVl4TGRWRTVGQmU2U2VPYlNlaTBDM1NKU2NuT2hXcFFEcjVlSk5TYWdIblplQmN2THFnaEVtcmxrcDZlLXdZV1cwN2VtVHlBZUNhZExjeF9DM1Z3UVUyQlRoYXBYMkhIaFhvYkJCU2RVc2lDQVJsOHVKVVVkV0tKX3A5T19EYm9aQ0c5LXNlMHk3YThLZThWeEFEc0E?oc=5"
+      },
+      {
+        "src": "อมรินทร์ทีวี ช่อง 34",
+        "title": "สุดารัตน์ จี้ กทม. ชดเชยน้ำท่วม ครอบคลุมรถยนต์-มอเตอร์ไซค์",
+        "ts": "2026-09-27T10:13+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5JUGpEVnh2SjZIWUsyRkx2ZGJ6Zm1CN0wxTDg2Vk5VYkdNZHllVWZmbkRrYTQtZGNGN2tfTDFsNC0zUTNLQlRQWjVudkFLbHkxNjNEMXNrTQ?oc=5"
+      },
+      {
+        "src": "thairath.co.th",
+        "title": "“สุดารัตน์” เรียกร้อง กทม. ชดเชยความเสียหายรถยนต์-มอเตอร์ไซค์ถูกน้ำท่วมด้วย",
+        "ts": "2026-09-27T10:06+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1OTm52NW4xaWZ4S1NVRzFQaFpJVFplXy1sWlhDRDlZdUJabDR5dzViVHU1dmtSSUxoNGFTeWR6bkNXMEFVRTNYd1JlaHFNYy1ndVg2em1vN2R1Vjg?oc=5"
+      },
+      {
+        "src": "LINE TODAY",
+        "title": "กทม.เตือนด่วน! เปิด 31 ถนน น้ำท่วมขังสูง เลี่ยงก่อนออกจากบ้าน | มุมข่าว",
+        "ts": "2026-09-27T09:53+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE54YzJYN2FlNVl1dE5ZSXh5M2lYdnJLNlhjRkl1dktlVVZtb1hRZ1ExckNNQ25tOWhwZFZaQTBVUlE3RUtmdlc0X3JTNkNKZ0prVnNDWXdn?oc=5"
+      },
+      {
+        "src": "iT24Hrs by ปานระพี",
+        "title": "เว็บตรวจสอบน้ำท่วมถนน กทม. เส้นไหนควรเลี่ยง อัปเดตแบบเรียลไทม์ สร้างด้วย Claude AI",
+        "ts": "2026-09-27T09:38+07:00",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9KZDg5bTFMdS1NY2hVeHlzb1hWMFRjTmhNcWY2dGtKVWhUWHNOdkRPdGI5RC1OMVVhX0VwNk80Z0o5MkVGVVRWMU13NGNBWDVBODBlMlY0cUJSVTVYYlZBU0xsME1Sc3lFTGtRZDRR?oc=5"
+      },
+      {
+        "src": "posttoday",
+        "title": "กทม.เตือนเลี่ยง 31 ถนนน้ำท่วม รามคำแหง–พหลโยธินหลายจุดอ่วม",
+        "ts": "2026-09-27T09:37+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE80aEJOeGI5NTFyNzh4WTh6czZUN3FRWUtiNGNoSFJBTV96UjE3dVNyU3VCamlFaWs2bk5ndXZLbjF5QVFPQ1BUcWFWVVQzWldGTk9icU9Da1Z6ZVVOa3lLcw?oc=5"
+      },
+      {
+        "src": "thairath.co.th",
+        "title": "เช้านี้ กทม. แนะเลี่ยง 31 เส้นทาง บางจุดยังอ่วมน้ำท่วมขังสูง เช็กเลยมีที่ไหนบ้าง",
+        "ts": "2026-09-27T08:59+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBoRnA1eTAtVmVNbnRWOGVtVU83bE84a1BtQVlRMWVtM1N4WEdzT2ctek5kSDRwUnQwZm5yb1hrRDZvc1lGM1A2bWhsLThEb1Y4MjZRYnFBem5uT3FNSGpBN0h5TQ?oc=5"
+      },
+      {
+        "src": "สยามรัฐ",
+        "title": "“เทพไท” ฉะแหลก! เปิด 7 ข้อสังเกตน้ำท่วม กทม. อัดรัฐบาล-ชัชชาติ เอาไม่อยู่ ไร้เตือนภัย ทำเศรษฐกิจพังยับ",
+        "ts": "2026-09-27T08:59+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1MZDNmZnB6NVRzTHg4aW1ZX0pkYlNpRHhyZ19mUXo5czB2cUI4eVNjSDJHUFdtZVhHc2V5T2NuTkR3OElyOEc4YzA2d1d3Tzg?oc=5"
+      },
+      {
+        "src": "ประชาชาติธุรกิจ",
+        "title": "ธนาคารกรุงเทพ ปิดให้บริการ 16 สาขาใน กทม.ชั่วคราว จากน้ำท่วม",
+        "ts": "2026-09-27T08:55+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5VZHhsU2pWVi04OU1HRjhjMjRxbFNiTmhRMVlKVWI2UkpVa2hJTlJzN0t2U3pHWkJISzlIREdvcDdUbnBlY2p5ejdxRE1LaFQza05ob0ltWlAzMVU?oc=5"
+      },
+      {
+        "src": "thaipost.net",
+        "title": "เปิดขั้นตอนผู้ประสบภัยน้ำท่วม กทม. ขอรับเงินช่วยเหลือ ต้องทำอย่างไร",
+        "ts": "2026-09-27T08:43+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBPYU8yblMwQnBNUW4xNzEyUW85d2Vma280STBlenFiTERpaDdaYW1lV0VyMTV4aXloR0lES2E0QUJ2OHc2WlFnaG9hb1JIMnhERzA0Vw?oc=5"
+      },
+      {
+        "src": "bangkokbiznews",
+        "title": "น้ำท่วมกรุงเทพล่าสุด 'ลาดพร้าว บางกะปิ' ยังท่วมสูง รถเล็กผ่านไม่ได้",
+        "ts": "2026-09-27T08:37+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1faVJZSHFGS0hqWFRlU0Q0UmxWbkRiLXlveDdNdW80MmtPMXZOeDZRUENaUC1mOXFnQWRmMjBBSk1rSzFteFJ4MjU0eE1Sd0RQTTk2TFM1QjZ2M2p2LUZfSC1VNUswQQ?oc=5"
+      },
+      {
+        "src": "tnnthailand.com",
+        "title": "น้ำท่วมกทม.วันนี้ 27 ก.ย. เช็กถนนน้ำท่วม - ฝนสะสมสูงสุดสะพานสูง",
+        "ts": "2026-09-27T08:27+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBCallNRDd5OTJLbkE2Z01pOEtMUTlmeWR6WHZoeFZ3YkZJYjNCODVHQmpWczVILWk0REJVQkljN3hNaFZiSzNsVWp1UlVXSVBhcEtR?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "หนุ่มฟาดกรมอุตุฯ! ลั่น “โทษอุตุนี่แหละ” คนกรุงไม่ได้เตรียมตัวเxี้ยอะไรเลย วันที่ 26 กันยายน 2569 ภานุพงศ์ อั๋น น้อยวัน โพสต์คลิปผ่านเฟซบุ๊ก พร้อมแคปชั่นสั้นๆ ว่า “เละมากกรุงเทพ” หลังเจ้าตัวเผชิญสภาพการจราจรในกรุงเทพฯ ท่ามกลางฝนและน้ำท่วมขังหลายจุด ก่อนระบายถึงการแจ้งเตือนข",
+        "ts": "2026-09-27T08:25+07:00",
+        "url": "https://news.google.com/rss/articles/CBMi1AdBVV95cUxQeUh4RmNHYWQtRWQ4MEZTVmpUcS12OVBScl8td01RbVo1SV9FeU1JY1NweWJFc0NaZzZzSmRubkk1a2I3Q2xOcFo3NVBaczZiSXZSUkVwSFZYSTRoOGRseWNNMlNELTFEN09RaVc3Y3owcmRSQXVXN1pOOVN1NHFDZFVtN3prUFlzMHBYMHdSR21XQkZJaWRrRVQ3NlR1LWZ1OFYySGtsN1VmaFdEMV9lQWJnNzJrSjRRS0YzVXV1Nk1EZ1hKSTluWTlIMDZseU1wYlVtSTAyMXVQdFo0MFRudExOdFpLWVlLeDluVGdKbHljM3pKaVU0bUtLaG56SnYtanNibWhlQ3JTc1FjNGhaT05EMkk4MEJ4ejdrMmZ0RWE4Y1BJNkpqa09SUUoyZTFQY2FRNFVZUUtXb2VTaXJHVEFZUHNHZHR6Y193VTZfdXZ1TVJXM3VfdWZEQ2FIbXRsMkE1ZW1iRGNOMkk5cU5LWnIzMEVyQ2pkVjhVc1hqZ3hMVmNGYnU3cmwxZWlvZVc5aEdyZmg3Y2djLTBVX3BXdG1XdUF0aXA1ZmhZempLcUl2aEF2QnpyUnktd2pZN3U4ZkF0dFk2T3B1SXZjMWQtQ3QzQkRkRDZrMHBTd0Fhb3NOM3V4QVV2NmZCLTFacDl6blJ2Z1Z1ZEV3TDVjZUlSazVSRGlwclVTMEtnSzg5X2N0VVM4ZmRINFd4QmYwSENrUUdQa1IwSDRvNVpQNldNd21ocEhQaEpPamtNLVF2azFLc1N2djAyZFhJd2Z4NmZlV0ltVW1tdHA3M0dXYU4zZDgxbTAwUDU1Rk9NQk9rbldpZl9UU0xBNWJvRDR4aTR4ZUh0TVdkeUQ0NENZUVJCTXRPeFFMZm4yYkRobTYzbU1GbmZybExCSE1ybjEwbVMxNktXVDlCNU9veFJVcFBDS20zZ2JOc0ZsNXJqNm1VQUUxY0pZRGx5SU52WG5iRk9UTmRGMHhEUzZOY0s5R1JFRWtXY2NLQXE5OXFWZU9oN0tZU0NxNVdJdjhkZ3c4WGxndGtfU09MUXhPRWxQOXNQYUJVUDJyTkxVVVFvR1U1Wng3UzJ3RUJuMThOZTB1aHhjVzJmRkdlT0Y2SzN6ZzctUEJZR0JJRW54aWZHRTAyZ3ExLWtFb3dnZXI5ZW5ma2hERWFseFlCaHJkSFFNRFQwZ0tscTFHcGJsOGZvUEN4MW5VXzczckRWLU5NNzd1RVJxR2dyd2IwTU0zYzBMRzdJenNiOHVjblJpU2RLYm5DLXlHWk5QQkxkYlE1ZWtRbFp0bGRYRA?oc=5"
+      },
+      {
+        "src": "อมรินทร์ทีวี ช่อง 34",
+        "title": "เช็กด่วน! กทม.เปิดวิธียื่นรับเงินเยียวยาน้ำท่วม สูงสุดไม่เกิน 5 หมื่น",
+        "ts": "2026-09-27T08:24+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9DVFB2cENSS0wwMVBVNmFiT01MNjRYR1lHZWJEaDFWZF9IeWE3aUYyS1c5RVBEeTNBNFp2cHIyR2FHMHJwWEhhY0xMUVNNTkhDSWJVYkFR?oc=5"
+      },
+      {
+        "src": "thaipost.net",
+        "title": "ฝนจ่อถล่มซ้ำ! เช็ก 33 ถนน กทม.ยังมีน้ำท่วม หลายสายหลักอ่วม",
+        "ts": "2026-09-27T08:20+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1Oa3VMTEphMUpKR2VBem1OeDEtTUdhMURPbXdvV1ZjT2ZEcjNFWWlwYThGMTRWeGxTaGZaV05LRFdXQTlDQmJURDdHa0IyLWFVWHpZLQ?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "The Reporters. . อัพเดท!! สถานการณ์น้ำท่วม เขตดอนเมือง กทม.",
+        "ts": "2026-09-27T08:11+07:00",
+        "url": "https://news.google.com/rss/articles/CBMipwRBVV95cUxNSUVtdFdkR3JWc2J5NE54N2tMVkFJbjRuYWxhNldIWG85cHVMMTBUYXlvZ0Qwd3ZDQ0xKd1NyckxfM2laXzIzYjhiYVQ0SjdrU29ZUUZrMmxjZkc2R0FFWlB3NlRkS3M3UjZTV2RjajlYR1VEMXFfQ3duZWZPVFpzSEJxbXRXSGUyYjNNbGhTaTBsS3RrTXlMdXFkS0hIN19qZnlLdC1vWUh3bnQweEdTTXZLaXB3V0h0MVBnR1A2bzl2ZENXdHhpV3dYYl9zSkdkOGNDNjhYSnltX1JNU3ZzX1hUdk1RWGtWN0hMR2Z3Wnp0WEFGd29PSWJQMkdpXzJTRzd6NVR0aEloMzI2Z0VoRHZPdGVtcFNySTlNX19sN0I2VVBRUGluMmZHOExqWGFDX2d1RGZTTXNMMWQzS1ZIZmktMnpFcGU4REhwTnNBRnhzQkU3S3hLLUNSVEFUMkZLRnNaSkdvZEM1RnBPbFlMdWdYNElzVFZGTWdOVWFOOVVZQmJhMDg3bHgwUEkyY2h1WThnZTZMazNyV3FSR2pvc3dqaENOY0RqN2tQQ1R3NzZsYURyM1ZWVnc3aWJlS0MzVmtSNUF2LTJBZ1lOSXdwREtHb3ZVX24ya0dVeThvZlFBYXVxcDNCNWhXZ1A4OUJVa1RBWm96M2x0NEhZRmdPSmo0eWY3eWNGQjVtbVpxZktfSzR5TF9HSzhyMzg0RUE0cnZkWlFaTQ?oc=5"
+      },
+      {
+        "src": "Thai PBS",
+        "title": "กทม.สั่งปิดโรงเรียนเนื่องจากเหตุพิเศษ 28 ก.ย.หลังฝนตกหนัก-น้ำท่วมขัง",
+        "ts": "2026-09-27T07:20+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5tZERnbklrZFNmUHpKVFAxYkx1VjFiNHBGMm1RYUFXd25HVzA0MEF2OVltWlhfQTFlR2hHcVg5R29MZHBnTnVPeWN6Y1pvbnBhX1k2T3JueFQ?oc=5"
+      }
+    ],
+    "forecast": [
+      {
+        "src": "Thaiger",
+        "title": "ดีอี เตือนอย่าเชื่อข่าวเท็จพายุถล่ม ยันกรมอุตุฯ เตือนล่วงหน้า 3 วัน หากมีเหตุรุนแรง",
+        "ts": "2026-09-27T10:40+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE1YTWFfR0FtR3JLVDYzU2ZwTzFRMXFGMXJROHY2MTdLTEJKa0N5OTh6eGg4NnMtRk1fRDl0QkczZVlDWDVMbURrbzVsZ2hraFhh?oc=5"
+      },
+      {
+        "src": "komchadluek",
+        "title": "ไชยชนก เผย นายกฯ สั่งดีอี เฝ้าระวัง ข้อมูลบิดเบือน ทำประชาชนตื่นตระหนก",
+        "ts": "2026-09-27T09:32+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5hU01nYlpWM2dDRWRrN0dDeER4YWN5Q1dqS0lPVjJlMU9GTzZwcTQ3bnRYSlFtb2YzR0dQTEJhRWdHcUJONzBKcFd3S1JtZlFJeUs4OWM3NmtyRXJo?oc=5"
+      },
+      {
+        "src": "News1Live",
+        "title": "เตือนน้ำท่วมกลายเป็นคดี ตกลงใครกำลังตื่นตระหนก?!",
+        "ts": "2026-09-27T09:09+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE8yeFExS29DUkVBYTAxNnBDSHFEUUJoQkNZbTBjYm96djBVUHVMLTE5X21MZWRJc1BNaEdpY0ZhejBra1JncmNXTFY3bkVtNzdEQTF6Zw?oc=5"
+      },
+      {
+        "src": "Thai PBS",
+        "title": "สภาพอากาศวันนี้ กทม.- ภาคกลาง ฝนฟ้าคะนอง ร้อยละ 80 ของพื้นที่",
+        "ts": "2026-09-27T07:36+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5wRm5oZ2pqdVZNWmlUSy1qVi1sWUNBU2l0eURzbXBpWDZQZU5uZmRhWXUxWEcyMHRNbVF1ZWVwZVUzRllHZkdDSXNVWFc4T2lWbE9kejNCWlA?oc=5"
+      },
+      {
+        "src": "Thai PBS",
+        "title": "กรมอุตุฯ ประกาศ ฉ.14 ภาคกลางด้านตะวันตกฝนตกหนัก - กทม.-ปริมณฑล ฝนเริ่มลดลง",
+        "ts": "2026-09-27T07:00+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE85aTItSGtna203UjBxa2NidkRiNW1JQjdBV0NRaE9nYnBCUFlEc1hQZFVTeDRyRUR2NW81UGpPMlQ1LXJDVFJPM2d5YlVqd2VidFNSZFFwUDU?oc=5"
+      },
+      {
+        "src": "thansettakij.com",
+        "title": "สภาพอากาศวันที่ 28 ก.ย.-2 ต.ค.เหนือ -กลาง ฝนตกหนักบางพื้นที่",
+        "ts": "2026-09-27T01:00+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1IRVRzTkdqSU1BM3FCbFlCU0Zfd01tRmd3NE9ZckplRjRyUGRsaXFrZDg2MjFJbWJOSUpfd0dtVk1nODJkVXBEbC1JZTRQaEh0MTJEa0Jrd2NWMGw1?oc=5"
+      },
+      {
+        "src": "LINE TODAY",
+        "title": "คนไม่เชื่อรับสภาพไป!! ที ลมฟ้าอากาศ โพสต์ตรงๆล่าสุด พยากรณ์ น้ำท่วมครั้งใหญ่",
+        "ts": "2026-09-26T23:01+07:00",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE83UVNZeEx3Y25NMWpNNWpjYVc2RkpHcTBwbzVVcERKZmd2T2VlOUxxSDRVU2k1RXh1NjBiSkRDQm05bkp2N3U4b3RsZGJMM3ZBUy1jeFZqT0puZm9HYldlNkk5azI0TVJ0cUtDbkVMNTM?oc=5"
+      },
+      {
+        "src": "ผู้จัดการออนไลน์",
+        "title": "ดีอี สั่ง กรมอุตุฯ เปิดศูนย์ปฏิบัติการฯ เตือนภัยสภาพอากาศ",
+        "ts": "2026-09-26T22:14+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9JR1lZQlhvYjFqRmxENHMxS0YtR2VOSHgwWU85amhPSXBqWkxCUk45QTVtRG1ZNzBfdWF5YVpOS2JjY0Q4Skxhb1BEajlkbUhYVFI1TkpfNVBmRW5qQWNhYQ?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "กรมอุตุนิยมวิทยา. . 🌧️⛈️ อัปเดตเรดาห์ฝน กทม. ภาคตะวันออก เรียลไทม์ 📍26 -27 ก.ย. 69 🟢 ฝนเบา 🟡ฝนปานกลาง 🔴ฝนหนัก 📌ณ 26/09/69 เวลา 00.08 น. ฝนกำลังอ่อนลงเป็นฝนเบา ฝนโปรย ตกสลับหยุดตกได้บางพื้นที่ ส่วน มากยังคงปกคลุมจังหวัด ปทุมธานี พระนครศรีอยุธยา",
+        "ts": "2026-09-26T20:30+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiggZBVV95cUxOempkZW1WdFZ3N1JUNlN4aGJLTVBoUG9CX3VJRVhWQ3djaHgwWG9oNVkxZ3NOYWxITV9jekdfdW1FckZtWmM4TE9hOG9vVThyM1psMXVjcWZDOXRoVG56Q2MtcmdCaVNRN3V6OHk0bXVkNm44NWswQ0dTMDBPbng4cWFXMmw1N05KcTNSOGN3cmR4UkJKTENVdFppdC1ZeW5ndG5QMzZjcjJfanJPdEtFdVZQWi1zejY1Smtfbi1POXp2bFhRTDZEM25VbXk2UnZSbUUyZktNSmduOERwN2dBeWZjZ2l0Z0NQYmdxdHM1cnUyUXM5bExzWlNfQmwtRFctSDlVWk44VjVqSEVDWmZfaG1KVUVBeHlRRnc3dWppaUFSbTZkZUtEOHRtZGNtUXVNNm54aDlzQ2I1TjlxdVNvTlF2UWlDeEdpQzZWTWw1SnhUWnVQQ0k4NjFVN3AwOF84Qy1BNllmUUpfZ2RERmpPaU95ZkktNlVoQzNncnF4dm1vNHdLRjhVeDN2aUsweWxFZmR5Wmh4R0p5RzMzVkpESUpfdVdNbHNTbVd5NFhMVk5SVGEzSXF3aVk5MEZRajNqVUZiZkNDZ2RNVTd5Vy1oOXZmc3g2RjBEeWR5VWMzSjJMbGdSeHFRRDR0ZGpYYXFfT3F6MG5fV3FyM19wSGRiV050bU91NndjaW5QdW40VmtwY3RaNVZRRXlveXd6VmlsRU9qbFdWVFpXZW5Ka01fQnhZTlhYQWVJMC1TVkZGZUo3bThRN24teWV0R1lzN0NBYlJ0bTlnSUpDM284VlBTOXdaTlVteWxwanFFbWY0V1FXVmpnd1NwQzg3WkQtWU0zNGFXWXQ1aEgxcW1YV1pzbkZTdFJCRmVHVXI2UjlFYTZkMjBnQzVXR1BfSFJ1VU9GdGZlREFlSFBpV25jUkpmTW1aS0FKdnY0X2tCeXgzb1RrMHRXMVV3Tm5laGh3dldTdC1HQWJGZmw5Skpkdk55czJPeU9oYkVyTFprT1RKcVpVQQ?oc=5"
+      },
+      {
+        "src": "Thai PBS",
+        "title": "อุตุฯ เตือนฉบับ 12 \"ฝนยังไม่หยุด\" กทม.-ภาคตะวันออก ระวังน้ำท่วมขัง",
+        "ts": "2026-09-26T19:38+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBOMjNTY0N0aVNCd3RHOWJnbm9PQkJSay00WHBjd1c5UGZRaVRrTzRmTHBzTG93RUx4QllaNDhOMjVpRVpkaHo4bnBfTjVzRTkzeTlTaEI1NHo?oc=5"
+      },
+      {
+        "src": "pptvhd36.com",
+        "title": "อุตุฯ ประกาศเตือนฉบับ 12 หลายพื้นที่ยังคงมีฝนตกต่อเนื่อง โดยฝนจะเริ่มลดลงในวันที่ 28 ก.ย.",
+        "ts": "2026-09-26T17:50+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNTFdyaGpzUjJsMWg2WHNxX3dyLTJDREc3dENzSTAwaWdUdXRNWnBCc2dsV3psWXdlR3lLckFsSFVPV01maWV1WjUyVDU5V29SbGREV0tiSk95TEprZGlXNkwzc01aeUNmNkwwalBGQWlWamJ6NVFvQlRqa0pDNUZ6RTB5dkhpS3BBYmc?oc=5"
+      },
+      {
+        "src": "komchadluek",
+        "title": "กระหน่ำ 80% ของพื้นที่! สภาพอากาศเย็นนี้ กทม. และภาคกลาง รับมือฝนตกหนักสะสม",
+        "ts": "2026-09-26T17:14+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBtUHJDRDNVTWxJTlhsdWxYNWJaTm1fVTZtRTl6bDlrQUYwYlkzQW1VeEFrWkx5YWxkVGhlNVNkQ0NRWFp0SEdCbWV2aUdIT3I1ekFISDctSTNUaFk?oc=5"
+      },
+      {
+        "src": "iPhone-Droid",
+        "title": "6 แอปพยากรณ์อากาศสำหรับคนไทย ปี 2026",
+        "ts": "2026-09-26T17:13+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1wZ2FaeDY2VXVIcWhlVXNncGlMbVhVMjNjQW80Z2RrbXp5R09Rc2M4amwwUFVoUW5YdTc3UU04Zjl6Z1REUWpuRkdETjBlck9YV2VkOHZFeDRyZEdiNENsZmkxMGdWZkk?oc=5"
+      },
+      {
+        "src": "ข่าวสด",
+        "title": "กรมอุตุนิยมวิทยา เตือนฉบับที่ 12 ฝนตกหนักถึงหนักมาก พรุ่งนี้ กทม.ยังโดนถล่ม เปิดชื่อจังหวัดไหนเสี่ยงบ้าง",
+        "ts": "2026-09-26T17:08+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE95VGNfa3R4dmx6UU8xRWFKdUxwbkp5YXN0SVVqZm04a05CU3JwazVJSlZORlB4TGJvU0dVWTJjcEhlNjZXVEtYZGxSTUdkeTJTbXJkbWs4SnVkY3lxcHNHTVRfaw?oc=5"
+      },
+      {
+        "src": "bbc.com",
+        "title": "น้ำท่วมกรุงเทพฯ และอีกหลายจังหวัด เลื่อนเลือกตั้งบอร์ดประกันสังคม เรารู้อะไรบ้าง",
+        "ts": "2026-09-26T17:05+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5DdlR4Q2xaZ2lrcEpnQ1dRWmkxbDQzNllqaFc3Wnhnc0xjMEJtZV91enZSd0xzYWJjZXBUX3NPOUV3TEFtMnlUWWhFamIwUzV1TTRXbFJhV19IOFHSAWBBVV95cUxNUi1rRWZzZjRoY094MHBBSDc0dk0yWVNaa2xDcC1xODQ5RHJEXy1HemVKUVNLUTdFMEpCZV9TckdCSHB2ZkNoZ1pCUDB5YmJwVmdTeDAwNW1lbGktQ1hQTDQ?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "กรมอุตุนิยมวิทยา. . 🚨อัปเดตเรดาร์เรียลไทม์ พร้อมติดตามสถานการณ์ฝน⛈️⚡️ ประจำวันที่ 26 ก.ย.69 ณ เวลา 17.00 น. โดย ผอ.สมควร ต้นจาน ผู้อำนวยการกองอุตุนิยมวิทยาการบิน",
+        "ts": "2026-09-26T17:00+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiigVBVV95cUxPbWpaOUM5U3F5XzhyVjdyd1RESEVDUUp0a21xckx5WDhYRjVXQklTSVMzU3MyZVRiWkhjV1hPS0MzaFNmdWFvSVNRbXlxTjlQdjlveUJGYTVlOVlBaU5FdXFMRzF5ZjF4aUZSeU9TcGF4S2wyVzdlendOeG02U21sVjZZdlBZblIyTjdWdm9xczFPMXNlMUtwMzZMTHVaNmFiTXlOQzYzRHpFajlpMmdHY2pEbGFYdXN6dnVxdlQ3TTU5SDVUNm1sVDBXM1hUR3owbWtmTk5wT1AxRlhFTF9YcW4tYUhHMkNNYk9UcldWVmI2a3g0RWRBM2tBUXRWaXlkWV9ZeUtCaXlRTTNHUDJlRWs2MGVGSGJxVzVpZTRqTGkyNlVuYzJLUHJQSTFiS21sM0txcXRiUFlCQnQ2OEM3b2xxbFlHZlJsTS1GMm1oUTBEaE5rc3dHUWM5a1A1bEdJQWtsa2h2WUhaODRkc0RwekFTdVdMQmN4QkR5bldvaFRfbF9nX01MWDhEN09lMGs0V3RuV0d4UkpITGpYdVdCX2NCTE1ySnk3ZVhYNjRDb195MzJqaTZJYWg3bW9sdlc5Qk85UTZlMFR4djUzMnpZX1FkX09jNnZxczE4ei1adWgtX003eUdRcERlYnVuZGozSmpwX0pYdGUtdXZtcUdwOERKRWpicGJpaXVXR2w0aDd2aU8zVlJPX3d0QTJvTDd2ZGpEQWROcHRkeEl1bzg5MEZTODNNRDFuaVBiUTRyUERoN0xPQXZFWmctTUhwYldaN1duQ05DMVl6cnE3VXNJclZsZFZ0enRlY2dqRF9OblNZWlE5cmtYdEdaMmJXZU55QmY2UlZEUXN5dw?oc=5"
+      },
+      {
+        "src": "thansettakij.com",
+        "title": "กทม.ฝนตกต่อเนื่อง กรมอุตุฯเตือนฉบับ 12 ไทยฝนหนักจนถึงวันที่ 27 ก.ย.นี้",
+        "ts": "2026-09-26T16:53+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5RNUZlQWR4QkxmOWNTWUZ0R3RLVmE2SGp4SE5DQUNKYlh6MUNwSktLN19RVF9UVE0tNDFUYlNPYktrdGFKbV8zUHhWdFFKOERYYnp1UmlSYTkwT2Rr?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "กรมอุตุนิยมวิทยา on Reels",
+        "ts": "2026-09-26T16:41+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiigVBVV95cUxPUmI1b1ZwZklNSVR5NmtXNG1tX0E4MXVPNlZJUTFYb2c2MlBwUnByUnlydW5iRU5rd1REbGRreXhQVGN0UTlRUHdnMmM4cXV1VDdtbnhmSkVQT3QwWWZGVUxzMm9GeHJtX0xaMndDRDVTUlFXOG1YbVozVS1VUGJLREVBckFwQXFJZC1rT3djcG9iSXBfaVIxcVEwTFZZVzZwbllodU9mbmIxX1BjRkhxQTV3QzFKSS1Ed3NlMWhITDZBdGd5cWhXNTN5OTRDUEpHcWVHSlpQZ090MnlHNmo1WUJVYlFkUC1GZGpFWDcybFZKNHdRemxDU25qeUxMX2c2M1FpYXFhTV9zOXRYaWFCbXJxWFFyY3h2NVA2eC1JNlluWmEwY1lCOGJqdzB4UlQtR182Q1pNN3B5UFZweFhXb0VrNUdLaHdSSTBFOHExbUhDR2dxcjhuUkVBRUFKRXVuaF9rQzlBcXlUbU1tTUIyY05Yd2FobTBMdEI2OFlXTzZYalMtV2Y5U2ZmSGJ2TEVDYzBCOTJZOE9RWmhneVlRUHMxckZxMFgwQTNZRTItU0w2dGNaRW9TY3lqb0RTSkd5NmxlbmtUbnZ1dkFnaWZUZVpqNllsSlFvaGRkVy1zN0ZNdVVkZ1J3ODVoM0lKbXV2Ynp2X29oWUNsWlFUbjh0Ync1Q0JDRnJMX2tHTFl1TFFJZHI5bWlnY19hbG95OWM0QVNvdm4zZzNtTlRMQUpFRjdpYTYxLVNkeWdobkRRZ1NQWEZKdEFZallRTDdlSENrTXZMZEtLNC1vdEhUNzFHSlFFcW5Hb1ZaY2d1Vk5lUXNJX3RXZ1JrYkdkSkxUZVZIR2JRNjRfSWxVdw?oc=5"
+      },
+      {
+        "src": "แนวหน้า",
+        "title": "กรมอุตุฯ ประกาศฉบับ 11 ฝนตกหนัก 26–27 ก.ย. รับมือน้ำท่วมซ้ำซาก",
+        "ts": "2026-09-26T16:28+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5zX0ltb0ZsVWpxSURORkhwSE9rRG51ZjUtYXl0UV9yaVdrRUlHN1VOcjVwblMyUFE3dzNKeV80TEFxNExFdE1JalJoM3RTdDVHZ2RQWlNB?oc=5"
+      },
+      {
+        "src": "เดลินิวส์",
+        "title": "“กรมอุตุฯ” สยบข่าวลือ! ยันไม่เคยฟ้องเพจพยากรณ์อากาศ เป็นเรื่องเอกชนเสียหายฟ้องเอง",
+        "ts": "2026-09-26T16:27+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9JeldVazhVVHgwUHRfUGJDWW5uUE1rWXY1STRBc1pWdHdBZld5V0x3OW0yM3VTRVM3bnJjVnJFMVBqOW00dGpJMHhvcGJjT19NaEdj?oc=5"
+      }
+    ],
+    "rain": [
+      {
+        "src": "prd.go.th",
+        "title": "EXIM BANK พร้อมเคียงข้างผู้ประกอบการออกมาตรการช่วยเหลือลูกค้าที่ได้รับผลกระทบจากเหตุการณ์ฝนตกหนักในหลายพื้นที่",
+        "ts": "2026-09-27T11:04+07:00",
+        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE15c1FraElwZGhfYnFFbUFiVm15eHNkYTBNNzNJR05GOHlIODlYV3JDcU9JNVNYTG1kQzc3LUliSDdScDlzQlk0U0FOdDdCWVdwdmZIZExjMnhQcE4temxmY1Q3b0N1VmFJNGlVUWRKLTA1cFE?oc=5"
+      },
+      {
+        "src": "Vietnam.vn",
+        "title": "พื้นที่ในเมืองกำลังเผชิญกับปริมาณน้ำฝนที่รุนแรง",
+        "ts": "2026-09-27T10:50+07:00",
+        "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5HdFI4VzI5VEhsRHdDZlo2dXk5dVlkb3J4cXFFUVVVUElIbDl4cDZKZ2dTQWFGSFg2bjFxcUg2MVNsWTNPUzdSX2VqRTNlU295VlctNFAwV1Q0ODZzN1pNMVdZOXRXeGV4Ny1Weg?oc=5"
+      },
+      {
+        "src": "LINE TODAY",
+        "title": "“นภินทร” สั่ง 7 จังหวัดติดตามน้ำรายวัน รับมือฝนหนักภาคกลาง-ตะวันตก | ข่าวหุ้นธุรกิจ",
+        "ts": "2026-09-27T10:49+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBRbzVRV3FoWnc3ekVFV3lIMW5URWh0bHQ2Z0hlblRYd05BS0p3UWtOOUxmVEFWZGhneXk2a2paR2V0akNKV1E3QXZRUGk2RXFnMlVXelJB?oc=5"
+      },
+      {
+        "src": "จุฬาลงกรณ์มหาวิทยาลัย",
+        "title": "ประกาศจุฬาลงกรณ์มหาวิทยาลัย เรื่อง แนวทางการดำเนินงานในสถานการณ์ฝนตกหนักและอุทกภัย",
+        "ts": "2026-09-27T10:38+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE10a3pidlAzV1dHb2hnb2JfY2RId3BHcXViZmJoVE9WM05qNTlIZTZOOTFOMUJ4bFBQcEV6ODRLTFRPd3FER0VRUF9FYi0?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "เหลือเชื่อ! สภาพขนาดนี้ ยังอ้าง “ฝนตามฤดูกาล–รัฐบาลไม่ผิด” วันที่ 26 กันยายน 2569 ท่ามกลางภาพน้ำท่วมที่เกิดขึ้นหลายพื้นที่ รถยนต์ บ้านเรือน ทรัพย์สิน และการเดินทางของประชาชนได้รับผลกระทบ กลับปรากฏความคิดเห็นบนโลกออนไลน์บางส่วนที่พยายามอธิบายว่า ฝนตกเป็นเรื่องธรรม",
+        "ts": "2026-09-27T10:30+07:00",
+        "url": "https://news.google.com/rss/articles/CBMinwdBVV95cUxOTkh4Znk3UFdqR19CNnNjMXEwM0ktU0V4dFZfWEZOanR6TWhOLTFrSjJxdFdEeXpPNWtQRW05QnpMZXFDLUd5dkhLTHpJMzRSME10TVZUcElmdnJOS3h4R1AwdDJzME1yVWtFbnlvVGdsbkJieDhZZzR4OGRORXk2Z0lvWngwd01Ja2d6NmZ5akJxVzJ0WFdsTkowSmdNckg5RFk3UHJZLTBzQVo4NnJMZkpFMzVqTmY0cHpzUlVoNjBaNjlnd2RkdjFndU9YN0dtZE1qTWdUaG12alNYejRIcFRzUTJZRnNlVjhPMzZiQk5pa1VCMFR1bzhQSG9SMlNQbkJscFpYWjhxd3Rpa3c0NW5HTnM2VGlIZ2h6WmwwR0E5VWxrRWJOWGlyLU1VTm0weXljTUVyU2NBYlZYOWZBYWhSS29BbnRFS21Hd0lTT2xHM3h5N2FRZVpfbjBoQS1oVTF2WnFkb1ZlWllyWjlkd0ZCa2tBQ3ZmZkVZYVdpeHY5ekQtODZ4VTlYYW5kT3dDQVE1bHdTMm80UHBVZUEzVVpZbUtrOFJUWjdqRzZCTnVwSlV5dGw0Tl9sNnAxTzNRcXhwOHp6N1U2R2lYTkxlYWpvU3dDZ1FwVEJjUTYxWEJUSkY1UnNDOU1ROG41ZHVBVFNoRUFYYVJ2X1JicDBuZ243a2FoVUpTaEdHZlFxQnBqM0phZC1ZWXBsYnRtUkVKdjZHdm9WeTkxdURkekRNV01wQTdPRmZEcFQ0dDVCUVdHS1lEejByM21ZTXBkLXlSOERQSENBbG9DV2VQUnNkZ1VnSERBN3V3N2wyQUY0Ql9IaGRLdFlGUmlJNVN5QTdPejdGTVpobWp5RmttWV80Z2M4dHY4VUw2ektCaUp3N2RKYWI0Zm1GLVowRHgxbnAxeFBjczlfZXZHOHNtSWJWeWt4VU03d2pqaVFqc1pIQldkNzdRbUlEY292U0ROTjVNWFZzUTdpeWRJZHdiUFFIV0hsek0zX0EyMnRULXJneE5KemFNenlhOHNZU1REQUtiQk84Zi1sWlhTd0p2ZkVaRDZaWFVEYnljZ2N1RG1XU2FocjlBbXNEbHNoZmw1S25yX1U5N01ydXlvT2EwUHB5cEpIZjJySHg2VXhpMzVDam9CNUt4dklra3BycFducVpoakdrYzYzNXZ2YkRZM0xFT0VVNmV6Z1dEUENRY1VVR0l0UTdWeFltLVVDZ3EyT0E?oc=5"
+      },
+      {
+        "src": "tnnthailand.com",
+        "title": "ฝนตกยาวไม่มีฟ้าร้อง รู้จัก “นิมโบสเตรตัส” เมฆฝนคลุมฟ้า",
+        "ts": "2026-09-27T10:27+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFB4a05GLUZnWXpWNGRCLWZZa0VRdzZZMGtiTnlIek1fR0RJLWo1WDdtZzdDTzlkRHVOdktHWklrUUFZd1Q2TXB6OXhBak9QYzkxWFFmUA?oc=5"
+      },
+      {
+        "src": "tnnthailand.com",
+        "title": "พยากรณ์อากาศวันนี้ 27 ก.ย.69 อุตุฯ เตือนฝนตกหนักหลายพื้นที่ จากนั้น 28 ก.ย.- 2 ต.ค.เริ่มมีฝนลดลง",
+        "ts": "2026-09-27T10:14+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1rSGpjSTNVTHoxMUVpczV6NFlWY3RzZ0RfNE0xSjl5a0JveXMtcm9INjhCYzBBVFZESG5YOW5DV0ViN1JOOUVEeklKY0l5UFV5V3NJ?oc=5"
+      },
+      {
+        "src": "thestandard.co",
+        "title": "สถานทูตมาเลเซีย-สหรัฐฯ ประกาศเตือนฝนตก-น้ำท่วม กรุงเทพฯ และหลายพื้นที่ในไทย",
+        "ts": "2026-09-27T10:01+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE12djFMbVZZVzVqSmIwMklfT2Z1ekNmU0h3V0VXMTY2OWJNM1VRbWluU3NneWduLVpILUc5Wjcza3JXZ3JuYU1XOVRlMG9ZZGFFekFRNTAyREJLZlhVbEx3YWt6U3U?oc=5"
+      },
+      {
+        "src": "Vietnam.vn",
+        "title": "เหตุใดฝนตกหนักและน้ำท่วมจึงเกิดขึ้นบ่อยครั้งในหลายพื้นที่ของโลก?",
+        "ts": "2026-09-27T09:52+07:00",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNkRHZ016bUp2NEYyVFR6U09uM0pJRzdfZ2RXaW81THF0RkI2aUtHOWxBbHh0dEZETTVIMnYwRDE0OGFqNjYteDhwR2FhZjdvVGVEM3F0ZnA1TVZGWFFSdnNFbmJEMEJsYVIyWjRUUVpYTE92UWw1bG5GSVpoOTVqMlVfUTBxY3N3UlFzMjQ0ODV0NVZfMUdiQQ?oc=5"
+      },
+      {
+        "src": "thestandard.co",
+        "title": "กรมอุตุฯ ออกประกาศฉบับ 14 เผย กทม.-ภาคตะวันออกฝนเริ่มลดลง เตือนภาคกลางฝั่งตะวันตกรับมือฝนตกหนักถึงหนักมาก",
+        "ts": "2026-09-27T09:51+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1oQjFBLW1hdzhMOTJDX29jNUVnT0VSRHNQZDl0bGxDazZlVk12WThPa2t5OGJDcThwMmgyVlhlWHpZR1FNOFV4bGV4VU0tNmlSVVd2RG85SzBOd21lWlE?oc=5"
+      },
+      {
+        "src": "bbc.com",
+        "title": "น้ำท่วมกรุงเทพฯ หลายจุดยังไม่คลี่คลาย กทม.-ตะวันออก มีฝนต่อเนื่อง เตือนฝนตกหนักในภาคตะวันตก",
+        "ts": "2026-09-27T09:50+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9zSEV5T0ZXaUJZaVF5THdlZElzYXhZVlFyck9wY0pvbE12T1ZUbEQ0Vmw1WWhCaGhYVnpoci1yM2JqaTZnRDBRUVdxSWYtdFV6eU8tZEc5bnZ0Z3fSAWBBVV95cUxPbzVyUFh6bHJIODlvamJwa3JxVC0wY1lMZWhrczVjV2VJNDdiQUd5V09idllmNHoxQkMyaGJnbHo5N1ZmYV9aSXdYQmYwdkJvb1htVDRIMHVUS0xKa3N1TG0?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "’ไชยชนก‘คาดวันนี้ฝนเริ่มลด สั่งกรมอุตุฯตั้งศูนย์ฯพยากรณ์-เตือนภัย ลดความตื่นตระหนก . ดีอี สั่งกรมอุตุฯ เปิดศูนย์ปฏิบัติการพยากรณ์อากาศและเตือนภัย เฝ้าระวังฝนต่อเนื่อง หลังฝนถล่ม กทม.-ปริมณฑล เตือนประชาชนยึดข้อมูลทางการ หวั่นข่าวบิดเบือนสร้างความตื่นตระหนก เผย 27 ก.ย. ภาพรวม",
+        "ts": "2026-09-27T09:46+07:00",
+        "url": "https://news.google.com/rss/articles/CBMikghBVV95cUxPTHNSX19JMzhNbndtWW1HYndSN1l5a213UnFXampwUURaQnBKSEFRT0k0N21vUUV2TXZvMnhfb3pKOEw2aXQ0b3NiZXhPOTdPTEZnYXJVMDlfNmkyY2hfRXJIeWVaN3ZlYXdlVEIzSHk5MWZlMjBaS2lsUXNuUDhqbGtHSWZ6YjRRMWpSVnB5Y3pLMlRzYlQ4d2lqdXZUYzhzaWg4UFpJU2d6cnc3ajR6NWdpUk5UZ2Eybi1xTXN0WVJEbFFhLTA5NGxHajVpd0ZtdENZalBHZWVQNWgwaW1DYk9BMHBwLUpIT0gtd1NLNTZab1d4T0dvdnFydmo5MjZjblp1NTlRbmJ1ek5JS0Z6Tjd6WnhETERiYzMtNUZLeU1GWWNoaWc5NlBJcGxhSFVlNUJ3aTdZdkZ6X0tOU2xMOGdlbVZOYWZhbzFKaWpGVDVfSHRmR1ZscHlPTVJCRjZ4RkdBZkUtT1JoaHZVQ3dXSURfcHphYkRObXRZaGJvVVEzc3JEOWpyMHdPdVBrdnN5QlFmYVEyU3RnNEw4cW84cmw5ZFYzWGZUaHI5ckZCZzNEYUo3cHBqSmRQeWdualpwVU5saWVsWnhVejZOZ3NYTi0xUVBUWHlBc3V2UThwT2ExeEFPd0xhTmQ1b1N6cHZWWVZaV3l4eVg1MnhVZnlKbWZYX09iVjRTaVBzaGx3aU5LclFwNFRTaVBhYnZ0ZzZMWDVNS25DdXJIUHFfdms2Z09iVnlTeHZaR3hmRUp5eG40RTVzMUo0RzZIX3NVRDJUc3JleEdGdU9BX1JHVEsxWWdfdjFacHNUQ2hLaFVuaUVBZEtwYnpZeWVPSFR6ZW1HTUplb2loNUlnOUtpUkFXbXdSU2hqbVJsMGNSd3dlbHI1WWhBVGNZYjdIeXdJNTZfU1l2SmlnMERDVWM1THlUdTZzZ281a0M2WnFFSmI0dnNJU1FjNE1WVzFuRWJaVVdzUnNzZ3Vxem45M2lqaFNwclJ4UlFydjBTODlmaVJicEVhc2xSVDhoOEZHU0J3bXRjeDR5c2FUOGcwdVBZaFhwTTZRdGtsc2xpTUtucEgxRDUxRjZoOE9pNDBtcXRDckVmYVc1MDE2X2pMNUVRdXV3Z05SQmdUZG5LNHVfZDd2ZkMxNWtVNl9WM3UzZXo2VlBGaVR4UU12d0M2Xzl1bGZRd21Mbk5YX0FfQUpqZ21kTlpKbF82cTB6TTBCbDhwUlBrZzFqUkFHbmNudXlMLWRXRlJVVTRZM0RfdXBrZ2hUYm1MNmVRLUI0TGpUM1Q3X2RVREtjNXFaa1BWY05HLVRfa3RpRTZoWVNUZVNXYkxKSWZVNzMtMEtGYlViMVVHYXlWVlZub2tLNmE5bkwzWFJDZlpn?oc=5"
+      },
+      {
+        "src": "วารสารการเงินธนาคาร",
+        "title": "อัปเดต 27 ก.ย.! กทม.เตือนเลี่ยงถนน 31 เส้นทาง หลังฝนตกหนัก-น้ำท่วมขังหลายพื้นที่",
+        "ts": "2026-09-27T09:36+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1xeVVBYnpMS0ZPemNDU2dwdXZ3dURoamxZT2xSMkFGN3VGQzBZc2c2aVJad3JCZzFvMDJsM0xZUnRTZHl5SUVGUXd4ekhKT3AwZ01scw?oc=5"
+      },
+      {
+        "src": "อมรินทร์ทีวี ช่อง 34",
+        "title": "วุฒิสภาแจ้งยกเลิกประชุม 28-29 ก.ย. หลัง กทม. เจอวิกฤตฝนตกหนัก-น้ำท่วม",
+        "ts": "2026-09-27T09:33+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE44SllnZzhMdjlKS1RiX1lXSnRvWDRpdTA5MWZzOWE4eDhIdi1PbTREcGVZVHI2RFk0R2RmZlJwUHA2dlZtZmxoTXgxOUdXN0lxZnpGeTBxYw?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "กรุงเทพฯ น้ำมีแนวโน้มลดระดับ แต่จันทบุรียังเพิ่มสูง ยก “ธงแดง” เตือนภัยจ่อทะลักท่วมพื้นที่เศรษฐกิจ วันที่ 27 กันยายน 2569 สถานการณ์น้ำต้องจับตาต่อเนื่อง แม้หลายจุดในกรุงเทพมหานครเริ่มมีแนวโน้มระดับน้ำลดลง แต่ที่ จังหวัดจันทบุรีสถานการณ์กลับน่าเป็นห่วง หลังฝนตกต่อเนื่องทั้งวันทั้ง",
+        "ts": "2026-09-27T09:32+07:00",
+        "url": "https://news.google.com/rss/articles/CBMi9AdBVV95cUxNMy16LW1tZmJGdzhMaE1Na19BOGhGR1pZTjAtRUhUVEpRQkpfVi1jY2htZ29hcW9GTW5mZ3FQLTlwSVl0WkJKZTFNX0cxeHdmRVk2dy1OYldtS19OajNlcTdzU1FYZTNSRklycnZJQ3paMlVCRXVJanNtQzl6SzdfbnIxYWNiRk9tZzdyUUZncGpEeDhXNk4ySUFUallWWjZnVnZjNWVfRmtTY2lxYlJveFczS0tNSzN6cllnN0kzLUh6X1JMQ1JpVGh6cTVYNDM0N1RBM010aVZxVHY5b2dJemhvU0gyb3VKa2ZNWU1OcWdUdm5FLXcyeDlqUDZXMlJ2OUtHRUtJbzJQMk1ubFo0cm9XZ0tlQjlsOWFfNzdoVmxaX1BFTE5mT2I0cWpmSFlKN0RaSE85RjQ4M01KZEppSWVFRnJBTW4ybmR6N2s2QTRDVkVQREFPbVpSQTFlYURoaElETXpPNjlvblhmeEtZbnREdTlVamZTTVJkcTlhbzdyUmE4TzY0ZERTM2pzbXN3bnhTNmRCaWktNzF0SnZIYk9XSG91UW9jcEQxVUE4RFByeTVmcGpFSHpxbjBsWThBZUZIVXpxUFVWTjB5ZFpUeDQ0RVB0TlJlS2FyX25wc0cwaFh5ZnZ2OG9TR29uRzEzYmVCYW5GRWpJb1dCU3V3ZUJYU1dRbmxKZG9ybDNLRkNxZGtrWGxjczFZdF81WFhIaERJTURUbWxhMk05UmZMamROMjVuQ2diUDV2cVN1UVRoSHBjVmQ0M28yaGR5dTVhZ0NDSXhIaGZmYXlIMDlWU256SGh4QWtyRVNUVjdLMElPdnY3eFRsX0lmZWVwU2pJRjl6QWJnN3pLbXQzbGp4X1BNWHFQaXpzaUNkRXZPQVlBUHh1YlFXeEFwR0NiRGFzLThEQkhXdmZWUHRNMDVGNE9JUFIwV2dUOTNqQ0J3cmFRd3dvUWZFcldmZk9mQWRNM1dKTTBzV013bC11ZmpwaGtjN1RabG5HOGpKemFCZ3J0QTRpVWNZSnJndHNNZC1MVi15dm9TVDlCUVJVSmMxUFRQMk16UVMtLTktcmVFeG5Tc3FTeE5IdHFEX3I3d3lLTUxFSnl4OWpJeVR1OVI0RFJSSWpoblp2ZW1oYWRGbnQwMGtDZlZPWlM0dEpkeTRQYUJoOXF5UXNua1pHRVJVY29kY19JRVlaYXVYODFidmNwcHZ4SUxhcGY4ZDZaaU5JU2VpaGxjODZ6SmV5b0NOdGRpcE16SDJ1VkwtZEJLLUx1RG93OC1MTVJKZFFsWFQzbzV0UlhWVWhsbFJ1QWF0RzdNTXU5Yi0zdVp3OWhfUnptemFn?oc=5"
+      },
+      {
+        "src": "one31.net",
+        "title": "“ชัชชาติ” รับ กทม. แม้ฝนลด แต่ยังต้องเฝ้าระวังทุกจุด คาด ใช้เวลา 2 วัน จราจรกลับมาปกติ",
+        "ts": "2026-09-27T09:20+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFA4SFJ2YWQtSG5QbUFaUENkNF8xeHdVbHhRMkNKRjFjWWZrM0VabENCSXJlZ3g0eGg4Vzh1WkNoQUMtR0ZjSkpfcjRRWUx6MHZf?oc=5"
+      },
+      {
+        "src": "tnnthailand.com",
+        "title": "พยากรณ์อากาศวันนี้ 27 ก.ย. 69 ฝนตกหนักหลายพื้นที่ กทม.ฝนเริ่มลด",
+        "ts": "2026-09-27T09:14+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE82R2dHNk82X25ucTlTYnMxM19IaXB3Ym8xNDlZQndSX2IxbWN6VnBuUTlxRHRETnlZZENIdmFXLTdKRUF4NFVocGY4MmhDMDFDaDBJ?oc=5"
+      },
+      {
+        "src": "tnnthailand.com",
+        "title": "เปิดตัวเลขฝนทั่วไทย นครนายกสูงสุด 274 มม. เตือน 31 จว.รับมือน้ำท่วม",
+        "ts": "2026-09-27T08:58+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE4zcHRYUzE0YUlFZHJtWmJBSzFLdm9zWERpSGZmd2FSVXUyWlQ0OGdsa293b3NoeEVLaHlSOFRJd0ZHNEI1OVF5YnIzbHFiUzFiUjlvUmp5V2lsZE12?oc=5"
+      },
+      {
+        "src": "ch7.com",
+        "title": "กรมอุตุฯ เตือนฉบับที่ 14 กรุงเทพฯ และปริมณฑล ฝนเริ่มลดลง ส่วนด้านตะวันตกของภาคกลางมีฝนตกหนัก | CH7ON - Latest News Updates, Channel 7HD News, Viral Trends & Breaking Stories",
+        "ts": "2026-09-27T08:55+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTFBkTHJCR2h3aGlNR0U1bWxQUWk5cGpTMmJ5VXZ4R3RSa2ZqZFl2TGhqZy1DbXQyN2dOV2R4SkFhY1lqNXc2dkJV?oc=5"
+      },
+      {
+        "src": "prd.go.th",
+        "title": "มาตรการรับมือฝนตกหนัก–อุทกภัยของกระทรวงวัฒนธรรม",
+        "ts": "2026-09-27T08:38+07:00",
+        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE4wMmtsQVFnYkUyQ1g4TEhlMmhrMUt2Sl9qMG9YeGczZURXTXR5T2h1eTZJLUZVcEVsZXg4UXZmU1ZCdDF4STBzVG50d1lpbDFpcUVGNThqbURLZHZqS0dRSFVwOUJMZTV3M0Z5X3k3eGlURHM?oc=5"
+      }
+    ],
+    "shelter": [
+      {
+        "src": "Matichon Online",
+        "title": "ตชด. ลุยน้ำท่วม 6 จังหวัด! อพยพชาวบ้าน-กรอกกระสอบทราย ช่วยเหลือ 24 ชม.",
+        "ts": "2026-09-27T10:59+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBhUDZjbzVKQ0J4UGJMY0QwUktERGNtSXBWTkd3Wm5wZ0FMSkFQWUQ3TWxPWHQ2N0EyU1I4ZWlvTFIwdFhpTXBCemxRNWc0UFhZWlBablJwbnpXdw?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "PHOTO STORY: ชุมชนร่วมพัฒนา แขวงทุ่งสองห้อง น้ำยังท่วมหนัก บ้านเรือนริมคลองเปรมประชากร น้ำสูงถึงเอว - ต้องใช้เรือสัญจร ขณะ ชาวบ้านนำรถจักรยานยนต์จอดไว้บนสะพาน วันนี้ (27 ก.ย. 69) The Reporters เก็บภาพ ชุมชนร่วมพัฒนาแขวงทุ่งสองห้อง เขตหลักสี่กรุงเทพมหานคร ที่ปร",
+        "ts": "2026-09-27T10:51+07:00",
+        "url": "https://news.google.com/rss/articles/CBMikgdBVV95cUxPQTNZbnZhOERKVjZRaXlWRUdQNlpIX050NEhmSEhEb0ZTS3ROSFc2VlE5bkZaRVJ0UllUMEtHTV95WThGTTkxY3p0MGZURC1iMUxuZUhvMVpZaFUzUVNqaWx4UnltSDNScjllUmJxbERxUDBsdTBSVVpNbmlOdzI1NTFoa1BrTUN6YVFlWlFBVDRNNTJPTHdNNFR0NjgzcFNDXzZJdjMyYlZPSzlkTk0yd0VZaXk4ZVV2RXFDN3g2RHlWeGVfU2V5Rl9jam5CLWRldW5oU0RlbjdSSE40U3VnZy05dDlqWmg2YUFDOG1Rakltb0FjNmpGazNMN2k4SW9qam1FblBnMFFCemFoWHVHeWNwVU9KUnduZFljQk1kb25IUmgzeWdrRHI5MmRuWEZKU1NSbzgzblJIZjJPcDZOU1A4Z2FlQi1vLWxNSkNOVnJYVlRnZDFoeW1VUTlybU1FbVZWZDlsZzlCVi1Ua2JDRnVmTDh6V2FtWjRqR2VDQ2ItTlVSQzJIdDZtTm1ONGlhREpMSnQybzdZbzNmNHFDUEdpcExXeWprLWlRalZoNHQxbEZ6Wm5yOTE2Q2daMThfSHdNT1RGdHVZUXBGZC03cG9xZmp3SS1LNnl6a3hjWi1sc19hX1hXMTdsV1dONDR2YnJNZzB6V3pzaEYzYUhueXkzSFUwQnNQaTd3V0stNGdzUGFybVB4Vkgwc3puMEhOVFc2Rlg1QzB2Mno1T0VESjRKeXhhQjlPNUQ1aXNsc3ZpNVFjc25RR0pIZWI5TjhGNzEwVE5iNW8tR1FqYTFEX1J0UXNneFVEUmtqZU4xNXpsemZNdzVqM3EwZUFnQmFtQURzbHRtR3U4UnRocHcxV2FfU1ltTHQ3VG81N0M0YkpNcWdWb0R5amlfY21MSjQ2a1VMdDM4VWNRRnZUVVJsaHZRMDFlYzdya25xUkt5a3B5eGZaT2hqSnI4VlpDRTQ0S3R1THFvOURhOFl3OVJxTjRPZ0dRUEFWSFlkV3plWFVGVWhZMDhYc295UVY4aGo3TGJhVGxNRHdTZG9yUWszV0x3S0VkUFE3eWVQZnVsdFowdkJYX2ZoNjBmQkJ2V2luMFh4VGhVTTNjRlpZY0ljTEh1cEV1WEFyS2Rmc0haZnlNRW9BX1ZTbjBfNVJNLXljd2V5ZlVOSjFwSEhIajI3MkpnSGl2bFF4WHkwcUl6d3lfdw?oc=5"
+      },
+      {
+        "src": "Thai PBS",
+        "title": "ลาดกระบังเร่งอพยพผู้ป่วยติดเตียง – กลุ่มเปราะบางย้ายไปอยู่ศูนย์พักพิงชั่วคราวหลังพบว่าระดับน้ำยังสูง",
+        "ts": "2026-09-27T10:49+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5xSXJVdm1NTHVnLW9JdjFDYkpxS09YRGVZYUNYNTRXNF9wdi1zeVJvMGtJWHZjUVEzYUszVEhQZVZFLXhIS25reDRuMEpuZXJJb3piZEpMbFE?oc=5"
+      },
+      {
+        "src": "Sanook.com",
+        "title": "กทม.แจ้งด่วน! เปิดศูนย์พักพิงน้ำท่วม เขตบางแค 13 แห่ง เช็กที่นี่",
+        "ts": "2026-09-27T10:25+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE5ELTF6TTNyN1Y5eVNncy1OVUZMRVAwVjQ5RlhYSnhiNEpxQTQxekMtT0VOX3d5Y0ZTODhEN05IMGpZWDNnem1RaS1aMUs?oc=5"
+      },
+      {
+        "src": "prd.go.th",
+        "title": "รัฐบาลเผยกองทัพระดมกำลังช่วยผู้ประสบอุทกภัย กทม.–9 จังหวัด เร่งอพยพผู้ป่วยติดเตียง–กลุ่มเปราะบาง เสริมแนวป้องกันน้ำ ดูแลโรงพยาบาล–ชุมชน",
+        "ts": "2026-09-27T10:23+07:00",
+        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE50eTRrVmJpMndCRGhldU5fRk96cVRua09aY2l0ZEVpVFVYZHFFWEtnNGw4bHJEamFDOFZSWHBJUXdaZkMtMndGdGx4THpwcFBNS0NHR0JILVBZbGJwMXZMbjlaNzZBVGFPVVVoZEExQjdUYnM?oc=5"
+      },
+      {
+        "src": "facebook.com",
+        "title": "BANGKOK: ‘ชัชชาติ’ รับ กทม. แม้ฝนลด แต่ยังต้องเฝ้าระวังทุกจุด โดยเฉพาะริมคลอง เร่งระบายน้ำ คาด ใช้เวลา 2 วัน จราจรกลับมาปกติ แต่ในชุมชนแห้งสนิทต้องใช้ 2 สัปดาห์ ชี้ ฝั่งธนไม่น่าห่วง ระบายได้เร็ว วันนี้ (27 ก.ย. 69) นายชัชชาติ สิทธิพันธุ์ ผู้ว่าราชการกรุงเทพมหานครให้สัมภาษณ์ถึงส",
+        "ts": "2026-09-27T10:20+07:00",
+        "url": "https://news.google.com/rss/articles/CBMinAdBVV95cUxQeUhMTnJLRFlncFRmbVgyb243dHl6WWlTR3VtSXJFSmR3MXFJbVlOS1FsNHhHejhOZTUtby1RQzNxby1IUm52LUVNOG0yY0xZSTUtMHpUQmNlVG1VUS1wM0kxcGlHVGNWek82dVREc3NkMExiY1I2ZnhabHIzSzliWWJSYjExNDBHa1hKTUx2R2EtcmRaa2lZaXFLV1JYRHAyQUJHZWpLQk02b0UtQWcxdW1lREptQ3BKa0diSjgydW1qZEd3NFdEN0Y0UUVwTmtTUm1JYVdtYU9hdEIydWF4VVZmT05LZ0lzenpRV2tOeVNKNDVaOEhJWFR2S2d0Z2IzVkE3Z3o3SDFJSkludC1FZnNwdldaUU1NT0s1MnFxR3otdlgwWEpJZmpvZVdWR2lWVlFPUURrVnFnXy0xeFNmd3lLWFBmUGZCVV9yYkMwRGVQX0hLTFBvQjdzN3Mza1lXa0MxWGF1UHF2ZFRiYmpQNmUtdzVQX3pCUmJBcUFTM0RFU052VjRIMHhvd3BVcUowMklHa2xFSnptWkd5cEpnNU1OcFQyTE52cWs2bEhHQXJEbWJ3b1RkcFNtOEFJRS1nblhsXzdkTzQteFRLZlE5UjNJSGJNUmx3Um9XSm81bkJscGxpZnl1MkhzQWhfSFdJaElwS3k2SnMxZXJOYWRkaXc5V2MtamxHYWFOUWxJYjFmNkNZaUQ4SzNWaUY0RkZMbEM0WE1BbGMtZHZqOEVzeWpYOEdVc0VGZmg5NXlreWxMbFlQUE9vN2ZJbkVvbEdMa0tXSVZwcWE5NHVqQ0JMWjZIZ3VScGpibWdLdGlLN1ZQN21oNFlqeHZBWHQ0YWQ5TWNwUFBKSTVhZUx3Qmc1LWZYR2xVMUpHcTNnRkw0TWUyd1JMQXJSMnpQX3hIdmdMWUc1U0pDZUFaNzJSMXR2T28zY1lkUkE5elJRWDVlbC1hdnktZmowZUl4NzVFdHFBeXhhamZtNWt3cGhYS1M4WGRhTUpqbFlkN29CZWFTUTE4QmNyWjdlZ3VPT1VFZVRvaTh6bHNNZFFYNVN0bTd1OERndjlCQ3c4bDJjSGlIVHRnM3Y2azZkMzA5NXl1cVFETzE2M2lCZ2tScFlwOXl5NU9Vc092TG5xbk5VV2NBTFJKOVJiMi1RYzUyamctTzBwdHBrVlpTNWhQMVJvNWZZT1VxX3pQaGk0V0RFcEJySURCQWhNQUd5ODRZMEg?oc=5"
+      },
+      {
+        "src": "ข่าวหุ้นธุรกิจออนไลน์",
+        "title": "รัฐระดมทหารลุยน้ำท่วม “กทม.-9 จังหวัด” เร่งอพยพกลุ่มเปราะบาง-เสริมแนวกั้นป้องกันชุมชน",
+        "ts": "2026-09-27T10:18+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5Kb1VQQkFibTU2UG9yWm81RnhWWjVhQ2NFOWVnYmdCWGNlNVZyalg3RW55N3FwZzc5OHNoc083MlhLcDg1SFhvaDdySQ?oc=5"
+      },
+      {
+        "src": "thaipost.net",
+        "title": "เตือนพหลโยธินน้ำท่วมสูง! ปภ.ส่งแจ้งศูนย์พักพิงเข้ามือถือประชาชน",
+        "ts": "2026-09-27T09:42+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5FSXB6YW02SkdJQWtETUpFMUY4SFBEQ0V5SW15akJZRXgyMFNOTFdLTkZuUmlabnNsMk1uT0RCSkt5bzRRa1FCY1ItWGFHLTdKbDFNbUp5SHU?oc=5"
+      },
+      {
+        "src": "ข่าวสด",
+        "title": "ปภ.จันทบุรีขึ้นธงแดง เตือนมวลน้ำทะลักเมือง ระดมเจ็ตสกี-เรือกู้ภัยอพยพชาวบ้าน เสียชีวิต 2 ราย",
+        "ts": "2026-09-27T09:42+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1sbkJYZnpESFczM204RlJkUWJva282LURzUElybmNsWWJZd04wUXZkZS0zaVlzRDlBd1J4QlM1OGpELTFHMGRfT0wzR016RldGeERpakx1SFRTYnpoLUFrbHdqMDA3dw?oc=5"
+      },
+      {
+        "src": "ผู้จัดการออนไลน์",
+        "title": "เจ้าหน้าที่เร่งอพยพผู้ประสบภัยน้ำท่วมซอยสามัคคีช่วยเหลือผู้สูงอายุ-ผู้ป่วยค้างในพื้นกว่า 70 ราย",
+        "ts": "2026-09-27T08:39+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFA3OGdOak1pQVg2S1JLSW1SMXlqOEJkOWIzRTU2TGJLdFg4cUhOT2lHdk1wSy0xWkVVSjFGdE02eWh5VkdObk5OOE9wR2RpRWhIUmNOaUtZZmlQcEd5?oc=5"
+      },
+      {
+        "src": "prd.go.th",
+        "title": "น้ำท่วมกรุงเทพฯ รู้ไว้…หากต้องอพยพ พักที่ไหน?",
+        "ts": "2026-09-27T08:18+07:00",
+        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9xRFNMWFNvMndxRUVsNEViOHdmNnRWaWhSdGlCN1FxSEdoak8yeDcwZVNqb2o2TUpYYkFpdTlzbzRDUXplUVZpMjNCOVJvR3pKdHplR1BlRXFlZktHR3dEcEgwSDYyMHJmZXpuLUo4WFR4V1U?oc=5"
+      },
+      {
+        "src": "thairath.co.th",
+        "title": "แอ๊ด คาราบาว เจอน้ำท่วมถึงในบ้าน อพยพน้องหมา 2 ตัว ลั่นไม่เคยเจอหนักขนาดนี้",
+        "ts": "2026-09-27T07:30+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5mbUdoSENCR1NjR1dWWnlQbi1jeGtrRjlhdFFuam41Y3p3MmxnVTJWdkYzLVFPVTNFSVFRbGtoeFp2a2R0S2xfUlBOMmtaZXdDT3lnOE83Zkd0bDRiZHc?oc=5"
+      },
+      {
+        "src": "สำนักสารนิเทศ สำนักงานปลัดกระทรวงสาธารณสุข",
+        "title": "สระแก้วเร่งอพยพกลุ่มเปรทะบางริมน้ำ",
+        "ts": "2026-09-27T04:07+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBZNGxyajVLWkhzNTJzU2lhaklPZXpWdkNfYVhhWUtwSFRyM01iWXdKQkxxOEtnOVhNYkVhRlI2cTFpMWVlNXpKeWRSRzFjRUpQQmNzYl9feGpZZw?oc=5"
+      },
+      {
+        "src": "LINE TODAY",
+        "title": "ผอ.เขตจตุจักร ลงพื้นที่ ศูนย์พักพิงโรงเรียนวัดเทวสุนทร ส่งต่อความห่วงใย ดูแลประชาชนตลอดคืน",
+        "ts": "2026-09-27T03:16+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9lSF9MSkEtcUxFSXhqQ1pUekY5Yk12ejBlcmp4R2dFTHFEc19MRy1hM3VsOU0wME16RUEyRUJWa2dBaWxaaktxbE5pUmVZSDBKYjNRSHZ3?oc=5"
+      },
+      {
+        "src": "ททบ. 5",
+        "title": "ทหารเร่งช่วยผู้ประสบภัยน้ำท่วม ขนย้ายสิ่งของ-อพยพกลุ่มเปราะบางหลายพื้นที่",
+        "ts": "2026-09-27T03:00+07:00",
+        "url": "https://news.google.com/rss/articles/CBMipAdBVV95cUxNb2JyTjVKUF9oYW5OOGYzU2ExSktlTEJETjNhdVJBOTVPMld2c0M2ZnFJM1d0Uk1JUHhmV0lqYWpGeFVMNzV2V3RTaGd0MjNfbnlJaU1Kd0ZTeWtOWWx1Z2RUUjBZMnY5bWlJeXZWT0dERXFVS2ZFRE1WendrZjNFN3JTd0JmdS1kUFhEZ04tVjdPSkJzTUdVd09qVHNFeHNnTS1oMzVvOTlBMXRVYXNJWHNiQzdzYkxtYlVkNkxOVzZkVVY2bnlGTzdLaldXTmRab0ZIdFV1NTRtUTJNTEhXMmdub1dvaHhKcHphcUNpQnpQMnFjeHRoZ21TOGpDZzNEQXNYRU1PQVBJTG9temtiNjV6Z2dHUnplTnVaaFJWdGR0ZV94UTJReS1vUFFORURLOWFQaDlCVkxpM1dWQlF5ZmNSd3lIbm1HTzN1UWVfT0hvN0JEQlNhbEJELWRFVnM3Y0RfeFRjbFh6d0lPQmRoLURhVTIxQU1QOVVXdFFtakNqa1N5UWdkMmVLSDh4VC0xdlJZeXJkQTEzc2M5cC1EOXdRZDkwUGszbW5zRWpneGtWc3pmQ3RReUl6cWhLLWZSQ05WSi1hXzQ1M0dTQUlwRjVVek5TSmNqSGtFMVhKSzUxTG5hTXJkT1hhM2R3V3JFeFNZdVl2ak42WGpMRjFKS056cjZPM0hMOENxT0NxRko1eGZVanlNUk5HcnE3QXhDSHhjbkJHZC1JTEdZYk83UkE5UEEyZGlBQTdJYnB3alpGTkNYd2s5UVQwZmtpZVIxc1NrRmVkd0gzeDVIMDQ4bzJpczByT0l1X2lWZFNmRnVVS0xwQzMyYlJXVjltUWo2ZkpLd21zeFp6azF1T0ZwVzZGek9CcGprV0VxNlp2RGhxaXZpalpsMGZyWW43eFprN2JHS2JCZmo4X0l3ZXVvX0RSQ0xpcW84Yl9OSjhUQ2hYdURKZE03Y3pCSWZnYm1wcGRkelVjYnBHdmJQOFlaNF9xTTZYT1p2cVlJVU9yRG5FNk5FajNpNFp6VVZQLVEwVlJCT1dRdkVRaG9EWHNpMzRVRm52cVVwakRwNjREY1RvY2QzQnVLck9VX2hUR0N4U2dJaWZVZTI0Tm5FWHNrYXJmeTZzVU05cFNlT1oxQ2luU01GY2ZfVG5tVlYyY29BZDNYUjlrYjJ1RUFVUXFzbGZpNmhNRmRtV3FiVUtZQU9GeF9PZGUyR2hzcUVMQTB1Ujl6cg?oc=5"
+      },
+      {
+        "src": "js100.com",
+        "title": "ผู้ว่าฯ ชัชชาติ ลงพื้นที่เคหะชุมชนร่มเกล้า เร่งส่งความช่วยเหลือ–เตรียมแผนอพยพ",
+        "ts": "2026-09-27T02:30+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5LNGdUZUxaQ0lmR3ZoTHBZRTdNWmFvcHFQQmh0dkR2amY2LXBBOTgwekhTT0hCMW9IZ2RadEJLbEplN0o2bVBWV0xYZDhGd0JTbDBEUTFkREZaUQ?oc=5"
+      },
+      {
+        "src": "ททบ. 5",
+        "title": "ปภ.เตือนด่วน! ฝนเขาใหญ่เกิน 177 มม. เสี่ยงน้ำป่า",
+        "ts": "2026-09-27T01:54+07:00",
+        "url": "https://news.google.com/rss/articles/CBMioARBVV95cUxPeDZPakNta1QxZjE2bDktZUZhcnQ4el9KREhCUWJXajhmTlFSNF9ibGZhTkpueldTTWstYzRCNzNfOVI1ekFZZkZDbnV2SWJVQUhZRVdtM1NBRnFQTXBoaWQyYWctNjRXRW0xbzV3aXRPOTg3ZmdpS2lreUIyaGFqNVlBNUhscTF4a1Z2NTlKUmU1VXBHcjBHSlJvMmdKRHlERzFYbzlyaUt5TEV5alVXcmJEVVlSU3l3VzRFZHktdWtaeDJROWs4S0VzekVlWkJRS3I4RC1NVnFLSWtGTnB1bDVtRG9uaV9rMEN4ZFZRTXhXUEg1aGVsLVZtaTBmQ1RUb1hSSmtyd2lhM2V0c1o5VHVfbTk5Mk5YUWNNLXVoZmYwZk1UNkktdHBTWmtTWGtHSEVOYm1QemlrNzBXWldtQVJLdDgyYTJES2t4MktNWEJ1TzlwdmxLelpZUmRraTVROTVncjMyN2Zmd0ZQQjBGZUF0X3RmUE1ZZHpQWmpnWGhmQkotazhDVTQzVTdoSGY3UXlHVDlIckZoWUNwOFpKcVF6V1dCdjM5Q01WeFg3bDdFdmpmSloxX202Q3lEa0x5Uzl5YUp4d2pPLVVhODlBM2ZRZ3MwUGR2OGhqdmc3aDl1Q002OWRTcmpZS0FUMlk1N2l4aTVLOVJLMDIzMXl2cDhiU01FemZPSWphMHluY2oxZnZkWGFPdTlfc213Zzc3?oc=5"
+      },
+      {
+        "src": "LINE TODAY",
+        "title": "กทม. รายงาน รมว.ดีอี–มท.4 เร่งระบายน้ำ–จัดรถยกสูงช่วยอพยพ เปิดศูนย์พักพิง–เตรียม Cell Broadcast แจ้งข้อมูลรายเขต",
+        "ts": "2026-09-26T23:47+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1VdV9lS01NUUM3ZUlBTGdZdGdGd3ZRYVVMY1M2Z2E1bkVfOVV3R1ZNYldoZlJ3TGczR1NsWHcwMkJneE9hVkwxM1dGSUZNa1E1WjJNcE1vMWNrLTNHdEh5TG94ZEY?oc=5"
+      },
+      {
+        "src": "สวพ.FM91",
+        "title": "กทม. ประชุมออนไลน์ร่วมกับนายกฯ ติดตามน้ำท่วม ฝนสะสมกว่า 300 มม. อพยพแล้ว 4,200 คน เปิดศูนย์พักพิง 233 แห่ง",
+        "ts": "2026-09-26T23:26+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9uOGJDUWdKUy04WUNfLTVJSVdQNDkxaU1EZDNRaHZyaVdsNVpHYWJZY2MxVFhUdGkzMnNKRVdjank1QjhOWjVXb0xzYU9nb3oyS2FZ?oc=5"
+      },
+      {
+        "src": "ch7.com",
+        "title": "กู้ภัยฯ ลุยน้ำอพยพชาวบ้าน",
+        "ts": "2026-09-26T23:04+07:00",
+        "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFBzYVpKV3FWajY5Sm5tYmMxSjVqRVM3YTE4U0lBdVg5am93S3lnVDAxUC03YWRGU1NqOTJyVFV2My1Hb2JkOXBTLXVJZw?oc=5"
+      }
+    ]
+  },
+  "radar": {
+    "fetched": "2026-09-27T11:12+07:00",
+    "frames": 8,
+    "source": "https://weather.tmd.go.th/svp120loop.php"
+  },
+  "river": [
+    {
+      "date": "2026-09-13",
+      "q": 4569.88,
+      "qmax": 4644.15
+    },
+    {
+      "date": "2026-09-14",
+      "q": 4580.42,
+      "qmax": 4590.98
+    },
+    {
+      "date": "2026-09-15",
+      "q": 4364.16,
+      "qmax": 4435.09
+    },
+    {
+      "date": "2026-09-16",
+      "q": 4254.98,
+      "qmax": 4384.31
+    },
+    {
+      "date": "2026-09-17",
+      "q": 4158.11,
+      "qmax": 4225.69
+    },
+    {
+      "date": "2026-09-18",
+      "q": 4206.27,
+      "qmax": 4235.43
+    },
+    {
+      "date": "2026-09-19",
+      "q": 4364.16,
+      "qmax": 4374.22
+    },
+    {
+      "date": "2026-09-20",
+      "q": 4424.88,
+      "qmax": 4496.8
+    },
+    {
+      "date": "2026-09-21",
+      "q": 4633.47,
+      "qmax": 4676.35
+    },
+    {
+      "date": "2026-09-22",
+      "q": 4874.28,
+      "qmax": 4919.39
+    },
+    {
+      "date": "2026-09-23",
+      "q": 5115.82,
+      "qmax": 5151.29
+    },
+    {
+      "date": "2026-09-24",
+      "q": 4999.34,
+      "qmax": 5057.25
+    },
+    {
+      "date": "2026-09-25",
+      "q": 5068.91,
+      "qmax": 5356.97
+    },
+    {
+      "date": "2026-09-26",
+      "q": 5583.7,
+      "qmax": 5983.12
+    },
+    {
+      "date": "2026-09-27",
+      "q": 5766.66,
+      "qmax": 6066.36
+    },
+    {
+      "date": "2026-09-28",
+      "q": 6294.06,
+      "qmax": 7815.28
+    },
+    {
+      "date": "2026-09-29",
+      "q": 6515.28,
+      "qmax": 9637.29
+    },
+    {
+      "date": "2026-09-30",
+      "q": 6590.74,
+      "qmax": 10763.65
+    },
+    {
+      "date": "2026-10-01",
+      "q": 6545.36,
+      "qmax": 11613.49
+    },
+    {
+      "date": "2026-10-02",
+      "q": 6425.88,
+      "qmax": 11427.79
+    },
+    {
+      "date": "2026-10-03",
+      "q": 6236.35,
+      "qmax": 10542.86
+    },
+    {
+      "date": "2026-10-04",
+      "q": 6066.36,
+      "qmax": 9681.78
+    },
+    {
+      "date": "2026-10-05",
+      "q": 5873.89,
+      "qmax": 9014.71
+    },
+    {
+      "date": "2026-10-06",
+      "q": 5726.96,
+      "qmax": 8510.38
+    },
+    {
+      "date": "2026-10-07",
+      "q": 5687.53,
+      "qmax": 8127.31
+    },
+    {
+      "date": "2026-10-08",
+      "q": 5726.96,
+      "qmax": 7797.3
+    },
+    {
+      "date": "2026-10-09",
+      "q": 5687.53,
+      "qmax": 7497.94
+    },
+    {
+      "date": "2026-10-10",
+      "q": 5583.7,
+      "qmax": 7226.7
+    }
+  ],
+  "roads": {
+    "asof": "08:00",
+    "headline": "เช้านี้ กทม. แนะเลี่ยง 31 เส้นทาง บางจุดยังอ่วมน้ำท่วมขังสูง เช็กเลยมีที่ไหนบ้าง",
+    "items": [
+      {
+        "depth": 20,
+        "p": [
+          13.86336,
+          100.61656
+        ],
+        "road": "ถ.รามอินทรา",
+        "segs": [
+          {
+            "a": [
+              13.8708,
+              100.60718
+            ],
+            "b": [
+              13.86628,
+              100.6128
+            ],
+            "from": "ซ.รามอินทรา 5",
+            "to": "ซ.รามอินทรา 13/1"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.83872,
+          100.57492
+        ],
+        "road": "ถ.พหลโยธิน",
+        "segs": [
+          {
+            "a": [
+              13.86638,
+              100.59074
+            ],
+            "b": [
+              13.85639,
+              100.58928
+            ],
+            "from": "ซ.พหลโยธิน 51",
+            "to": "ถ.ผลาสินธุ์"
+          },
+          {
+            "near": "ถ.ประเสริฐมนูกิจ",
+            "p": [
+              13.83099,
+              100.61697
+            ]
+          },
+          {
+            "near": "ซ.พหลโยธิน 55",
+            "p": [
+              13.87122,
+              100.59086
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.88929,
+          100.59408
+        ],
+        "road": "ถ.เทพรักษ์",
+        "segs": [
+          {
+            "a": [
+              13.76917,
+              100.54055
+            ],
+            "b": [
+              13.89029,
+              100.60792
+            ],
+            "from": "ถ.พหลโยธิน",
+            "to": "ซ.พหลโยธิน 50"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.85056,
+          100.64105
+        ],
+        "road": "ถ.วัชรพล",
+        "segs": [
+          {
+            "near": "ซ.วัชรพล 3",
+            "p": [
+              13.88839,
+              100.63879
+            ]
+          },
+          {
+            "a": [
+              13.87916,
+              100.64445
+            ],
+            "b": [
+              13.88929,
+              100.59408
+            ],
+            "from": "ซ.วัชรพล 2/7",
+            "to": "ถ.เทพรักษ์"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.89506,
+          100.55484
+        ],
+        "road": "ถ.แจ้งวัฒนะ",
+        "segs": [
+          {
+            "a": null,
+            "b": [
+              13.87638,
+              100.59733
+            ],
+            "from": "หลักสี่สแควร์ ซ.1",
+            "to": "วงเวียนอนุสาวรีย์หลักสี่"
+          },
+          {
+            "a": [
+              13.88729,
+              100.57734
+            ],
+            "b": [
+              13.88287,
+              100.58001
+            ],
+            "from": "ซ.แจ้งวัฒนะ 10 แยก 1-1-6",
+            "to": "ถ.กำแพงเพชร 6"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.79347,
+          100.65214
+        ],
+        "road": "ถ.นวมินทร์",
+        "segs": [
+          {
+            "near": "ซ.นวมินทร์ 155",
+            "p": [
+              13.82867,
+              100.65515
+            ]
+          },
+          {
+            "a": [
+              13.79458,
+              100.65232
+            ],
+            "b": [
+              13.7888,
+              100.64953
+            ],
+            "from": "ซ.นวมินทร์ 38",
+            "to": "ซ.นวมินทร์ 59 แยก 1"
+          },
+          {
+            "near": "ซ.นวมินทร์ 107",
+            "p": [
+              13.80579,
+              100.64621
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.83099,
+          100.61697
+        ],
+        "road": "ถ.ประเสริฐมนูกิจ",
+        "segs": [
+          {
+            "near": "ถ.นวมินทร์",
+            "p": [
+              13.76681,
+              100.64787
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.74692,
+          100.60493
+        ],
+        "road": "ถ.รามคำแหง",
+        "segs": [
+          {
+            "a": [
+              13.76066,
+              100.61992
+            ],
+            "b": [
+              13.76089,
+              100.62132
+            ],
+            "from": "ซ.รามคำแหง 53",
+            "to": "ซ.รามคำแหง 55 (ฉิมหิรัญ 1)"
+          },
+          {
+            "a": [
+              13.75878,
+              100.61622
+            ],
+            "b": [
+              13.76378,
+              100.61578
+            ],
+            "from": "ซ.รามคำแหง 41/1",
+            "to": "ซ.รามคำแหง 43/1"
+          },
+          {
+            "a": [
+              13.75349,
+              100.61333
+            ],
+            "b": [
+              13.75242,
+              100.60837
+            ],
+            "from": "ซ.รามคำแหง 20",
+            "to": "ซ.รามคำแหง 13"
+          },
+          {
+            "a": [
+              13.75958,
+              100.60506
+            ],
+            "b": [
+              13.74994,
+              100.59842
+            ],
+            "from": "ซ.รามคำแหง 21",
+            "to": "ถ.พระราม 9"
+          },
+          {
+            "a": [
+              13.75765,
+              100.61354
+            ],
+            "b": [
+              13.75727,
+              100.61316
+            ],
+            "from": "ซ.รามคำแหง 35",
+            "to": "ซ.รามคำแหง 33"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.75497,
+          100.62958
+        ],
+        "road": "ถ.หัวหมาก",
+        "segs": [
+          {
+            "near": "ซ.รามคำแหง 24",
+            "p": [
+              13.75254,
+              100.61684
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.6685,
+          100.64485
+        ],
+        "road": "ถ.ศรีนครินทร์",
+        "segs": [
+          {
+            "a": [
+              13.76182,
+              100.64557
+            ],
+            "b": [
+              13.75723,
+              100.64685
+            ],
+            "from": "แยกลำสาลี",
+            "to": "ซ.ศรีนครินทร์ 1"
+          },
+          {
+            "a": [
+              13.73968,
+              100.64344
+            ],
+            "b": [
+              13.73797,
+              100.64156
+            ],
+            "from": "ทางบริการด้านขวาทาง ถนนกรุงเทพฯ-ชลบุรี",
+            "to": "ทางลอดใต้ทางแยกพัฒนาการ"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.83197,
+          100.59127
+        ],
+        "road": "ถ.เสนานิคม 1",
+        "segs": [
+          {
+            "a": [
+              13.83589,
+              100.58225
+            ],
+            "b": [
+              13.83261,
+              100.58407
+            ],
+            "from": "เสนานิคม 1 ซ.11",
+            "to": "ถ.เสนานิคม 1 ซ.22"
+          },
+          {
+            "near": "ซ.เสนานิเวศน์ 117/1",
+            "p": [
+              13.8286,
+              100.608
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": null,
+        "road": "ถ.วิภาวดีขาออก",
+        "segs": [
+          {
+            "near": "ถ.วิภาวดีรังสิต",
+            "p": [
+              13.8997,
+              100.59002
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.91377,
+          100.58892
+        ],
+        "road": "ถ.ช่างอากาศอุทิศ",
+        "segs": [
+          {
+            "a": [
+              13.91825,
+              100.58651
+            ],
+            "b": [
+              13.91194,
+              100.58966
+            ],
+            "from": "ซ.นิเวศน์ชาวฟ้า",
+            "to": "ซ.ช่างอากาศอุทิศ 5"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.69665,
+          100.85446
+        ],
+        "road": "ถ.หลวงแพ่ง",
+        "segs": [
+          {
+            "a": [
+              13.71917,
+              100.7912
+            ],
+            "b": [
+              13.71496,
+              100.82147
+            ],
+            "from": "ซ.ยุคลรัตน์",
+            "to": "ถ.ประชาพัฒนา"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.75385,
+          100.76668
+        ],
+        "road": "ถ.เจ้าคุณทหาร",
+        "segs": [
+          {
+            "a": [
+              13.75243,
+              100.77279
+            ],
+            "b": [
+              13.75826,
+              100.7764
+            ],
+            "from": "ซ.คุ้มเกล้า 44",
+            "to": "ถ.คุ้มเกล้า"
+          },
+          {
+            "a": [
+              13.75826,
+              100.7764
+            ],
+            "b": [
+              13.75415,
+              100.78682
+            ],
+            "from": "ถ.คุ้มเกล้า",
+            "to": "ซ.ยุพลพัฒน์วัฒนา"
+          },
+          {
+            "near": "ซ.หลังไอซีดี",
+            "p": [
+              13.76375,
+              100.76139
+            ]
+          },
+          {
+            "near": "ซ.ฉลองกรุง 17",
+            "p": [
+              13.75005,
+              100.79064
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.83412,
+          100.6264
+        ],
+        "road": "ถ.สุคนธสวัสดิ์",
+        "segs": [
+          {
+            "near": "ซ.สุคนธสวัสดิ์ 27",
+            "p": [
+              13.83731,
+              100.63004
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.80125,
+          100.59634
+        ],
+        "road": "ถ.โชคชัย 4",
+        "segs": [
+          {
+            "near": "โชคชัย 4 ซ.42",
+            "p": [
+              13.81192,
+              100.59821
+            ]
+          },
+          {
+            "a": [
+              13.80924,
+              100.5986
+            ],
+            "b": [
+              13.80667,
+              100.59597
+            ],
+            "from": "ซ.โชคชัย 4 ซ.30",
+            "to": "โชคชัย 4 ซ.29"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.80448,
+          100.59036
+        ],
+        "road": "ถ.ลาดพร้าววังหิน",
+        "segs": [
+          {
+            "a": [
+              13.8256,
+              100.5908
+            ],
+            "b": [
+              13.79751,
+              100.59557
+            ],
+            "from": "ซ.ลาดพร้าววังหิน 83",
+            "to": "ถ.โชคชัย 4"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.80408,
+          100.86682
+        ],
+        "road": "ถ.สุวินทวงศ์",
+        "segs": [
+          {
+            "a": [
+              13.81255,
+              100.72786
+            ],
+            "b": [
+              13.92194,
+              100.70145
+            ],
+            "from": "ถ.สีหบุรานุกิจ",
+            "to": "ถ.หทัยราษฎร์"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.81252,
+          100.72988
+        ],
+        "road": "ถ.สีหบุรานุกิจ",
+        "segs": [
+          {
+            "near": "ซ.สีหบุรากิจ 5",
+            "p": [
+              13.81313,
+              100.72328
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": null,
+        "road": "ถ.วชิรธรรมสาธิต",
+        "segs": [
+          {
+            "near": "ซ.วัดทุ่ง",
+            "p": [
+              13.68776,
+              100.63522
+            ]
+          }
+        ]
+      },
+      {
+        "depth": null,
+        "p": [
+          13.71246,
+          100.60663
+        ],
+        "road": "ถ.อ่อนนุช",
+        "segs": [
+          {
+            "a": [
+              13.74047,
+              100.60131
+            ],
+            "b": [
+              13.72024,
+              100.68481
+            ],
+            "from": "ถ.พัฒนาการ",
+            "to": "ซ.อ่อนนุช 84"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.71404,
+          100.59442
+        ],
+        "road": "ถ.สุขุมวิท 71",
+        "segs": [
+          {
+            "a": [
+              13.73963,
+              100.59991
+            ],
+            "b": [
+              13.73874,
+              100.59777
+            ],
+            "from": "ซ.ปรีดี พนมยงค์ 54",
+            "to": "ซ.ปรีดี พนมยงค์ 47"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.7336,
+          100.64667
+        ],
+        "road": "ถ.พัฒนาการ",
+        "segs": [
+          {
+            "a": [
+              13.72307,
+              100.64724
+            ],
+            "b": [
+              13.73045,
+              100.65518
+            ],
+            "from": "ซ.พัฒนาการ 58",
+            "to": "ซ.พัฒนาการ 57/1"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.80525,
+          100.57493
+        ],
+        "road": "ถ.ลาดพร้าว",
+        "segs": [
+          {
+            "a": [
+              13.80102,
+              100.61776
+            ],
+            "b": [
+              13.77247,
+              100.62651
+            ],
+            "from": "ซ.ลาดพร้าว 87",
+            "to": "ซ.ลาดพร้าว 126"
+          },
+          {
+            "a": [
+              13.77159,
+              100.6154
+            ],
+            "b": [
+              13.7761,
+              100.62597
+            ],
+            "from": "ซ.ลาดพร้าว 112",
+            "to": "ซ.ลาดพร้าว 122 แยก 1"
+          }
+        ]
+      },
+      {
+        "depth": 20,
+        "p": [
+          13.77454,
+          100.61115
+        ],
+        "road": "ถ.อินทราภรณ์",
+        "segs": [
+          {
+            "a": [
+              13.77018,
+              100.60892
+            ],
+            "b": [
+              13.77004,
+              100.6126
+            ],
+            "from": "ทาวน์อินทาวน์ ซ.2",
+            "to": "ซ.หมู่บ้านบดินทรรักษา"
+          }
+        ]
+      },
+      {
+        "depth": 15,
+        "p": [
+          13.80593,
+          100.60777
+        ],
+        "road": "ถ.นาคนิวาส",
+        "segs": [
+          {
+            "a": [
+              13.81422,
+              100.61227
+            ],
+            "b": [
+              13.81303,
+              100.61003
+            ],
+            "from": "ซ.นาคนิวาส 40",
+            "to": "ซ.นาคนิวาส 45"
+          }
+        ]
+      },
+      {
+        "depth": 15,
+        "p": [
+          13.6987,
+          100.67488
+        ],
+        "road": "ถ.เฉลิมพระเกียรติ ร.9",
+        "segs": [
+          {
+            "near": "เฉลิมพระเกียรติ ร.9 ซ.45",
+            "p": [
+              13.69794,
+              100.67104
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 10,
+        "p": [
+          13.77373,
+          100.65606
+        ],
+        "road": "ถ.เสรีไทย",
+        "segs": [
+          {
+            "near": "ซ.เสรีไทย 56",
+            "p": [
+              13.79791,
+              100.70066
+            ]
+          }
+        ]
+      },
+      {
+        "depth": 10,
+        "p": [
+          13.72163,
+          100.76563
+        ],
+        "road": "ถ.ลาดกระบัง",
+        "segs": [
+          {
+            "a": [
+              13.71985,
+              100.73377
+            ],
+            "b": [
+              13.66064,
+              100.71791
+            ],
+            "from": "ซ.ลาดกระบัง 24/1",
+            "to": "ถ.กิ่งแก้ว"
+          }
+        ]
+      },
+      {
+        "depth": 10,
+        "p": [
+          13.92051,
+          100.68588
+        ],
+        "road": "ถ.สุขาภิบาล 5",
+        "segs": [
+          {
+            "a": [
+              13.89609,
+              100.65728
+            ],
+            "b": null,
+            "from": "ซ.สุขาภิบาล 5 ซ.41",
+            "to": "ซ.สุขาภิบาล 5 ซ.46"
+          }
+        ]
+      }
+    ],
+    "published": "2026-09-27T08:59:15+07:00",
+    "source": "https://www.thairath.co.th/news/local/bangkok/2962310"
+  },
+  "thaiwater": {
+    "area": [
+      {
+        "amphoe": "พระประแดง",
+        "bank": 0.91,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKC004",
+        "diff": 0.59,
+        "dwl": 0.15,
+        "lvl": 5,
+        "name": "ปตร. คลองลัดบางยอ 2",
+        "over": true,
+        "pct": 123.47,
+        "prov": "สมุทรปราการ",
+        "q": null,
+        "t": "2026-09-24 17:40",
+        "wl": 1.5
+      },
+      {
+        "amphoe": "บางเขน",
+        "bank": 2.2,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK021",
+        "diff": 0.56,
+        "dwl": 0,
+        "lvl": 5,
+        "name": "คลองลาดพร้าว วัดบางบัว",
+        "over": true,
+        "pct": 122.06,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 2.76
+      },
+      {
+        "amphoe": "เมืองปทุมธานี",
+        "bank": 1.29,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK002",
+        "diff": 0.49,
+        "dwl": 0,
+        "lvl": 5,
+        "name": "คลองเปรมประชากร หลักหก",
+        "over": true,
+        "pct": 118.39,
+        "prov": "ปทุมธานี",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 1.78
+      },
+      {
+        "amphoe": "บางเลน",
+        "bank": 1.8,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "T.15",
+        "diff": 0.6,
+        "dwl": 0,
+        "lvl": 5,
+        "name": "วัดบางไผ่นารถ",
+        "over": true,
+        "pct": 107.96,
+        "prov": "นครปฐม",
+        "q": null,
+        "t": "2026-09-27 10:00",
+        "wl": 2.4
+      },
+      {
+        "amphoe": "นครชัยศรี",
+        "bank": 1.5,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "T.1",
+        "diff": 0.68,
+        "dwl": 0.02,
+        "lvl": 5,
+        "name": "ที่ว่าการอ.นครชัยศรี",
+        "over": true,
+        "pct": 106.42,
+        "prov": "นครปฐม",
+        "q": null,
+        "t": "2026-09-27 10:00",
+        "wl": 2.18
+      },
+      {
+        "amphoe": "บางเสาธง",
+        "bank": 0.43,
+        "basin": "ลุ่มน้ำบางปะกง",
+        "code": "BKK017",
+        "diff": 0.16,
+        "dwl": 0.01,
+        "lvl": 5,
+        "name": "คลองจระเข้ใหญ่ บางเสาธง (วัดศรีวารีน้อย)",
+        "over": true,
+        "pct": 106.31,
+        "prov": "สมุทรปราการ",
+        "q": null,
+        "t": "2026-09-26 02:20",
+        "wl": 0.6
+      },
+      {
+        "amphoe": "บางเลน",
+        "bank": 2.21,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "THA007",
+        "diff": 0.35,
+        "dwl": 0,
+        "lvl": 5,
+        "name": "บางเลน",
+        "over": true,
+        "pct": 103.57,
+        "prov": "นครปฐม",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 2.55
+      },
+      {
+        "amphoe": "หนองเสือ",
+        "bank": 3.96,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK013",
+        "diff": 0.12,
+        "dwl": 0,
+        "lvl": 5,
+        "name": "คลองระพีพัฒน์แยกใต้ หนองเสือ",
+        "over": true,
+        "pct": 102.69,
+        "prov": "ปทุมธานี",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 4.08
+      },
+      {
+        "amphoe": "ตลิ่งชัน",
+        "bank": 2.07,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK003",
+        "diff": 0.08,
+        "dwl": 0,
+        "lvl": 5,
+        "name": "คลองมหาสวัสดิ บางกรวย-สวนผัก",
+        "over": true,
+        "pct": 101.47,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 09:00",
+        "wl": 2.15
+      },
+      {
+        "amphoe": "สามพราน",
+        "bank": 1.5,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "T.14",
+        "diff": 0.1,
+        "dwl": -0.08,
+        "lvl": 5,
+        "name": "ร.ร.บ้านสามพราน",
+        "over": true,
+        "pct": 100.97,
+        "prov": "นครปฐม",
+        "q": null,
+        "t": "2026-09-27 10:00",
+        "wl": 1.6
+      },
+      {
+        "amphoe": "ลาดกระบัง",
+        "bank": 0.62,
+        "basin": "ลุ่มน้ำบางปะกง",
+        "code": "BKK009",
+        "diff": 0.02,
+        "dwl": 0.01,
+        "lvl": 5,
+        "name": "คลองลำปลาทิว ลาดกระบัง",
+        "over": true,
+        "pct": 100.61,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 0.65
+      },
+      {
+        "amphoe": "นครชัยศรี",
+        "bank": 1.95,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "THA008",
+        "diff": 0.04,
+        "dwl": -0.01,
+        "lvl": 5,
+        "name": "สะพานนครชัยศรี",
+        "over": true,
+        "pct": 100.35,
+        "prov": "นครปฐม",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 1.98
+      },
+      {
+        "amphoe": "ปากเกร็ด",
+        "bank": 2.5,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "CPY014",
+        "diff": 0.22,
+        "dwl": 0,
+        "lvl": 4,
+        "name": "สะพานนวลฉวี",
+        "over": false,
+        "pct": 98.61,
+        "prov": "นนทบุรี",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 2.28
+      },
+      {
+        "amphoe": "ดุสิต",
+        "bank": 2.26,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "C.12",
+        "diff": 0.6,
+        "dwl": -0.13,
+        "lvl": 4,
+        "name": "กรมชลประทานสามเสน",
+        "over": false,
+        "pct": 96.42,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:00",
+        "wl": 1.66
+      },
+      {
+        "amphoe": "ธนบุรี",
+        "bank": 2.16,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "CPY015",
+        "diff": 1.03,
+        "dwl": -0.13,
+        "lvl": 4,
+        "name": "สะพานกรุงเทพ",
+        "over": false,
+        "pct": 94.23,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 09:10",
+        "wl": 1.13
+      },
+      {
+        "amphoe": "บ้านแพ้ว",
+        "bank": 0.96,
+        "basin": "ลุ่มน้ำแม่กลอง",
+        "code": "MKG005",
+        "diff": 0.28,
+        "dwl": 0,
+        "lvl": 4,
+        "name": "บ้านแพ้ว",
+        "over": false,
+        "pct": 91.52,
+        "prov": "สมุทรสาคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 0.68
+      },
+      {
+        "amphoe": "คลองหลวง",
+        "bank": 4.56,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "CAN001",
+        "diff": 0.45,
+        "dwl": 0.01,
+        "lvl": 4,
+        "name": "คลองระพีพัฒน์แยกตก",
+        "over": false,
+        "pct": 91.25,
+        "prov": "ปทุมธานี",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 4.11
+      },
+      {
+        "amphoe": "พระประแดง",
+        "bank": 1.26,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKC002",
+        "diff": 0.37,
+        "dwl": -0.02,
+        "lvl": 4,
+        "name": "ปตร.วัดบางกระเจ้านอก",
+        "over": false,
+        "pct": 86.14,
+        "prov": "สมุทรปราการ",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 0.89
+      },
+      {
+        "amphoe": "สายไหม",
+        "bank": 2.56,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK001",
+        "diff": 0.76,
+        "dwl": 0,
+        "lvl": 4,
+        "name": "คลองลาดพร้าว ท้ายปตร.คลอง2",
+        "over": false,
+        "pct": 83.04,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 1.81
+      },
+      {
+        "amphoe": "ลำลูกกา",
+        "bank": 2.71,
+        "basin": "ลุ่มน้ำบางปะกง",
+        "code": "BKK015",
+        "diff": 1.05,
+        "dwl": 0,
+        "lvl": 4,
+        "name": "คลองหกวา ลำลูกกา คลอง8",
+        "over": false,
+        "pct": 79.68,
+        "prov": "ปทุมธานี",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 1.65
+      },
+      {
+        "amphoe": "เมืองสมุทรสาคร",
+        "bank": 1.93,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "THA009",
+        "diff": 1.9,
+        "dwl": -0.04,
+        "lvl": 4,
+        "name": "เมืองสมุทรสาคร",
+        "over": false,
+        "pct": 78.62,
+        "prov": "สมุทรสาคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 0.03
+      },
+      {
+        "amphoe": "เมืองสมุทรสาคร",
+        "bank": 1.3,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "BKK006",
+        "diff": 0.89,
+        "dwl": -0.02,
+        "lvl": 4,
+        "name": "คลองมหาชัย วัดพันท้ายนรสิงห์",
+        "over": false,
+        "pct": 77.48,
+        "prov": "สมุทรสาคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 0.41
+      },
+      {
+        "amphoe": "พระประแดง",
+        "bank": 1.51,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKC003",
+        "diff": 0.64,
+        "dwl": -0.01,
+        "lvl": 4,
+        "name": "ปตร. คลองลัดบางยอ 1",
+        "over": false,
+        "pct": 73.43,
+        "prov": "สมุทรปราการ",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 0.87
+      },
+      {
+        "amphoe": "พุทธมณฑล",
+        "bank": 2.31,
+        "basin": "ลุ่มน้ำท่าจีน",
+        "code": "VLGE20",
+        "diff": 1.24,
+        "dwl": 0.01,
+        "lvl": 4,
+        "name": "ศาลาดิน",
+        "over": false,
+        "pct": 71.3,
+        "prov": "นครปฐม",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 1.07
+      },
+      {
+        "amphoe": "ไทรน้อย",
+        "bank": 4.05,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK018",
+        "diff": 1.76,
+        "dwl": -0.01,
+        "lvl": 4,
+        "name": "คลองพระพิมล (ไทรน้อย)",
+        "over": false,
+        "pct": 71.17,
+        "prov": "นนทบุรี",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 2.29
+      },
+      {
+        "amphoe": "บางเลน",
+        "bank": 3.96,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK019",
+        "diff": 1.75,
+        "dwl": 0,
+        "lvl": 3,
+        "name": "คลองนราภิรมย์ (บางเลน)",
+        "over": false,
+        "pct": 68.49,
+        "prov": "นครปฐม",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 2.21
+      },
+      {
+        "amphoe": "ลาดพร้าว",
+        "bank": 4.46,
+        "basin": "ลุ่มน้ำบางปะกง",
+        "code": "BKK020",
+        "diff": 2.3,
+        "dwl": 0,
+        "lvl": 3,
+        "name": "คลองลาดพร้าว ปากคลอง2สายใต้",
+        "over": false,
+        "pct": 58.02,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 2.16
+      },
+      {
+        "amphoe": "บางแค",
+        "bank": 1.42,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "BKK005",
+        "diff": 3.42,
+        "dwl": 0.01,
+        "lvl": 3,
+        "name": "คลองภาษีเจริญ เพชรเกษม69",
+        "over": false,
+        "pct": 57.29,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": -2.01
+      },
+      {
+        "amphoe": "วัฒนา",
+        "bank": 2.39,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "AIT001",
+        "diff": 0.92,
+        "dwl": -0.01,
+        "lvl": 3,
+        "name": "อโศก",
+        "over": false,
+        "pct": 51.32,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 1.47
+      }
+    ],
+    "river": [
+      {
+        "amphoe": "เมืองนครสวรรค์",
+        "bank": 25.7,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "C.2",
+        "diff": 3.38,
+        "dwl": 0.01,
+        "lvl": 4,
+        "name": "ค่ายจิรประวัติ",
+        "over": false,
+        "pct": 72.7,
+        "prov": "นครสวรรค์",
+        "q": 1849,
+        "t": "2026-09-27 10:00",
+        "wl": 22.32
+      },
+      {
+        "amphoe": "สรรพยา",
+        "bank": 16.34,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "C.13",
+        "diff": 1.82,
+        "dwl": 0,
+        "lvl": 4,
+        "name": "ท้ายเขื่อนเจ้าพระยา",
+        "over": false,
+        "pct": 87.24,
+        "prov": "ชัยนาท",
+        "q": 1950,
+        "t": "2026-09-27 10:00",
+        "wl": 14.52
+      },
+      {
+        "amphoe": "เมืองสิงห์บุรี",
+        "bank": 13.2,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "C.3",
+        "diff": 2.15,
+        "dwl": 0.01,
+        "lvl": 4,
+        "name": "บ้านบางพุทรา",
+        "over": false,
+        "pct": 86.12,
+        "prov": "สิงห์บุรี",
+        "q": 2048,
+        "t": "2026-09-27 10:00",
+        "wl": 11.05
+      },
+      {
+        "amphoe": "เมืองอ่างทอง",
+        "bank": 9.9,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "C.7A",
+        "diff": 2.16,
+        "dwl": -0.01,
+        "lvl": 4,
+        "name": "บ้านบางแก้ว",
+        "over": false,
+        "pct": 87.01,
+        "prov": "อ่างทอง",
+        "q": 1938,
+        "t": "2026-09-27 10:00",
+        "wl": 7.74
+      },
+      {
+        "amphoe": "พระนครศรีอยุธยา",
+        "bank": 4.35,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "C.35",
+        "diff": 0.25,
+        "dwl": 0.01,
+        "lvl": 5,
+        "name": "บ้านป้อม",
+        "over": true,
+        "pct": 101.84,
+        "prov": "พระนครศรีอยุธยา",
+        "q": 1227,
+        "t": "2026-09-27 10:00",
+        "wl": 4.6
+      },
+      {
+        "amphoe": "ปากเกร็ด",
+        "bank": 2.5,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "CPY014",
+        "diff": 0.22,
+        "dwl": 0,
+        "lvl": 4,
+        "name": "สะพานนวลฉวี",
+        "over": false,
+        "pct": 98.61,
+        "prov": "นนทบุรี",
+        "q": null,
+        "t": "2026-09-27 10:50",
+        "wl": 2.28
+      },
+      {
+        "amphoe": "ดุสิต",
+        "bank": 2.26,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "C.12",
+        "diff": 0.6,
+        "dwl": -0.13,
+        "lvl": 4,
+        "name": "กรมชลประทานสามเสน",
+        "over": false,
+        "pct": 96.42,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 10:00",
+        "wl": 1.66
+      },
+      {
+        "amphoe": "ธนบุรี",
+        "bank": 2.16,
+        "basin": "ลุ่มน้ำเจ้าพระยา",
+        "code": "CPY015",
+        "diff": 1.03,
+        "dwl": -0.13,
+        "lvl": 4,
+        "name": "สะพานกรุงเทพ",
+        "over": false,
+        "pct": 94.23,
+        "prov": "กรุงเทพมหานคร",
+        "q": null,
+        "t": "2026-09-27 09:10",
+        "wl": 1.13
+      }
+    ]
+  },
+  "tmd": {
+    "daily": {
+      "bkk": "มีฝนฟ้าคะนอง ร้อยละ 80 ของพื้นที่ และมีฝนตกหนักบางแห่ง\nอุณหภูมิต่ำสุด 24-25 องศาเซลเซียส\nอุณหภูมิสูงสุด 27-29 องศาเซลเซียส\nลมแปรปรวน ความเร็ว 10-25 กม./ชม.",
+      "central": "มีฝนฟ้าคะนอง ร้อยละ 80 ของพื้นที่ และมีฝนตกหนักบางแห่ง\nบริเวณจังหวัดชัยนาท ลพบุรี สระบุรี สิงห์บุรี อ่างทอง พระนครศรีอยุธยา\nนครปฐม สมุทรสาคร สมุทรสงคราม\nโดยมีฝนตกหนักมากบางพื้นที่บริเวณจังหวัดนครสวรรค์ อุทัยธานี สุพรรณบุรี\nกาญจนบุรี และราชบุรี\nอุณหภูมิต่ำสุด 22-25 องศาเซลเซียส อุณหภูมิสูงสุด 27-31 องศาเซลเซียส\nลมแปรปรวน ความเร็ว 10-25 กม./ชม.",
+      "date": "ประจำวันที่ 27 กันยายน 2569 05.00 น.",
+      "east": "มีฝนฟ้าคะนอง ร้อยละ 70 ของพื้นที่ และมีฝนตกหนักบางแห่ง\nบริเวณจังหวัดปราจีนบุรี สระแก้ว ฉะเชิงเทรา ชลบุรี และระยอง\nโดยมีฝนตกหนักมากบางพื้นที่บริเวณจังหวัดนครนายก จันทบุรี และตราด\nอุณหภูมิต่ำสุด 23-25 องศาเซลเซียส อุณหภูมิสูงสุด 26-28 องศาเซลเซียส\nลมแปรปรวน ความเร็ว 20-40 กม./ชม.\nทะเลมีคลื่นสูง 2-3 เมตร บริเวณที่มีฝนฟ้าคะนองคลื่นสูงมากกว่า 3 เมตร",
+      "overall": "พยากรณ์อากาศ 24 ชั่วโมงข้างหน้า ด้านตะวันตกของภาคกลางมีฝนตกหนักหลายพื้นที่และมีฝนตกหนักมากบางแห่ง กรุงเทพมหานครและปริมณฑล และภาคตะวันออก ฝนเริ่มลดลงแต่ยังคงมีฝนตกต่อเนื่อง และมีฝนตกหนักบางแห่ง ขอให้ประชาชนระวังอันตรายจากฝนตกหนักถึงหนักมากและฝนที่ตกสะสม ซึ่งอาจทำให้เกิดน้ำท่วมฉับพลัน น้ำท่วมสะสม น้ำล้นตลิ่ง และน้ำป่าไหลหลาก รวมทั้งดินโคลนถล่ม โดยเฉพาะพื้นที่ลาดเชิงเขาใกล้ทางน้ำไหลผ่านและพื้นที่ลุ่ม ควรหลีกเลี่ยงการเดินทางผ่านเส้นทางที่มีปัญหาน้ำท่วมซ้ำซาก โดยเฉพาะพื้นที่ลุ่มต่ำซึ่งอาจเกิดน้ำท่วมขังในระยะสั้นได้\n\tทั้งนี้ เนื่องจากหย่อมความกดอากาศต่ำปกคลุมด้านตะวันตกของภาคกลาง ประกอบกับมรสุมตะวันตกเฉียงใต้กำลังค่อนข้างแรงพัดปกคลุมทะเลอันดามัน ภาคใต้ และอ่าวไทย\n\tสำหรับคลื่นลมบริเวณทะเลอันดามันตอนบน และอ่าวไทยตอนบนมีกำลังค่อนข้างแรง โดยมีคลื่นสูง 2-3 เมตร บริเวณที่มีฝนฟ้าคะนองคลื่นสูงมากกว่า 3 เมตร ขอให้ชาวเรือบริเวณทะเลอันดามันและอ่าวไทยเดินเรือด้วยความระมัดระวัง และหลีกเลี่ยงการเดินเรือในบริเวณที่มีฝนฟ้าคะนอง ส่วนเรือเล็กบริเวณทะเลอันดามันตอนบนและอ่าวไทยตอนบนควรงดออกจากฝั่งจนถึงวันที่ 28 ก.ย. 69"
+    },
+    "warnings": [
+      {
+        "announced": "2026-09-27 05:47:36",
+        "end": "2026-09-27 12:00:00",
+        "headline": "ด้านตะวันตกของภาคกลางมีฝนตกหนักหลายพื้นที่และมีฝนตกหนักมากบางแห่ง ส่วนกรุงเทพมหานครและปริมณฑล ภาคตะวันออก ฝนเริ่มลดลงแต่ยังคงมีฝนตกต่อเนื่องและมีฝนตกหนักบางแห่ง\nทั้งนี้เนื่องจากหย่อมความกดอากาศต่ำปกคลุมด้านตะวันตกของภาคกลาง ประกอบกับมรสุมตะวันตกเฉียงใต้กำลังค่อนข้างแรงพัดปกคลุมทะเลอันดามัน ภาคใต้ และอ่าวไทย",
+        "no": "14",
+        "start": "2026-09-27 05:00:00",
+        "title": "ฝนตกหนักถึงหนักมากบริเวณประเทศไทย (มีผลกระทบจนถึงวันที่ 27 กันยายน 2569) ฉบับที่ 14 (230/2569)",
+        "url": "https://tmd.go.th/media/forecast/daily-forecast/2026-09_27_05_warning_th.pdf"
+      }
+    ]
+  },
+  "updatedAt": "2026-09-27T11:09+07:00",
+  "weather": {
+    "current": {
+      "code": 95,
+      "rain": 0.9,
+      "rh": 94,
+      "temp": 26.2,
+      "time": "2026-09-27T11:00",
+      "wind": 18
+    },
+    "daily": [
+      {
+        "code": 95,
+        "date": "2026-09-20",
+        "pp": 98,
+        "rain": 16.2,
+        "tmax": 31.6,
+        "tmin": 25.4
+      },
+      {
+        "code": 95,
+        "date": "2026-09-21",
+        "pp": 97,
+        "rain": 9.6,
+        "tmax": 30.7,
+        "tmin": 25.3
+      },
+      {
+        "code": 95,
+        "date": "2026-09-22",
+        "pp": 98,
+        "rain": 10.4,
+        "tmax": 32,
+        "tmin": 25.4
+      },
+      {
+        "code": 95,
+        "date": "2026-09-23",
+        "pp": 98,
+        "rain": 12.5,
+        "tmax": 32.2,
+        "tmin": 24.9
+      },
+      {
+        "code": 95,
+        "date": "2026-09-24",
+        "pp": 100,
+        "rain": 15.9,
+        "tmax": 30.6,
+        "tmin": 24.7
+      },
+      {
+        "code": 95,
+        "date": "2026-09-25",
+        "pp": 100,
+        "rain": 124.2,
+        "tmax": 27.4,
+        "tmin": 24.4
+      },
+      {
+        "code": 81,
+        "date": "2026-09-26",
+        "pp": 100,
+        "rain": 33.7,
+        "tmax": 26.7,
+        "tmin": 24
+      },
+      {
+        "code": 95,
+        "date": "2026-09-27",
+        "pp": 100,
+        "rain": 47.9,
+        "tmax": 26.8,
+        "tmin": 23.7
+      },
+      {
+        "code": 95,
+        "date": "2026-09-28",
+        "pp": 97,
+        "rain": 6.5,
+        "tmax": 29.4,
+        "tmin": 26.3
+      },
+      {
+        "code": 95,
+        "date": "2026-09-29",
+        "pp": 71,
+        "rain": 4.9,
+        "tmax": 30.2,
+        "tmin": 26
+      },
+      {
+        "code": 95,
+        "date": "2026-09-30",
+        "pp": 84,
+        "rain": 2.4,
+        "tmax": 32.1,
+        "tmin": 25.2
+      },
+      {
+        "code": 95,
+        "date": "2026-10-01",
+        "pp": 86,
+        "rain": 4.3,
+        "tmax": 31.6,
+        "tmin": 25.8
+      },
+      {
+        "code": 96,
+        "date": "2026-10-02",
+        "pp": 88,
+        "rain": 14.9,
+        "tmax": 31.5,
+        "tmin": 24.9
+      },
+      {
+        "code": 95,
+        "date": "2026-10-03",
+        "pp": 90,
+        "rain": 7.6,
+        "tmax": 28.4,
+        "tmin": 25.2
+      }
+    ],
+    "hourly": [
+      {
+        "d": "2026-09-27",
+        "p": 3.5,
+        "pp": 100,
+        "t": "11:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 4.2,
+        "pp": 100,
+        "t": "12:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 3.1,
+        "pp": 100,
+        "t": "13:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 1.5,
+        "pp": 100,
+        "t": "14:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 0.9,
+        "pp": 100,
+        "t": "15:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 0.9,
+        "pp": 100,
+        "t": "16:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 0.8,
+        "pp": 99,
+        "t": "17:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 1.2,
+        "pp": 99,
+        "t": "18:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 2,
+        "pp": 96,
+        "t": "19:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 2,
+        "pp": 90,
+        "t": "20:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 1.2,
+        "pp": 83,
+        "t": "21:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 0.1,
+        "pp": 78,
+        "t": "22:00"
+      },
+      {
+        "d": "2026-09-27",
+        "p": 0.1,
+        "pp": 76,
+        "t": "23:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 76,
+        "t": "00:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 76,
+        "t": "01:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.2,
+        "pp": 75,
+        "t": "02:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.1,
+        "pp": 73,
+        "t": "03:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 71,
+        "t": "04:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 66,
+        "t": "05:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 61,
+        "t": "06:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 59,
+        "t": "07:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.1,
+        "pp": 63,
+        "t": "08:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.4,
+        "pp": 69,
+        "t": "09:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.1,
+        "pp": 76,
+        "t": "10:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.6,
+        "pp": 82,
+        "t": "11:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.5,
+        "pp": 88,
+        "t": "12:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 92,
+        "t": "13:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.3,
+        "pp": 95,
+        "t": "14:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 2.2,
+        "pp": 97,
+        "t": "15:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.3,
+        "pp": 96,
+        "t": "16:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 1.4,
+        "pp": 93,
+        "t": "17:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.1,
+        "pp": 87,
+        "t": "18:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0.2,
+        "pp": 78,
+        "t": "19:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 63,
+        "t": "20:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 45,
+        "t": "21:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 31,
+        "t": "22:00"
+      },
+      {
+        "d": "2026-09-28",
+        "p": 0,
+        "pp": 24,
+        "t": "23:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0,
+        "pp": 21,
+        "t": "00:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0,
+        "pp": 20,
+        "t": "01:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0,
+        "pp": 20,
+        "t": "02:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0,
+        "pp": 21,
+        "t": "03:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0,
+        "pp": 22,
+        "t": "04:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0,
+        "pp": 21,
+        "t": "05:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0,
+        "pp": 19,
+        "t": "06:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0.1,
+        "pp": 22,
+        "t": "07:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0.1,
+        "pp": 34,
+        "t": "08:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0.3,
+        "pp": 50,
+        "t": "09:00"
+      },
+      {
+        "d": "2026-09-29",
+        "p": 0.3,
+        "pp": 63,
+        "t": "10:00"
+      }
+    ]
+  }
+}
