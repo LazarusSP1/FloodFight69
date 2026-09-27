@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: "17 */2 * * *"
   workflow_dispatch:
+    inputs:
+      loop_min:
+        description: "Minutes to keep refreshing before handing over to the next run"
+        default: "330"
 permissions:
   contents: write
   actions: write
@@ -20,7 +24,7 @@ jobs:
     timeout-minutes: 350
     env:
       INTERVAL_MIN: 30
-      LOOP_MIN: 330
+      LOOP_MIN: ${{ inputs.loop_min || '330' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
