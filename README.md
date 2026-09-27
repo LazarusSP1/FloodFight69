@@ -4,6 +4,13 @@ Dashboard ติดตามสถานการณ์น้ำท่วมก�
 
 อัปเดตอัตโนมัติทุก 30 นาทีด้วย GitHub Actions (`.github/workflows/refresh.yml`) แล้วเผยแพร่ผ่าน GitHub Pages
 
+## ดูข้อมูลผ่านเว็บ
+
+เว็บไซต์
+```
+https://lazarussp1.github.io/FloodFight69/
+```
+
 ## ไฟล์
 - `fetch_feed.py` ดึงข้อมูลทุกแหล่ง เขียน `data/feed.json` และ `data/radar/f*.json`
 - `template.html` หน้าเว็บ (ใช้ได้ทั้งบน GitHub Pages และ Claude Artifact)
