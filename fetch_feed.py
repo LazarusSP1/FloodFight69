@@ -3,7 +3,7 @@
 and writes feed.json (one document for the dashboard's db at feed/latest).
 Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, TMD open data API, Google News RSS.
 Usage: python3 fetch_feed.py [out.json]
-Optional env: ROADS_URL=<thairath article url> forces the flooded-roads source article;
+Optional env: ROADS_URL=<article url> forces the flooded-roads source article (Thairath first, else any outlet found via Google News);
 PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found.
 Also writes radar/f0.json..f7.json: batch-write each to db collection "radar", doc ids f0..f7.
 If roads come back null, keep the previous roads block (see refresh task).
@@ -220,19 +220,142 @@ def _geo_point(name, road):
             return p
     return None
 
+SEG_SPLIT = re.compile(r"\s*·\s*|\s+-\s+|\s+(?=จาก\s)|\s+(?=บริเวณใกล้\s)")
+def parse_roads_generic(body):
+    """Numbered BMA road-flood list in any outlet's wording:
+    'N. ถ.X ... ช่วงน้ำท่วม: จาก A ถึง B · บริเวณใกล้ C ... ท่วมสูง D ซม.'"""
+    body = re.sub(r"\s+", " ", body)
+    starts, pos, n = [], 0, 1
+    miss = 0
+    while miss < 3:
+        m = re.compile(rf"{n}\.\s*(?=ถ\.|ถนน)").search(body, pos)
+        if not m:
+            n, miss = n + 1, miss + 1  # tolerate an item the outlet worded differently
+            continue
+        starts.append((m.start(), m.end())); pos, n, miss = m.end(), n + 1, 0
+    items = []
+    for i, (s0, s) in enumerate(starts):
+        end = starts[i + 1][0] if i + 1 < len(starts) else min(len(body), s + 600)
+        chunk = body[s:end]
+        mm = re.match(r"((?:ถ\.|ถนน)\s*[^\s:]+(?:\s(?:\d+|ร\.\d+))?)", chunk)
+        if not mm:
+            continue
+        road = re.sub(r"^ถนน\s*", "ถ.", mm.group(1)).strip()
+        road = re.sub(r"(ช่วงน้ำท่วม|ท่วมสูง).*$", "", road).strip()
+        depths = [int(d) for d in re.findall(r"ท่วมสูง\s*(\d+)\s*ซม", chunk)]
+        segtxt = ""
+        ms = re.search(r"ช่วงน้ำท่วม\s*:?\s*(.*)", chunk)
+        if ms:
+            segtxt = re.split(r"\s*(?:ท่วมสูง|น้ำท่วม\s*\d+\s*จุดวัด|จุดวัด)", ms.group(1))[0]
+        segs = []
+        for part in [p.strip(" ,") for p in SEG_SPLIT.split(segtxt) if p.strip(" ,")]:
+            m2 = re.match(r"จาก\s+(.+?)\s+ถึง\s+(.+)$", part)
+            if m2:
+                segs.append({"from": m2.group(1).strip(), "to": m2.group(2).strip()})
+            elif part.startswith("บริเวณใกล้"):
+                segs.append({"near": part.replace("บริเวณใกล้", "", 1).strip()})
+        items.append({"road": road, "depth": max(depths) if depths else None, "segs": segs})
+    return items
+
+GN_ROAD_QUERIES = ["กทม. เลี่ยง เส้นทาง น้ำท่วมขัง when:1d", "ถนน น้ำท่วมขัง กทม. เส้นทาง when:1d"]
+
+def _gn_resolve(link):
+    """Resolve a news.google.com/rss/articles/... link to the publisher URL."""
+    aid = link.split("/articles/")[1].split("?")[0]
+    pg = get(f"https://news.google.com/rss/articles/{aid}").decode("utf-8", "ignore")
+    sg = re.search(r'data-n-a-sg="([^"]+)"', pg).group(1)
+    ts = re.search(r'data-n-a-ts="([^"]+)"', pg).group(1)
+    inner = ["garturlreq", [["X", "X", ["X", "X"], None, None, 1, 1, "US:en", None, 1, None, None, None, None, None, 0, 1],
+             "X", "X", 1, [1, 1, 1], 1, 1, None, 0, 0, None, 0], aid, int(ts), sg]
+    body = "f.req=" + urllib.parse.quote(json.dumps([[["Fbv4je", json.dumps(inner)]]]))
+    req = urllib.request.Request("https://news.google.com/_/DotsSplashUi/data/batchexecute", data=body.encode(),
+                                 headers={**UA, "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"})
+    r = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "ignore")
+    return json.loads(json.loads(r.split("\n\n")[1])[0][2])[1]
+
+def _gn_road_candidates():
+    out, seen = [], set()
+    for q in GN_ROAD_QUERIES:
+        try:
+            x = ET.fromstring(get("https://news.google.com/rss/search?" + urllib.parse.urlencode(
+                {"q": q, "hl": "th", "gl": "TH", "ceid": "TH:th"})))
+        except Exception as e:
+            print("WARN gnews roads", e, file=sys.stderr); continue
+        for i in x.iter("item"):
+            title = html.unescape(i.findtext("title") or "")
+            if "ท่วม" not in title or not ROAD_TITLE.search(title) or title in seen:
+                continue
+            seen.add(title)
+            try:
+                ts = parsedate_to_datetime(i.findtext("pubDate")).timestamp()
+            except Exception:
+                ts = 0
+            out.append((ts, title, i.findtext("link")))
+    out.sort(reverse=True)
+    return out
+
+def _page_text(url):
+    """articleBody from JSON-LD when present, else the page's paragraph/list text."""
+    page = get(url).decode("utf-8", "ignore")
+    body, published, headline = "", "", ""
+    for block in re.findall(r'<script[^>]*application/ld\+json[^>]*>(.*?)</script>', page, re.S):
+        try:
+            j = json.loads(block)
+        except Exception:
+            continue
+        for obj in (j if isinstance(j, list) else [j]):
+            if isinstance(obj, dict) and obj.get("articleBody"):
+                body, published, headline = obj["articleBody"], obj.get("datePublished", ""), obj.get("headline", "")
+    s = re.sub(r"<script.*?</script>|<style.*?</style>", "", page, flags=re.S)
+    paras = " ".join(html.unescape(re.sub(r"<[^>]+>", "", x)) for x in re.findall(r"<(?:p|li)[^>]*>(.*?)</(?:p|li)>", s, re.S))
+    if not published:
+        m = re.search(r'"datePublished"\s*:\s*"([^"]+)"|article:published_time"\s+content="([^"]+)"', page)
+        published = (m.group(1) or m.group(2)) if m else ""
+    return body, paras, published, headline
+
+def _best_items(*texts):
+    best = []
+    for t in texts:
+        if not t:
+            continue
+        for fn in (parse_roads, parse_roads_generic):
+            try:
+                items = fn(t)
+            except Exception:
+                items = []
+            if len(items) > len(best):
+                best = items
+    merged = {}
+    for it in best:  # merge duplicate roads
+        if it["road"] in merged:
+            merged[it["road"]]["segs"] += it["segs"]
+            merged[it["road"]]["depth"] = max(filter(None, [merged[it["road"]]["depth"], it["depth"]]), default=None)
+        else:
+            merged[it["road"]] = it
+    return list(merged.values())
+
 def roads():
     url = os.environ.get("ROADS_URL")
-    cands = [(0, "", url)] if url else _road_candidates()
-    for _, title, link in cands[:4]:
+    if url:
+        cands = [(0, "", url, False)]
+    else:
+        # Thairath directly (blocked from some hosts, e.g. GitHub runners), then any outlet via Google News
+        cands = [(0, t, l, False) for _, t, l in _road_candidates()[:2]] + \
+                [(0, t, l, True) for _, t, l in _gn_road_candidates()[:6]]
+    for _, title, link, via_gn in cands:
         try:
-            body, published, headline = _article(link)
+            if via_gn:
+                link = _gn_resolve(link)
+                if "facebook.com" in link:
+                    continue
+            body, paras, published, headline = _page_text(link)
         except Exception as e:
-            print("WARN article", link, e, file=sys.stderr)
+            print("WARN article", link[:80], e, file=sys.stderr)
             continue
-        items = parse_roads(body)
-        if len(items) < 3:
+        items = _best_items(body, paras)
+        if len(items) < 5:
             continue
-        mt = re.search(r"เวลา\s*(\d{1,2}[.:]\d{2})\s*น\.", body)
+        mt = re.search(r"(?:เวลา|รอบ)\s*(\d{1,2}[.:]\d{2})\s*น\.", body or paras)
         road_pts = {}
         for it in items:
             if it["road"] not in road_pts:
@@ -244,7 +367,8 @@ def roads():
                     s["a"] = _geo_point(s["from"], it["road"])
                     s["b"] = _geo_point(s["to"], it["road"])
             it["p"] = road_pts[it["road"]]
-        return {"source": link, "headline": headline or title, "published": published,
+        print(f"roads source: {link}", file=sys.stderr)
+        return {"source": link, "headline": headline or re.sub(r"\s+-\s+[^-]+$", "", title), "published": published,
                 "asof": mt.group(1).replace(".", ":") if mt else "", "items": items}
     return None
 
