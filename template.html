@@ -179,6 +179,16 @@ table.tw tr.stale td{opacity:.55}
 .sub{font-size:12px;color:var(--ink-3)}
 footer{font-size:12.5px;color:var(--ink-3)}
 .empty{color:var(--ink-3);font-size:14px;padding:12px 0}
+/* quick nav */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.qnav{position:sticky;top:0;z-index:20;margin-inline:-16px;padding:8px 16px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.qnav ul{position:relative;list-style:none;margin:0;padding:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.qnav ul::-webkit-scrollbar{display:none}
+.qnav a{display:block;white-space:nowrap;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font-size:13.5px;text-decoration:none;line-height:1.3}
+.qnav a:hover{border-color:var(--accent);color:var(--accent)}
+.qnav a[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.wrap>section,.wrap>div>section{scroll-margin-top:64px}
 </style>
 
 <div class="wrap">
@@ -190,16 +200,28 @@ footer{font-size:12.5px;color:var(--ink-3)}
     <div class="fresh" id="fresh"><span class="dot" id="dot"></span><span id="freshTxt">กำลังโหลด…</span></div>
   </header>
 
+  <nav class="qnav" aria-label="ไปยังหัวข้อ"><ul>
+    <li><a href="#alerts">ประกาศกรมอุตุฯ</a></li>
+    <li><a href="#now">ฝนตอนนี้ / 48 ชม.</a></li>
+    <li><a href="#radar">เรดาร์ฝน</a></li>
+    <li><a href="#water">ระดับน้ำ</a></li>
+    <li><a href="#cbsec">ประกาศ ปภ.</a></li>
+    <li><a href="#roads">ถนนน้ำท่วม</a></li>
+    <li><a href="#d7">พยากรณ์ 7 วัน</a></li>
+    <li><a href="#newssec">ข่าว</a></li>
+    <li><a href="#contacts">เบอร์ฉุกเฉิน</a></li>
+  </ul></nav>
+
   <section id="alerts" style="display:grid;gap:10px" aria-label="ประกาศเตือนภัย"></section>
 
-  <section class="panel" aria-labelledby="htmd">
+  <section class="panel" aria-labelledby="htmd" id="tmdsec">
     <div class="panel-h"><h2 id="htmd">ประกาศกรมอุตุนิยมวิทยา · พยากรณ์ 24 ชม.</h2><span class="lbl num" id="tmdDate"></span></div>
     <div class="tmdtxt" id="tmd"></div>
   </section>
 
   <section class="now" id="now" aria-label="สภาพอากาศตอนนี้"></section>
 
-  <section class="panel" aria-labelledby="h48">
+  <section class="panel" aria-labelledby="h48" id="rain48">
     <div class="panel-h"><h2 id="h48">ฝน 48 ชั่วโมงข้างหน้า</h2>
       <div class="legend"><span><i class="sw" style="background:var(--water);height:8px"></i>มม./ชม.</span><span><i class="sw" style="background:var(--warn)"></i>โอกาสฝน %</span></div></div>
     <div id="c48"></div>
@@ -231,7 +253,7 @@ footer{font-size:12.5px;color:var(--ink-3)}
     </div>
   </section>
 
-  <section class="panel" aria-labelledby="hriver">
+  <section class="panel" aria-labelledby="hriver" id="water">
     <div class="panel-h"><h2 id="hriver">เจ้าพระยา · อัตราการไหล</h2><span class="lbl">ม³/วินาที · GloFAS</span></div>
     <div id="criver"></div>
     <div class="legend" style="margin-top:6px"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span></div>
@@ -277,12 +299,12 @@ footer{font-size:12.5px;color:var(--ink-3)}
     </div>
   </section>
 
-  <section class="panel" aria-labelledby="h7">
+  <section class="panel" aria-labelledby="h7" id="d7">
     <div class="panel-h"><h2 id="h7">พยากรณ์ 7 วัน · กรุงเทพฯ</h2><span class="lbl">Open-Meteo</span></div>
     <div class="days" id="days"></div>
   </section>
 
-  <section class="panel" aria-labelledby="hnews">
+  <section class="panel" aria-labelledby="hnews" id="newssec">
     <div class="panel-h"><h2 id="hnews">ฟีดข่าว (3 วันล่าสุด)</h2><span class="lbl">Google News</span></div>
     <div class="tabs" role="tablist" id="tabs"></div>
     <label class="lbl" for="q" style="position:absolute;left:-9999px">ค้นหาข่าว</label>
@@ -290,7 +312,7 @@ footer{font-size:12.5px;color:var(--ink-3)}
     <ul class="news" id="news"></ul>
   </section>
 
-    <section class="panel" aria-labelledby="hct">
+    <section class="panel" aria-labelledby="hct" id="contacts">
       <div class="panel-h"><h2 id="hct">สายด่วน</h2><span class="lbl">แตะค้างเพื่อคัดลอก</span></div>
       <div class="contacts">
         <div class="ct"><b>1555</b><span>ศูนย์รับแจ้ง กทม.</span></div>
@@ -579,6 +601,16 @@ $("q").addEventListener("input",renderNews);
 try{render(JSON.parse($("seed").textContent))}catch(e){}
 setInterval(()=>{if(DATA){ $("freshTxt").innerHTML="อัปเดต <span class='num'>"+esc(fmtTs(DATA.updatedAt).replace("<br>"," "))+"</span> · "+rel(DATA.updatedAt);}},60000);
 
+// quick nav: highlight the section in view
+(()=>{const links=[...document.querySelectorAll(".qnav a")];
+  const groups={alerts:["alerts","tmdsec"],now:["now","rain48"],water:["water","tw"]};
+  const owner={};links.forEach(a=>{const k=a.hash.slice(1);(groups[k]||[k]).forEach(id=>owner[id]=a);});
+  const set=a=>{links.forEach(l=>l.removeAttribute("aria-current"));if(a){a.setAttribute("aria-current","true");const u=a.closest("ul");if(a.offsetLeft<u.scrollLeft||a.offsetLeft+a.offsetWidth>u.scrollLeft+u.clientWidth)u.scrollTo({left:a.offsetLeft-16,behavior:"smooth"});}};
+  const vis=new Map();
+  const io=new IntersectionObserver(es=>{es.forEach(e=>vis.set(e.target.id,e.isIntersecting));
+    const id=Object.keys(owner).find(k=>vis.get(k));set(id&&owner[id]);},{rootMargin:"-70px 0px -55% 0px"});
+  Object.keys(owner).forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el);});
+})();
 // live data from the shared store (refreshed by a scheduled task)
 (async()=>{
   try{
