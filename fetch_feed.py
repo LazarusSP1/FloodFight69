@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Weather Fight feed builder — fetches flood/rain/forecast data for Bangkok
 and writes feed.json (one document for the dashboard's db at feed/latest).
-Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, TMD open data API, Google News RSS.
+Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, TMD open data API, Google News RSS,
+road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
 Usage: python3 fetch_feed.py [out.json]
 Optional env: ROADS_URL=<article url> forces the flooded-roads source article (Thairath first, else any outlet found via Google News);
 PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found.
@@ -406,6 +407,104 @@ def roads():
                 "asof": mt.group(1).replace(".", ":") if mt else "", "items": items}
     return None
 
+# ---- live road-flood reports from traffic radio (จส.100, สวพ.91) ----
+FLOOD_RE = re.compile(r"ท่วม|น้ำขัง|น้ำยังสูง|ระดับน้ำ|รอการระบาย")
+NOT_ROAD = re.compile(r"ศูนย์พักพิง|บริจาค|ถุงยังชีพ|เยียวยา|ประชุม|นายกฯ|ครม\.")
+TH_MONTHS = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
+             "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
+JS100_TRAFFIC = "https://www.js100.com/en/site/traffic"
+JS100_NEWS = "https://www.js100.com/en/site/news"
+FM91_HOME = "https://www.fm91bkk.com/"
+
+def _txt(s):
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", s or ""))).strip()
+
+def _th_date(s):
+    """'25  กันยายน 2569,   14:12น.' -> ISO (+07:00)"""
+    m = re.search(r"(\d{1,2})\s+([ก-๙]+)\s+(\d{4}),?\s+(\d{1,2})[:.](\d{2})", s or "")
+    if not m or m.group(2) not in TH_MONTHS:
+        return ""
+    y = int(m.group(3)) - 543
+    return dt.datetime(y, TH_MONTHS.index(m.group(2)) + 1, int(m.group(1)), int(m.group(4)), int(m.group(5)),
+                       tzinfo=TZ).isoformat(timespec="minutes")
+
+def _depth(t):
+    m = re.search(r"(\d{1,3})\s*(?:-|–|~|ถึง)\s*(\d{1,3})\s*(?:ซม|เซนติเมตร)", t)
+    if m:
+        return int(m.group(2))
+    m = re.search(r"(\d{1,3})\s*(?:ซม|เซนติเมตร)", t)
+    return int(m.group(1)) if m else None
+
+def _is_flood(t):
+    return bool(FLOOD_RE.search(t)) and not NOT_ROAD.search(t)
+
+def parse_js100_traffic(page):
+    """js100.com/en/site/traffic: <ul id="latest_traffic_list"><li><h4>date</h4><p>text</p></li>"""
+    m = re.search(r'id="latest_traffic_list".*?</ul>', page, re.S)
+    out = []
+    for h4, p in re.findall(r"<li>\s*<h4>(.*?)</h4>\s*<p>(.*?)</p>", m.group(0) if m else "", re.S):
+        t = _txt(p)
+        if t:
+            out.append({"src": "จส.100", "text": t, "ts": _th_date(_txt(h4)), "url": JS100_TRAFFIC})
+    return out
+
+def parse_js100_news(page):
+    out, seen = [], set()
+    for mm in re.finditer(r'<a href="(https://www\.js100\.com/en/site/news/view/(\d+))"[^>]*>([^<]{6,})</a>', page):
+        t = _txt(mm.group(3))
+        if mm.group(2) in seen or t == "อ่านต่อ":
+            continue
+        seen.add(mm.group(2))
+        d = re.search(r'class="news_date">(.*?)</h4>', page[mm.start():mm.start() + 2500], re.S)
+        out.append({"src": "จส.100", "text": t, "ts": _th_date(_txt(d.group(1))) if d else "", "url": mm.group(1)})
+    return out
+
+def parse_fm91_links(page):
+    """Any /newsarticle/<id> link with a headline-length text (the site has no RSS)."""
+    out, seen = [], set()
+    for href, nid, inner in re.findall(r'<a[^>]+href="((?:https?://(?:www\.)?fm91bkk\.com)?/newsarticle/(\d+))"[^>]*>(.*?)</a>', page, re.S):
+        t = _txt(inner)
+        if nid in seen or len(t) < 12:
+            continue
+        seen.add(nid)
+        out.append({"src": "สวพ.91", "text": t, "ts": "", "url": "https://www.fm91bkk.com/newsarticle/" + nid, "id": int(nid)})
+    return out
+
+def _gn_site(site, src):
+    items = gnews(f"site:{site} (น้ำท่วม OR ท่วมขัง OR น้ำขัง OR ระดับน้ำ)", 30)
+    return [{"src": src, "text": it["title"], "ts": it["ts"], "url": it["url"]} for it in items]
+
+def road_reports():
+    """Flood reports from จส.100 and สวพ.91 in the last 24 h, newest first.
+    None when every source failed (main() then keeps the previous list)."""
+    got, ok = [], False
+    for name, fn in [
+        ("js100 traffic", lambda: parse_js100_traffic(get(JS100_TRAFFIC, timeout=20, tries=2).decode("utf-8", "ignore"))),
+        ("js100 news", lambda: parse_js100_news(get(JS100_NEWS, timeout=20, tries=2).decode("utf-8", "ignore"))),
+        ("fm91 home", lambda: parse_fm91_links(get(FM91_HOME, timeout=20, tries=2).decode("utf-8", "ignore"))),
+        ("gnews fm91", lambda: _gn_site("fm91bkk.com", "สวพ.91")),
+        ("gnews js100", lambda: _gn_site("js100.com", "จส.100")),
+    ]:
+        try:
+            got += fn(); ok = True
+        except Exception as e:
+            print("WARN reports", name, e, file=sys.stderr)
+    if not ok:
+        return None
+    # FM91 homepage links carry no time; take it from the matching Google News item, else skip
+    gn_ts = {re.sub(r"\W", "", x["text"])[:40]: x["ts"] for x in got if x["ts"]}
+    cutoff = (dt.datetime.now(TZ) - dt.timedelta(hours=24)).isoformat(timespec="minutes")
+    out, seen = [], set()
+    for x in got:
+        key = re.sub(r"\W", "", x["text"])[:40]
+        x["ts"] = x["ts"] or gn_ts.get(key, "")
+        if key in seen or not x["ts"] or x["ts"] < cutoff or not _is_flood(x["text"]):
+            continue
+        seen.add(key)
+        out.append({"src": x["src"], "text": x["text"][:400], "ts": x["ts"], "url": x["url"], "depth": _depth(x["text"])})
+    out.sort(key=lambda x: x["ts"], reverse=True)
+    return out[:40]
+
 # ---- rain radar (TMD Suvarnabhumi 120 km loop) ----
 import base64, io
 RADAR_GIF = "https://weather.tmd.go.th/svp/svp120loop.gif"
@@ -494,6 +593,7 @@ def main():
         "river": safe(river, []),
         "thaiwater": safe(thaiwater, None),
         "roads": safe(roads, None),
+        "reports": safe(road_reports, None),
         "radar": safe(radar, None),
         "tmd": {"warnings": safe(tmd_warnings, None), "daily": safe(tmd_daily, None)},
         "news": news(),
@@ -514,6 +614,8 @@ def main():
             # None = fetch failed (an empty list is a real "nothing new" answer)
             if doc["tmd"]["warnings"] is None:
                 doc["tmd"]["warnings"] = (prev.get("tmd") or {}).get("warnings") or []
+            if doc["reports"] is None:
+                doc["reports"] = prev.get("reports") or []
             for k, v in doc["news"].items():
                 if v is None:
                     doc["news"][k] = (prev.get("news") or {}).get(k) or []
@@ -521,6 +623,8 @@ def main():
             print("WARN prev feed", e, file=sys.stderr)
     if doc["tmd"]["warnings"] is None:
         doc["tmd"]["warnings"] = []
+    if doc["reports"] is None:
+        doc["reports"] = []
     doc["news"] = {k: v or [] for k, v in doc["news"].items()}
     if _GEO_CACHE_PATH:
         json.dump(_geo_cache, open(_GEO_CACHE_PATH, "w", encoding="utf-8"), ensure_ascii=False)
@@ -529,7 +633,7 @@ def main():
     open(out, "w", encoding="utf-8").write(s)
     print(f"wrote {out}: {len(s.encode())} bytes; news " +
           ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
-          f"; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
+          f"; reports={len(doc['reports'])}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
 
 if __name__ == "__main__":
     main()
