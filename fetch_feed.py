@@ -408,11 +408,12 @@ def roads():
     return None
 
 # ---- live road-flood reports from traffic radio (จส.100, สวพ.91) ----
-FLOOD_RE = re.compile(r"ท่วม|น้ำขัง|น้ำยังสูง|ระดับน้ำ|รอการระบาย")
+# flooding, and the receding-water updates that follow it ("น้ำลดแล้ว", "คืนผิวจราจร", "สัญจรได้")
+FLOOD_RE = re.compile(r"ท่วม|น้ำขัง|น้ำยังสูง|น้ำสูง|ระดับน้ำ|รอการระบาย|สถานการณ์น้ำ|น้ำ(?:เริ่ม)?ลด|คืนผิว|รถเล็ก(?:ห้าม|ไม่สามารถ)?ผ่าน")
 # must name a road/traffic situation, not just mention the flood
 ROAD_RE = re.compile(r"ถนน|ถ\.|ซอย|ซ\.\S|แยก|สะพาน|ทางด่วน|ทางพิเศษ|ขาเข้า|ขาออก|ช่องทาง|ปิดจราจร|คืนผิว|รถเล็ก")
 NOT_ROAD = re.compile(r"ศูนย์พักพิง|บริจาค|ถุงยังชีพ|เยียวยา|ประชุม|นายกฯ|ครม\.|ประกัน|คปภ|ออมสิน|สินเชื่อ|ประปา|กปน|"
-                      r"การไฟฟ้า|MEA|PEA|โรค|แพทย์|ขยายเวลา|ให้บริการฟรี|ลงพื้นที่ช่วย|รฟท|ทางรถไฟ|ขบวนรถ")
+                      r"การไฟฟ้า|MEA|PEA|โรค|แพทย์|ขยายเวลา|ให้บริการฟรี|ลงพื้นที่ช่วย|รฟท|ทางรถไฟ|ขบวนรถ|ศาล|จำคุก|คดี|ผู้ต้องหา")
 TH_MONTHS = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
              "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
 JS100_TRAFFIC = "https://www.js100.com/en/site/traffic"
@@ -530,6 +531,9 @@ def road_reports():
             print(f"reports {name}: {len(items)} items, {len(fl)} road-flood, "
                   f"{sum(1 for x in fl if not x['ts'])} undated, {sum(1 for x in fl if x['ts'] and x['ts'] >= cutoff)} in last 24 h, "
                   f"newest {max((x['ts'] for x in items if x['ts']), default='-')}", file=sys.stderr)
+            if name.startswith("js100"):
+                for x in sorted(items, key=lambda x: x["ts"], reverse=True)[:4]:
+                    print(f"  {'KEEP' if _is_flood(x['text']) else 'drop'} {x['ts'][5:16]} {x['text'][:90]}", file=sys.stderr)
             bad = [x["raw_date"] for x in items if not x["ts"] and x.get("raw_date")]
             if bad:
                 print(f"reports {name}: unreadable dates e.g. {bad[:3]!r}", file=sys.stderr)
