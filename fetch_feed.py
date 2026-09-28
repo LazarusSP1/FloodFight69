@@ -409,7 +409,10 @@ def roads():
 
 # ---- live road-flood reports from traffic radio (จส.100, สวพ.91) ----
 FLOOD_RE = re.compile(r"ท่วม|น้ำขัง|น้ำยังสูง|ระดับน้ำ|รอการระบาย")
-NOT_ROAD = re.compile(r"ศูนย์พักพิง|บริจาค|ถุงยังชีพ|เยียวยา|ประชุม|นายกฯ|ครม\.")
+# must name a road/traffic situation, not just mention the flood
+ROAD_RE = re.compile(r"ถนน|ถ\.|ซอย|ซ\.\S|แยก|สะพาน|ทางด่วน|ทางพิเศษ|ขาเข้า|ขาออก|ช่องทาง|ปิดจราจร|คืนผิว|รถเล็ก")
+NOT_ROAD = re.compile(r"ศูนย์พักพิง|บริจาค|ถุงยังชีพ|เยียวยา|ประชุม|นายกฯ|ครม\.|ประกัน|คปภ|ออมสิน|สินเชื่อ|ประปา|กปน|"
+                      r"การไฟฟ้า|MEA|PEA|โรค|แพทย์|ขยายเวลา|ให้บริการฟรี|ลงพื้นที่ช่วย")
 TH_MONTHS = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
              "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
 JS100_TRAFFIC = "https://www.js100.com/en/site/traffic"
@@ -436,7 +439,7 @@ def _depth(t):
     return int(m.group(1)) if m else None
 
 def _is_flood(t):
-    return bool(FLOOD_RE.search(t)) and not NOT_ROAD.search(t)
+    return bool(FLOOD_RE.search(t)) and bool(ROAD_RE.search(t)) and not NOT_ROAD.search(t)
 
 def parse_js100_traffic(page):
     """js100.com/en/site/traffic: <ul id="latest_traffic_list"><li><h4>date</h4><p>text</p></li>"""
@@ -486,7 +489,8 @@ def road_reports():
         ("gnews js100", lambda: _gn_site("js100.com", "จส.100")),
     ]:
         try:
-            got += fn(); ok = True
+            items = fn(); got += items; ok = True
+            print(f"reports {name}: {len(items)} items, {sum(_is_flood(x['text']) for x in items)} road-flood", file=sys.stderr)
         except Exception as e:
             print("WARN reports", name, e, file=sys.stderr)
     if not ok:
