@@ -257,6 +257,40 @@ def parse_roads_generic(body):
         items.append({"road": road, "depth": max(depths) if depths else None, "segs": segs})
     return items
 
+def parse_roads_unnumbered(body):
+    """BMA 'N ถนนที่ยังมีน้ำท่วมขัง(สูง)' summary: road names run together, each
+    optionally followed by 'ช่วง A ถึง B' / 'บริเวณ C', until the next section."""
+    t = re.sub(r"\s+", " ", body)
+    m = re.search(r"\d+\s*(?:ถนน|สาย|เส้นทาง)\s*ที่ยัง(?:มี)?น้ำท่วม(?:ขัง)?(?:สูง)?\s*:?", t)
+    if not m:
+        return []
+    seg = t[m.end():m.end() + 2500]
+    seg = re.split(r"\d+\s*(?:ถนน|สาย|เส้นทาง)\s*(?:ที่)?คืนผิว|ถนนที่คืนผิว|คืนผิวจราจร(?:ได้)?แล้ว\s*:|ภาพ\s*:|อ่านข่าว|ข่าวที่เกี่ยวข้อง|NEWS UPDATE", seg)[0]
+    # a new item starts at "ถนน…" unless it continues a range/landmark ("ช่วงถนน", "ถึงถนน", "บริเวณถนน")
+    parts = [p.strip(" ,") for p in re.split(r"(?<!ช่วง)(?<!ถึง)(?<!ถึง )(?<!บริเวณ)(?<!แยก)(?<!ตัด)(?=ถนน[^\s])", seg)
+             if p.strip(" ,").startswith("ถนน")]
+    items = []
+    for p in parts[:40]:
+        mm = re.match(r"ถนน(\S+?)(?=\s|ช่วง|บริเวณ|$)\s*(.*)", p)
+        if not mm or len(mm.group(1)) > 25:
+            break  # ran into prose after the list
+        if len(mm.group(2)) > 160 and "ช่วง" not in mm.group(2)[:20] and "บริเวณ" not in mm.group(2)[:20]:
+            items.append({"road": "ถ." + mm.group(1), "depth": None, "segs": []})
+            break
+        road, rest = "ถ." + mm.group(1), mm.group(2).strip()
+        segs = []
+        rest = re.split(r"\s(?=ประชาชน|เจ้าหน้าที่|ขณะที่|ทั้งนี้|โดยเฉพาะ|อย่างไรก็ตาม)", rest)[0]
+        rest = re.split(r"\s(?=[^\s]{0,6}(?:ที่|ซึ่ง|โดย|ทั้งนี้|อย่างไรก็ตาม))", rest)[0] if len(rest) > 160 else rest
+        for piece in re.split(r"\s*และ\s*(?=บริเวณ|ช่วง)|\s*,\s*", rest):
+            piece = piece.strip()
+            m2 = re.match(r"ช่วง\s*(.+?)\s*ถึง\s*(.+)$", piece)
+            if m2:
+                segs.append({"from": re.sub(r"^ตัด", "", m2.group(1).strip()), "to": m2.group(2).strip()})
+            elif piece.startswith(("บริเวณ", "ช่วง")) and len(piece) > 6:
+                segs.append({"near": re.sub(r"^(บริเวณ|ช่วง)\s*(หน้า)?", "", piece).strip()})
+        items.append({"road": road, "depth": None, "segs": segs})
+    return items
+
 GN_ROAD_QUERIES = ["กทม. เลี่ยง เส้นทาง น้ำท่วมขัง when:1d", "ถนน น้ำท่วมขัง กทม. เส้นทาง when:1d"]
 
 def _gn_resolve(link):
@@ -318,7 +352,7 @@ def _best_items(*texts):
     for t in texts:
         if not t:
             continue
-        for fn in (parse_roads, parse_roads_generic):
+        for fn in (parse_roads, parse_roads_generic, parse_roads_unnumbered):
             try:
                 items = fn(t)
             except Exception:
