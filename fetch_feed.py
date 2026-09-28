@@ -473,8 +473,12 @@ def news():
              "flood": "น้ำท่วม กรุงเทพ", "rain": "ฝนตกหนัก", "forecast": "พยากรณ์อากาศ กรมอุตุนิยมวิทยา"}
     out, seen = {}, set()
     for k, q in feeds.items():
+        got = safe(lambda: gnews(q, 30), None)
+        if got is None:  # fetch failed: main() carries over the previous list
+            out[k] = None
+            continue
         lst = []
-        for it in safe(lambda: gnews(q, 30), []):
+        for it in got:
             key = re.sub(r"\W", "", it["title"])[:40]
             if key in seen:
                 continue
@@ -491,7 +495,7 @@ def main():
         "thaiwater": safe(thaiwater, None),
         "roads": safe(roads, None),
         "radar": safe(radar, None),
-        "tmd": {"warnings": safe(tmd_warnings, []), "daily": safe(tmd_daily, None)},
+        "tmd": {"warnings": safe(tmd_warnings, None), "daily": safe(tmd_daily, None)},
         "news": news(),
     }
     prev_path = os.environ.get("PREV_FEED")
@@ -507,8 +511,17 @@ def main():
                     doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
             if not (doc.get("tmd") or {}).get("daily") and (prev.get("tmd") or {}).get("daily"):
                 doc["tmd"]["daily"] = prev["tmd"]["daily"]
+            # None = fetch failed (an empty list is a real "nothing new" answer)
+            if doc["tmd"]["warnings"] is None:
+                doc["tmd"]["warnings"] = (prev.get("tmd") or {}).get("warnings") or []
+            for k, v in doc["news"].items():
+                if v is None:
+                    doc["news"][k] = (prev.get("news") or {}).get(k) or []
         except Exception as e:
             print("WARN prev feed", e, file=sys.stderr)
+    if doc["tmd"]["warnings"] is None:
+        doc["tmd"]["warnings"] = []
+    doc["news"] = {k: v or [] for k, v in doc["news"].items()}
     if _GEO_CACHE_PATH:
         json.dump(_geo_cache, open(_GEO_CACHE_PATH, "w", encoding="utf-8"), ensure_ascii=False)
     out = sys.argv[1] if len(sys.argv) > 1 else "feed.json"
