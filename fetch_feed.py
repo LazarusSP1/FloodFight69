@@ -509,6 +509,21 @@ def road_reports():
     out.sort(key=lambda x: x["ts"], reverse=True)
     return out[:40]
 
+def merge_reports(new, prev):
+    """This run's reports plus earlier ones still under 24 h old: the sources only list their
+    newest items, so a report would otherwise vanish as soon as it scrolls off their pages.
+    The filter is re-applied so older non-road items drop out too."""
+    cutoff = (dt.datetime.now(TZ) - dt.timedelta(hours=24)).isoformat(timespec="minutes")
+    out, seen = [], set()
+    for x in (new or []) + (prev or []):
+        key = re.sub(r"\W", "", x.get("text", ""))[:40]
+        if key in seen or not x.get("ts") or x["ts"] < cutoff or not _is_flood(x["text"]):
+            continue
+        seen.add(key)
+        out.append(x)
+    out.sort(key=lambda x: x["ts"], reverse=True)
+    return out[:40]
+
 # ---- rain radar (TMD Suvarnabhumi 120 km loop) ----
 import base64, io
 RADAR_GIF = "https://weather.tmd.go.th/svp/svp120loop.gif"
@@ -618,8 +633,7 @@ def main():
             # None = fetch failed (an empty list is a real "nothing new" answer)
             if doc["tmd"]["warnings"] is None:
                 doc["tmd"]["warnings"] = (prev.get("tmd") or {}).get("warnings") or []
-            if doc["reports"] is None:
-                doc["reports"] = prev.get("reports") or []
+            doc["reports"] = merge_reports(doc["reports"], prev.get("reports"))
             for k, v in doc["news"].items():
                 if v is None:
                     doc["news"][k] = (prev.get("news") or {}).get(k) or []
