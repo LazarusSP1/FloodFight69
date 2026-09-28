@@ -481,6 +481,7 @@ def road_reports():
     """Flood reports from จส.100 and สวพ.91 in the last 24 h, newest first.
     None when every source failed (main() then keeps the previous list)."""
     got, ok = [], False
+    cutoff = (dt.datetime.now(TZ) - dt.timedelta(hours=24)).isoformat(timespec="minutes")
     for name, fn in [
         ("js100 traffic", lambda: parse_js100_traffic(get(JS100_TRAFFIC, timeout=20, tries=2).decode("utf-8", "ignore"))),
         ("js100 news", lambda: parse_js100_news(get(JS100_NEWS, timeout=20, tries=2).decode("utf-8", "ignore"))),
@@ -490,14 +491,16 @@ def road_reports():
     ]:
         try:
             items = fn(); got += items; ok = True
-            print(f"reports {name}: {len(items)} items, {sum(_is_flood(x['text']) for x in items)} road-flood", file=sys.stderr)
+            fl = [x for x in items if _is_flood(x["text"])]
+            print(f"reports {name}: {len(items)} items, {len(fl)} road-flood, "
+                  f"{sum(1 for x in fl if not x['ts'])} undated, {sum(1 for x in fl if x['ts'] and x['ts'] >= cutoff)} in last 24 h, "
+                  f"newest {max((x['ts'] for x in items if x['ts']), default='-')}", file=sys.stderr)
         except Exception as e:
             print("WARN reports", name, e, file=sys.stderr)
     if not ok:
         return None
     # FM91 homepage links carry no time; take it from the matching Google News item, else skip
     gn_ts = {re.sub(r"\W", "", x["text"])[:40]: x["ts"] for x in got if x["ts"]}
-    cutoff = (dt.datetime.now(TZ) - dt.timedelta(hours=24)).isoformat(timespec="minutes")
     out, seen = [], set()
     for x in got:
         key = re.sub(r"\W", "", x["text"])[:40]
