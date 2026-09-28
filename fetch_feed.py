@@ -422,14 +422,49 @@ FM91_HOME = "https://www.fm91bkk.com/"
 def _txt(s):
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", s or ""))).strip()
 
-def _th_date(s):
-    """'25  กันยายน 2569,   14:12น.' -> ISO (+07:00)"""
-    m = re.search(r"(\d{1,2})\s+([ก-๙]+)\s+(\d{4}),?\s+(\d{1,2})[:.](\d{2})", s or "")
-    if not m or m.group(2) not in TH_MONTHS:
+TH_ABBR = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
+EN_MON = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+def _year(y):
+    """Buddhist or Christian era, 2 or 4 digits -> Christian year."""
+    y = int(y)
+    if y < 100:
+        y += 2500 if y >= 43 else 2000  # '69' = 2569 BE; '26' = 2026
+    return y - 543 if y > 2400 else y
+
+def _th_date(s, now=None):
+    """Date/time as js100.com prints it -> ISO (+07:00), '' if unreadable. Handles
+    '25  กันยายน 2569,   14:12น.', '28 ก.ย. 69 14:12', '28/09/2569 14:12', 'Sep 28, 2026 14:12',
+    'วันนี้ 14:12', 'เมื่อวาน 14:12' and a bare '14:12น.' (today, or yesterday if that is still ahead)."""
+    s = re.sub(r"\s+", " ", s or "").strip()
+    now = now or dt.datetime.now(TZ)
+    tm = re.search(r"(\d{1,2})[:.](\d{2})(?!\d)", s)
+    if not tm:
         return ""
-    y = int(m.group(3)) - 543
-    return dt.datetime(y, TH_MONTHS.index(m.group(2)) + 1, int(m.group(1)), int(m.group(4)), int(m.group(5)),
-                       tzinfo=TZ).isoformat(timespec="minutes")
+    hh, mi = int(tm.group(1)), int(tm.group(2))
+    d = mo = y = None
+    m = re.search(r"(\d{1,2}) ?([ก-๙]+\.?[ก-๙]*\.?) ?(\d{2,4}(?![:.]\d))?", s)
+    if m and (m.group(2) in TH_MONTHS or m.group(2) in TH_ABBR):
+        d = int(m.group(1)); mo = (TH_MONTHS + TH_ABBR).index(m.group(2)) % 12 + 1
+        y = _year(m.group(3)) if m.group(3) else now.year
+    elif (m := re.search(r"(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})", s)):
+        d, mo, y = int(m.group(1)), int(m.group(2)), _year(m.group(3))
+    elif (m := re.search(r"([A-Za-z]{3})[a-z]* (\d{1,2}),? (\d{4})|(\d{1,2}) ([A-Za-z]{3})[a-z]* (\d{4})", s)) and \
+            (m.group(1) or m.group(5)).lower() in EN_MON:
+        mon = (m.group(1) or m.group(5)).lower()
+        d, mo, y = int(m.group(2) or m.group(4)), EN_MON.index(mon) + 1, int(m.group(3) or m.group(6))
+    else:
+        day = now.date() - dt.timedelta(days=1 if "เมื่อวาน" in s else 0)
+        t = dt.datetime(day.year, day.month, day.day, hh, mi, tzinfo=TZ)
+        if "วันนี้" not in s and "เมื่อวาน" not in s and t > now + dt.timedelta(minutes=10):
+            t -= dt.timedelta(days=1)  # bare time later than now = yesterday
+        if re.search(r"\d{1,2} ?[ก-๙A-Za-z]", s[:tm.start()]) and "วันนี้" not in s and "เมื่อวาน" not in s:
+            return ""  # has a date part we could not read: don't guess
+        return t.isoformat(timespec="minutes")
+    try:
+        return dt.datetime(y, mo, d, hh, mi, tzinfo=TZ).isoformat(timespec="minutes")
+    except ValueError:
+        return ""
 
 def _depth(t):
     m = re.search(r"(\d{1,3})\s*(?:-|–|~|ถึง)\s*(\d{1,3})\s*(?:ซม|เซนติเมตร)", t)
@@ -448,7 +483,7 @@ def parse_js100_traffic(page):
     for h4, p in re.findall(r"<li>\s*<h4>(.*?)</h4>\s*<p>(.*?)</p>", m.group(0) if m else "", re.S):
         t = _txt(p)
         if t:
-            out.append({"src": "จส.100", "text": t, "ts": _th_date(_txt(h4)), "url": JS100_TRAFFIC})
+            out.append({"src": "จส.100", "text": t, "ts": _th_date(_txt(h4)), "url": JS100_TRAFFIC, "raw_date": _txt(h4)[:60]})
     return out
 
 def parse_js100_news(page):
@@ -495,6 +530,9 @@ def road_reports():
             print(f"reports {name}: {len(items)} items, {len(fl)} road-flood, "
                   f"{sum(1 for x in fl if not x['ts'])} undated, {sum(1 for x in fl if x['ts'] and x['ts'] >= cutoff)} in last 24 h, "
                   f"newest {max((x['ts'] for x in items if x['ts']), default='-')}", file=sys.stderr)
+            bad = [x["raw_date"] for x in items if not x["ts"] and x.get("raw_date")]
+            if bad:
+                print(f"reports {name}: unreadable dates e.g. {bad[:3]!r}", file=sys.stderr)
         except Exception as e:
             print("WARN reports", name, e, file=sys.stderr)
     if not ok:
