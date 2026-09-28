@@ -6,17 +6,17 @@
 :root{
   --bg:#E9EFEE; --surface:#FFFFFF; --surface-2:#F3F7F6; --ink:#10282C; --ink-2:#4A6266; --ink-3:#7B8F92;
   --line:#D3DEDD; --accent:#16707A; --accent-soft:#D6ECEC; --water:#2B8C9A; --water-fill:rgba(43,140,154,.18);
-  --warn:#B86E0F; --warn-bg:#FBEFD9; --crit:#B83A28; --crit-bg:#F9E1DC; --ok:#2F7D4F;
+  --warn:#B86E0F; --warn-bg:#FBEFD9; --crit:#B83A28; --crit-bg:#F9E1DC; --ok:#2F7D4F; --wx-sun:#E39A12; --wx-cloud:#AEBDC0; --wx-cloud-dk:#7F9296; --wx-rain:#2B8C9A; --wx-bolt:#E8A600;
   --map-filter:none; --display:"Bai Jamjuree",system-ui,sans-serif; --body:"IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   color-scheme:dark; --bg:#0B1618; --surface:#122225; --surface-2:#0F1D20; --ink:#E1ECEB; --ink-2:#A3B8B9; --ink-3:#6E8587;
   --line:#23393C; --accent:#5CC0C6; --accent-soft:#16373A; --water:#4DB3BF; --water-fill:rgba(77,179,191,.2);
-  --warn:#E8A64A; --warn-bg:#35270F; --crit:#F07A64; --crit-bg:#3A1A14; --ok:#6CC58F; --map-filter:invert(.92) hue-rotate(180deg) brightness(.85) contrast(.9);}}
+  --warn:#E8A64A; --warn-bg:#35270F; --crit:#F07A64; --crit-bg:#3A1A14; --ok:#6CC58F; --wx-sun:#F2B84B; --wx-cloud:#7C9296; --wx-cloud-dk:#5F7579; --wx-rain:#4DB3BF; --wx-bolt:#F5C84A; --map-filter:invert(.92) hue-rotate(180deg) brightness(.85) contrast(.9);}}
 :root[data-theme="dark"]{
   color-scheme:dark; --bg:#0B1618; --surface:#122225; --surface-2:#0F1D20; --ink:#E1ECEB; --ink-2:#A3B8B9; --ink-3:#6E8587;
   --line:#23393C; --accent:#5CC0C6; --accent-soft:#16373A; --water:#4DB3BF; --water-fill:rgba(77,179,191,.2);
-  --warn:#E8A64A; --warn-bg:#35270F; --crit:#F07A64; --crit-bg:#3A1A14; --ok:#6CC58F; --map-filter:invert(.92) hue-rotate(180deg) brightness(.85) contrast(.9);}
+  --warn:#E8A64A; --warn-bg:#35270F; --crit:#F07A64; --crit-bg:#3A1A14; --ok:#6CC58F; --wx-sun:#F2B84B; --wx-cloud:#7C9296; --wx-cloud-dk:#5F7579; --wx-rain:#4DB3BF; --wx-bolt:#F5C84A; --map-filter:invert(.92) hue-rotate(180deg) brightness(.85) contrast(.9);}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:18px 40px;display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
@@ -61,7 +61,8 @@ svg text{font-family:var(--mono);fill:var(--ink-3);font-size:10.5px}
 .day{background:var(--surface-2);border-radius:8px;padding:10px 6px;text-align:center;display:grid;gap:3px;border:1px solid transparent}
 .day.today{border-color:var(--accent)}
 .day .dn{font-size:12.5px;font-weight:600}
-.day .ic{font-size:12px;color:var(--ink-2);min-height:2.6em;line-height:1.3}
+.day .ic{font-size:12px;color:var(--ink-2);min-height:2.6em;line-height:1.3;display:grid;justify-items:center;gap:2px}
+.wx{flex:none;display:block}
 .day .r{font-family:var(--mono);font-size:13px;font-weight:500}
 .day .t{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
 .gauge{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
@@ -355,6 +356,22 @@ const TH_D=["อา.","จ.","อ.","พ.","พฤ.","ศ.","ส."];
 const TH_M=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 const WMO={0:"ฟ้าโปร่ง",1:"มีเมฆบางส่วน",2:"มีเมฆบางส่วน",3:"เมฆมาก",45:"หมอก",48:"หมอก",51:"ฝนปรอย",53:"ฝนปรอย",55:"ฝนปรอยหนา",61:"ฝนเล็กน้อย",63:"ฝนปานกลาง",65:"ฝนหนัก",80:"ฝนซู่",81:"ฝนซู่ปานกลาง",82:"ฝนซู่หนัก",95:"พายุฝนฟ้าคะนอง",96:"ฝนฟ้าคะนอง ลูกเห็บ",99:"ฝนฟ้าคะนอง ลูกเห็บ"};
 const wmo=c=>WMO[c]||"—";
+// weather icons (inline SVG, 24x24 viewBox): sun / partly cloudy / cloudy / fog / rain / thunderstorm
+const WXP={
+  sun:'<circle cx="12" cy="12" r="4.2" fill="var(--wx-sun)"/><g stroke="var(--wx-sun)" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g>',
+  cloud:(y=0,f="var(--wx-cloud)")=>`<path transform="translate(0 ${y})" d="M7.2 18.5h9.6a3.9 3.9 0 0 0 .5-7.8 5.3 5.3 0 0 0-10.2 1.2 3.3 3.3 0 0 0 .1 6.6z" fill="${f}"/>`,
+  rain:'<g stroke="var(--wx-rain)" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 18.8l-1 2.4M12.5 18.8l-1 2.4M16.5 18.8l-1 2.4"/></g>',
+  bolt:'<path d="M12.6 15.2l-2.6 4.1h2.3l-1.4 3.9 4.4-5.3h-2.4l1.5-2.7z" fill="var(--wx-bolt)"/>',
+};
+function wxKind(c){c=+c;return c===0?"sun":c<=2?"part":c===3?"cloud":c===45||c===48?"fog":c>=95?"storm":(c>=51&&c<=67)||(c>=80&&c<=82)?"rain":"cloud";}
+function wxIcon(c,px){const k=wxKind(c);let g;
+  if(k==="sun")g=WXP.sun;
+  else if(k==="part")g=`<g transform="translate(4 -3) scale(.72)">${WXP.sun}</g>`+WXP.cloud(1);
+  else if(k==="cloud")g=WXP.cloud(-1);
+  else if(k==="fog")g=WXP.cloud(-4)+'<g stroke="var(--wx-cloud)" stroke-width="1.8" stroke-linecap="round"><path d="M5 18h14M7 21h10"/></g>';
+  else if(k==="rain")g=WXP.cloud(-4,"var(--wx-cloud-dk)")+WXP.rain;
+  else g=WXP.cloud(-5,"var(--wx-cloud-dk)")+WXP.bolt+'<g stroke="var(--wx-rain)" stroke-width="1.8" stroke-linecap="round"><path d="M8 17.5l-.9 2.2M17 17.5l-.9 2.2"/></g>';
+  return `<svg class="wx" width="${px}" height="${px}" viewBox="0 0 24 24" role="img" aria-label="${esc(wmo(c))}">${g}</svg>`;}
 const pd=s=>{const [y,m,d]=s.slice(0,10).split("-").map(Number);return new Date(y,m-1,d)};
 const todayStr=()=>{const n=new Date(Date.now()+ (new Date().getTimezoneOffset()+420)*60000);return n.toISOString().slice(0,10)};
 const bkkNow=()=>new Date(Date.now()+(new Date().getTimezoneOffset()+420)*60000);
@@ -394,7 +411,7 @@ function renderNow(d){
   const next24=w.hourly.slice(0,24).reduce((a,h)=>a+(h.p||0),0);
   const past=w.daily.filter(x=>x.date<t).slice(-7).reduce((a,x)=>a+(x.rain||0),0);
   $("now").innerHTML=`
-   <div><span class="lbl">ตอนนี้</span><span class="v">${esc(c.temp)}<small>°C</small></span><span class="s">${wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
+   <div><span class="lbl">ตอนนี้</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
    <div><span class="lbl">ฝนขณะนี้</span><span class="v num">${(+c.rain).toFixed(1)}<small>มม.</small></span><span class="s">ลม ${esc(c.wind)} กม./ชม.</span></div>
    <div><span class="lbl">24 ชม. ข้างหน้า</span><span class="v num">${next24.toFixed(1)}<small>มม.</small></span><span class="s">โอกาสฝนวันนี้ ${esc(today.pp??"—")}%</span></div>
    <div><span class="lbl">สะสม 7 วันที่ผ่านมา</span><span class="v num">${past.toFixed(0)}<small>มม.</small></span><span class="s">ดินอิ่มน้ำ เสี่ยงน้ำขัง</span></div>`;
@@ -440,7 +457,7 @@ function renderDays(d){
   const f=w.daily.filter(x=>x.date>=t).slice(0,7); const mx=Math.max(20,...f.map(x=>x.rain||0));
   $("days").innerHTML=f.map(x=>{const dd=pd(x.date);const heavy=(x.rain||0)>=35;
     return `<div class="day${x.date===t?" today":""}${heavy?" heavy":""}"><span class="dn">${x.date===t?"วันนี้":TH_D[dd.getDay()]+" "+dd.getDate()}</span>
-    <span class="ic">${wmo(x.code)}</span><span class="r">${(x.rain||0).toFixed(1)} มม.</span>
+    <span class="ic">${wxIcon(x.code,34)}<span>${wmo(x.code)}</span></span><span class="r">${(x.rain||0).toFixed(1)} มม.</span>
     <div class="gauge" aria-hidden="true"><i style="width:${Math.min(100,(x.rain||0)/mx*100)}%"></i></div>
     <span class="t">${Math.round(x.tmin)}–${Math.round(x.tmax)}° · ${x.pp??"—"}%</span></div>`}).join("");
 }
