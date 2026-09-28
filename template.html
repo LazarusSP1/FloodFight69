@@ -287,7 +287,7 @@ html{scroll-behavior:smooth}
   <section class="panel" aria-labelledby="hroads" id="roads">
     <div class="panel-h"><h2 id="hroads">ถนนน้ำท่วม · ควรหลีกเลี่ยง</h2><span class="lbl" id="roadsAsof"></span></div>
     <div class="roadhead" id="roadsHead"></div>
-    <div class="roadgrid">
+    <div class="roadgrid" id="roadgrid">
       <div>
         <div class="mapwrap" id="mapwrap"><div class="mapctl"><button id="zin" aria-label="ขยายแผนที่">+</button><button id="zout" aria-label="ย่อแผนที่">−</button></div>
           <div class="mapin" id="mapin"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="mapsvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งถนนที่มีน้ำท่วมขัง"></svg></div>
@@ -296,6 +296,11 @@ html{scroll-behavior:smooth}
         <div class="attr">แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap · ตำแหน่งจากการค้นหาชื่อซอย/ถนน (Nominatim) อาจคลาดเคลื่อนได้</div>
       </div>
       <ul class="roadlist" id="roadlist"></ul>
+    </div>
+    <div id="rrep" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin:18px 0 6px"><h3 style="font-size:14.5px;font-weight:600">รายงานสดจากวิทยุจราจร · 24 ชม.ล่าสุด</h3><div class="tabs" id="rrtabs"></div></div>
+      <ul class="news" id="rrlist"></ul>
+      <div class="attr">ที่มา: <a href="https://www.js100.com/en/site/traffic" target="_blank" rel="noopener">จส.100</a> · <a href="https://www.fm91bkk.com/" target="_blank" rel="noopener">สวพ.91</a> · รายงานจากเจ้าหน้าที่และผู้ฟัง สถานการณ์อาจเปลี่ยนแล้ว</div>
     </div>
   </section>
 
@@ -517,8 +522,24 @@ function focusRoad(i,scrollList){
   if(pts.length&&!scrollList){if(MAPZ<2)setZoom(2);const w=$("mapwrap");const cx=pts.reduce((a,p)=>a+p[0],0)/pts.length/MW, cy=pts.reduce((a,p)=>a+p[1],0)/pts.length/MH;
     requestAnimationFrame(()=>requestAnimationFrame(()=>{w.scrollTo({left:cx*w.scrollWidth-w.clientWidth/2,top:cy*w.scrollHeight-w.clientHeight/2,behavior:"smooth"});}));}
 }
+let RRSRC="ทั้งหมด", RRALL=false;
+function renderReports(d){
+  const all=d.reports||[]; $("rrep").hidden=!all.length; if(!all.length)return;
+  const srcs=["ทั้งหมด",...new Set(all.map(x=>x.src))]; if(!srcs.includes(RRSRC))RRSRC="ทั้งหมด";
+  $("rrtabs").innerHTML=srcs.length>2?srcs.map(k=>`<button class="tab" role="tab" aria-selected="${k===RRSRC}" data-k="${esc(k)}">${esc(k)}<span class="c">${k==="ทั้งหมด"?all.length:all.filter(x=>x.src===k).length}</span></button>`).join(""):"";
+  $("rrtabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{RRSRC=b.dataset.k;RRALL=false;renderReports(DATA);});
+  const list=all.filter(x=>RRSRC==="ทั้งหมด"||x.src===RRSRC), shown=RRALL?list:list.slice(0,8);
+  $("rrlist").innerHTML=shown.map(x=>{const fresh=x.ts&&(Date.now()-new Date(x.ts))<2*3.6e6;
+    return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="tm">${fmtTs(x.ts)}</span><span><div class="tt">${esc(x.text)}${fresh?'<span class="new">ใหม่</span>':""}</div><div class="src">${esc(x.src)}${x.depth?` · <span class="dep ${depCls(x.depth)}">~${x.depth} ซม.</span>`:""}</div></span></a></li>`}).join("")
+    +(shown.length<list.length?`<li><button class="linkbtn" id="rrmore" style="padding:10px 2px">ดูอีก ${list.length-shown.length} รายงาน</button></li>`:"");
+  const m=$("rrmore"); if(m)m.onclick=()=>{RRALL=true;renderReports(DATA);};
+}
 function renderRoads(d){
-  const R=d.roads, sec=$("roads"); if(!R||!R.items||!R.items.length){sec.hidden=true;return;} sec.hidden=false;
+  const R=d.roads, sec=$("roads"), has=!!(R&&R.items&&R.items.length);
+  renderReports(d);
+  if(!has&&!(d.reports||[]).length){sec.hidden=true;return;} sec.hidden=false;
+  $("roadsHead").hidden=$("roadgrid").hidden=!has;
+  if(!has){$("roadsAsof").textContent="";return;}
   const pub=R.published?new Date(R.published):null; const ageH=pub?(Date.now()-pub)/3.6e6:99;
   const n20=R.items.filter(x=>(x.depth||0)>=20).length;
   $("roadsAsof").textContent=(R.asof?"ข้อมูล กทม. "+R.asof+" น.":"")+(pub?" · "+rel(R.published):"");
