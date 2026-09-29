@@ -1,6 +1,6 @@
 name: Refresh flood data
 # GitHub's own cron is best-effort (runs can be delayed an hour or skipped), so
-# each run stays alive and refreshes every 30 minutes for ~5.5 hours, then
+# each run stays alive and refreshes every hour for ~5.5 hours, then
 # dispatches the next run of itself. The cron below is only a backup that
 # restarts the loop if the chain ever breaks; `concurrency` keeps runs from
 # overlapping.
@@ -23,17 +23,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 350
     env:
-      INTERVAL_MIN: 30
+      INTERVAL_MIN: 60
       LOOP_MIN: ${{ inputs.loop_min || '330' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with: { python-version: "3.12" }
       - run: pip install pillow
-      - name: Refresh every 30 minutes
+      - name: Refresh every hour
         env:
           GEO_CACHE: data/geocache.json
           RADAR_DIR: data/radar
+          BMA_FILE: data/bma.json   # uploaded by bma_push.py when the BMA site blocks GitHub's servers
         run: |
           git config user.name "weather-fight-bot"
           git config user.email "actions@users.noreply.github.com"

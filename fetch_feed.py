@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Weather Fight feed builder — fetches flood/rain/forecast data for Bangkok
 and writes feed.json (one document for the dashboard's db at feed/latest).
-Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, BMA road-flood sensors, TMD open data API, Google News RSS,
-road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
+Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, rain gauges and reservoirs, BMA road-flood sensors,
+TMD open data API, Google News RSS, road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
 Usage: python3 fetch_feed.py [out.json]
 Optional env: ROADS_URL=<article url> forces the flooded-roads source article (Thairath first, else any outlet found via Google News);
-PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found.
+PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found;
+BMA_FILE=<path to bma.json> is used when the BMA site blocks this machine (the file is uploaded by bma_push.py).
 Also writes radar/f0.json..f7.json: batch-write each to db collection "radar", doc ids f0..f7.
 If roads come back null, keep the previous roads block (see refresh task).
 """
@@ -108,7 +109,7 @@ def thaiwater():
     return {"river": [by_code[c] for c in TW_RIVER if c in by_code], "area": area, "rayong": rayong}
 
 # ---- Rayong focal point (flood situation in จ.ระยอง) ----
-RAYONG_PTS = [("เมืองระยอง", 12.6814, 101.2816), ("บ้านค่าย", 12.7167, 101.2), ("ปลวกแดง", 12.9833, 101.1667),
+RAYONG_PTS = [("เมืองระยอง", 12.6814, 101.2816), ("บ้านค่าย", 12.7068, 101.3004), ("ปลวกแดง", 12.9833, 101.1667),
               ("วังจันทร์", 13.0333, 101.4), ("แกลง", 12.7833, 101.65)]
 
 def rayong_weather():
@@ -140,6 +141,41 @@ def rayong_weather():
     return {"current": {"time": c["time"], "temp": c["temperature_2m"], "rh": c["relative_humidity_2m"],
                         "rain": c["precipitation"], "code": c["weather_code"], "wind": c["wind_speed_10m"]},
             "points": pts, "daily": daily}
+
+TW_RAIN = "https://api-v3.thaiwater.net/api/v1/thaiwater30/public/rain_24h"
+TW_MAIN = "https://api-v3.thaiwater.net/api/v1/thaiwater30/public/thailand_main"  # ~10 MB; only its "dam" block is used
+
+def _prov(r):
+    return ((r.get("geocode") or {}).get("province_name") or {}).get("th")
+
+def rayong_rain():
+    """Measured rain over the last 24 h at every telemetry gauge in จ.ระยอง (ThaiWater), wettest first."""
+    out = []
+    for r in json.loads(get(TW_RAIN, timeout=90))["data"]:
+        if _prov(r) != "ระยอง" or r.get("rain_24h") is None:
+            continue
+        s, g = r.get("station") or {}, r.get("geocode") or {}
+        out.append({"name": (s.get("tele_station_name") or {}).get("th"), "amphoe": (g.get("amphoe_name") or {}).get("th"),
+                    "agency": ((r.get("agency") or {}).get("agency_shortname") or {}).get("th"),
+                    "p": [s.get("tele_station_lat"), s.get("tele_station_long")],
+                    "mm": _f(r["rain_24h"]), "t": r.get("rainfall_datetime")})
+    out.sort(key=lambda x: x["mm"] or 0, reverse=True)
+    return out
+
+def rayong_dams():
+    """Large reservoirs in จ.ระยอง (RID daily report via ThaiWater). pct is storage against normal capacity,
+    so it can pass 100; inflow/release/spill are million m³ per day."""
+    out = []
+    for r in json.loads(get(TW_MAIN, timeout=120))["dam"]["data"]["data"]:
+        if _prov(r) != "ระยอง":
+            continue
+        d = r.get("dam") or {}
+        out.append({"name": (d.get("dam_name") or {}).get("th"), "date": r.get("dam_date"),
+                    "pct": _f(r.get("dam_storage_percent")), "storage": _f(r.get("dam_storage")),
+                    "normal": _f(d.get("normal_storage")), "max": _f(d.get("max_storage")),
+                    "inflow": _f(r.get("dam_inflow")), "release": _f(r.get("dam_released")), "spill": _f(r.get("dam_spilled"))})
+    out.sort(key=lambda x: x["pct"] or 0, reverse=True)
+    return out
 
 def rayong_news():
     seen, out, ok = set(), [], False
@@ -191,13 +227,33 @@ def _bma_fetch():
             BMA_ERR = ""
             return rows
         except urllib.error.HTTPError as e:
-            last = f"HTTP {e.code} {e.reason}: {e.read()[:120]!r}"
+            body = e.read()
+            if e.code == 403:
+                why = "Cloudflare check" if b"Just a moment" in body else "access denied"
+                last = f"HTTP 403 {why}: weather.bangkok.go.th refuses this machine"
+                break
+            last = f"HTTP {e.code} {e.reason}: {body[:120]!r}"
         except Exception as e:
             last = f"{type(e).__name__}: {e}"[:200]
         time.sleep(3 * (k + 1))
     BMA_ERR = last
     print("WARN bma_sensors", last, file=sys.stderr)
     raise RuntimeError(last)
+
+BMA_FILE = os.environ.get("BMA_FILE")
+BMA_FILE_MAX_H = 6
+
+def bma_from_file():
+    """The copy bma_push.py uploads from a PC the BMA site accepts; ignored once it is older than BMA_FILE_MAX_H."""
+    if not BMA_FILE or not os.path.exists(BMA_FILE):
+        return None
+    try:
+        b = json.load(open(BMA_FILE, encoding="utf-8"))
+        age = dt.datetime.now(TZ) - dt.datetime.fromisoformat(b["fetched"])
+        return dict(b, via="relay") if b.get("sites") and age < dt.timedelta(hours=BMA_FILE_MAX_H) else None
+    except Exception as e:
+        print("WARN bma file", e, file=sys.stderr)
+        return None
 
 def bma_sensors():
     global BMA_ERR
@@ -792,9 +848,12 @@ def main():
         "tmd": {"warnings": safe(tmd_warnings, None), "daily": safe(tmd_daily, None)},
         "news": news(),
     }
-    if doc["bma"] is None and BMA_ERR:
-        doc["bma_err"] = BMA_ERR
-    doc["rayong"] = {"weather": safe(rayong_weather, None), "news": safe(rayong_news, None)}
+    if doc["bma"] is None:
+        if BMA_ERR:
+            doc["bma_err"] = BMA_ERR
+        doc["bma"] = bma_from_file()
+    doc["rayong"] = {"weather": safe(rayong_weather, None), "news": safe(rayong_news, None),
+                     "rain": safe(rayong_rain, None), "dams": safe(rayong_dams, None)}
     prev_path = os.environ.get("PREV_FEED")
     if prev_path and os.path.exists(prev_path):
         try:
@@ -815,8 +874,9 @@ def main():
             pr = prev.get("rayong") or {}
             if doc["rayong"]["weather"] is None and pr.get("weather"):
                 doc["rayong"]["weather"] = dict(pr["weather"], stale=True)
-            if doc["rayong"]["news"] is None:
-                doc["rayong"]["news"] = pr.get("news") or []
+            for k in ("news", "rain", "dams"):  # each item carries its own time, so the page can tell it is old
+                if doc["rayong"][k] is None:
+                    doc["rayong"][k] = pr.get(k) or []
             for k, v in doc["news"].items():
                 if v is None:
                     doc["news"][k] = (prev.get("news") or {}).get(k) or []
@@ -827,7 +887,8 @@ def main():
     if doc["reports"] is None:
         doc["reports"] = []
     warn_ry = [w for w in doc["tmd"]["warnings"] if "ระยอง" in (w.get("title") or "") + (w.get("headline") or "")]
-    doc["rayong"].update({"news": doc["rayong"]["news"] or [], "warnings": warn_ry,
+    doc["rayong"].update({k: doc["rayong"][k] or [] for k in ("news", "rain", "dams")})
+    doc["rayong"].update({"warnings": warn_ry,
                           "water": (doc.get("thaiwater") or {}).get("rayong") or []})
     doc["news"] = {k: v or [] for k, v in doc["news"].items()}
     if _GEO_CACHE_PATH:
@@ -837,7 +898,7 @@ def main():
     open(out, "w", encoding="utf-8").write(s)
     print(f"wrote {out}: {len(s.encode())} bytes; news " +
           ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
-          f"; rayong news={len(doc['rayong']['news'])} water={len(doc['rayong']['water'])} weather={'ok' if doc['rayong']['weather'] else 'none'}; reports={len(doc['reports'])}; bma_sites={len((doc['bma'] or {}).get('sites', []))}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
+          f"; rayong news={len(doc['rayong']['news'])} water={len(doc['rayong']['water'])} rain={len(doc['rayong']['rain'])} dams={len(doc['rayong']['dams'])} weather={'ok' if doc['rayong']['weather'] else 'none'}; reports={len(doc['reports'])}; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
 
 if __name__ == "__main__":
     main()

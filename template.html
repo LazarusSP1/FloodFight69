@@ -230,6 +230,7 @@ html{scroll-behavior:smooth}
     <li class="v-ry"><a href="#ry-now">ตอนนี้ / ประกาศ</a></li>
     <li class="v-ry"><a href="#ry-rain">ฝนรายพื้นที่</a></li>
     <li class="v-ry"><a href="#ry-water">ระดับน้ำ</a></li>
+    <li class="v-ry"><a href="#ry-dams">อ่างเก็บน้ำ</a></li>
     <li class="v-ry"><a href="#ry-days">พยากรณ์ 7 วัน</a></li>
     <li class="v-ry"><a href="#ry-news">ข่าว</a></li>
     <li><a href="#plates">ป้ายทะเบียนหาย</a></li>
@@ -242,18 +243,28 @@ html{scroll-behavior:smooth}
     <div class="panel-h"><h2 id="hry">สถานการณ์น้ำท่วม จ.ระยอง</h2><span class="lbl" id="ryAsof"></span></div>
     <div class="empty" id="ryEmpty" hidden>ยังไม่มีข้อมูลของ จ.ระยอง ระบบจะลองดึงใหม่ในรอบถัดไป</div>
     <div id="ryBody">
+      <div class="roadhead" id="ryHead"></div>
       <div id="ry-now">
         <div id="ryWarn"></div>
         <div class="now" id="ryNow" aria-label="สภาพอากาศระยองตอนนี้"></div>
+        <div class="tmdtxt" id="ryTmd" style="margin-top:10px"></div>
       </div>
       <div id="ry-rain">
-        <h3 class="subh">ปริมาณฝนรายพื้นที่</h3>
+        <h3 class="subh">ฝนที่วัดได้จริง 24 ชม. · สถานีโทรมาตร</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ฝน 24 ชม.</th><th class="n">เวลาวัด</th></tr></thead><tbody id="ryRain"></tbody></table></div>
+        <div id="ryRainMore"></div>
+        <h3 class="subh">ฝนพยากรณ์รายอำเภอ</h3>
         <div class="tblwrap"><table class="tw"><thead><tr><th>พื้นที่</th><th class="n">ฝน 24 ชม.ที่ผ่านมา</th><th class="n">พยากรณ์ 24 ชม.</th><th class="n">พยากรณ์ 48 ชม.</th><th class="n">โอกาสฝน</th></tr></thead><tbody id="ryPts"></tbody></table></div>
-        <div class="small muted" style="margin-top:6px">จุดพยากรณ์ Open-Meteo (โมเดล) ไม่ใช่ค่าวัดจริงของแต่ละอำเภอ</div>
+        <div class="small muted" style="margin-top:6px">ตารางนี้เป็นค่าจากแบบจำลอง Open-Meteo ไม่ใช่ค่าที่วัดได้จริง · ส้ม = ฝนหนัก (35 มม.+) · แดง = ฝนหนักมาก (90 มม.+)</div>
       </div>
       <div id="ry-water">
         <h3 class="subh">ระดับน้ำ · สถานีโทรมาตรใน จ.ระยอง</h3>
         <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="ryTw"></tbody></table></div>
+      </div>
+      <div id="ry-dams">
+        <h3 class="subh">อ่างเก็บน้ำขนาดใหญ่ · กรมชลประทาน</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>อ่างเก็บน้ำ</th><th class="n">ปริมาณน้ำ ล้าน ม³</th><th>เทียบความจุปกติ</th><th class="n">ไหลเข้า / ระบาย ต่อวัน</th></tr></thead><tbody id="ryDams"></tbody></table></div>
+        <div class="small muted" style="margin-top:6px">ข้อมูลรายวันจากกรมชลประทานผ่าน ThaiWater · เกิน 100% = เกินระดับเก็บกักปกติ</div>
       </div>
       <div id="ry-days">
         <h3 class="subh">พยากรณ์ 7 วัน · เมืองระยอง</h3>
@@ -362,10 +373,11 @@ html{scroll-behavior:smooth}
     </div>
   </section>
 
-  <section class="panel v-bkk" aria-labelledby="hbma" id="bma" hidden>
+  <section class="panel v-bkk" aria-labelledby="hbma" id="bma">
     <div class="panel-h"><h2 id="hbma">ระดับน้ำบนถนน · เซนเซอร์ กทม.</h2><span class="lbl" id="bmaAsof"></span></div>
     <div class="roadhead" id="bmaHead"></div>
-    <div class="roadgrid">
+    <div class="empty" id="bmaNote" hidden></div>
+    <div class="roadgrid" id="bmaGrid">
       <div>
         <div class="mapwrap" id="bmawrap"><div class="mapctl"><button id="bzin" aria-label="ขยายแผนที่">+</button><button id="bzout" aria-label="ย่อแผนที่">−</button></div>
           <div class="mapin" id="bmain"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="bmasvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งเซนเซอร์วัดระดับน้ำบนถนนของ กทม."></svg></div>
@@ -413,7 +425,7 @@ html{scroll-behavior:smooth}
       </div>
     </section>
 
-  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 30 นาที ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
+  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 1 ชั่วโมง ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
 </div>
 
 <script type="application/json" id="seed">__SEED__</script>
@@ -456,12 +468,17 @@ function fmtTs(iso){ if(!iso)return ""; const d=new Date(iso); const b=new Date(
 let DATA=null, TAB="flood", SHOWALL=false;
 try{TAB=localStorage.getItem("wf-tab")||"flood"}catch(e){}
 
+// data refreshes hourly; "stale" once two runs are missed
+function renderFresh(d){
+  const t=new Date(d.updatedAt).getTime(), ageH=(Date.now()-t)/3.6e6, next=t+3.6e6;
+  $("dot").className="dot"+(ageH>2?" stale":"");
+  $("freshTxt").innerHTML="อัปเดต <span class='num'>"+esc(fmtTs(d.updatedAt).replace("<br>"," "))+"</span> · "+rel(d.updatedAt)
+    +(ageH>2?" (ข้อมูลเก่า)":next>Date.now()?" · รอบถัดไปราว <span class='num'>"+hm(new Date(next).toISOString())+"</span> น.":" · กำลังรอรอบถัดไป");
+}
 function render(d){
   if(!d) return; DATA=d;
   // freshness
-  const ageH=(Date.now()-new Date(d.updatedAt).getTime())/3.6e6;
-  $("dot").className="dot"+(ageH>2?" stale":"");
-  $("freshTxt").innerHTML="อัปเดต <span class='num'>"+esc(fmtTs(d.updatedAt).replace("<br>"," "))+"</span> · "+rel(d.updatedAt)+(ageH>2?" (ข้อมูลเก่า)":"");
+  renderFresh(d);
   renderAlerts(d); renderRoads(d); renderBma(d); renderNow(d); render48(d); renderRiver(d); renderTw(d); renderDays(d); renderRayong(d); renderTmd(d); renderTabs(); renderNews();
 }
 
@@ -697,11 +714,19 @@ function focusBma(id,scrollList){SELB=id;
   if(scrollList){const li=document.querySelector(`#bmalist li[data-id="${id}"]`);if(li)li.scrollIntoView({block:"nearest",behavior:"smooth"});}
   else{const s=((DATA.bma||{}).sites||[]).find(x=>x.id===id);if(s)BMAP.pan([proj(s.p)]);}}
 function renderBma(d){
-  const B=d.bma, sec=$("bma"); if(!B||!(B.sites||[]).length){sec.hidden=true;return;} sec.hidden=false;
+  const B=d.bma, ageH=B&&B.fetched?(Date.now()-new Date(B.fetched))/3.6e6:99, live=!!(B&&(B.sites||[]).length)&&ageH<=3;
+  // no data, or older than the sensors' own 3 h cut-off: say so and point to the live BMA page instead of an empty map
+  $("bmaGrid").hidden=$("bmaHead").hidden=!live; $("bmaNote").hidden=live;
+  if(!live){
+    $("bmaAsof").textContent=B&&B.fetched?"ข้อมูลล่าสุด "+fmtTs(B.fetched).replace("<br>"," ")+" น.":"";
+    $("bmaHead").innerHTML="";
+    $("bmaNote").innerHTML=`ตอนนี้ยังดึงข้อมูลเซนเซอร์จากเว็บ กทม. ไม่ได้${/403/.test(d.bma_err||"")?" (เว็บ กทม. ปิดกั้นการเข้าถึงจากเซิร์ฟเวอร์อัตโนมัติ)":""}${B&&B.fetched?" ข้อมูลที่มีอยู่เก่าเกินกว่าจะใช้ได้ ("+rel(B.fetched)+")":""}
+      <div style="margin-top:8px"><a class="btn primary" href="https://weather.bangkok.go.th/flood/" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">ดูระดับน้ำบนถนนสดที่เว็บสำนักการระบายน้ำ ↗</a></div>`;
+    return;}
   const all=B.sites, wet=all.filter(bWet).sort((a,b)=>b.cm-a.cm), off=all.filter(bOff).length;
   $("bmaAsof").textContent="ดึงข้อมูล "+hm(B.fetched)+" น. · "+rel(B.fetched);
   $("bmaHead").innerHTML=`<span class="chip"><b>${wet.length}</b> จุดมีน้ำบนถนน</span><span class="chip"><span class="lv lv5"></span>20 ซม.+ <b>${wet.filter(s=>s.cm>=20).length}</b></span><span class="chip">ขัดข้อง/ไม่ส่งข้อมูล <b>${off}</b> จาก ${all.length} จุด</span>
-    ${B.stale?`<span class="chip" style="color:var(--warn)">รอบนี้ดึงข้อมูลไม่สำเร็จ แสดงข้อมูลรอบก่อน</span>`:""}
+    ${B.stale?`<span class="chip" style="color:var(--warn)">รอบล่าสุดดึงข้อมูลไม่สำเร็จ แสดงข้อมูลเมื่อ ${hm(B.fetched)} น.</span>`:""}
     <a href="${esc(B.source)}" target="_blank" rel="noopener">ที่มา: สำนักการระบายน้ำ กทม. ↗</a>`;
   const dot=(s,r,a)=>{const P=proj(s.p);return inMap(P)?`<circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="${r}" ${a}/>`:""};
   let svg=all.filter(s=>!bWet(s)).map(s=>dot(s,10,bOff(s)?'fill="none" stroke="var(--ink-3)" stroke-width="3"':'fill="var(--ink-3)" opacity=".55"')).join("");
@@ -751,24 +776,49 @@ function renderTw(d){
   const m=$("twm"); if(m)m.onclick=()=>{TWALL=true;renderTw(DATA);};
 }
 
+const rainCol=v=>v>=90?"var(--crit)":v>=35?"var(--warn)":"inherit";
+const fmtDay=s=>!s?"":s===todayStr()?"วันนี้":" "+(+s.slice(8,10))+" "+TH_M[+s.slice(5,7)-1];
+let RYALL=false;
 function renderRayong(d){
   const R=d.rayong, sec=$("rayong"); const w=R&&R.weather;
-  const has=!!(R&&(w||(R.news||[]).length||(R.water||[]).length||(R.warnings||[]).length));
+  const has=!!(R&&(w||(R.news||[]).length||(R.water||[]).length||(R.warnings||[]).length||(R.rain||[]).length||(R.dams||[]).length));
   $("ryBody").hidden=!has; $("ryEmpty").hidden=has;
-  $("tabRyDot").classList.toggle("on",!!(R&&((R.warnings||[]).length||(R.water||[]).some(x=>x.over&&twAgeH(x.t)<=24))));
+  const damHot=x=>(x.pct||0)>=100||(x.max&&x.storage>x.max);
+  $("tabRyDot").classList.toggle("on",!!(R&&((R.warnings||[]).length||(R.water||[]).some(x=>x.over&&twAgeH(x.t)<=24)||(R.dams||[]).some(damHot))));
   if(!has){$("ryAsof").textContent="";return;}
   const c=w&&w.current, t=todayStr();
   $("ryAsof").textContent="อัปเดต "+fmtTs(d.updatedAt).replace("<br>"," ")+(w&&w.stale?" · พยากรณ์อาจเก่า":"");
+  // at-a-glance: wettest gauge, reservoirs over normal storage, stations over the bank, TMD warnings
+  const rn=(R.rain||[]).filter(x=>twAgeH(x.t)<=6), top=rn[0], over=(R.water||[]).filter(x=>x.over&&twAgeH(x.t)<=24);
+  $("ryHead").innerHTML=[
+    (R.warnings||[]).length?`<span class="chip" style="color:var(--crit)"><span class="lv lv5"></span>ประกาศเตือนกรมอุตุฯ <b>${R.warnings.length}</b> ฉบับ</span>`:"",
+    ...(R.dams||[]).filter(damHot).map(x=>`<span class="chip"><span class="lv lv5"></span>อ่างฯ ${esc(x.name)} <b>${(x.pct||0).toFixed(0)}%</b>${x.max&&x.storage>x.max?" เกินความจุสูงสุด":""}</span>`),
+    over.length?`<span class="chip"><span class="lv lv5"></span>สถานีน้ำล้นตลิ่ง <b>${over.length}</b></span>`:"",
+    top&&top.mm>0?`<span class="chip">ฝนวัดได้สูงสุด 24 ชม. <b>${top.mm.toFixed(1)}</b> มม. · ${esc(top.amphoe||top.name)}</span>`:""].join("");
   $("ryWarn").innerHTML=(R.warnings||[]).map(x=>`<div class="alert crit" style="margin-bottom:10px"><span class="tag">ประกาศกรมอุตุนิยมวิทยา ฉบับที่ ${esc(x.no)} · กล่าวถึง จ.ระยอง</span><h3>${esc(x.title)}</h3><p>${esc(x.headline)}</p></div>`).join("");
   if(w&&c){const dl=w.daily.filter(x=>x.date<t).slice(-3).reduce((a,x)=>a+(x.rain||0),0), p0=w.points[0]||{};
     $("ryNow").innerHTML=`<div><span class="lbl">ตอนนี้ · เมืองระยอง</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
      <div><span class="lbl">ฝนขณะนี้</span><span class="v num">${(+c.rain).toFixed(1)}<small>มม.</small></span><span class="s">ลม ${esc(c.wind)} กม./ชม.</span></div>
      <div><span class="lbl">24 ชม. ข้างหน้า</span><span class="v num">${(+p0.next24||0).toFixed(1)}<small>มม.</small></span><span class="s">โอกาสฝน ${esc(p0.pp??"—")}%</span></div>
-     <div><span class="lbl">สะสม 3 วันที่ผ่านมา</span><span class="v num">${dl.toFixed(0)}<small>มม.</small></span><span class="s">ดินอิ่มน้ำ เสี่ยงน้ำหลาก</span></div>`;
-    const cls=v=>v>=90?"var(--crit)":v>=35?"var(--warn)":"inherit";
+     <div><span class="lbl">สะสม 3 วันที่ผ่านมา</span><span class="v num">${dl.toFixed(0)}<small>มม.</small></span><span class="s"${dl>=150?' style="color:var(--crit)"':""}>${dl>=150?"ฝนสะสมสูงมาก เสี่ยงน้ำป่า/น้ำหลาก":dl>=60?"ดินเริ่มอิ่มน้ำ":"ฝนสะสมไม่มาก"}</span></div>`;
+    const cls=rainCol;
     $("ryPts").innerHTML=w.points.map(x=>`<tr><td>${esc(x.name)}</td><td class="n" style="color:${cls(x.past24)}">${x.past24.toFixed(1)} มม.</td><td class="n" style="color:${cls(x.next24)}">${x.next24.toFixed(1)} มม.</td><td class="n" style="color:${cls(x.next48)}">${x.next48.toFixed(1)} มม.</td><td class="n">${x.pp}%</td></tr>`).join("");
     $("ryDays").innerHTML=dayCards(w.daily);
   } else {$("ryNow").innerHTML="";$("ryPts").innerHTML="";$("ryDays").innerHTML="";}
+  const east=d.tmd&&d.tmd.daily&&d.tmd.daily.east;
+  $("ryTmd").innerHTML=east?`<div><span class="lbl">พยากรณ์ภาคตะวันออก 24 ชม. · กรมอุตุฯ</span><p>${esc(east)}</p></div>`:"";
+  const rs=R.rain||[], rsh=RYALL?rs:rs.slice(0,8);
+  $("ryRain").innerHTML=rsh.map(x=>{const old=twAgeH(x.t)>6;
+    return `<tr class="${old?"stale":""}"><td><div>${esc(x.name)}</div><div class="sub">${esc(x.amphoe||"")}${x.agency?" · "+esc(x.agency):""}${old?" · ข้อมูลค้าง":""}</div></td>
+     <td class="n" style="color:${rainCol(x.mm||0)}">${(x.mm||0).toFixed(1)} มม.</td><td class="n sub">${esc(fmtTw(x.t))}</td></tr>`}).join("")||`<tr><td colspan="3" class="empty">ยังไม่มีข้อมูลฝนจากสถานีใน จ.ระยอง</td></tr>`;
+  $("ryRainMore").innerHTML=rsh.length<rs.length?`<button class="linkbtn" id="ryRm" style="padding:10px 2px">ดูอีก ${rs.length-rsh.length} สถานี</button>`:"";
+  const rm=$("ryRm"); if(rm)rm.onclick=()=>{RYALL=true;renderRayong(DATA);};
+  $("ryDams").innerHTML=(R.dams||[]).map(x=>{const hot=damHot(x), full=x.max&&x.storage>x.max, pc=x.pct||0;
+    const col=hot?"var(--crit)":pc>=80?"var(--water)":"var(--ok)";
+    return `<tr><td><div>อ่างฯ ${esc(x.name)}</div><div class="sub">ข้อมูล${esc(fmtDay(x.date))}</div></td>
+     <td class="n">${x.storage!=null?x.storage.toFixed(1):"—"}<div class="sub">ปกติ ${x.normal??"—"} · สูงสุด ${x.max??"—"}</div></td>
+     <td><div style="display:flex;align-items:center;gap:6px;font-size:12.5px"><span class="lv" style="background:${col}"></span>${full?"เกินความจุสูงสุด":hot?"เกินระดับเก็บกักปกติ":pc>=80?"น้ำมาก":"ปกติ"} <span class="num sub">${pc.toFixed(0)}%</span></div><div class="bar"><i style="width:${Math.min(100,pc/120*100)}%;background:${col}"></i></div></td>
+     <td class="n">${x.inflow??"—"} / ${x.release??"—"}${x.spill?`<div class="sub" style="color:var(--crit)">ล้นทางระบายน้ำล้น ${x.spill}</div>`:""}</td></tr>`}).join("")||`<tr><td colspan="4" class="empty">ไม่มีข้อมูลอ่างเก็บน้ำ</td></tr>`;
   const st=R.water||[];
   $("ryTw").innerHTML=st.map(s=>{const stale=twAgeH(s.t)>24;const pc=s.pct??0;
     return `<tr class="${stale?"stale":""}"><td><div>${esc(s.name)}</div><div class="sub">${esc(s.code)} · ${esc(s.amphoe||"")}${stale?" · ข้อมูลค้าง":""}</div></td>
@@ -800,7 +850,7 @@ $("q").addEventListener("input",renderNews);
 
 // seed data embedded at publish time
 try{render(JSON.parse($("seed").textContent))}catch(e){}
-setInterval(()=>{if(DATA){ $("freshTxt").innerHTML="อัปเดต <span class='num'>"+esc(fmtTs(DATA.updatedAt).replace("<br>"," "))+"</span> · "+rel(DATA.updatedAt);}},60000);
+setInterval(()=>{if(DATA)renderFresh(DATA);},60000);
 
 // quick nav: highlight the section in view
 // two views: กรุงเทพฯ (default) and ระยอง; #rayong / #ry-… opens the Rayong tab
@@ -810,13 +860,16 @@ setInterval(()=>{if(DATA){ $("freshTxt").innerHTML="อัปเดต <span cla
   function setView(v){wrap.dataset.view=v;$("tabBkk").setAttribute("aria-selected",v==="bkk");$("tabRy").setAttribute("aria-selected",v==="ry");$("hdrLbl").textContent=LBL[v];ul.scrollLeft=0;}
   const fromHash=()=>/^#(rayong$|ry-)/.test(location.hash)?"ry":"bkk";
   document.querySelectorAll(".vtabs button").forEach(b=>b.onclick=()=>{const v=b.dataset.view;if(wrap.dataset.view===v)return;setView(v);toTop();
+    try{localStorage.setItem("wf-view",v)}catch(e){}
     try{history.replaceState(null,"",v==="ry"?"#rayong":location.pathname+location.search);}catch(e){}});
   // a link switches the view only when its target belongs to the other view; shared sections (plates, hotlines) keep the current one
   window.addEventListener("hashchange",()=>{
     if(fromHash()==="ry"){if(wrap.dataset.view!=="ry")setView("ry");return;}
     const el=document.getElementById(decodeURIComponent(location.hash.slice(1)));
     if(el&&el.closest(".v-bkk")&&wrap.dataset.view!=="bkk")setView("bkk");});
-  if(fromHash()==="ry"){setView("ry");toTop();}
+  // a #rayong link wins; otherwise reopen the area this viewer picked last time
+  let saved="bkk"; try{saved=localStorage.getItem("wf-view")||"bkk"}catch(e){}
+  if(fromHash()==="ry"){setView("ry");toTop();} else if(!location.hash&&saved==="ry")setView("ry");
 })();
 (()=>{const links=[...document.querySelectorAll(".qnav a")];
   const groups={alerts:["alerts","tmdsec"],now:["now","rain48"],water:["water","tw"]};
@@ -834,12 +887,19 @@ setInterval(()=>{if(DATA){ $("freshTxt").innerHTML="อัปเดต <span cla
     if(!db){ // standalone hosting (GitHub Pages): read the JSON files published next to the page
       if(window.claude) return;
       const j=u=>fetch(u,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
-      const [f,al]=await Promise.all([j("data/feed.json"),j("data/alerts.json")]);
-      if(f&&f.updatedAt&&(!DATA||f.updatedAt>=DATA.updatedAt)) render(f);
-      if(Array.isArray(al)){ALERTS=al;renderCB();}
-      const n=(f&&f.radar&&f.radar.frames)||8; const fr=await Promise.all([...Array(n).keys()].map(i=>j("data/radar/f"+i+".json")));
-      const ok=fr.filter(x=>x&&x.img).sort((a,b)=>a.i-b.i); if(ok.length)setFrames(ok.map(x=>x.img),ok[ok.length-1].fetched);
-      setTimeout(()=>location.reload(),15*60*1000);
+      let last=0;
+      const load=async first=>{ last=Date.now();
+        const [f,al]=await Promise.all([j("data/feed.json"),j("data/alerts.json")]);
+        if(Array.isArray(al)){ALERTS=al;renderCB();}
+        const newer=!!(f&&f.updatedAt&&(!DATA||f.updatedAt>DATA.updatedAt));
+        if(newer) render(f);
+        if(!newer&&!first) return;
+        const n=(f&&f.radar&&f.radar.frames)||8; const fr=await Promise.all([...Array(n).keys()].map(i=>j("data/radar/f"+i+".json")));
+        const ok=fr.filter(x=>x&&x.img).sort((a,b)=>a.i-b.i); if(ok.length)setFrames(ok.map(x=>x.img),ok[ok.length-1].fetched);};
+      await load(true);
+      // new data lands hourly: check every 10 min and whenever the tab comes back, updating in place (no reload, so scroll and open tabs stay)
+      const poll=()=>{if(document.visibilityState==="visible"&&Date.now()-last>2*60*1000)load(false);};
+      setInterval(poll,10*60*1000); document.addEventListener("visibilitychange",poll);
       return; }
     DBREF=db;
     try{ const u=await window.claude.use("user"); CANEDIT=!!(u&&(u.isOwner()||u.canEdit())); }catch(e){}
