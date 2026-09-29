@@ -16,8 +16,8 @@ import json, sys, re, html, os, time, urllib.request, urllib.parse, datetime as 
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 
-def _load_dotenv(path=".env"):
-    """Local runs: KEY=value lines in .env fill in unset variables (GitHub Actions passes secrets as env instead)."""
+def _load_dotenv(path=os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")):
+    """Local runs: KEY=value lines in the .env next to this script fill in unset variables (GitHub Actions passes secrets as env instead)."""
     if os.path.exists(path):
         for line in open(path, encoding="utf-8"):
             k, sep, v = line.strip().partition("=")
@@ -127,19 +127,42 @@ def google_weather(lat, lon):
     """Current conditions, 48 h hourly and 7-day forecast in the same shape as weather()."""
     local = lambda iso: dt.datetime.fromisoformat(iso.replace("Z", "+00:00")).astimezone(TZ)
     cur = _gw("currentConditions:lookup", lat, lon)[0]
-    hours = [h for p in _gw("forecast/hours:lookup", lat, lon, hours=48, pageSize=24) for h in p.get("forecastHours", [])]
-    hourly = []
-    for h in hours[:48]:
-        t = local(_q(h, "interval", "startTime"))
-        hourly.append({"t": t.strftime("%H:%M"), "d": t.strftime("%Y-%m-%d"),
-                       "p": _q(h, "precipitation", "qpf", "quantity") or 0,
-                       "pp": _q(h, "precipitation", "probability", "percent") or 0})
+    hourly = google_hours(lat, lon, 48)
     return {"current": {"time": local(cur["currentTime"]).strftime("%Y-%m-%dT%H:%M"),
                         "temp": _q(cur, "temperature", "degrees"), "rh": cur.get("relativeHumidity"),
                         "rain": _q(cur, "precipitation", "qpf", "quantity") or 0,
                         "code": _wmo(cur.get("weatherCondition")), "desc": _q(cur, "weatherCondition", "description", "text"),
                         "wind": _q(cur, "wind", "speed", "value")},
             "hourly": hourly, "daily": google_days(lat, lon)}
+
+def google_hours(lat, lon, n):
+    """Next n hours: rain (mm), chance of rain and of thunderstorms (%), gusts (km/h)."""
+    local = lambda iso: dt.datetime.fromisoformat(iso.replace("Z", "+00:00")).astimezone(TZ)
+    out = []
+    for h in [h for p in _gw("forecast/hours:lookup", lat, lon, hours=n, pageSize=24) for h in p.get("forecastHours", [])][:n]:
+        t = local(_q(h, "interval", "startTime"))
+        out.append({"t": t.strftime("%H:%M"), "d": t.strftime("%Y-%m-%d"),
+                    "p": _q(h, "precipitation", "qpf", "quantity") or 0,
+                    "pp": _q(h, "precipitation", "probability", "percent") or 0,
+                    "ts": h.get("thunderstormProbability"), "gust": _q(h, "wind", "gust", "value")})
+    return out
+
+def google_alerts(lat, lon):
+    """Official alerts Google relays for a point (from national CAP feeds). Thailand is not covered yet:
+    the 'not supported for this location' reply counts as no alerts, so they appear here once it is."""
+    try:
+        pages = _gw("publicAlerts:lookup", lat, lon)
+    except RuntimeError as e:
+        if "not supported" in str(e):
+            return []
+        raise
+    out = []
+    for a in [a for p in pages for a in p.get("weatherAlerts", [])]:
+        ds = a.get("dataSource") or {}
+        out.append({"title": _q(a, "alertTitle", "text"), "event": a.get("eventType"), "area": a.get("areaName"),
+                    "severity": (a.get("severity") or "").replace("SEVERITY_", ""), "start": a.get("startTime"), "end": a.get("expirationTime"),
+                    "source": ds.get("name") or ds.get("publisher"), "url": ds.get("authorityUri"), "text": (a.get("description") or "")[:600]})
+    return out
 
 def google_days(lat, lon):
     """7-day forecast in the shape of weather()["daily"]: rain is day + night, pp the higher of the two."""
@@ -170,6 +193,44 @@ def with_google(w, lat, lon, place):
     daily = [x for x in w.get("daily", []) if x["date"] < today] + g["daily"] if g["daily"] else w.get("daily", [])
     out = dict(w, current=g["current"], hourly=g["hourly"] or w.get("hourly", []), daily=daily, src="google")
     out.pop("stale", None)
+    return out
+
+# ---- Bangkok by area: six points spread over the city for the rain section (Google when keyed) ----
+BKK_ZONES = [("ตอนกลาง", "พระนคร · ปทุมวัน · ดุสิต", 13.75, 100.51), ("ตอนเหนือ", "จตุจักร · บางเขน · ดอนเมือง", 13.86, 100.60),
+             ("ตะวันออก", "บางกะปิ · มีนบุรี · ลาดกระบัง", 13.79, 100.74), ("ตอนใต้", "สาทร · คลองเตย · บางนา", 13.70, 100.58),
+             ("ฝั่งธนฯ เหนือ", "บางกอกน้อย · ตลิ่งชัน · ทวีวัฒนา", 13.77, 100.43), ("ฝั่งธนฯ ใต้", "ธนบุรี · บางขุนเทียน · บางแค", 13.66, 100.44)]
+
+def _zone_sum(hours, days):
+    mx = lambda k: max([x[k] for x in hours if x.get(k) is not None], default=None)
+    pk = max(hours, key=lambda x: x["p"] or 0) if hours else None
+    return {"next3": round(sum(x["p"] or 0 for x in hours[:3]), 1), "next24": round(sum(x["p"] or 0 for x in hours), 1),
+            "pp": mx("pp"), "ts": mx("ts"), "gust": mx("gust"),
+            "peak": {"t": pk["t"], "d": pk["d"], "p": pk["p"]} if pk and (pk["p"] or 0) > 0 else None,
+            "days": [{"date": x["date"], "rain": x["rain"], "pp": x["pp"]} for x in days][:3]}
+
+def bkk_zones():
+    """Next 24 h and the next 3 days for each area. Open-Meteo first (one call for all six), then Google per area."""
+    q = urllib.parse.urlencode({"latitude": ",".join(str(z[2]) for z in BKK_ZONES), "longitude": ",".join(str(z[3]) for z in BKK_ZONES),
+                                "timezone": "Asia/Bangkok", "hourly": "precipitation,precipitation_probability,wind_gusts_10m",
+                                "daily": "precipitation_sum,precipitation_probability_max", "forecast_days": 3})
+    res = json.loads(get("https://api.open-meteo.com/v1/forecast?" + q))
+    res = res if isinstance(res, list) else [res]
+    now = dt.datetime.now(TZ).strftime("%Y-%m-%dT%H")
+    out = []
+    for (name, ex, lat, lon), d in zip(BKK_ZONES, res):
+        h = d["hourly"]
+        i = next((k for k, t in enumerate(h["time"]) if t[:13] >= now), 0)
+        hours = [{"t": h["time"][k][11:16], "d": h["time"][k][:10], "p": h["precipitation"][k],
+                  "pp": h["precipitation_probability"][k], "gust": h["wind_gusts_10m"][k]} for k in range(i, min(i + 24, len(h["time"])))]
+        days = [{"date": t, "rain": r, "pp": pp} for t, r, pp in
+                zip(d["daily"]["time"], d["daily"]["precipitation_sum"], d["daily"]["precipitation_probability_max"])]
+        out.append(dict(name=name, ex=ex, p=[lat, lon], src="open-meteo", **_zone_sum(hours, days)))
+    if GW_KEY:
+        for z in out:
+            try:
+                z.update(_zone_sum(google_hours(z["p"][0], z["p"][1], 24), google_days(z["p"][0], z["p"][1])), src="google")
+            except Exception as e:  # this area keeps Open-Meteo
+                GW_ERR["bkk_zones"] = f"{type(e).__name__}: {e}"[:200]
     return out
 
 def river():
@@ -997,6 +1058,7 @@ def main():
         "weather": safe(weather, None),
         "river": safe(river, []),
         "thaiwater": safe(thaiwater, None),
+        "zones": safe(bkk_zones, None),
         "bma": safe(bma_sensors, None),
         "roads": safe(roads, None),
         "reports": safe(road_reports, None),
@@ -1019,7 +1081,7 @@ def main():
             if doc["roads"] is None and prev.get("roads"):
                 doc["roads"] = dict(prev["roads"], carried=True)
             # keep the last good block when a source fails this run
-            for k in ("weather", "river", "thaiwater", "bma", "radar"):
+            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones"):
                 if not doc.get(k) and prev.get(k):
                     doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
             if not (doc.get("tmd") or {}).get("daily") and (prev.get("tmd") or {}).get("daily"):
@@ -1060,6 +1122,13 @@ def main():
             rw["points_src"] = "google"
         except Exception as e:
             GW_ERR["rayong_points"] = f"{type(e).__name__}: {e}"[:200]
+    if GW_KEY:
+        doc["galerts"] = {}
+        for place, lat, lon in (("bkk", LAT, LON), ("rayong", RAYONG_PTS[0][1], RAYONG_PTS[0][2])):
+            try:
+                doc["galerts"][place] = google_alerts(lat, lon)
+            except Exception as e:
+                GW_ERR["alerts_" + place] = f"{type(e).__name__}: {e}"[:200]
     if GW_ERR:
         doc["google_err"] = GW_ERR
     if doc["reports"] is None:

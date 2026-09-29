@@ -85,6 +85,16 @@ header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-
 @media (max-width:620px){.qnav{flex-wrap:wrap;row-gap:6px;justify-content:space-between}.qnav ul{order:3;flex-basis:100%}}
 .wrap[data-view="ry"] .v-bkk,.wrap[data-view="bkk"] .v-ry{display:none!important}
 
+/* public warning bar */
+.abar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 14px;border-radius:var(--r);font-size:13.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.abar.warn{background:var(--warn-bg);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.abar.crit{background:var(--crit-bg);border-color:color-mix(in srgb,var(--crit) 45%,transparent)}
+.abar ul{list-style:none;margin:0;padding:0;display:grid;gap:5px;flex-basis:100%}
+.abar li a{color:var(--ink);text-decoration:none;display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline}
+.abar li a:hover b{text-decoration:underline}
+.ab-area{font-weight:600;color:var(--ink)}
+.ab-m,.ab-o{font-size:12.5px;color:var(--ink-2)}
+
 /* situation summary */
 .summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 @media (max-width:900px){.summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
@@ -354,11 +364,13 @@ footer p{margin:0;max-width:110ch}
   </nav>
 
   <!-- กรุงเทพฯ -->
+  <section class="abar v-bkk" id="abarBkk" aria-label="แถบเตือนภัยสาธารณะ กรุงเทพฯ" aria-live="polite"></section>
   <section class="summary v-bkk" id="sumBkk" aria-label="ภาพรวมสถานการณ์กรุงเทพฯ"></section>
   <section id="alerts" class="v-bkk stack" aria-label="ประกาศเตือนภัย"></section>
 
   <!-- ระยอง -->
   <div class="v-ry stack" id="rayong">
+    <section class="abar" id="abarRy" aria-label="แถบเตือนภัยสาธารณะ ระยอง" aria-live="polite"></section>
     <div class="panel empty" id="ryEmpty" hidden>ยังไม่มีข้อมูลของ จ.ระยอง ระบบจะลองดึงใหม่ในรอบถัดไป</div>
     <div class="stack" id="ryBody">
       <section class="summary" id="ryHead" aria-label="ภาพรวมสถานการณ์ระยอง"></section>
@@ -437,6 +449,9 @@ footer p{margin:0;max-width:110ch}
     <div class="now" id="now" aria-label="สภาพอากาศตอนนี้"></div>
     <div class="chartbox" id="c48"></div>
     <div class="note" id="s48"></div>
+    <h3 class="subh">ฝนพยากรณ์รายพื้นที่</h3>
+    <div class="tblwrap"><table class="tw plan" id="zoneTbl"></table></div>
+    <div class="note" id="zoneNote"></div>
   </section>
 
   <section class="panel v-bkk" aria-labelledby="hroads" id="roads">
@@ -631,7 +646,7 @@ function render(d){
   if(!d) return; DATA=d;
   // freshness
   renderFresh(d);
-  renderSummary(d); renderAlerts(d); renderRoads(d); renderBma(d); renderNow(d); render48(d); renderRiver(d); renderTw(d); renderDays(d); renderRayong(d); renderTmd(d); renderTabs(); renderNews();
+  renderAlertBar(d); renderSummary(d); renderZones(d); renderAlerts(d); renderRoads(d); renderBma(d); renderNow(d); render48(d); renderRiver(d); renderTw(d); renderDays(d); renderRayong(d); renderTmd(d); renderTabs(); renderNews();
 }
 
 function renderAlerts(d){
@@ -692,7 +707,7 @@ function render48(d){
   s+=`<div class="legend"><span><i class="sw" style="background:var(--water);height:9px;width:9px"></i>ฝน มม./ชม.</span><span><i class="sw" style="height:9px;width:30px;background:linear-gradient(90deg,color-mix(in srgb,var(--water) 12%,transparent),var(--water))"></i>โอกาสฝน 0–100%</span><span>แตะหรือชี้ที่กราฟเพื่อดูค่ารายชั่วโมง</span></div>`;
   $("c48").innerHTML=s;
   hoverChart($("c48"),W,sx=>sx<L||sx>W-R?null:Math.min(n-1,Math.floor((sx-L)/bw)),xc,
-    i=>`<b>${dayLbl(h[i].d)} ${h[i].t} น.</b><br>ฝน ${(h[i].p||0).toFixed(1)} มม. · โอกาสฝน ${h[i].pp??0}%`);
+    i=>`<b>${dayLbl(h[i].d)} ${h[i].t} น.</b><br>ฝน ${(h[i].p||0).toFixed(1)} มม. · โอกาสฝน ${h[i].pp??0}%${h[i].ts!=null?` · พายุฝนฟ้าคะนอง ${h[i].ts}%`:""}`);
   const pk=h.reduce((a,x)=>(x.p||0)>(a.p||0)?x:a,h[0]||{});
   $("s48").innerHTML=(pk&&pk.p>0?`ฝนหนักสุดช่วง <span class="num">${esc(pk.t)}</span> น. ${pk.d===todayStr()?"วันนี้":pd(pk.d).getDate()+" "+TH_M[pd(pk.d).getMonth()]} ราว <span class="num">${pk.p}</span> มม./ชม. เวลาทั้งหมดเป็นเวลาไทย`:"ไม่มีฝนที่วัดได้ใน 48 ชม. ข้างหน้า")+(w.stale?' · <span style="color:var(--warn)">รอบนี้ดึงพยากรณ์ใหม่ไม่สำเร็จ แสดงข้อมูลรอบก่อน</span>':"");
 }
@@ -782,6 +797,7 @@ function parseCB(raw){
 }
 function shelterUrl(name,district){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(name.replace(/^รร\.\s*/,"โรงเรียน")+(district?" เขต"+district:"")+" กรุงเทพมหานคร")}
 function renderCB(){
+  if(DATA)renderAlertBar(DATA);
   const el=$("cblist"); const list=ALERTS.slice().sort((a,b)=>(b.ts||"").localeCompare(a.ts||""));
   if(!list.length){el.innerHTML=`<div class="empty">ยังไม่มีประกาศ</div>`;return;}
   el.innerHTML=list.map(a=>`<article class="cbitem"><div class="top"><span class="src">${esc(a.agency||"ประกาศ")} · ${a.ts?esc(fmtTs(a.ts).replace("<br>"," ")):""}${a.ts?" · "+rel(a.ts):""}</span>
@@ -991,6 +1007,24 @@ function renderTw(d){
   const m=$("twm"); if(m)m.onclick=()=>{TWALL=true;renderTw(DATA);};
 }
 
+// rain cell shading on the TMD daily scale: blue deepens to 35 mm, then warn (heavy) and crit (very heavy)
+const rainHeat=mm=>mm>=90?"background:var(--crit-bg);color:var(--crit);font-weight:600":mm>=35?"background:var(--warn-bg);color:var(--warn);font-weight:600"
+  :`background:color-mix(in srgb,var(--water) ${Math.round(4+Math.min(mm,35)/35*41)}%,transparent)`;
+function renderZones(d){
+  const Z=d.zones||[]; if(!Z.length){$("zoneTbl").innerHTML=`<tbody><tr><td class="empty">ยังไม่มีข้อมูลพยากรณ์รายพื้นที่</td></tr></tbody>`;$("zoneNote").textContent="";return;}
+  const t=todayStr(), dd=[...new Set(Z.flatMap(z=>(z.days||[]).map(x=>x.date)))].filter(x=>x>t).sort().slice(0,2);
+  const cell=v=>v==null?`<td class="hm">—</td>`:`<td class="hm" style="${rainHeat(v)}">${(+v).toFixed(1)}</td>`;
+  const pc=v=>v==null?"—":v+"%";
+  $("zoneTbl").innerHTML=`<thead><tr><th>พื้นที่</th><th>3 ชม.ข้างหน้า</th><th>24 ชม.ข้างหน้า</th><th>ช่วงหนักสุด</th><th>โอกาสฝน</th><th>พายุฝนฟ้าคะนอง</th><th>ลมกระโชก</th>${dd.map(x=>`<th>${TH_D[pd(x).getDay()]+" "+pd(x).getDate()}</th>`).join("")}</tr></thead><tbody>`
+    +Z.map(z=>{const m=Object.fromEntries((z.days||[]).map(x=>[x.date,x.rain]));
+      return `<tr><td><b>${esc(z.name)}</b><div class="sub">${esc(z.ex)}</div></td>${cell(z.next3)}${cell(z.next24)}
+        <td class="hm">${z.peak?`${esc(z.peak.t)} น.<div class="sub">${z.peak.p} มม./ชม.</div>`:"—"}</td><td class="hm">${pc(z.pp)}</td>
+        <td class="hm"${(z.ts||0)>=50?' style="color:var(--warn);font-weight:600"':""}>${pc(z.ts)}</td><td class="hm">${z.gust!=null?Math.round(z.gust)+" กม./ชม.":"—"}</td>
+        ${dd.map(x=>cell(m[x])).join("")}</tr>`}).join("")+"</tbody>";
+  const g=Z.every(z=>z.src==="google"), wet=Z.slice().sort((a,b)=>b.next24-a.next24)[0];
+  $("zoneNote").innerHTML=(wet&&wet.next24>0?`ฝนมากสุดใน 24 ชม. ข้างหน้า: <b>${esc(wet.name)}</b> ราว <span class="num">${wet.next24.toFixed(1)}</span> มม. · `:"")
+    +`จุดพยากรณ์ 1 จุดต่อพื้นที่ ตัวอย่างเขตในแต่ละพื้นที่ใช้บอกตำแหน่งคร่าวๆ · ที่มา ${g?"Google Weather":"Open-Meteo"}${Z.some(z=>z.ts!=null)?"":" (ไม่มีข้อมูลโอกาสพายุฝนฟ้าคะนอง)"}`;
+}
 const rainCol=v=>v>=90?"var(--crit)":v>=35?"var(--warn)":"inherit";
 // reservoir: inflow minus release per day, and how many days to the maximum at that rate
 const damNet=(x,full)=>{if(x.inflow==null||x.release==null)return "";const net=+(x.inflow-x.release).toFixed(2);
@@ -1010,9 +1044,9 @@ function renderRayong(d){
   $("ryAsof").textContent="อัปเดต "+fmtTs(d.updatedAt).replace("<br>"," ")+(w&&w.stale?" · พยากรณ์อาจเก่า":"");
   // at-a-glance tiles: TMD warnings, fullest reservoir, stations over the bank, wettest gauge
   const rn=(R.rain||[]).filter(x=>twAgeH(x.t)<=6), wv=(R.water||[]).filter(x=>twAgeH(x.t)<=24), ov=wv.filter(x=>x.over);
-  const wn=(R.warnings||[]).length, dm=(R.dams||[]).slice().sort((a,b)=>(b.pct||0)-(a.pct||0))[0], top=rn[0];
+  const aw=alertItems(d,"ry").filter(x=>x.hit), wn=aw.length, dm=(R.dams||[]).slice().sort((a,b)=>(b.pct||0)-(a.pct||0))[0], top=rn[0];
   $("ryHead").innerHTML=[
-    {lbl:"ประกาศเตือนกรมอุตุฯ",href:wn?"#ryWarn":"#ry-now",s:wn?"crit":"ok",pill:wn?"เตือนภัย":"ไม่มีประกาศ",val:`${wn}<small>ฉบับ</small>`,sub:wn?esc(R.warnings[0].title):"ไม่มีประกาศที่กล่าวถึง จ.ระยอง"},
+    {lbl:"ประกาศเตือนภัยในพื้นที่",href:wn?"#abarRy":"#ry-now",s:wn?(aw.some(x=>x.lvl==="crit")?"crit":"warn"):"ok",pill:wn?"เตือนภัย":"ไม่มีประกาศ",val:`${wn}<small>ฉบับ</small>`,sub:wn?esc(aw[0].title):"ไม่มีประกาศที่ระบุ จ.ระยอง"},
     dm?{lbl:"อ่างเก็บน้ำ",href:"#ry-dams",s:damHot(dm)?"crit":(dm.pct||0)>=80?"warn":"ok",pill:dm.max&&dm.storage>dm.max?"เกินความจุสูงสุด":damHot(dm)?"เกินระดับปกติ":(dm.pct||0)>=80?"น้ำมาก":"ปกติ",
       val:`${(dm.pct||0).toFixed(0)}<small>%</small>`,sub:`อ่างฯ ${esc(dm.name)} · ${dm.storage??"—"} ล้าน ม³`}:naTile("อ่างเก็บน้ำ","#ry-dams"),
     wv.length?{lbl:"ระดับน้ำในลำน้ำ",href:"#ry-water",s:ov.length?"crit":"ok",pill:ov.length?"ล้นตลิ่ง":"ปกติ",val:`${ov.length}<small>/ ${wv.length} สถานีล้นตลิ่ง</small>`,
@@ -1056,8 +1090,7 @@ function renderRayong(d){
     return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="tm">${fmtTs(x.ts)}</span><span><div class="tt">${esc(x.title)}${fresh?'<span class="new">ใหม่</span>':""}</div><div class="src">${esc(x.src)}</div></span></a></li>`}).join("")||`<li class="empty">ยังไม่พบข่าวน้ำท่วมระยอง</li>`;
   // 7-day watch plan: forecast rain per district per day, the day's worst, high water and waves off the city
   const pts=(w&&w.points)||[], mar=R.marine, dates=[...new Set(pts.flatMap(p=>(p.days||[]).map(x=>x.date)))].filter(x=>x>=t).sort().slice(0,7);
-  const heat=mm=>mm>=90?"background:var(--crit-bg);color:var(--crit);font-weight:600":mm>=35?"background:var(--warn-bg);color:var(--warn);font-weight:600"
-    :`background:color-mix(in srgb,var(--water) ${Math.round(4+Math.min(mm,35)/35*41)}%,transparent)`;
+  const heat=rainHeat;
   if(dates.length){
     const md=Object.fromEntries(((mar&&mar.days)||[]).map(x=>[x.date,x]));
     const worst=dates.map(dd=>Math.max(0,...pts.map(p=>((p.days||[]).find(x=>x.date===dd)||{}).rain||0)));
@@ -1086,15 +1119,42 @@ function renderRayong(d){
       +`สูงสุดในช่วงคาดการณ์ <span class="num">${Math.round(pk.q||0).toLocaleString()}</span> ม³/วินาที วันที่ ${pd(pk.date).getDate()} ${TH_M[pd(pk.date).getMonth()]}`;});
 }
 
+// ---- public warning bar: official warnings that name the area, a calm line when there are none ----
+// sources: TMD warnings, DDPM notices pasted into the page (Bangkok), Google Public Alerts (once it covers Thailand)
+const AREA={bkk:{id:"abarBkk",cls:" v-bkk",re:/กรุงเทพ|ปริมณฑล/,name:"กรุงเทพฯ และปริมณฑล",g:"bkk"},
+  ry:{id:"abarRy",cls:"",re:/ระยอง|ภาคตะวันออก|อ่าวไทยตอนบน/,name:"จ.ระยอง",g:"rayong"}};
+function alertItems(d,k){
+  const A=AREA[k], it=[];
+  ((d.tmd&&d.tmd.warnings)||[]).forEach(w=>{const txt=(w.title||"")+" "+(w.headline||""), hit=A.re.test(txt);
+    const href=k==="bkk"?"#alerts":/ระยอง/.test(txt)?"#ryWarn":(w.url||"#ry-now");
+    it.push({lvl:/หนักมาก|พายุ|รุนแรง/.test(w.title||"")?"crit":"warn",hit,title:w.title,src:"กรมอุตุนิยมวิทยา ฉบับที่ "+(w.no||"-"),
+      when:w.start?"มีผล "+w.start.slice(5,16)+(w.end?" ถึง "+w.end.slice(5,16):""):"",href,ext:/^https?:/.test(href)});});
+  ((d.galerts||{})[A.g]||[]).forEach(a=>it.push({lvl:/EXTREME|SEVERE/.test(a.severity||"")?"crit":"warn",hit:true,title:a.title||a.event,
+    src:a.source||"Google Public Alerts",when:a.end?"ถึง "+fmtTs(a.end).replace("<br>"," "):"",href:a.url||"#",ext:!!a.url}));
+  if(k==="bkk")ALERTS.filter(a=>a.ts&&Date.now()-new Date(a.ts)<48*3.6e6).forEach(a=>it.push({lvl:"warn",hit:true,
+    title:(a.title||"ประกาศ ปภ.")+(a.district?" · เขต"+a.district:""),src:"ปภ.",when:rel(a.ts),href:"#cbsec"}));
+  return it;
+}
+function renderAlertBar(d){
+  for(const k of ["bkk","ry"]){const A=AREA[k], el=$(A.id), it=alertItems(d,k), hit=it.filter(x=>x.hit), other=it.length-hit.length, crit=hit.some(x=>x.lvl==="crit");
+    el.className="abar "+(crit?"crit":hit.length?"warn":"calm")+A.cls;
+    el.innerHTML=hit.length
+      ?`<span class="pill p-${crit?"crit":"warn"}">ประกาศเตือนภัย ${hit.length} ฉบับ</span><span class="ab-area">${A.name}</span>
+        <ul>${hit.map(x=>`<li><a href="${esc(x.href)}"${x.ext?' target="_blank" rel="noopener"':""}><b>${esc(x.title)}</b><span class="ab-m">${esc(x.src)}${x.when?" · "+esc(x.when):""}</span></a></li>`).join("")}</ul>
+        ${other?`<span class="ab-o">ประกาศอื่นของกรมอุตุฯ ${other} ฉบับไม่ได้ระบุพื้นที่นี้</span>`:""}`
+      :`<span class="pill p-ok">ไม่มีประกาศเตือนภัย</span><span>ขณะนี้ไม่มีประกาศเตือนภัยสาธารณะที่ระบุ${A.name}${other?` · มีประกาศอื่นของกรมอุตุฯ ${other} ฉบับ`:""}</span><span class="ab-o">ตรวจจากกรมอุตุฯ${k==="bkk"?", ปภ.":""} และ Google Public Alerts</span>`;}
+}
+
 // ---- situation summary: four tiles, each with its own state pill, linking to the detail ----
 const ST={crit:"วิกฤต",warn:"เฝ้าระวัง",ok:"ปกติ",na:"ไม่มีข้อมูล"};
 const tile=o=>`<a class="tile s-${o.s}" href="${o.href}"><span class="t-top"><span class="t-lbl">${o.lbl}</span><span class="pill p-${o.s}">${o.pill||ST[o.s]}</span></span><span class="t-val">${o.val}</span><span class="t-sub">${o.sub||""}</span></a>`;
 const naTile=(lbl,href)=>({lbl,href,s:"na",val:"—",sub:"ยังไม่มีข้อมูลในรอบนี้"});
 const bmaLive=B=>!!(B&&(B.sites||[]).length)&&(B.fetched?(Date.now()-new Date(B.fetched))/3.6e6:99)<=3;
 function renderSummary(d){
-  const ws=(d.tmd&&d.tmd.warnings)||[], wc=ws.some(w=>/หนักมาก|พายุ/.test(w.title||""));
-  const t=[{lbl:"ประกาศเตือนกรมอุตุฯ",href:ws.length?"#alerts":"#tmdsec",s:ws.length?(wc?"crit":"warn"):"ok",pill:ws.length?(wc?"เตือนภัย":"เฝ้าระวัง"):"ไม่มีประกาศ",
-    val:`${ws.length}<small>ฉบับ</small>`,sub:ws.length?esc(ws[0].title):"ไม่มีประกาศเตือนภัยที่มีผลอยู่"}];
+  // same list as the warning bar, so the two never disagree
+  const ws=alertItems(d,"bkk").filter(x=>x.hit), wc=ws.some(x=>x.lvl==="crit");
+  const t=[{lbl:"ประกาศเตือนภัยในพื้นที่",href:ws.length?"#abarBkk":"#tmdsec",s:ws.length?(wc?"crit":"warn"):"ok",pill:ws.length?(wc?"เตือนภัย":"เฝ้าระวัง"):"ไม่มีประกาศ",
+    val:`${ws.length}<small>ฉบับ</small>`,sub:ws.length?esc(ws[0].title):"ไม่มีประกาศเตือนภัยที่ระบุกรุงเทพฯ และปริมณฑล"}];
   const B=d.bma;
   if(bmaLive(B)){const wet=B.sites.filter(bWet).sort((a,b)=>b.cm-a.cm), n20=wet.filter(s=>s.cm>=20).length;
     t.push({lbl:"น้ำบนถนน · เซนเซอร์ กทม.",href:"#bma",s:n20?"crit":wet.length?"warn":"ok",pill:n20?"ท่วม 20 ซม.+":wet.length?"มีน้ำขัง":"ปกติ",val:`${wet.length}<small>จุด</small>`,
