@@ -128,27 +128,30 @@ def google_weather(lat, lon):
     local = lambda iso: dt.datetime.fromisoformat(iso.replace("Z", "+00:00")).astimezone(TZ)
     cur = _gw("currentConditions:lookup", lat, lon)[0]
     hours = [h for p in _gw("forecast/hours:lookup", lat, lon, hours=48, pageSize=24) for h in p.get("forecastHours", [])]
-    days = [x for p in _gw("forecast/days:lookup", lat, lon, days=7, pageSize=7) for x in p.get("forecastDays", [])]
     hourly = []
     for h in hours[:48]:
         t = local(_q(h, "interval", "startTime"))
         hourly.append({"t": t.strftime("%H:%M"), "d": t.strftime("%Y-%m-%d"),
                        "p": _q(h, "precipitation", "qpf", "quantity") or 0,
                        "pp": _q(h, "precipitation", "probability", "percent") or 0})
+    return {"current": {"time": local(cur["currentTime"]).strftime("%Y-%m-%dT%H:%M"),
+                        "temp": _q(cur, "temperature", "degrees"), "rh": cur.get("relativeHumidity"),
+                        "rain": _q(cur, "precipitation", "qpf", "quantity") or 0,
+                        "code": _wmo(cur.get("weatherCondition")), "desc": _q(cur, "weatherCondition", "description", "text"),
+                        "wind": _q(cur, "wind", "speed", "value")},
+            "hourly": hourly, "daily": google_days(lat, lon)}
+
+def google_days(lat, lon):
+    """7-day forecast in the shape of weather()["daily"]: rain is day + night, pp the higher of the two."""
     daily = []
-    for x in days:
+    for x in [x for p in _gw("forecast/days:lookup", lat, lon, days=7, pageSize=7) for x in p.get("forecastDays", [])]:
         dd, parts = x["displayDate"], [x.get("daytimeForecast") or {}, x.get("nighttimeForecast") or {}]
         pps = [v for v in (_q(p, "precipitation", "probability", "percent") for p in parts) if v is not None]
         daily.append({"date": f"{dd['year']:04}-{dd['month']:02}-{dd['day']:02}", "code": _wmo(parts[0].get("weatherCondition")),
                       "tmax": _q(x, "maxTemperature", "degrees"), "tmin": _q(x, "minTemperature", "degrees"),
                       "rain": round(sum(_q(p, "precipitation", "qpf", "quantity") or 0 for p in parts), 1),
                       "pp": max(pps) if pps else None})
-    return {"current": {"time": local(cur["currentTime"]).strftime("%Y-%m-%dT%H:%M"),
-                        "temp": _q(cur, "temperature", "degrees"), "rh": cur.get("relativeHumidity"),
-                        "rain": _q(cur, "precipitation", "qpf", "quantity") or 0,
-                        "code": _wmo(cur.get("weatherCondition")), "desc": _q(cur, "weatherCondition", "description", "text"),
-                        "wind": _q(cur, "wind", "speed", "value")},
-            "hourly": hourly, "daily": daily}
+    return daily
 
 def with_google(w, lat, lon, place):
     """Put Google's current conditions and forecast over an Open-Meteo block. Past days stay Open-Meteo
@@ -239,9 +242,12 @@ def rayong_weather():
         rain = [x or 0 for x in h["precipitation"]]
         pts.append({"name": name, "p": [lat, lon],
                     "past24": round(sum(rain[max(0, i - 24):i]), 1), "next24": round(sum(rain[i:i + 24]), 1),
-                    "next48": round(sum(rain[i:i + 48]), 1),
+                    "next48": round(sum(rain[i:i + 48]), 1), "next72": round(sum(rain[i:i + 72]), 1),
                     "pp": max([x or 0 for x in h["precipitation_probability"][i:i + 24]] or [0]),
-                    "now": d["current"]["precipitation"]})
+                    "now": d["current"]["precipitation"],
+                    "days": [{"date": t, "rain": r, "pp": pp} for t, r, pp in
+                             zip(d["daily"]["time"], d["daily"]["precipitation_sum"], d["daily"]["precipitation_probability_max"])
+                             if t >= now[:10]][:7]})
     c, dd = res[0]["current"], res[0]["daily"]
     daily = [{"date": dd["time"][k], "code": dd["weather_code"][k], "tmax": dd["temperature_2m_max"][k],
               "tmin": dd["temperature_2m_min"][k], "rain": dd["precipitation_sum"][k],
@@ -249,6 +255,40 @@ def rayong_weather():
     return {"current": {"time": c["time"], "temp": c["temperature_2m"], "rh": c["relative_humidity_2m"],
                         "rain": c["precipitation"], "code": c["weather_code"], "wind": c["wind_speed_10m"]},
             "points": pts, "daily": daily}
+
+MARINE_PT = (12.64, 101.28)  # sea off Rayong city (หาดแสงจันทร์/แม่รำพึง), where the Rayong river meets the sea
+
+def rayong_marine():
+    """Sea level incl. tide and wave height off Rayong city (Open-Meteo Marine, a model): 72 h hourly,
+    plus each day's high waters and highest wave. High water at the river mouth slows drainage from the city."""
+    q = urllib.parse.urlencode({"latitude": MARINE_PT[0], "longitude": MARINE_PT[1], "hourly": "wave_height,sea_level_height_msl",
+                                "timezone": "Asia/Bangkok", "forecast_days": 7})
+    h = json.loads(get("https://marine-api.open-meteo.com/v1/marine?" + q))["hourly"]
+    t, sl, wv = h["time"], h["sea_level_height_msl"], h["wave_height"]
+    now = dt.datetime.now(TZ).strftime("%Y-%m-%dT%H")
+    i0 = next((k for k, x in enumerate(t) if x[:13] >= now), 0)
+    days = {}
+    for k, x in enumerate(t):
+        d = days.setdefault(x[:10], {"date": x[:10], "high": [], "wave": None})
+        if wv[k] is not None:
+            d["wave"] = max(d["wave"] or 0, round(wv[k], 2))
+        if 0 < k < len(t) - 1 and None not in (sl[k - 1], sl[k], sl[k + 1]) and sl[k - 1] <= sl[k] > sl[k + 1]:
+            d["high"].append({"t": x[11:16], "h": round(sl[k], 2)})
+    return {"hourly": [{"t": t[k][11:16], "d": t[k][:10], "sl": _f(sl[k]), "wave": _f(wv[k])} for k in range(i0, min(i0 + 72, len(t)))],
+            "days": [d for d in days.values() if d["date"] >= now[:10]][:7]}
+
+RAYONG_RIVERS = [("แม่น้ำระยอง", 12.69, 101.27), ("แม่น้ำประแสร์", 12.72, 101.66)]
+
+def rayong_rivers():
+    """GloFAS discharge (model, ~5 km grid) for the two main rivers: 7 days back, 14 ahead, with the worst-case member."""
+    out = []
+    for name, lat, lon in RAYONG_RIVERS:
+        q = urllib.parse.urlencode({"latitude": lat, "longitude": lon, "daily": "river_discharge,river_discharge_max",
+                                    "past_days": 7, "forecast_days": 14})
+        d = json.loads(get("https://flood-api.open-meteo.com/v1/flood?" + q))["daily"]
+        out.append({"name": name, "series": [{"date": d["time"][i], "q": _f(d["river_discharge"][i]), "qmax": _f(d["river_discharge_max"][i])}
+                                             for i in range(len(d["time"]))]})
+    return out
 
 TW_RAIN = "https://api-v3.thaiwater.net/api/v1/thaiwater30/public/rain_24h"
 TW_MAIN = "https://api-v3.thaiwater.net/api/v1/thaiwater30/public/thailand_main"  # ~10 MB; only its "dam" block is used
@@ -865,14 +905,22 @@ def merge_reports(new, prev):
 # ---- rain radar (TMD Suvarnabhumi 120 km loop) ----
 import base64, io
 RADAR_GIF = "https://weather.tmd.go.th/svp/svp120loop.gif"
+RADAR_RY_GIF = "https://weather.tmd.go.th/ryg/rygloop.gif"  # TMD Rayong radar, 240 km: the whole east coast
 RADAR_FRAMES = 8
 
 def radar(out_dir=None):
-    out_dir = out_dir or os.environ.get("RADAR_DIR", "radar")
-    """Writes the most recent loop frames as radar/f<i>.json ({i, n, img: data-URI webp, fetched})
+    return _radar(RADAR_GIF, out_dir or os.environ.get("RADAR_DIR", "radar"), "https://weather.tmd.go.th/svp120loop.php")
+
+def rayong_radar():
+    """Frames go next to the Bangkok ones, as radar_ry/f<i>.json."""
+    base = os.environ.get("RADAR_DIR", "radar").rstrip("/\\")
+    return _radar(RADAR_RY_GIF, os.path.join(os.path.dirname(base) or ".", "radar_ry"), "https://weather.tmd.go.th/rygloop.php")
+
+def _radar(gif, out_dir, source):
+    """Writes the most recent loop frames as <out_dir>/f<i>.json ({i, n, img: data-URI webp, fetched})
     for the dashboard's db collection "radar". Returns metadata for the main feed doc."""
     from PIL import Image, ImageSequence
-    im = Image.open(io.BytesIO(get(RADAR_GIF, timeout=60)))
+    im = Image.open(io.BytesIO(get(gif, timeout=60)))
     frames = [f.convert("RGB") for f in ImageSequence.Iterator(im)][-RADAR_FRAMES:]
     os.makedirs(out_dir, exist_ok=True)
     fetched = dt.datetime.now(TZ).isoformat(timespec="minutes")
@@ -883,7 +931,7 @@ def radar(out_dir=None):
                "img": "data:image/webp;base64," + base64.b64encode(b.getvalue()).decode()}
         with open(os.path.join(out_dir, f"f{i}.json"), "w") as fh:
             json.dump(doc, fh)
-    return {"frames": len(frames), "fetched": fetched, "source": "https://weather.tmd.go.th/svp120loop.php"}
+    return {"frames": len(frames), "fetched": fetched, "source": source}
 
 def clean(s):
     return re.sub(r"\s+\n", "\n", (s or "").replace("\r", "")).strip()
@@ -961,7 +1009,8 @@ def main():
             doc["bma_err"] = BMA_ERR
         doc["bma"] = bma_from_file()
     doc["rayong"] = {"weather": safe(rayong_weather, None), "news": safe(rayong_news, None),
-                     "rain": safe(rayong_rain, None), "dams": safe(rayong_dams, None)}
+                     "rain": safe(rayong_rain, None), "dams": safe(rayong_dams, None),
+                     "rivers": safe(rayong_rivers, None), "marine": safe(rayong_marine, None), "radar": safe(rayong_radar, None)}
     prev_path = os.environ.get("PREV_FEED")
     if prev_path and os.path.exists(prev_path):
         try:
@@ -982,9 +1031,12 @@ def main():
             pr = prev.get("rayong") or {}
             if doc["rayong"]["weather"] is None and pr.get("weather"):
                 doc["rayong"]["weather"] = dict(pr["weather"], stale=True)
-            for k in ("news", "rain", "dams"):  # each item carries its own time, so the page can tell it is old
+            for k in ("news", "rain", "dams", "rivers"):  # each item carries its own time, so the page can tell it is old
                 if doc["rayong"][k] is None:
                     doc["rayong"][k] = pr.get(k) or []
+            for k in ("marine", "radar"):
+                if doc["rayong"][k] is None and pr.get(k):
+                    doc["rayong"][k] = dict(pr[k], stale=True)
             for k, v in doc["news"].items():
                 if v is None:
                     doc["news"][k] = (prev.get("news") or {}).get(k) or []
@@ -1000,12 +1052,20 @@ def main():
         h = rw["hourly"]
         rw["points"][0].update(next24=round(sum(x["p"] for x in h[:24]), 1), next48=round(sum(x["p"] for x in h[:48]), 1),
                                pp=max([x["pp"] or 0 for x in h[:24]], default=0))
+    if rw and rw.get("src") == "google" and rw.get("points"):
+        try:
+            gd = [google_days(p["p"][0], p["p"][1]) for p in rw["points"]]
+            for p, days in zip(rw["points"], gd):
+                p["days"] = [{"date": x["date"], "rain": x["rain"], "pp": x["pp"]} for x in days]
+            rw["points_src"] = "google"
+        except Exception as e:
+            GW_ERR["rayong_points"] = f"{type(e).__name__}: {e}"[:200]
     if GW_ERR:
         doc["google_err"] = GW_ERR
     if doc["reports"] is None:
         doc["reports"] = []
     warn_ry = [w for w in doc["tmd"]["warnings"] if "ระยอง" in (w.get("title") or "") + (w.get("headline") or "")]
-    doc["rayong"].update({k: doc["rayong"][k] or [] for k in ("news", "rain", "dams")})
+    doc["rayong"].update({k: doc["rayong"][k] or [] for k in ("news", "rain", "dams", "rivers")})
     doc["rayong"].update({"warnings": warn_ry,
                           "water": (doc.get("thaiwater") or {}).get("rayong") or []})
     doc["news"] = {k: v or [] for k, v in doc["news"].items()}
@@ -1017,6 +1077,7 @@ def main():
     print(f"wrote {out}: {len(s.encode())} bytes; news " +
           ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
           f"; google={'off' if not GW_KEY else ','.join(k + ('=FAIL' if k in GW_ERR else '=ok') for k in ('bkk', 'rayong'))}"
+          f"; rayong radar={(doc['rayong'].get('radar') or {}).get('frames', 0)} marine={'ok' if doc['rayong'].get('marine') else 'none'} rivers={len(doc['rayong']['rivers'])}"
           f"; rayong news={len(doc['rayong']['news'])} water={len(doc['rayong']['water'])} rain={len(doc['rayong']['rain'])} dams={len(doc['rayong']['dams'])} weather={'ok' if doc['rayong']['weather'] else 'none'}; reports={len(doc['reports'])}; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
 
 if __name__ == "__main__":

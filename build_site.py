@@ -10,9 +10,10 @@ HEAD = ('<!doctype html><html lang="th"><head><meta charset="utf-8">'
 t = open("template.html", encoding="utf-8").read()
 esc = lambda s: s.replace("</", "<\\/")
 feed = open("data/feed.json", encoding="utf-8").read()
-frames = sorted(glob.glob("data/radar/f*.json"), key=lambda p: int(os.path.basename(p)[1:-5]))
-radar = json.dumps({k: v for k, v in json.load(open(frames[-1])).items() if k in ("img", "fetched")}) if frames else "null"
+last = lambda d: (lambda fs: json.dumps({k: v for k, v in json.load(open(fs[-1])).items() if k in ("img", "fetched")}) if fs else "null")(
+    sorted(glob.glob(d + "/f*.json"), key=lambda p: int(os.path.basename(p)[1:-5])))
+radar, radar_ry = last("data/radar"), last("data/radar_ry")
 alerts = open("data/alerts.json", encoding="utf-8").read() if os.path.exists("data/alerts.json") else "[]"
-html = t.replace("__SEED__", esc(feed)).replace("__RADAR__", esc(radar)).replace("__ALERTS__", esc(alerts))
+html = t.replace("__SEED__", esc(feed)).replace("__RADAR__", esc(radar)).replace("__RADAR_RY__", esc(radar_ry)).replace("__ALERTS__", esc(alerts))
 open("index.html", "w", encoding="utf-8").write(HEAD + html + "</body></html>")
 print("index.html", len(html))
