@@ -108,7 +108,7 @@ def thaiwater():
 import os, time
 TR_RSS = "https://www.thairath.co.th/rss/news"
 TR_SITEMAP = "https://www.thairath.co.th/sitemap-daily.xml"
-ROAD_TITLE = re.compile(r"(เลี่ยง|น้ำท่วมขัง|ท่วมขัง).*?\d+\s*(เส้นทาง|ถนน|สาย|จุด)|\d+\s*(เส้นทาง|ถนน|สาย)\s*.*ท่วม")
+ROAD_TITLE = re.compile(r"(เลี่ยง|ท่วม).*?\d+\s*(เส้นทาง|ถนน|สาย|จุด)|\d+\s*(เส้นทาง|ถนน|สาย)\s*.*ท่วม")
 GEO_BOX = (100.30, 13.45, 100.98, 14.15)  # lon_min, lat_min, lon_max, lat_max
 
 def _road_candidates():
@@ -262,7 +262,9 @@ def parse_roads_unnumbered(body):
     """BMA 'N ถนนที่ยังมีน้ำท่วมขัง(สูง)' summary: road names run together, each
     optionally followed by 'ช่วง A ถึง B' / 'บริเวณ C', until the next section."""
     t = re.sub(r"\s+", " ", body)
-    m = re.search(r"\d+\s*(?:ถนน|สาย|เส้นทาง)\s*ที่ยัง(?:มี)?น้ำท่วม(?:ขัง)?(?:สูง)?\s*:?", t)
+    m = re.search(r"\d+\s*(?:ถนน|สาย|เส้นทาง)\s*ที่ยัง(?:มี)?น้ำท่วม(?:ขัง)?(?:สูง)?\s*:?"
+                  r"|(?:ที่)?ควรหลีกเลี่ยง\s*(?:จำนวน\s*)?\d+\s*(?:ถนน|สาย|เส้นทาง)\s*(?:ได้แก่|คือ)?\s*:?"
+                  r"|\d+\s*(?:ถนน|สาย|เส้นทาง)\s*ที่ควรหลีกเลี่ยง\s*(?:ได้แก่|คือ)?\s*:?", t)
     if not m:
         return []
     seg = t[m.end():m.end() + 2500]
@@ -388,6 +390,7 @@ def roads():
             print("WARN article", link[:80], e, file=sys.stderr)
             continue
         items = _best_items(body, paras)
+        print(f"roads candidate: {len(items)} roads · {(headline or title)[:70]} · {link[:70]}", file=sys.stderr)
         if len(items) < 5:
             continue
         mt = re.search(r"(?:เวลา|รอบ)\s*(\d{1,2}[.:]\d{2})\s*น\.", body or paras)
