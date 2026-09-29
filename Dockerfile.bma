@@ -1,0 +1,7 @@
+# BMA road-flood sensor relay: fetches the sensors hourly and uploads data/bma.json (see README).
+FROM python:3.12-slim
+WORKDIR /app
+COPY fetch_feed.py bma_push.py ./
+ENV PYTHONUNBUFFERED=1 PYTHONIOENCODING=utf-8
+# a failed run (BMA site down, token problem) is logged and tried again next hour
+CMD ["sh", "-c", "while :; do python bma_push.py || echo \"$(date -u +%FT%TZ) bma_push failed, retrying in 1 h\"; sleep 3600; done"]

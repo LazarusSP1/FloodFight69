@@ -1,0 +1,8 @@
+# BMA road-flood sensor relay. Run on an always-on machine whose internet connection the BMA site accepts
+# (home/office line, not a cloud server): cp .env.example .env, put the token in, then docker compose up -d --build
+services:
+  bma-relay:
+    build: {context: ., dockerfile: Dockerfile.bma}
+    env_file: .env
+    restart: unless-stopped
+    logging: {driver: local, options: {max-size: 1m}}

@@ -19,12 +19,20 @@ https://lazarussp1.github.io/FloodFight69/
 - `build_site.py` สร้าง `index.html` จาก template + data
 - `data/alerts.json` ประกาศ ปภ. ที่เพิ่มด้วยมือ (แก้ไฟล์นี้เพื่อเพิ่มประกาศ)
 - `bma_push.py` ส่งข้อมูลเซนเซอร์น้ำบนถนนของ กทม. ขึ้น `data/bma.json` จากเครื่องที่เว็บ กทม. ยอมให้เข้า (ดูหัวข้อถัดไป)
+- `Dockerfile.bma`, `compose.yml`, `.env.example` รัน `bma_push.py` ทุกชั่วโมงใน Docker
 
 ## เซนเซอร์น้ำบนถนน กทม.
-เว็บ weather.bangkok.go.th ใช้ Cloudflare ปิดกั้นเซิร์ฟเวอร์ของ GitHub Actions บอทจึงดึงข้อมูลเองไม่ได้ (เหตุผลบันทึกไว้ใน `bma_err` ของ `data/feed.json`) ถ้ามีเครื่องที่เปิดเว็บนี้ได้ ให้รันทุกชั่วโมง:
+เว็บ weather.bangkok.go.th ใช้ Cloudflare ปิดกั้นเซิร์ฟเวอร์ของ GitHub Actions บอทจึงดึงข้อมูลเองไม่ได้ (เหตุผลบันทึกไว้ใน `bma_err` ของ `data/feed.json`) จึงใช้เครื่องที่เปิดตลอดและใช้อินเทอร์เน็ตบ้าน/ออฟฟิศ (ไม่ใช่ cloud server) ส่งข้อมูลขึ้นมาแทน
+
+ติดตั้งด้วย Docker บนเครื่องนั้น:
 ```
-python bma_push.py   # ต้องติดตั้งและล็อกอิน gh CLI ไว้; --dry-run เพื่อทดสอบโดยไม่อัปโหลด
+git clone https://github.com/LazarusSP1/FloodFight69.git && cd FloodFight69
+cp .env.example .env            # ใส่ GH_TOKEN (ดูวิธีสร้าง token ในไฟล์)
+docker compose run --rm bma-relay python bma_push.py --dry-run   # ทดสอบ: ต้องได้ "fetched ... sites"
+docker compose up -d --build     # รันทุกชั่วโมง เริ่มเองหลังรีบูต · ดู log: docker compose logs -f
 ```
+เมื่อโค้ดใน repo เปลี่ยน ให้ `git pull && docker compose up -d --build` · รันตรงโดยไม่ใช้ Docker ก็ได้: `python bma_push.py` (ใช้ `GH_TOKEN` หรือ gh CLI ที่ล็อกอินไว้)
+
 บอทจะใช้ `data/bma.json` เมื่ออายุไม่เกิน 6 ชม. ถ้าไม่มีข้อมูลที่ใหม่พอ หน้าเว็บจะแสดงลิงก์ไปหน้าสดของสำนักการระบายน้ำแทน
 
 ## รันเอง
