@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Weather Fight feed builder — fetches flood/rain/forecast data for Bangkok
 and writes feed.json (one document for the dashboard's db at feed/latest).
-Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, TMD open data API, Google News RSS,
+Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, BMA road-flood sensors, TMD open data API, Google News RSS,
 road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
 Usage: python3 fetch_feed.py [out.json]
 Optional env: ROADS_URL=<article url> forces the flooded-roads source article (Thairath first, else any outlet found via Google News);
@@ -17,10 +17,10 @@ LAT, LON = 13.7563, 100.5018
 TZ = dt.timezone(dt.timedelta(hours=7))
 UA = {"User-Agent": "Mozilla/5.0 WeatherFight/1.0"}
 
-def get(url, timeout=30, tries=3):
+def get(url, timeout=30, tries=3, data=None):
     for k in range(tries):
         try:
-            req = urllib.request.Request(url, headers=UA)
+            req = urllib.request.Request(url, headers=UA, data=data)
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read()
         except Exception:
@@ -103,6 +103,35 @@ def thaiwater():
             area.append(p)
     area.sort(key=lambda x: x["pct"] if x["pct"] is not None else -1, reverse=True)
     return {"river": [by_code[c] for c in TW_RIVER if c in by_code], "area": area}
+
+# ---- BMA road-flood sensors (สำนักการระบายน้ำ กทม., weather.bangkok.go.th/flood/) ----
+BMA_SENSORS = "https://weather.bangkok.go.th/Flood/PageMap/GetDataTable"
+# flood_sub_status: 0 ขัดข้อง, 5 ขัดข้องชั่วคราว (both offline), 1 ปกติ, 2 น้ำท่วมเล็กน้อย, 3 น้ำท่วม
+
+def _msdate(s):
+    m = re.search(r"\d{10,}", s or "")
+    return dt.datetime.fromtimestamp(int(m.group()) / 1000, TZ).isoformat(timespec="minutes") if m else None
+
+def bma_sensors():
+    rows = json.loads(get(BMA_SENSORS, data=b""))  # POST only; GET is 404
+    out = []
+    for r in rows:
+        try:
+            lat, lon = float(r["latitude"]), float(r["longitude"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        name = (r.get("flood_shortname") or "").strip()
+        if r.get("typesite") == 2 and r.get("tunnel_sub_name"):
+            name += " " + r["tunnel_sub_name"].strip()
+        out.append({"id": r.get("flood_id"), "name": name.rstrip(" *"),
+                    # "*" sites only report steps (5/10/15/20 cm), so 20 means "20 or more"
+                    "step": "*" in name, "tunnel": r.get("typesite") == 2,
+                    "district": r.get("districtName"), "p": [round(lat, 5), round(lon, 5)],
+                    "cm": _f(r.get("flood")), "max": _f(r.get("flood_max")),
+                    "st": r.get("flood_sub_status"), "t": _msdate(r.get("site_timestamp")),
+                    "since": _msdate(r.get("flood_start")) if (r.get("flood") or 0) > 0 else None})
+    return {"fetched": dt.datetime.now(TZ).isoformat(timespec="minutes"),
+            "source": "https://weather.bangkok.go.th/flood/", "sites": out}
 
 # ---- flooded roads (BMA road-flood alerts as republished by Thairath) ----
 import os, time
@@ -659,6 +688,7 @@ def main():
         "weather": safe(weather, None),
         "river": safe(river, []),
         "thaiwater": safe(thaiwater, None),
+        "bma": safe(bma_sensors, None),
         "roads": safe(roads, None),
         "reports": safe(road_reports, None),
         "radar": safe(radar, None),
@@ -673,7 +703,7 @@ def main():
             if doc["roads"] is None and prev.get("roads"):
                 doc["roads"] = dict(prev["roads"], carried=True)
             # keep the last good block when a source fails this run
-            for k in ("weather", "river", "thaiwater", "radar"):
+            for k in ("weather", "river", "thaiwater", "bma", "radar"):
                 if not doc.get(k) and prev.get(k):
                     doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
             if not (doc.get("tmd") or {}).get("daily") and (prev.get("tmd") or {}).get("daily"):
@@ -699,7 +729,7 @@ def main():
     open(out, "w", encoding="utf-8").write(s)
     print(f"wrote {out}: {len(s.encode())} bytes; news " +
           ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
-          f"; reports={len(doc['reports'])}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
+          f"; reports={len(doc['reports'])}; bma_sites={len((doc['bma'] or {}).get('sites', []))}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
 
 if __name__ == "__main__":
     main()

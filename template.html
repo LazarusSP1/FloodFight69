@@ -146,6 +146,7 @@ svg text{font-family:var(--mono);fill:var(--ink-3);font-size:10.5px}
 .segs{display:grid;gap:3px;font-size:13px;color:var(--ink-2)}
 .segs div{display:flex;gap:8px;justify-content:space-between;align-items:baseline}
 .segs a{font-size:12.5px;white-space:nowrap}
+.bdot{cursor:pointer}
 .roadhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:10px;font-size:13px;color:var(--ink-2)}
 .btn{font:inherit;font-size:13px;padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
 .btn:hover{border-color:var(--accent)}
@@ -211,6 +212,7 @@ html{scroll-behavior:smooth}
     <li><a href="#water">ระดับน้ำ</a></li>
     <li><a href="#cbsec">ประกาศ ปภ.</a></li>
     <li><a href="#roads">ถนนน้ำท่วม</a></li>
+    <li><a href="#bma">เซนเซอร์น้ำบนถนน</a></li>
     <li><a href="#d7">พยากรณ์ 7 วัน</a></li>
     <li><a href="#newssec">ข่าว</a></li>
     <li><a href="#plates">ป้ายทะเบียนหาย</a></li>
@@ -309,6 +311,21 @@ html{scroll-behavior:smooth}
     </div>
   </section>
 
+  <section class="panel" aria-labelledby="hbma" id="bma" hidden>
+    <div class="panel-h"><h2 id="hbma">ระดับน้ำบนถนน · เซนเซอร์ กทม.</h2><span class="lbl" id="bmaAsof"></span></div>
+    <div class="roadhead" id="bmaHead"></div>
+    <div class="roadgrid">
+      <div>
+        <div class="mapwrap" id="bmawrap"><div class="mapctl"><button id="bzin" aria-label="ขยายแผนที่">+</button><button id="bzout" aria-label="ย่อแผนที่">−</button></div>
+          <div class="mapin" id="bmain"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="bmasvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งเซนเซอร์วัดระดับน้ำบนถนนของ กทม."></svg></div>
+        </div>
+        <div class="legend small" style="margin-top:6px"><span><span class="lv lv5"></span> 20 ซม.+</span><span><span class="lv" style="background:var(--warn)"></span> 15–19 ซม.</span><span><span class="lv lv4"></span> ต่ำกว่า 15 ซม.</span><span><span class="lv lv0"></span> ปกติ</span><span><span class="lv" style="border:1.5px solid var(--ink-3)"></span> ขัดข้อง/ไม่ส่งข้อมูล</span></div>
+        <div class="attr">ข้อมูล: สำนักการระบายน้ำ กทม. · ค่าที่มี ≥ มาจากเซนเซอร์แบบขั้น (5/10/15/20 ซม.) ค่าจริงอาจสูงกว่านี้ · แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap</div>
+      </div>
+      <ul class="roadlist" id="bmalist"></ul>
+    </div>
+  </section>
+
   <section class="panel" aria-labelledby="h7" id="d7">
     <div class="panel-h"><h2 id="h7">พยากรณ์ 7 วัน · กรุงเทพฯ</h2><span class="lbl">Open-Meteo</span></div>
     <div class="days" id="days"></div>
@@ -345,7 +362,7 @@ html{scroll-behavior:smooth}
       </div>
     </section>
 
-  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 30 นาที ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
+  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 30 นาที ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
 </div>
 
 <script type="application/json" id="seed">__SEED__</script>
@@ -394,7 +411,7 @@ function render(d){
   const ageH=(Date.now()-new Date(d.updatedAt).getTime())/3.6e6;
   $("dot").className="dot"+(ageH>2?" stale":"");
   $("freshTxt").innerHTML="อัปเดต <span class='num'>"+esc(fmtTs(d.updatedAt).replace("<br>"," "))+"</span> · "+rel(d.updatedAt)+(ageH>2?" (ข้อมูลเก่า)":"");
-  renderAlerts(d); renderRoads(d); renderNow(d); render48(d); renderRiver(d); renderTw(d); renderDays(d); renderTmd(d); renderTabs(); renderNews();
+  renderAlerts(d); renderRoads(d); renderBma(d); renderNow(d); render48(d); renderRiver(d); renderTw(d); renderDays(d); renderTmd(d); renderTabs(); renderNews();
 }
 
 function renderAlerts(d){
@@ -536,19 +553,23 @@ function gmSeg(it,s){
   const o=s.a?s.a.join(","):gq(s.from)+" "+road+" กรุงเทพมหานคร", d=s.b?s.b.join(","):gq(s.to)+" "+road+" กรุงเทพมหานคร";
   return "https://www.google.com/maps/dir/?api=1&travelmode=driving&origin="+encodeURIComponent(o)+"&destination="+encodeURIComponent(d);
 }
-let MAPZ=1, SELR=-1;
-function setZoom(z){const w=$("mapwrap");const cx=(w.scrollLeft+w.clientWidth/2)/w.scrollWidth, cy=(w.scrollTop+w.clientHeight/2)/w.scrollHeight;
-  MAPZ=Math.max(1,Math.min(4,z));$("mapin").style.width=(MAPZ*100)+"%";
-  requestAnimationFrame(()=>{w.scrollLeft=cx*w.scrollWidth-w.clientWidth/2;w.scrollTop=cy*w.scrollHeight-w.clientHeight/2;});}
-$("zin").onclick=()=>setZoom(MAPZ*2); $("zout").onclick=()=>setZoom(MAPZ/2);
+// zoom = widen the inner layer and keep the view centred; pan = centre on map points
+function mkMap(wrap,inner,zin,zout){const w=$(wrap),m=$(inner);const o={z:1,
+  zoom(z){const cx=(w.scrollLeft+w.clientWidth/2)/w.scrollWidth, cy=(w.scrollTop+w.clientHeight/2)/w.scrollHeight;
+    o.z=Math.max(1,Math.min(4,z));m.style.width=(o.z*100)+"%";
+    requestAnimationFrame(()=>{w.scrollLeft=cx*w.scrollWidth-w.clientWidth/2;w.scrollTop=cy*w.scrollHeight-w.clientHeight/2;});},
+  pan(pts){if(!pts.length)return;if(o.z<2)o.zoom(2);const cx=pts.reduce((a,p)=>a+p[0],0)/pts.length/MW, cy=pts.reduce((a,p)=>a+p[1],0)/pts.length/MH;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{w.scrollTo({left:cx*w.scrollWidth-w.clientWidth/2,top:cy*w.scrollHeight-w.clientHeight/2,behavior:"smooth"});}));}};
+  $(zin).onclick=()=>o.zoom(o.z*2); $(zout).onclick=()=>o.zoom(o.z/2); return o;}
+const RMAP=mkMap("mapwrap","mapin","zin","zout");
+let SELR=-1;
 function focusRoad(i,scrollList){
   SELR=i; const R=DATA&&DATA.roads; if(!R)return;
   document.querySelectorAll("#roadlist li").forEach(li=>li.classList.toggle("sel",+li.dataset.i===i));
   document.querySelectorAll("#mapsvg .seg").forEach(g=>g.setAttribute("opacity",i<0||+g.dataset.i===i?"1":".25"));
   if(scrollList){const li=document.querySelector(`#roadlist li[data-i="${i}"]`);if(li)li.scrollIntoView({block:"nearest",behavior:"smooth"});}
   const it=R.items[i]; if(!it)return; const pts=[];it.segs.forEach(s=>["p","a","b"].forEach(k=>s[k]&&pts.push(proj(s[k]))));if(!pts.length&&it.p)pts.push(proj(it.p));
-  if(pts.length&&!scrollList){if(MAPZ<2)setZoom(2);const w=$("mapwrap");const cx=pts.reduce((a,p)=>a+p[0],0)/pts.length/MW, cy=pts.reduce((a,p)=>a+p[1],0)/pts.length/MH;
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{w.scrollTo({left:cx*w.scrollWidth-w.clientWidth/2,top:cy*w.scrollHeight-w.clientHeight/2,behavior:"smooth"});}));}
+  if(!scrollList)RMAP.pan(pts);
 }
 // a radio report says the water has gone and traffic moves again
 const CLEAR_RE=/น้ำลด|คืนผิว|สัญจรได้|(?:รถ(?:เล็ก|ทุกชนิด)?|ทุกช่องทาง)\s*(?:สามารถ)?\s*ผ่านได้|แห้งแล้ว|เปิดการจราจร/;
@@ -607,6 +628,39 @@ function renderRoads(d){
     <div class="segs">${it.segs.map(s=>`<div><span>${s.near!==undefined?"ใกล้ "+esc(s.near):esc(s.from)+" → "+esc(s.to)}</span><a href="${esc(gmSeg(it,s))}" target="_blank" rel="noopener">Google Maps ↗</a></div>`).join("")||`<div><span>ทั้งสาย</span><a href="${esc("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(gq(it.road)+" กรุงเทพมหานคร"))}" target="_blank" rel="noopener">Google Maps ↗</a></div>`}</div></li>`).join("");
   $("roadlist").querySelectorAll(".rh button").forEach(b=>b.onclick=()=>focusRoad(+b.dataset.i,false));
   if(SELR>=0)focusRoad(SELR,false);
+}
+
+// ---- BMA road-flood sensors ----
+// st: 0 ขัดข้อง, 5 ขัดข้องชั่วคราว, 1 ปกติ, 2 น้ำท่วมเล็กน้อย, 3 น้ำท่วม; a site silent for 3 h counts as offline too
+const BMAP=mkMap("bmawrap","bmain","bzin","bzout");
+const bOff=s=>s.st===0||s.st===5||!s.t||(Date.now()-new Date(s.t))>3*3.6e6;
+const bWet=s=>!bOff(s)&&(s.cm||0)>0;
+const bCm=s=>(s.step?"≥"+Math.round(s.cm):s.cm.toFixed(1))+" ซม.";
+let SELB=null;
+function focusBma(id,scrollList){SELB=id;
+  document.querySelectorAll("#bmalist li").forEach(li=>li.classList.toggle("sel",+li.dataset.id===id));
+  document.querySelectorAll("#bmasvg .bw").forEach(g=>g.setAttribute("opacity",id==null||+g.dataset.id===id?"1":".3"));
+  if(scrollList){const li=document.querySelector(`#bmalist li[data-id="${id}"]`);if(li)li.scrollIntoView({block:"nearest",behavior:"smooth"});}
+  else{const s=((DATA.bma||{}).sites||[]).find(x=>x.id===id);if(s)BMAP.pan([proj(s.p)]);}}
+function renderBma(d){
+  const B=d.bma, sec=$("bma"); if(!B||!(B.sites||[]).length){sec.hidden=true;return;} sec.hidden=false;
+  const all=B.sites, wet=all.filter(bWet).sort((a,b)=>b.cm-a.cm), off=all.filter(bOff).length;
+  $("bmaAsof").textContent="ดึงข้อมูล "+hm(B.fetched)+" น. · "+rel(B.fetched);
+  $("bmaHead").innerHTML=`<span class="chip"><b>${wet.length}</b> จุดมีน้ำบนถนน</span><span class="chip"><span class="lv lv5"></span>20 ซม.+ <b>${wet.filter(s=>s.cm>=20).length}</b></span><span class="chip">ขัดข้อง/ไม่ส่งข้อมูล <b>${off}</b> จาก ${all.length} จุด</span>
+    ${B.stale?`<span class="chip" style="color:var(--warn)">รอบนี้ดึงข้อมูลไม่สำเร็จ แสดงข้อมูลรอบก่อน</span>`:""}
+    <a href="${esc(B.source)}" target="_blank" rel="noopener">ที่มา: สำนักการระบายน้ำ กทม. ↗</a>`;
+  const dot=(s,r,a)=>{const P=proj(s.p);return inMap(P)?`<circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="${r}" ${a}/>`:""};
+  let svg=all.filter(s=>!bWet(s)).map(s=>dot(s,10,bOff(s)?'fill="none" stroke="var(--ink-3)" stroke-width="3"':'fill="var(--ink-3)" opacity=".55"')).join("");
+  // deepest drawn last so it sits on top
+  svg+=wet.slice().reverse().map(s=>{const c=dot(s,20,`fill="${depCol(s.cm)}" stroke="#fff" stroke-width="5"`);
+    return c?`<g class="bw bdot" data-id="${s.id}" tabindex="0"><title>${esc(s.name)} · ${bCm(s)}</title>${c}</g>`:""}).join("");
+  $("bmasvg").innerHTML=svg;
+  $("bmasvg").querySelectorAll(".bw").forEach(g=>{const f=()=>focusBma(+g.dataset.id,true);g.onclick=f;g.onkeydown=e=>{if(e.key==="Enter")f()};});
+  $("bmalist").innerHTML=wet.length?wet.map(s=>`<li data-id="${s.id}"><div class="rh"><button data-id="${s.id}">${esc(s.name)}</button><span class="dep ${depCls(s.cm)}">${bCm(s)}</span></div>
+    <div class="segs"><div><span>${s.district?"เขต"+esc(s.district)+" · ":""}${s.tunnel?"อุโมงค์ทางลอด · ":""}${s.since?"ท่วมตั้งแต่ "+fmtTs(s.since).replace("<br>"," ")+" น. · ":""}${s.max!=null&&!s.step?"สูงสุด "+s.max+" ซม. · ":""}วัดเมื่อ ${hm(s.t)} น.</span><a href="https://www.google.com/maps/search/?api=1&query=${s.p.join(",")}" target="_blank" rel="noopener">Google Maps ↗</a></div></div></li>`).join("")
+    :`<li><span class="muted">ตอนนี้ไม่มีจุดที่เซนเซอร์วัดน้ำบนถนนได้ (${all.length-off} จุดส่งข้อมูลปกติ)</span></li>`;
+  $("bmalist").querySelectorAll(".rh button").forEach(b=>b.onclick=()=>focusBma(+b.dataset.id,false));
+  if(SELB!=null&&wet.some(s=>s.id===SELB))focusBma(SELB,true);
 }
 
 const LVN={5:"ล้นตลิ่ง",4:"น้ำมาก",3:"ปกติ",2:"น้ำน้อย",1:"น้ำน้อยวิกฤติ"};
