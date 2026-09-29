@@ -255,7 +255,7 @@ html{scroll-behavior:smooth}
         <div id="ryRainMore"></div>
         <h3 class="subh">ฝนพยากรณ์รายอำเภอ</h3>
         <div class="tblwrap"><table class="tw"><thead><tr><th>พื้นที่</th><th class="n">ฝน 24 ชม.ที่ผ่านมา</th><th class="n">พยากรณ์ 24 ชม.</th><th class="n">พยากรณ์ 48 ชม.</th><th class="n">โอกาสฝน</th></tr></thead><tbody id="ryPts"></tbody></table></div>
-        <div class="small muted" style="margin-top:6px">ตารางนี้เป็นค่าจากแบบจำลอง Open-Meteo ไม่ใช่ค่าที่วัดได้จริง · ส้ม = ฝนหนัก (35 มม.+) · แดง = ฝนหนักมาก (90 มม.+)</div>
+        <div class="small muted" style="margin-top:6px">ตารางนี้เป็นค่าพยากรณ์จากแบบจำลอง ไม่ใช่ค่าที่วัดได้จริง · ส้ม = ฝนหนัก (35 มม.+) · แดง = ฝนหนักมาก (90 มม.+)</div>
       </div>
       <div id="ry-water">
         <h3 class="subh">ระดับน้ำ · สถานีโทรมาตรใน จ.ระยอง</h3>
@@ -390,7 +390,7 @@ html{scroll-behavior:smooth}
   </section>
 
   <section class="panel v-bkk" aria-labelledby="h7" id="d7">
-    <div class="panel-h"><h2 id="h7">พยากรณ์ 7 วัน · กรุงเทพฯ</h2><span class="lbl">Open-Meteo</span></div>
+    <div class="panel-h"><h2 id="h7">พยากรณ์ 7 วัน · กรุงเทพฯ</h2><span class="lbl" id="d7src">Open-Meteo</span></div>
     <div class="days" id="days"></div>
   </section>
 
@@ -425,7 +425,7 @@ html{scroll-behavior:smooth}
       </div>
     </section>
 
-  <footer id="foot">ข้อมูล: Open-Meteo (พยากรณ์และแบบจำลองแม่น้ำ GloFAS), ThaiWater / สสน. (ระดับน้ำโทรมาตร), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 1 ชั่วโมง ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
+  <footer id="foot">ข้อมูล: Google Weather API และ Open-Meteo (สภาพอากาศและพยากรณ์), Open-Meteo GloFAS (แบบจำลองแม่น้ำ), ThaiWater / สสน. (ระดับน้ำโทรมาตร), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน), กรมอุตุนิยมวิทยา (TMD Open Data), Google News RSS · อัปเดตอัตโนมัติทุก 1 ชั่วโมง ค่าอัตราการไหลเป็นแบบจำลอง ไม่ใช่ค่าวัดจากสถานี</footer>
 </div>
 
 <script type="application/json" id="seed">__SEED__</script>
@@ -499,7 +499,7 @@ function renderNow(d){
   const next24=w.hourly.slice(0,24).reduce((a,h)=>a+(h.p||0),0);
   const past=w.daily.filter(x=>x.date<t).slice(-7).reduce((a,x)=>a+(x.rain||0),0);
   $("now").innerHTML=`
-   <div><span class="lbl">ตอนนี้</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
+   <div><span class="lbl">ตอนนี้</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${c.desc?esc(c.desc):wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
    <div><span class="lbl">ฝนขณะนี้</span><span class="v num">${(+c.rain).toFixed(1)}<small>มม.</small></span><span class="s">ลม ${esc(c.wind)} กม./ชม.</span></div>
    <div><span class="lbl">24 ชม. ข้างหน้า</span><span class="v num">${next24.toFixed(1)}<small>มม.</small></span><span class="s">โอกาสฝนวันนี้ ${esc(today.pp??"—")}%</span></div>
    <div><span class="lbl">สะสม 7 วันที่ผ่านมา</span><span class="v num">${past.toFixed(0)}<small>มม.</small></span><span class="s">ดินอิ่มน้ำ เสี่ยงน้ำขัง</span></div>`;
@@ -550,7 +550,7 @@ function dayCards(daily){
 }
 function renderDays(d){
   const w=d.weather; if(!w){$("days").innerHTML="";return;}
-  $("days").innerHTML=dayCards(w.daily);
+  $("days").innerHTML=dayCards(w.daily); $("d7src").textContent=w.src==="google"?"Google Weather":"Open-Meteo";
 }
 
 function renderTmd(d){
@@ -797,7 +797,7 @@ function renderRayong(d){
     top&&top.mm>0?`<span class="chip">ฝนวัดได้สูงสุด 24 ชม. <b>${top.mm.toFixed(1)}</b> มม. · ${esc(top.amphoe||top.name)}</span>`:""].join("");
   $("ryWarn").innerHTML=(R.warnings||[]).map(x=>`<div class="alert crit" style="margin-bottom:10px"><span class="tag">ประกาศกรมอุตุนิยมวิทยา ฉบับที่ ${esc(x.no)} · กล่าวถึง จ.ระยอง</span><h3>${esc(x.title)}</h3><p>${esc(x.headline)}</p></div>`).join("");
   if(w&&c){const dl=w.daily.filter(x=>x.date<t).slice(-3).reduce((a,x)=>a+(x.rain||0),0), p0=w.points[0]||{};
-    $("ryNow").innerHTML=`<div><span class="lbl">ตอนนี้ · เมืองระยอง</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
+    $("ryNow").innerHTML=`<div><span class="lbl">ตอนนี้ · เมืองระยอง</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${c.desc?esc(c.desc):wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
      <div><span class="lbl">ฝนขณะนี้</span><span class="v num">${(+c.rain).toFixed(1)}<small>มม.</small></span><span class="s">ลม ${esc(c.wind)} กม./ชม.</span></div>
      <div><span class="lbl">24 ชม. ข้างหน้า</span><span class="v num">${(+p0.next24||0).toFixed(1)}<small>มม.</small></span><span class="s">โอกาสฝน ${esc(p0.pp??"—")}%</span></div>
      <div><span class="lbl">สะสม 3 วันที่ผ่านมา</span><span class="v num">${dl.toFixed(0)}<small>มม.</small></span><span class="s"${dl>=150?' style="color:var(--crit)"':""}>${dl>=150?"ฝนสะสมสูงมาก เสี่ยงน้ำป่า/น้ำหลาก":dl>=60?"ดินเริ่มอิ่มน้ำ":"ฝนสะสมไม่มาก"}</span></div>`;

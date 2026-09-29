@@ -34,6 +34,7 @@ jobs:
         env:
           GEO_CACHE: data/geocache.json
           RADAR_DIR: data/radar
+          GOOGLE_WEATHER_API_KEY: ${{ secrets.GOOGLE_WEATHER_API_KEY }}   # optional; empty = Open-Meteo only
           BMA_FILE: data/bma.json   # uploaded by bma_push.py when the BMA site blocks GitHub's servers
         run: |
           git config user.name "weather-fight-bot"

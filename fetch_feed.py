@@ -6,13 +6,24 @@ TMD open data API, Google News RSS, road-flood reports from traffic radio จส
 Usage: python3 fetch_feed.py [out.json]
 Optional env: ROADS_URL=<article url> forces the flooded-roads source article (Thairath first, else any outlet found via Google News);
 PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found;
-BMA_FILE=<path to bma.json> is used when the BMA site blocks this machine (the file is uploaded by bma_push.py).
+BMA_FILE=<path to bma.json> is used when the BMA site blocks this machine (the file is uploaded by bma_push.py);
+GOOGLE_WEATHER_API_KEY=<key> takes current conditions and forecasts from the Google Weather API (Open-Meteo stays the fallback).
+Local runs also read KEY=value lines from .env.
 Also writes radar/f0.json..f7.json: batch-write each to db collection "radar", doc ids f0..f7.
 If roads come back null, keep the previous roads block (see refresh task).
 """
 import json, sys, re, html, os, time, urllib.request, urllib.parse, datetime as dt
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
+
+def _load_dotenv(path=".env"):
+    """Local runs: KEY=value lines in .env fill in unset variables (GitHub Actions passes secrets as env instead)."""
+    if os.path.exists(path):
+        for line in open(path, encoding="utf-8"):
+            k, sep, v = line.strip().partition("=")
+            if sep and k and not k.startswith("#"):
+                os.environ.setdefault(k.strip(), v.strip().strip("\"'"))
+_load_dotenv()
 
 LAT, LON = 13.7563, 100.5018
 TZ = dt.timezone(dt.timedelta(hours=7))
@@ -60,6 +71,103 @@ def weather():
     return {"current": {"time": c["time"], "temp": c["temperature_2m"], "rh": c["relative_humidity_2m"],
                         "rain": c["precipitation"], "code": c["weather_code"], "wind": c["wind_speed_10m"]},
             "hourly": hourly, "daily": daily}
+
+# ---- Google Weather API (optional, GOOGLE_WEATHER_API_KEY) ----
+GW_KEY = os.environ.get("GOOGLE_WEATHER_API_KEY", "").strip()
+GW_URL = "https://weather.googleapis.com/v1/"
+GW_ERR = {}  # place -> why Google failed this run (goes into feed.json as google_err)
+
+def _gw(path, lat, lon, **q):
+    """GET one Google Weather endpoint, following nextPageToken. The key travels in a header, never in the URL,
+    so it cannot leak into logs or error messages."""
+    q.update({"location.latitude": lat, "location.longitude": lon, "languageCode": "th"})
+    pages, token = [], None
+    while len(pages) < 5:
+        url = GW_URL + path + "?" + urllib.parse.urlencode(dict(q, **({"pageToken": token} if token else {})))
+        req = urllib.request.Request(url, headers={"X-Goog-Api-Key": GW_KEY, "User-Agent": UA["User-Agent"]})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                d = json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            try:
+                msg = json.loads(e.read())["error"]["message"]
+            except Exception:
+                msg = e.reason
+            raise RuntimeError(f"HTTP {e.code} {path}: {msg}"[:200])
+        pages.append(d)
+        token = d.get("nextPageToken")
+        if not token:
+            break
+    return pages
+
+def _q(x, *path):
+    for k in path:
+        x = (x or {}).get(k)
+    return x
+
+def _wmo(cond):
+    """Google condition type -> the WMO code the page's icons and Thai labels use."""
+    t = (cond or {}).get("type") or ""
+    if "THUNDER" in t:
+        return 99 if "HEAVY" in t else 95
+    if "HAIL" in t:
+        return 96
+    if "SNOW" in t:
+        return 71
+    if "RAIN" in t or "SHOWER" in t:
+        sh = "SHOWER" in t
+        if "HEAVY" in t:
+            return 82 if sh else 65
+        if "LIGHT" in t or "CHANCE" in t or "SCATTERED" in t:
+            return 80 if sh else 61
+        return 81 if sh else 63
+    return {"CLEAR": 0, "MOSTLY_CLEAR": 1, "PARTLY_CLOUDY": 2, "FOG": 45}.get(t, 3)
+
+def google_weather(lat, lon):
+    """Current conditions, 48 h hourly and 7-day forecast in the same shape as weather()."""
+    local = lambda iso: dt.datetime.fromisoformat(iso.replace("Z", "+00:00")).astimezone(TZ)
+    cur = _gw("currentConditions:lookup", lat, lon)[0]
+    hours = [h for p in _gw("forecast/hours:lookup", lat, lon, hours=48, pageSize=24) for h in p.get("forecastHours", [])]
+    days = [x for p in _gw("forecast/days:lookup", lat, lon, days=7, pageSize=7) for x in p.get("forecastDays", [])]
+    hourly = []
+    for h in hours[:48]:
+        t = local(_q(h, "interval", "startTime"))
+        hourly.append({"t": t.strftime("%H:%M"), "d": t.strftime("%Y-%m-%d"),
+                       "p": _q(h, "precipitation", "qpf", "quantity") or 0,
+                       "pp": _q(h, "precipitation", "probability", "percent") or 0})
+    daily = []
+    for x in days:
+        dd, parts = x["displayDate"], [x.get("daytimeForecast") or {}, x.get("nighttimeForecast") or {}]
+        pps = [v for v in (_q(p, "precipitation", "probability", "percent") for p in parts) if v is not None]
+        daily.append({"date": f"{dd['year']:04}-{dd['month']:02}-{dd['day']:02}", "code": _wmo(parts[0].get("weatherCondition")),
+                      "tmax": _q(x, "maxTemperature", "degrees"), "tmin": _q(x, "minTemperature", "degrees"),
+                      "rain": round(sum(_q(p, "precipitation", "qpf", "quantity") or 0 for p in parts), 1),
+                      "pp": max(pps) if pps else None})
+    return {"current": {"time": local(cur["currentTime"]).strftime("%Y-%m-%dT%H:%M"),
+                        "temp": _q(cur, "temperature", "degrees"), "rh": cur.get("relativeHumidity"),
+                        "rain": _q(cur, "precipitation", "qpf", "quantity") or 0,
+                        "code": _wmo(cur.get("weatherCondition")), "desc": _q(cur, "weatherCondition", "description", "text"),
+                        "wind": _q(cur, "wind", "speed", "value")},
+            "hourly": hourly, "daily": daily}
+
+def with_google(w, lat, lon, place):
+    """Put Google's current conditions and forecast over an Open-Meteo block. Past days stay Open-Meteo
+    (they feed the rain-so-far totals); on any Google failure the block is returned unchanged."""
+    if not GW_KEY:
+        return w
+    try:
+        g = google_weather(lat, lon)
+    except Exception as e:
+        GW_ERR[place] = f"{type(e).__name__}: {e}"[:200]
+        print("WARN google weather", place, GW_ERR[place], file=sys.stderr)
+        return w
+    if not w:
+        return dict(g, src="google")
+    today = g["current"]["time"][:10]
+    daily = [x for x in w.get("daily", []) if x["date"] < today] + g["daily"] if g["daily"] else w.get("daily", [])
+    out = dict(w, current=g["current"], hourly=g["hourly"] or w.get("hourly", []), daily=daily, src="google")
+    out.pop("stale", None)
+    return out
 
 def river():
     q = urllib.parse.urlencode({"latitude": 13.75, "longitude": 100.49,
@@ -884,6 +992,16 @@ def main():
             print("WARN prev feed", e, file=sys.stderr)
     if doc["tmd"]["warnings"] is None:
         doc["tmd"]["warnings"] = []
+    # Google (when a key is set) goes over whatever Open-Meteo gave, fresh or carried over
+    doc["weather"] = with_google(doc["weather"], LAT, LON, "bkk")
+    p0 = RAYONG_PTS[0]
+    rw = doc["rayong"]["weather"] = with_google(doc["rayong"]["weather"], p0[1], p0[2], "rayong")
+    if rw and rw.get("src") == "google" and rw.get("points"):  # the city row of the district table follows Google too
+        h = rw["hourly"]
+        rw["points"][0].update(next24=round(sum(x["p"] for x in h[:24]), 1), next48=round(sum(x["p"] for x in h[:48]), 1),
+                               pp=max([x["pp"] or 0 for x in h[:24]], default=0))
+    if GW_ERR:
+        doc["google_err"] = GW_ERR
     if doc["reports"] is None:
         doc["reports"] = []
     warn_ry = [w for w in doc["tmd"]["warnings"] if "ระยอง" in (w.get("title") or "") + (w.get("headline") or "")]
@@ -898,6 +1016,7 @@ def main():
     open(out, "w", encoding="utf-8").write(s)
     print(f"wrote {out}: {len(s.encode())} bytes; news " +
           ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
+          f"; google={'off' if not GW_KEY else ','.join(k + ('=FAIL' if k in GW_ERR else '=ok') for k in ('bkk', 'rayong'))}"
           f"; rayong news={len(doc['rayong']['news'])} water={len(doc['rayong']['water'])} rain={len(doc['rayong']['rain'])} dams={len(doc['rayong']['dams'])} weather={'ok' if doc['rayong']['weather'] else 'none'}; reports={len(doc['reports'])}; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
 
 if __name__ == "__main__":

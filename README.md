@@ -35,6 +35,14 @@ docker compose up -d --build     # รันทุกชั่วโมง เ�
 
 บอทจะใช้ `data/bma.json` เมื่ออายุไม่เกิน 6 ชม. ถ้าไม่มีข้อมูลที่ใหม่พอ หน้าเว็บจะแสดงลิงก์ไปหน้าสดของสำนักการระบายน้ำแทน
 
+## Google Weather API (ไม่บังคับ)
+ถ้าตั้ง key ไว้ สภาพอากาศตอนนี้ ฝน 48 ชม. และพยากรณ์ 7 วันของกรุงเทพฯ และเมืองระยองจะใช้ข้อมูลจาก Google ถ้าไม่ได้ตั้ง key หรือ Google ตอบกลับไม่สำเร็จ จะใช้ Open-Meteo แทน (สาเหตุบันทึกไว้ใน `google_err` ของ `data/feed.json`) ส่วนฝนสะสมย้อนหลังยังมาจาก Open-Meteo เสมอ
+1. สร้าง API key ใน Google Cloud Console แล้วเปิดใช้ **Weather API** (ต้องผูกบัญชี billing) และแนะนำให้จำกัด key ให้เรียกได้เฉพาะ Weather API
+2. ใส่ key เป็น repo secret ชื่อ `GOOGLE_WEATHER_API_KEY`: Settings → Secrets and variables → Actions → New repository secret หรือใช้คำสั่ง `gh secret set GOOGLE_WEATHER_API_KEY`
+3. ถ้ารัน `fetch_feed.py` บนเครื่องตัวเอง ให้ใส่ `GOOGLE_WEATHER_API_KEY=...` ในไฟล์ `.env` แทน
+
+รอบหนึ่งเรียก Google 8 ครั้ง (2 พื้นที่ × สภาพอากาศตอนนี้, รายชั่วโมง 2 หน้า, รายวัน) หรือประมาณ 5,800 ครั้งต่อเดือน
+
 ## รันเอง
 ```
 pip install pillow
