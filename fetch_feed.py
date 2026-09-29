@@ -112,8 +112,51 @@ def _msdate(s):
     m = re.search(r"\d{10,}", s or "")
     return dt.datetime.fromtimestamp(int(m.group()) / 1000, TZ).isoformat(timespec="minutes") if m else None
 
+BMA_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36",
+               "Accept": "application/json, text/javascript, */*; q=0.01", "Accept-Language": "th-TH,th;q=0.9,en;q=0.8",
+               "X-Requested-With": "XMLHttpRequest", "Origin": "https://weather.bangkok.go.th",
+               "Referer": "https://weather.bangkok.go.th/flood/", "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
+BMA_ERR = ""  # why the last bma_sensors() call failed (goes into feed.json: run logs are unreadable until a run ends)
+
+def _bma_fetch():
+    global BMA_ERR
+    last = ""
+    for k in range(3):
+        try:
+            req = urllib.request.Request(BMA_SENSORS, data=b"", headers=BMA_HEADERS, method="POST")  # POST only; GET is 404
+            with urllib.request.urlopen(req, timeout=30) as r:
+                body = r.read()
+            try:
+                rows = json.loads(body)
+            except ValueError:
+                last = f"HTTP {r.status} not JSON: {body[:120]!r}"
+                break
+            if not isinstance(rows, list):
+                last = f"HTTP {r.status} JSON is {type(rows).__name__}: {str(rows)[:120]}"
+                break
+            BMA_ERR = ""
+            return rows
+        except urllib.error.HTTPError as e:
+            last = f"HTTP {e.code} {e.reason}: {e.read()[:120]!r}"
+        except Exception as e:
+            last = f"{type(e).__name__}: {e}"[:200]
+        time.sleep(3 * (k + 1))
+    BMA_ERR = last
+    print("WARN bma_sensors", last, file=sys.stderr)
+    raise RuntimeError(last)
+
 def bma_sensors():
-    rows = json.loads(get(BMA_SENSORS, data=b""))  # POST only; GET is 404
+    global BMA_ERR
+    try:
+        return _bma_parse(_bma_fetch())
+    except RuntimeError:
+        raise
+    except Exception as e:  # unexpected row shape: say so in the feed
+        BMA_ERR = f"parse {type(e).__name__}: {e}"[:200]
+        print("WARN bma_sensors", BMA_ERR, file=sys.stderr)
+        raise
+
+def _bma_parse(rows):
     out = []
     for r in rows:
         try:
@@ -129,7 +172,7 @@ def bma_sensors():
                     "district": r.get("districtName"), "p": [round(lat, 5), round(lon, 5)],
                     "cm": _f(r.get("flood")), "max": _f(r.get("flood_max")),
                     "st": r.get("flood_sub_status"), "t": _msdate(r.get("site_timestamp")),
-                    "since": _msdate(r.get("flood_start")) if (r.get("flood") or 0) > 0 else None})
+                    "since": _msdate(r.get("flood_start")) if (_f(r.get("flood")) or 0) > 0 else None})
     return {"fetched": dt.datetime.now(TZ).isoformat(timespec="minutes"),
             "source": "https://weather.bangkok.go.th/flood/", "sites": out}
 
@@ -695,6 +738,8 @@ def main():
         "tmd": {"warnings": safe(tmd_warnings, None), "daily": safe(tmd_daily, None)},
         "news": news(),
     }
+    if doc["bma"] is None and BMA_ERR:
+        doc["bma_err"] = BMA_ERR
     prev_path = os.environ.get("PREV_FEED")
     if prev_path and os.path.exists(prev_path):
         try:
