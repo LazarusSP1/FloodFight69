@@ -499,7 +499,15 @@ def _bma_parse(rows):
 import os, time
 TR_RSS = "https://www.thairath.co.th/rss/news"
 TR_SITEMAP = "https://www.thairath.co.th/sitemap-daily.xml"
-ROAD_TITLE = re.compile(r"(เลี่ยง|ท่วม).*?\d+\s*(เส้นทาง|ถนน|สาย|จุด)|\d+\s*(เส้นทาง|ถนน|สาย)\s*.*ท่วม")
+ROAD_TITLE_NUM = re.compile(r"(เลี่ยง|ท่วม).*?\d+\s*(เส้นทาง|ถนน|สาย|จุด)|\d+\s*(เส้นทาง|ถนน|สาย)\s*.*ท่วม")
+# un-numbered updates ("อัปเดตจุดน้ำท่วมขัง ถนนสายไหนควรเลี่ยง", "เส้นทางที่ยังมีน้ำท่วม") from outlets that quote the BMA list
+ROAD_TITLE_PLAIN = re.compile(r"(อัปเดต|เช็ก|รู้ไว้|สรุป|เส้นทาง|ถนน).*(จุดน้ำท่วม|น้ำท่วมขัง|ยังมีน้ำท่วม|น้ำท่วม).*(เลี่ยง|ผ่านได้|ถนน|เส้นทาง)|(เลี่ยง|ผ่านได้).*(ถนน|เส้นทาง).*ท่วม")
+OTHER_PROV = re.compile(r"ระยอง|จันทบุรี|ตราด|ชลบุรี|ปราจีน|ฉะเชิงเทรา|สมุทรสงคราม|นครปฐม|สุพรรณ|อยุธยา|เชียงใหม่|น่าน|ภูเก็ต|หาดใหญ่|สงขลา|ขอนแก่น|โคราช|นครราชสีมา")
+def ROAD_TITLE_OK(t):
+    return "ท่วม" in t and bool(ROAD_TITLE_NUM.search(t) or (ROAD_TITLE_PLAIN.search(t) and not OTHER_PROV.search(t)))
+class _RT:  # keeps the old `ROAD_TITLE.search(title)` call sites working
+    search = staticmethod(lambda t: ROAD_TITLE_OK(t) or None)
+ROAD_TITLE = _RT()
 GEO_BOX = (100.30, 13.45, 100.98, 14.15)  # lon_min, lat_min, lon_max, lat_max
 
 def _road_candidates():
@@ -685,7 +693,49 @@ def parse_roads_unnumbered(body):
         items.append({"road": road, "depth": None, "segs": segs})
     return items
 
-GN_ROAD_QUERIES = ["กทม. เลี่ยง เส้นทาง น้ำท่วมขัง when:1d", "ถนน น้ำท่วมขัง กทม. เส้นทาง when:1d"]
+_DEPTH = r"(\d{1,3})(?:\s*[-–]\s*(\d{1,3}))?\s*(?:ซม\.?|เซนติเมตร)"
+_NAME_STOP = re.compile(r"แยก|ซอย|ช่วง|บริเวณ|ถึง|จาก|ตั้งแต่|หน้า|เลย|ตัด|ทั้งเส้น|ขาเข้า|ขาออก|ทั้งขา|มุ่งหน้า|ท่วม|น้ำ|รถ|งด|ระดับ")
+_NOT_ROAD = {"สายหลัก", "สายรอง", "หลายสาย", "ทุกสาย", "บางสาย", "ที่", "ใน", "เส้นทาง", "หลัก", "รอง"}
+
+def parse_roads_depth(body):
+    """Fallback for un-numbered road-flood summaries: 'ถนนลาดพร้าว ซอยลาดพร้าว 113 - แยกบางกะปิ 20 ซม.',
+    'ถนนศรีบูรพา ทั้งเส้น 30-40 ซม. งดสัญจรผ่าน'. A road is a 'ถนน…' / 'ถ.…' phrase with a depth in cm shortly after it."""
+    t = re.sub(r"\s+", " ", body)
+    t = re.sub(r"(แยก|ถึง|ตัดกับ|ตัด|จาก|เลย|กับ|ผ่าน|ขึ้น)\s*ถนน", r"\1", t)  # 'แยกถนนร่มเกล้า' is a junction, not a new road
+    out = {}
+    for m in re.finditer(r"(?:ถนน|ถ\.)\s*([ก-๙A-Za-z]{2,40}(?:\s[1-9](?=\s|$|\.))?)((?:(?!ถนน|ถ\.[ก-๙]).){0,110}?)" + _DEPTH, t):
+        name, mid = m.group(1), m.group(2)
+        k = _NAME_STOP.search(name)
+        if k:  # 'ลาดกระบังแยกลาดกระบังร่มเกล้า…' (no spaces): the road ends where the junction starts
+            mid, name = name[k.start():] + mid, name[:k.start()]
+        name = name.strip()
+        if len(name) < 3 or name in _NOT_ROAD:
+            continue
+        lo, hi = int(m.group(3)), int(m.group(4) or m.group(3))
+        if not 1 <= max(lo, hi) <= 150:
+            continue
+        mid = re.sub(r"^\s*(บริเวณ|ช่วง)\s*", "", mid)
+        mid = re.split(r"\s(?:มี|น้ำ|ท่วม|ระดับ|ประมาณ|สูง|รถ|งด|ยัง|เจ้าหน้าที่)", mid)[0].strip(" ,-–")  # drop trailing prose
+        segs = []
+        if mid and not mid.startswith("ทั้งเส้น"):
+            m2 = re.match(r"(?:จาก\s*)?(.+?)\s*ถึง\s*(.+)$", mid)
+            m3 = re.match(r"(.+?)\s+[-–]\s+(.+)$", mid)
+            if m2:
+                segs.append({"from": m2.group(1).strip(), "to": m2.group(2).strip()})
+            elif m3 and len(m3.group(1)) < 40 and len(m3.group(2)) < 40:
+                segs.append({"from": m3.group(1).strip(), "to": m3.group(2).strip()})
+            elif len(mid) <= 60:
+                segs.append({"near": mid})
+        road = "ถ." + name
+        if road in out:
+            out[road]["depth"] = max(out[road]["depth"], hi)
+            out[road]["segs"] += segs
+        else:
+            out[road] = {"road": road, "depth": hi, "segs": segs}
+    return list(out.values())
+
+GN_ROAD_QUERIES = ["กทม. เลี่ยง เส้นทาง น้ำท่วมขัง when:1d", "ถนน น้ำท่วมขัง กทม. เส้นทาง when:1d",
+                   "อัปเดต จุดน้ำท่วมขัง ถนนไหน เลี่ยง กทม. when:1d", "กทม. ถนนยังมีน้ำท่วมขัง ผ่านได้ เลี่ยง when:1d"]
 
 def _gn_resolve(link):
     """Resolve a news.google.com/rss/articles/... link to the publisher URL."""
@@ -741,7 +791,11 @@ def _page_text(url):
         published = (m.group(1) or m.group(2)) if m else ""
     return body, paras, published, headline
 
+_FALLBACK_USED = False  # set by _best_items: the loose depth-based reading produced the list
+
 def _best_items(*texts):
+    global _FALLBACK_USED
+    _FALLBACK_USED = False
     best = []
     for t in texts:
         if not t:
@@ -753,6 +807,14 @@ def _best_items(*texts):
                 items = []
             if len(items) > len(best):
                 best = items
+    if len(best) < 5:  # exact BMA-list formats found (almost) nothing: try the loose depth-based reading
+        for t in texts:
+            try:
+                items = parse_roads_depth(t) if t else []
+            except Exception:
+                items = []
+            if len(items) > len(best):
+                best, _FALLBACK_USED = items, True
     merged = {}
     for it in best:  # merge duplicate roads
         if it["road"] in merged:
@@ -769,7 +831,7 @@ def roads():
     else:
         # Thairath directly (blocked from some hosts, e.g. GitHub runners), then any outlet via Google News
         cands = [(0, t, l, False) for _, t, l in _road_candidates()[:2]] + \
-                [(0, t, l, True) for _, t, l in _gn_road_candidates()[:6]]
+                [(0, t, l, True) for _, t, l in _gn_road_candidates()[:10]]
     for _, title, link, via_gn in cands:
         try:
             if via_gn:
@@ -781,8 +843,11 @@ def roads():
             print("WARN article", link[:80], e, file=sys.stderr)
             continue
         items = _best_items(body, paras)
-        print(f"roads candidate: {len(items)} roads · {(headline or title)[:70]} · {link[:70]}", file=sys.stderr)
-        if len(items) < 5:
+        print(f"roads candidate: {len(items)} roads{' (loose)' if _FALLBACK_USED else ''} · {(headline or title)[:70]} · {link[:70]}", file=sys.stderr)
+        if items:
+            print("   " + " | ".join(f"{i['road']} {i['depth'] or '-'}cm" for i in items[:6]), file=sys.stderr)
+        # water recedes -> lists get short; the loose reading is trusted from 3 roads, the exact formats from 5
+        if len(items) < (3 if _FALLBACK_USED else 5):
             continue
         mt = re.search(r"(?:เวลา|รอบ)\s*(\d{1,2}[.:]\d{2})\s*น\.", body or paras)
         road_pts = {}
