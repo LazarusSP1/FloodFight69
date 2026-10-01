@@ -45,6 +45,7 @@ jobs:
             # pick up code changes pushed since the last cycle
             git pull -q --rebase -X theirs origin main || git rebase --abort || true
             cp data/feed.json /tmp/prev.json
+            python fetch_risk.py data/risk.json || echo "::warning::risk points not refreshed"   # at most weekly
             if PREV_FEED=/tmp/prev.json python fetch_feed.py data/feed.json && python build_site.py; then
               git add -A data index.html
               if ! git diff --cached --quiet; then

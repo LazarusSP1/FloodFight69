@@ -17,11 +17,15 @@ Dashboard ติดตามสถานการณ์น้ำท่วมก�
 https://lazarussp1.github.io/FloodFight69/
 ```
 
+## ลำดับหน้าเว็บ (ทั้ง กทม. และระยอง ใช้โครงเดียวกัน)
+สรุป 5 ช่อง → พยากรณ์จาก Google Weather (ตอนนี้ · ฝนรายชั่วโมง 48 ชม. · 7 วัน · รายพื้นที่) → เรดาร์ → ระดับน้ำในคลองและเขื่อน → ข่าวถนนน้ำท่วม → ฟีดข่าว → ป้ายทะเบียน → สายด่วนตามท้องถิ่น (`CONTACTS` ใน `template.html`; เบอร์ใหม่ต้องยืนยันกับแหล่งทางการก่อนเพิ่ม)
+
 ## ไฟล์
 - `fetch_feed.py` ดึงข้อมูลทุกแหล่ง เขียน `data/feed.json`, `data/radar/f*.json` (เรดาร์สุวรรณภูมิ) และ `data/radar_ry/f*.json` (เรดาร์ระยอง)
 - `template.html` หน้าเว็บ (ใช้ได้ทั้งบน GitHub Pages และ Claude Artifact)
 - `build_site.py` สร้าง `index.html` จาก template + data
 - `data/alerts.json` ประกาศ ปภ. ที่เพิ่มด้วยมือ (แก้ไฟล์นี้เพื่อเพิ่มประกาศ)
+- `fetch_risk.py` ดึงจุดเสี่ยงน้ำท่วม 737 จุดของ กทม. (ArcGIS ของ bmagis.bangkok.go.th อ่านอย่างเดียว) เขียน `data/risk.json` อัปเดตอย่างช้าสัปดาห์ละครั้ง หน้าเว็บโหลดเมื่อกดปุ่ม "แสดงจุดเสี่ยงน้ำท่วม"
 - `bma_push.py` ส่งข้อมูลเซนเซอร์น้ำบนถนนของ กทม. ขึ้น `data/bma.json` จากเครื่องที่เว็บ กทม. ยอมให้เข้า (ดูหัวข้อถัดไป)
 - `Dockerfile.bma`, `compose.yml`, `.env.example` รัน `bma_push.py` ทุกชั่วโมงใน Docker
 
@@ -55,6 +59,6 @@ python build_site.py
 ```
 
 ## แหล่งข้อมูล
-Open-Meteo (พยากรณ์, GloFAS), กรมอุตุนิยมวิทยา (TMD Open Data, เรดาร์สุวรรณภูมิและระยอง), ThaiWater / สสน. (ระดับน้ำ, ฝนโทรมาตร, อ่างเก็บน้ำของกรมชลประทาน), Open-Meteo Marine (น้ำขึ้นน้ำลงและคลื่น), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน weather.bangkok.go.th/flood/), Google News RSS, ไทยรัฐ (รายการถนนจากระบบเตือนน้ำท่วมถนน กทม.), จส.100 (js100.com), สวพ.91 (fm91bkk.com), Nominatim, แผนที่ © OpenStreetMap contributors
+Open-Meteo (พยากรณ์, GloFAS), กรมอุตุนิยมวิทยา (TMD Open Data, เรดาร์สุวรรณภูมิและระยอง), ThaiWater / สสน. (ระดับน้ำ, ฝนโทรมาตร, อ่างเก็บน้ำของกรมชลประทาน), Open-Meteo Marine (น้ำขึ้นน้ำลงและคลื่น), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน weather.bangkok.go.th/flood/), Longdo Event / iTIC Foundation (เหตุการณ์น้ำท่วม, CC BY 4.0), จุดเสี่ยงน้ำท่วม สำนักการระบายน้ำ กทม. (bmagis), Google News RSS, ไทยรัฐ (รายการถนนจากระบบเตือนน้ำท่วมถนน กทม.), จส.100 (js100.com), สวพ.91 (fm91bkk.com), Nominatim, แผนที่ © OpenStreetMap contributors
 
 ข้อมูลใช้ประกอบการตัดสินใจเท่านั้น ตรวจสอบประกาศทางการเสมอ · สายด่วน กทม. 1555 · ปภ. 1784

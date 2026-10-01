@@ -96,8 +96,8 @@ header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-
 .ab-m,.ab-o{font-size:12.5px;color:var(--ink-2)}
 
 /* situation summary */
-.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-@media (max-width:900px){.summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.summary>.tile:last-child:nth-child(odd){grid-column:1/-1}}
 .tile{display:grid;grid-template-rows:auto auto 1fr;gap:6px;padding:14px 16px 15px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:border-color .15s,transform .15s;min-width:0}
 .tile:hover{border-color:var(--line-2);transform:translateY(-1px)}
 .t-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 8px}
@@ -111,6 +111,7 @@ header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-
 @media (max-width:520px){.tile{padding:12px 13px 13px}.t-val{font-size:26px}}
 .pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;line-height:1.5;padding:1px 8px 1px 7px;border-radius:999px;white-space:nowrap}
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-info{color:var(--accent);background:var(--accent-soft)}
 .p-crit{color:var(--crit);background:var(--crit-bg)} .p-warn{color:var(--warn);background:var(--warn-bg)} .p-ok{color:var(--ok);background:var(--ok-bg)} .p-na{color:var(--ink-3);background:var(--surface-2)}
 
 /* panels */
@@ -214,7 +215,8 @@ svg.chart .hov{stroke:var(--ink-2);stroke-width:1;pointer-events:none}
 .search:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
 
 /* hotlines */
-.contacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.contacts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:760px){.contacts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ct{background:var(--surface-2);border-radius:12px;padding:11px 14px;display:grid;gap:1px;text-decoration:none;color:var(--ink);border:1px solid transparent}
 .ct:hover{border-color:var(--line-2)}
 .ct b{font-family:var(--display);font-size:24px;font-weight:700;user-select:all;font-variant-numeric:tabular-nums}
@@ -268,6 +270,7 @@ svg.chart .hov{stroke:var(--ink-2);stroke-width:1;pointer-events:none}
 .rh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .rh button{font:inherit;font-family:var(--display);font-weight:600;font-size:15px;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;text-align:left}
 .rh button:hover{color:var(--accent)}
+.rh b{font-family:var(--display);font-weight:600;font-size:15px}
 .segs{display:grid;gap:3px;font-size:13px;color:var(--ink-2)}
 .segs div{display:flex;gap:10px;justify-content:space-between;align-items:baseline}
 .segs a{font-size:12.5px;white-space:nowrap}
@@ -310,6 +313,27 @@ table.plan td.hm{font-family:var(--mono);font-variant-numeric:tabular-nums;font-
 table.plan tr.sep td{border-top:2px solid var(--line-2)}
 .heat{display:inline-block;width:16px;height:10px;border-radius:3px;vertical-align:middle;margin-right:6px}
 
+/* forecast hero: Google Weather leads each area */
+.panel.hero{border-color:color-mix(in srgb,var(--accent) 38%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--accent-soft) 60%,var(--surface)) 0,var(--surface) 170px)}
+.hero .now .v{font-size:32px}
+.hero .panel-h h2{font-size:20px}
+.gbadge{display:inline-flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.gb{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:3px 11px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.gb.g{background:var(--accent-soft);color:var(--accent);border-color:color-mix(in srgb,var(--accent) 32%,transparent)}
+.gb.g::before{content:"";width:9px;height:9px;margin-right:7px;border-radius:50%;background:conic-gradient(#4285F4 0 25%,#EA4335 0 50%,#FBBC05 0 75%,#34A853 0)}
+.gb.st{color:var(--warn);background:var(--warn-bg);border-color:color-mix(in srgb,var(--warn) 35%,transparent)}
+.panel.hero .subh:first-of-type{margin-top:20px}
+
+/* dam / discharge cards */
+.damrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.dam{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 15px;display:grid;gap:3px;align-content:start}
+.dam.main{border-color:color-mix(in srgb,var(--accent) 42%,var(--line));background:color-mix(in srgb,var(--accent-soft) 45%,var(--surface-2))}
+.dam .lbl{font-size:12.5px;color:var(--ink-2);font-weight:500}
+.dam .v{font-family:var(--display);font-size:26px;font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums}
+.dam .v small{font-family:var(--body);font-size:13px;color:var(--ink-2);font-weight:500;margin-left:4px}
+.dam .s{font-size:12.5px;color:var(--ink-2)}
+.dam.stale{opacity:.6}
+
 /* footer */
 footer{display:grid;gap:6px;font-size:12.5px;color:var(--ink-3);padding-top:6px;border-top:1px solid var(--line)}
 footer p{margin:0;max-width:110ch}
@@ -342,155 +366,42 @@ footer p{margin:0;max-width:110ch}
     </div>
     <ul>
       <li class="v-bkk"><a href="#sumBkk">ภาพรวม</a></li>
-      <li class="v-bkk"><a href="#rainsec">ฝน</a></li>
-      <li class="v-bkk"><a href="#roads">ถนนน้ำท่วม</a></li>
-      <li class="v-bkk"><a href="#bma">น้ำบนถนน</a></li>
+      <li class="v-bkk"><a href="#fc">พยากรณ์</a></li>
       <li class="v-bkk"><a href="#radar">เรดาร์</a></li>
-      <li class="v-bkk"><a href="#cbsec">ศูนย์พักพิง</a></li>
-      <li class="v-bkk"><a href="#water">แม่น้ำ</a></li>
-      <li class="v-bkk"><a href="#tmdsec">พยากรณ์</a></li>
+      <li class="v-bkk"><a href="#water">ระดับน้ำ</a></li>
+      <li class="v-bkk"><a href="#roads">ถนนน้ำท่วม</a></li>
       <li class="v-bkk"><a href="#newssec">ข่าว</a></li>
       <li class="v-ry"><a href="#ryHead">ภาพรวม</a></li>
-      <li class="v-ry"><a href="#ry-now">ตอนนี้</a></li>
-      <li class="v-ry"><a href="#ry-days">แผน 7 วัน</a></li>
+      <li class="v-ry"><a href="#ry-fc">พยากรณ์</a></li>
       <li class="v-ry"><a href="#ry-radar">เรดาร์</a></li>
-      <li class="v-ry"><a href="#ry-rain">ฝน</a></li>
       <li class="v-ry"><a href="#ry-water">ระดับน้ำ</a></li>
-      <li class="v-ry"><a href="#ry-dams">อ่างเก็บน้ำ</a></li>
+      <li class="v-ry"><a href="#ry-roads">ถนนน้ำท่วม</a></li>
       <li class="v-ry"><a href="#ry-news">ข่าว</a></li>
-      <li><a href="#plates">ป้ายทะเบียนหาย</a></li>
+      <li><a href="#plates">ป้ายทะเบียน</a></li>
     </ul>
     <a class="sos" href="#contacts" aria-label="สายด่วนฉุกเฉิน"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><span class="t">สายด่วน</span></a>
   </nav>
 
-  <!-- กรุงเทพฯ -->
-  <section class="abar v-bkk" id="abarBkk" aria-label="แถบเตือนภัยสาธารณะ กรุงเทพฯ" aria-live="polite"></section>
-  <section class="summary v-bkk" id="sumBkk" aria-label="ภาพรวมสถานการณ์กรุงเทพฯ"></section>
-  <section id="alerts" class="v-bkk stack" aria-label="ประกาศเตือนภัย"></section>
-
-  <!-- ระยอง -->
-  <div class="v-ry stack" id="rayong">
-    <section class="abar" id="abarRy" aria-label="แถบเตือนภัยสาธารณะ ระยอง" aria-live="polite"></section>
-    <div class="panel empty" id="ryEmpty" hidden>ยังไม่มีข้อมูลของ จ.ระยอง ระบบจะลองดึงใหม่ในรอบถัดไป</div>
-    <div class="stack" id="ryBody">
-      <section class="summary" id="ryHead" aria-label="ภาพรวมสถานการณ์ระยอง"></section>
-      <div class="stack" id="ryWarn"></div>
-      <section class="panel" id="ry-now" aria-labelledby="hrynow">
-        <div class="panel-h"><div><span class="eyebrow">ระยอง · ตอนนี้</span><h2 id="hrynow">สภาพอากาศเมืองระยอง</h2></div><span class="meta" id="ryAsof"></span></div>
-        <div class="now" id="ryNow" aria-label="สภาพอากาศระยองตอนนี้"></div>
-        <div class="tmdtxt" id="ryTmd" style="margin-top:12px"></div>
-      </section>
-      <section class="panel" id="ry-days" aria-labelledby="hrydays">
-        <div class="panel-h"><div><span class="eyebrow">ระยอง · วางแผน</span><h2 id="hrydays">พยากรณ์และแผนเฝ้าระวัง 7 วัน</h2></div><span class="meta" id="ryDaysSrc"></span></div>
-        <div class="days" id="ryDays"></div>
-        <h3 class="subh">ฝนพยากรณ์รายอำเภอ (มม./วัน) · น้ำขึ้นและคลื่นหน้าเมืองระยอง</h3>
-        <div class="tblwrap"><table class="tw plan" id="ryPlan"></table></div>
-        <div class="legend"><span><i class="heat" style="background:color-mix(in srgb,var(--water) 12%,transparent)"></i><i class="heat" style="background:color-mix(in srgb,var(--water) 45%,transparent)"></i>ฝนน้อย → มาก</span><span><i class="heat" style="background:var(--warn-bg);border:1px solid var(--warn)"></i>ฝนหนัก 35 มม.+</span><span><i class="heat" style="background:var(--crit-bg);border:1px solid var(--crit)"></i>ฝนหนักมาก 90 มม.+</span><span>เกณฑ์ปริมาณฝนรายวันของกรมอุตุฯ</span></div>
-        <h3 class="subh">ระดับน้ำทะเลหน้าเมืองระยอง 72 ชม.</h3>
-        <div class="chartbox" id="ryTide" style="margin-top:4px"></div>
-        <div class="note" id="ryTideNote"></div>
-      </section>
-      <section class="panel" id="ry-radar" aria-labelledby="hryradar">
-        <div class="panel-h"><div><span class="eyebrow">ระยอง · ฝน</span><h2 id="hryradar">เรดาร์ฝน ระยอง</h2></div><span class="meta">กรมอุตุฯ · รัศมี 240 กม.</span></div>
-        <div class="radargrid">
-          <div>
-            <div class="radarimg" style="aspect-ratio:1087/800"><img id="ryRadarImg" alt="ภาพเรดาร์ฝนสถานีระยอง ครอบคลุมภาคตะวันออกและอ่าวไทยตอนบน"></div>
-            <div class="rctl"><button class="btn" id="ryRplay" aria-label="เล่นหรือหยุดภาพเคลื่อนไหว">▶ เล่น</button>
-              <label for="ryRslider" class="srh">เลือกเฟรมเรดาร์ระยอง</label><input type="range" id="ryRslider" min="0" max="0" value="0"><span class="num" id="ryRlabel"></span></div>
-          </div>
-          <div style="display:grid;gap:14px">
-            <p class="small muted" style="margin:0">ภาพย้อนหลังประมาณ 2 ชั่วโมง เฟรมละ 15 นาที วงกลมบอกระยะจากเรดาร์ทุก 50 กม. <b>เวลาบนภาพเป็น UTC</b> บวก 7 ชม. จะเป็นเวลาไทย สีบอกความแรงของสัญญาณสะท้อน (dBZ) ยิ่งสูงฝนยิ่งหนัก</p>
-            <div class="scale" aria-label="ความหมายของสี">
-              <div><i style="background:#1DA83A"></i>เขียว 10–27 dBZ · ฝนเล็กน้อย</div>
-              <div><i style="background:#F2E600"></i>เหลือง 31–34 dBZ · ฝนปานกลาง</div>
-              <div><i style="background:#F28C00"></i>ส้ม 37–44 dBZ · ฝนหนัก</div>
-              <div><i style="background:#D40000"></i>แดง 45–54 dBZ · ฝนหนักมาก</div>
-              <div><i style="background:#D000D0"></i>ม่วง/ชมพู 57+ dBZ · พายุรุนแรง อาจมีลูกเห็บ</div>
-            </div>
-            <div class="links" style="margin-top:0"><a href="https://weather.tmd.go.th/rygloop.php" target="_blank" rel="noopener">เรดาร์ระยอง กรมอุตุฯ (ต้นฉบับ) ↗</a></div>
-            <span class="sub" id="ryRfetched"></span>
-          </div>
-        </div>
-      </section>
-      <section class="panel" id="ry-rain" aria-labelledby="hryrain">
-        <div class="panel-h"><div><span class="eyebrow">ระยอง · ฝน</span><h2 id="hryrain">ฝนที่วัดได้จริง 24 ชม.</h2></div><span class="meta">สถานีโทรมาตร · ThaiWater</span></div>
-        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ฝน 24 ชม.</th><th class="n">เวลาวัด</th></tr></thead><tbody id="ryRain"></tbody></table></div>
-        <div id="ryRainMore"></div>
-        <h3 class="subh">ฝนพยากรณ์รายอำเภอ</h3>
-        <div class="tblwrap"><table class="tw"><thead><tr><th>พื้นที่</th><th class="n">ฝน 24 ชม.ที่ผ่านมา</th><th class="n">พยากรณ์ 24 ชม.</th><th class="n">พยากรณ์ 48 ชม.</th><th class="n">โอกาสฝน</th></tr></thead><tbody id="ryPts"></tbody></table></div>
-        <div class="note">ตารางนี้เป็นค่าพยากรณ์จากแบบจำลอง ไม่ใช่ค่าที่วัดได้จริง · ส้ม = ฝนหนัก (35 มม.+) · แดง = ฝนหนักมาก (90 มม.+)</div>
-      </section>
-      <section class="panel" id="ry-water" aria-labelledby="hrywater">
-        <div class="panel-h"><div><span class="eyebrow">ระยอง · ลำน้ำ</span><h2 id="hrywater">ระดับน้ำ สถานีโทรมาตรใน จ.ระยอง</h2></div><span class="meta">สสน.</span></div>
-        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="ryTw"></tbody></table></div>
-        <h3 class="subh">แนวโน้มอัตราการไหล 14 วัน · แบบจำลอง GloFAS</h3>
-        <div class="grid2" id="ryRivers"></div>
-        <div class="legend"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span><span>แบบจำลองความละเอียดราว 5 กม. ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</span></div>
-      </section>
-      <section class="panel" id="ry-dams" aria-labelledby="hrydams">
-        <div class="panel-h"><div><span class="eyebrow">ระยอง · อ่างเก็บน้ำ</span><h2 id="hrydams">อ่างเก็บน้ำขนาดใหญ่</h2></div><span class="meta">กรมชลประทาน</span></div>
-        <div class="tblwrap"><table class="tw"><thead><tr><th>อ่างเก็บน้ำ</th><th class="n">ปริมาณน้ำ ล้าน ม³</th><th>เทียบความจุปกติ</th><th class="n">ไหลเข้า / ระบาย ต่อวัน</th></tr></thead><tbody id="ryDams"></tbody></table></div>
-        <div class="note">ข้อมูลรายวันจากกรมชลประทานผ่าน ThaiWater · ปริมาณเป็นล้าน ม³ · เกิน 100% = เกินระดับเก็บกักปกติ · วันที่จะเต็มความจุสูงสุดคำนวณจากน้ำไหลเข้าลบน้ำระบายของวันล่าสุด</div>
-      </section>
-      <section class="panel" id="ry-news" aria-labelledby="hrynews">
-        <div class="panel-h"><div><span class="eyebrow">ระยอง · ข่าว</span><h2 id="hrynews">ข่าวน้ำท่วมระยอง</h2></div><span class="meta">Google News</span></div>
-        <ul class="news" id="ryNews"></ul>
-        <div class="links">
-          <a href="https://www.tmd.go.th" target="_blank" rel="noopener">กรมอุตุนิยมวิทยา ↗</a>
-          <a href="https://www.thaiwater.net" target="_blank" rel="noopener">ThaiWater (สสน.) ↗</a>
-          <a href="https://www.disaster.go.th" target="_blank" rel="noopener">ปภ. ↗</a>
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <section class="panel v-bkk" aria-labelledby="h48" id="rainsec">
-    <div class="panel-h"><div><span class="eyebrow">ฝน</span><h2 id="h48">ตอนนี้และ 48 ชั่วโมงข้างหน้า</h2></div><span class="meta" id="wxsrc"></span></div>
+  <!-- กรุงเทพฯ: พยากรณ์ Google → เรดาร์ → ระดับน้ำ → ถนนน้ำท่วม → ข่าว -->
+  <div class="stack v-bkk" id="bkk">
+  <section class="abar" id="abarBkk" aria-label="แถบเตือนภัยสาธารณะ กรุงเทพฯ" aria-live="polite"></section>
+  <section class="summary" id="sumBkk" aria-label="ภาพรวมสถานการณ์กรุงเทพฯ"></section>
+  <section id="alerts" class="stack" aria-label="ประกาศเตือนภัย"></section>
+  <section class="panel hero" aria-labelledby="hfc" id="fc">
+    <div class="panel-h"><div><span class="eyebrow">พยากรณ์</span><h2 id="hfc">สภาพอากาศและพยากรณ์ฝน กรุงเทพฯ</h2></div><span class="gbadge" id="wxsrc"></span></div>
     <div class="now" id="now" aria-label="สภาพอากาศตอนนี้"></div>
-    <div class="chartbox" id="c48"></div>
+    <h3 class="subh">ฝนรายชั่วโมง 48 ชั่วโมงข้างหน้า</h3>
+    <div class="chartbox" id="c48" style="margin-top:4px"></div>
     <div class="note" id="s48"></div>
+    <h3 class="subh">พยากรณ์ 7 วัน</h3>
+    <div class="days" id="days"></div>
     <h3 class="subh">ฝนพยากรณ์รายพื้นที่</h3>
     <div class="tblwrap"><table class="tw plan" id="zoneTbl"></table></div>
     <div class="note" id="zoneNote"></div>
+    <h3 class="subh">คำพยากรณ์กรมอุตุนิยมวิทยา <span class="meta num" id="tmdDate"></span></h3>
+    <div class="tmdtxt" id="tmd"></div>
   </section>
-
-  <section class="panel v-bkk" aria-labelledby="hroads" id="roads">
-    <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hroads">ถนนน้ำท่วม ควรหลีกเลี่ยง</h2></div><span class="meta" id="roadsAsof"></span></div>
-    <div class="roadhead" id="roadsHead"></div>
-    <div class="roadgrid" id="roadgrid">
-      <div>
-        <div class="mapwrap" id="mapwrap"><div class="mapctl"><button id="zin" aria-label="ขยายแผนที่">+</button><button id="zout" aria-label="ย่อแผนที่">−</button></div>
-          <div class="mapin" id="mapin"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="mapsvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งถนนที่มีน้ำท่วมขัง"></svg></div>
-        </div>
-        <div class="legend"><span><i class="sw" style="background:var(--crit);height:5px"></i>ท่วม 20 ซม.+</span><span><i class="sw" style="background:var(--warn);height:5px"></i>15 ซม.</span><span><i class="sw" style="background:var(--water);height:5px"></i>10 ซม.</span><span><i class="sw" style="background:var(--ok);height:5px"></i>น้ำลดแล้ว</span><span>แตะจุดบนแผนที่เพื่อดูรายละเอียด</span></div>
-        <div class="attr">แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap · ตำแหน่งจากการค้นหาชื่อซอย/ถนน (Nominatim) อาจคลาดเคลื่อนได้</div>
-      </div>
-      <ul class="roadlist" id="roadlist"></ul>
-    </div>
-    <div id="rrep" hidden>
-      <div class="row" style="justify-content:space-between;margin:22px 0 8px"><h3>รายงานสดจากวิทยุจราจร · 24 ชม.ล่าสุด</h3><div class="tabs" id="rrtabs"></div></div>
-      <ul class="news" id="rrlist"></ul>
-      <div class="attr">ที่มา: <a href="https://www.js100.com/en/site/traffic" target="_blank" rel="noopener">จส.100</a> · <a href="https://www.fm91bkk.com/" target="_blank" rel="noopener">สวพ.91</a> · รายงานจากเจ้าหน้าที่และผู้ฟัง สถานการณ์อาจเปลี่ยนแล้ว</div>
-    </div>
-  </section>
-
-  <section class="panel v-bkk" aria-labelledby="hbma" id="bma">
-    <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hbma">ระดับน้ำบนถนน เซนเซอร์ กทม.</h2></div><span class="meta" id="bmaAsof"></span></div>
-    <div class="roadhead" id="bmaHead"></div>
-    <div class="empty" id="bmaNote" hidden></div>
-    <div class="roadgrid" id="bmaGrid">
-      <div>
-        <div class="mapwrap" id="bmawrap"><div class="mapctl"><button id="bzin" aria-label="ขยายแผนที่">+</button><button id="bzout" aria-label="ย่อแผนที่">−</button></div>
-          <div class="mapin" id="bmain"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="bmasvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งเซนเซอร์วัดระดับน้ำบนถนนของ กทม."></svg></div>
-        </div>
-        <div class="legend"><span><span class="lv lv5"></span> 20 ซม.+</span><span><span class="lv" style="background:var(--warn)"></span> 15–19 ซม.</span><span><span class="lv lv4"></span> ต่ำกว่า 15 ซม.</span><span><span class="lv lv0"></span> ปกติ</span><span><span class="lv" style="border:1.5px solid var(--ink-3)"></span> ขัดข้อง/ไม่ส่งข้อมูล</span></div>
-        <div class="attr">ข้อมูล: สำนักการระบายน้ำ กทม. · ค่าที่มี ≥ มาจากเซนเซอร์แบบขั้น (5/10/15/20 ซม.) ค่าจริงอาจสูงกว่านี้ · แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap</div>
-      </div>
-      <ul class="roadlist" id="bmalist"></ul>
-    </div>
-  </section>
-
-  <section class="panel v-bkk" aria-labelledby="hradar" id="radar">
+  <section class="panel" aria-labelledby="hradar" id="radar">
     <div class="panel-h"><div><span class="eyebrow">ฝน</span><h2 id="hradar">เรดาร์ฝน สุวรรณภูมิ</h2></div><span class="meta">กรมอุตุฯ · รัศมี 120 กม.</span></div>
     <div class="radargrid">
       <div>
@@ -514,8 +425,81 @@ footer p{margin:0;max-width:110ch}
       </div>
     </div>
   </section>
-
-  <section class="panel v-bkk" aria-labelledby="hcb" id="cbsec">
+  <section class="panel" aria-labelledby="hwater" id="water">
+    <div class="panel-h"><div><span class="eyebrow">น้ำ</span><h2 id="hwater">ระดับน้ำในคลองและเขื่อน</h2></div><span class="meta">สสน. ThaiWater · เขื่อนเจ้าพระยา · ปตร.</span></div>
+    <h3 class="subh" style="margin-top:0">เขื่อนเจ้าพระยา</h3>
+    <div class="damrow" id="damBkk"></div>
+    <div id="tw">
+      <h3 class="subh">ระดับน้ำสถานีโทรมาตร ลำน้ำ คลอง และ ปตร.</h3>
+          <div class="chips" id="twsum"></div>
+          <h3 class="subh">แม่น้ำเจ้าพระยา เหนือ → ใต้</h3>
+          <div class="profile" id="twriver"></div>
+          <div class="legend"><span><i class="sw" style="height:0;border-top:1.5px dashed var(--ink-2)"></i>ระดับตลิ่ง</span><span>% = ระดับน้ำเทียบความจุลำน้ำ (100% = เต็มตลิ่ง)</span></div>
+          <div class="row" style="justify-content:space-between;margin:22px 0 8px"><h3>กรุงเทพฯ และปริมณฑล</h3><div class="tabs" id="twprov"></div></div>
+          <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="twtbl"></tbody></table></div>
+          <div id="twmore"></div>
+    </div>
+    <h3 class="subh">อัตราการไหลเจ้าพระยา · แบบจำลอง GloFAS</h3>
+        <div class="chartbox" id="criver" style="margin-top:0"></div>
+        <div class="legend"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span></div>
+        <div class="note" id="sriver"></div>
+  </section>
+  <section class="panel" aria-labelledby="hroads" id="roads">
+    <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hroads">ถนนน้ำท่วม ควรหลีกเลี่ยง</h2></div><span class="meta" id="roadsAsof"></span></div>
+    <div class="roadhead" id="roadsHead"></div>
+    <div class="roadgrid" id="roadgrid">
+      <div>
+        <div class="mapwrap" id="mapwrap"><div class="mapctl"><button id="zin" aria-label="ขยายแผนที่">+</button><button id="zout" aria-label="ย่อแผนที่">−</button></div>
+          <div class="mapin" id="mapin"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="mapsvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งถนนที่มีน้ำท่วมขัง"></svg></div>
+        </div>
+        <div class="legend"><span><i class="sw" style="background:var(--crit);height:5px"></i>ท่วม 20 ซม.+</span><span><i class="sw" style="background:var(--warn);height:5px"></i>15 ซม.</span><span><i class="sw" style="background:var(--water);height:5px"></i>10 ซม.</span><span><i class="sw" style="background:var(--ok);height:5px"></i>น้ำลดแล้ว</span><span>แตะจุดบนแผนที่เพื่อดูรายละเอียด</span></div>
+        <div class="attr">แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap · ตำแหน่งจากการค้นหาชื่อซอย/ถนน (Nominatim) อาจคลาดเคลื่อนได้</div>
+      </div>
+      <ul class="roadlist" id="roadlist"></ul>
+    </div>
+    <div id="rrep" hidden>
+      <div class="row" style="justify-content:space-between;margin:22px 0 8px"><h3>รายงานสดจากวิทยุจราจร · 24 ชม.ล่าสุด</h3><div class="tabs" id="rrtabs"></div></div>
+      <ul class="news" id="rrlist"></ul>
+      <div class="attr">ที่มา: <a href="https://www.js100.com/en/site/traffic" target="_blank" rel="noopener">จส.100</a> · <a href="https://www.fm91bkk.com/" target="_blank" rel="noopener">สวพ.91</a> · รายงานจากเจ้าหน้าที่และผู้ฟัง สถานการณ์อาจเปลี่ยนแล้ว</div>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="hbma" id="bma">
+    <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hbma">ระดับน้ำบนถนน เซนเซอร์ กทม.</h2></div><span class="meta" id="bmaAsof"></span></div>
+    <div class="roadhead" id="bmaHead"></div>
+    <div class="empty" id="bmaNote" hidden></div>
+    <div class="roadgrid" id="bmaGrid">
+      <div>
+        <div class="mapwrap" id="bmawrap"><div class="mapctl"><button id="bzin" aria-label="ขยายแผนที่">+</button><button id="bzout" aria-label="ย่อแผนที่">−</button></div>
+          <div class="mapin" id="bmain"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="bmasvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งเซนเซอร์วัดระดับน้ำบนถนนของ กทม."></svg></div>
+        </div>
+        <div class="legend"><span><span class="lv lv5"></span> 20 ซม.+</span><span><span class="lv" style="background:var(--warn)"></span> 15–19 ซม.</span><span><span class="lv lv4"></span> ต่ำกว่า 15 ซม.</span><span><span class="lv lv0"></span> ปกติ</span><span><span class="lv" style="border:1.5px solid var(--ink-3)"></span> ขัดข้อง/ไม่ส่งข้อมูล</span></div>
+        <div class="attr">ข้อมูล: สำนักการระบายน้ำ กทม. · ค่าที่มี ≥ มาจากเซนเซอร์แบบขั้น (5/10/15/20 ซม.) ค่าจริงอาจสูงกว่านี้ · แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap</div>
+      </div>
+      <ul class="roadlist" id="bmalist"></ul>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="hevt" id="evt" hidden>
+    <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hevt">เหตุการณ์น้ำท่วม กรุงเทพฯ และปริมณฑล</h2></div><span class="meta" id="evAsof"></span></div>
+    <div class="roadhead" id="evHead"></div>
+    <div class="roadgrid">
+      <div>
+        <div class="mapwrap" id="evwrap"><div class="mapctl"><button id="ezin" aria-label="ขยายแผนที่">+</button><button id="ezout" aria-label="ย่อแผนที่">−</button></div>
+          <div class="mapin" id="evin"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="evsvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งเหตุการณ์น้ำท่วมที่แจ้งเข้ามา และจุดเสี่ยงน้ำท่วมของ กทม."></svg></div>
+        </div>
+        <div class="legend"><span><span class="lv" style="background:var(--water)"></span> กรมทางหลวง</span><span><span class="lv" style="background:var(--warn)"></span> ประชาชน/iTIC แจ้ง</span><span id="evRiskLg" hidden><span class="lv lv5"></span> จุดเสี่ยง: เร่งด่วน · <span class="lv" style="background:var(--warn)"></span> กำลังแก้ไข · <span class="lv" style="background:var(--water)"></span> แก้บางส่วน · <span class="lv lv0"></span> แก้เสร็จ</span></div>
+        <div class="attr" id="evAttr">เหตุการณ์: Longdo Event โดย iTIC Foundation (CC BY 4.0) เป็นรายงานจากประชาชนและกรมทางหลวง ยังไม่ผ่านการตรวจสอบ · จุดเสี่ยง: สำนักการระบายน้ำ กทม. เป็นจุดที่น้ำท่วมบ่อย ไม่ใช่สถานะน้ำตอนนี้ · แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap</div>
+      </div>
+      <ul class="roadlist" id="evlist"></ul>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="hnews" id="newssec">
+    <div class="panel-h"><div><span class="eyebrow">ข่าว</span><h2 id="hnews">ฟีดข่าว 3 วันล่าสุด</h2></div><span class="meta">Google News</span></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <label class="srh" for="q">ค้นหาข่าว</label>
+    <input id="q" class="search" type="search" placeholder="กรองหัวข้อข่าว เช่น ลาดกระบัง, ทางด่วน, สุวรรณภูมิ">
+    <ul class="news" id="news"></ul>
+  </section>
+  <section class="panel" aria-labelledby="hcb" id="cbsec">
     <div class="panel-h"><div><span class="eyebrow">ความช่วยเหลือ</span><h2 id="hcb">ประกาศ ปภ. และศูนย์พักพิง</h2></div><span class="meta">DDPM Cell Broadcast</span></div>
     <div class="cb" id="cblist"></div>
     <details class="addbox" id="addbox" hidden>
@@ -527,63 +511,109 @@ footer p{margin:0;max-width:110ch}
     </details>
     <div class="note">ปภ. ยังไม่มีฟีดสาธารณะให้ดึงอัตโนมัติ ประกาศในส่วนนี้จึงมาจากข้อความที่วางเข้ามา ส่วนข่าวที่เกี่ยวข้องดูได้ในหมวด "ปภ./ศูนย์พักพิง" ของข่าว · สายด่วน ปภ. 1784 · กทม. 1555</div>
   </section>
+  </div>
 
-  <section class="panel v-bkk" aria-labelledby="hriver" id="water">
-    <div class="panel-h"><div><span class="eyebrow">แม่น้ำ</span><h2 id="hriver">เจ้าพระยา อัตราการไหล</h2></div><span class="meta">ม³/วินาที · แบบจำลอง GloFAS</span></div>
-    <div class="chartbox" id="criver" style="margin-top:0"></div>
-    <div class="legend"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span></div>
-    <div class="note" id="sriver"></div>
+  <!-- ระยอง: โครงเดียวกับกรุงเทพฯ -->
+  <div class="v-ry stack" id="rayong">
+    <section class="abar" id="abarRy" aria-label="แถบเตือนภัยสาธารณะ ระยอง" aria-live="polite"></section>
+    <div class="panel empty" id="ryEmpty" hidden>ยังไม่มีข้อมูลของ จ.ระยอง ระบบจะลองดึงใหม่ในรอบถัดไป</div>
+    <div class="stack" id="ryBody">
+      <section class="summary" id="ryHead" aria-label="ภาพรวมสถานการณ์ระยอง"></section>
+      <div class="stack" id="ryWarn"></div>
+      <section class="panel hero" id="ry-fc" aria-labelledby="hryfc">
+        <div class="panel-h"><div><span class="eyebrow">พยากรณ์</span><h2 id="hryfc">สภาพอากาศและพยากรณ์ฝน ระยอง</h2></div><span class="gbadge" id="ryDaysSrc"></span></div>
+        <div class="meta" id="ryAsof" style="margin:-8px 0 10px"></div>
+        <div class="now" id="ryNow" aria-label="สภาพอากาศระยองตอนนี้"></div>
+        <h3 class="subh">ฝนรายชั่วโมง 48 ชั่วโมงข้างหน้า · เมืองระยอง</h3>
+        <div class="chartbox" id="ryC48" style="margin-top:4px"></div>
+        <div class="note" id="ryS48"></div>
+        <h3 class="subh">พยากรณ์ 7 วัน</h3>
+        <div class="days" id="ryDays"></div>
+        <h3 class="subh">ฝนพยากรณ์รายอำเภอ (มม./วัน) · น้ำขึ้นและคลื่นหน้าเมืองระยอง</h3>
+        <div class="tblwrap"><table class="tw plan" id="ryPlan"></table></div>
+        <div class="legend"><span><i class="heat" style="background:color-mix(in srgb,var(--water) 12%,transparent)"></i><i class="heat" style="background:color-mix(in srgb,var(--water) 45%,transparent)"></i>ฝนน้อย → มาก</span><span><i class="heat" style="background:var(--warn-bg);border:1px solid var(--warn)"></i>ฝนหนัก 35 มม.+</span><span><i class="heat" style="background:var(--crit-bg);border:1px solid var(--crit)"></i>ฝนหนักมาก 90 มม.+</span><span>เกณฑ์ปริมาณฝนรายวันของกรมอุตุฯ</span></div>
+        <h3 class="subh">ระดับน้ำทะเลหน้าเมืองระยอง 72 ชม.</h3>
+        <div class="chartbox" id="ryTide" style="margin-top:4px"></div>
+        <div class="note" id="ryTideNote"></div>
+        <h3 class="subh">ฝนที่วัดได้จริง 24 ชม. · สถานีโทรมาตร ThaiWater</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ฝน 24 ชม.</th><th class="n">เวลาวัด</th></tr></thead><tbody id="ryRain"></tbody></table></div>
+        <div id="ryRainMore"></div>
+        <h3 class="subh">ฝนพยากรณ์รายอำเภอ</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>พื้นที่</th><th class="n">ฝน 24 ชม.ที่ผ่านมา</th><th class="n">พยากรณ์ 24 ชม.</th><th class="n">พยากรณ์ 48 ชม.</th><th class="n">โอกาสฝน</th></tr></thead><tbody id="ryPts"></tbody></table></div>
+        <div class="note">ตารางนี้เป็นค่าพยากรณ์จากแบบจำลอง ไม่ใช่ค่าที่วัดได้จริง · ส้ม = ฝนหนัก (35 มม.+) · แดง = ฝนหนักมาก (90 มม.+)</div>
+        <div class="tmdtxt" id="ryTmd"></div>
+      </section>
+      <section class="panel" id="ry-radar" aria-labelledby="hryradar">
+        <div class="panel-h"><div><span class="eyebrow">ระยอง · ฝน</span><h2 id="hryradar">เรดาร์ฝน ระยอง</h2></div><span class="meta">กรมอุตุฯ · รัศมี 240 กม.</span></div>
+        <div class="radargrid">
+          <div>
+            <div class="radarimg" style="aspect-ratio:1087/800"><img id="ryRadarImg" alt="ภาพเรดาร์ฝนสถานีระยอง ครอบคลุมภาคตะวันออกและอ่าวไทยตอนบน"></div>
+            <div class="rctl"><button class="btn" id="ryRplay" aria-label="เล่นหรือหยุดภาพเคลื่อนไหว">▶ เล่น</button>
+              <label for="ryRslider" class="srh">เลือกเฟรมเรดาร์ระยอง</label><input type="range" id="ryRslider" min="0" max="0" value="0"><span class="num" id="ryRlabel"></span></div>
+          </div>
+          <div style="display:grid;gap:14px">
+            <p class="small muted" style="margin:0">ภาพย้อนหลังประมาณ 2 ชั่วโมง เฟรมละ 15 นาที วงกลมบอกระยะจากเรดาร์ทุก 50 กม. <b>เวลาบนภาพเป็น UTC</b> บวก 7 ชม. จะเป็นเวลาไทย สีบอกความแรงของสัญญาณสะท้อน (dBZ) ยิ่งสูงฝนยิ่งหนัก</p>
+            <div class="scale" aria-label="ความหมายของสี">
+              <div><i style="background:#1DA83A"></i>เขียว 10–27 dBZ · ฝนเล็กน้อย</div>
+              <div><i style="background:#F2E600"></i>เหลือง 31–34 dBZ · ฝนปานกลาง</div>
+              <div><i style="background:#F28C00"></i>ส้ม 37–44 dBZ · ฝนหนัก</div>
+              <div><i style="background:#D40000"></i>แดง 45–54 dBZ · ฝนหนักมาก</div>
+              <div><i style="background:#D000D0"></i>ม่วง/ชมพู 57+ dBZ · พายุรุนแรง อาจมีลูกเห็บ</div>
+            </div>
+            <div class="links" style="margin-top:0"><a href="https://weather.tmd.go.th/rygloop.php" target="_blank" rel="noopener">เรดาร์ระยอง กรมอุตุฯ (ต้นฉบับ) ↗</a></div>
+            <span class="sub" id="ryRfetched"></span>
+          </div>
+        </div>
+      </section>
+      <section class="panel" id="ry-water" aria-labelledby="hrywater">
+        <div class="panel-h"><div><span class="eyebrow">น้ำ</span><h2 id="hrywater">ระดับน้ำในคลองและเขื่อน</h2></div><span class="meta">สสน. ThaiWater · กรมชลประทาน</span></div>
+        <h3 class="subh" style="margin-top:0">อ่างเก็บน้ำขนาดใหญ่</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>อ่างเก็บน้ำ</th><th class="n">ปริมาณน้ำ ล้าน ม³</th><th>เทียบความจุปกติ</th><th class="n">ไหลเข้า / ระบาย ต่อวัน</th></tr></thead><tbody id="ryDams"></tbody></table></div>
+        <div class="note">ข้อมูลรายวันจากกรมชลประทานผ่าน ThaiWater · ปริมาณเป็นล้าน ม³ · เกิน 100% = เกินระดับเก็บกักปกติ · วันที่จะเต็มความจุสูงสุดคำนวณจากน้ำไหลเข้าลบน้ำระบายของวันล่าสุด</div>
+        <h3 class="subh">ระดับน้ำสถานีโทรมาตรใน จ.ระยอง · ลำน้ำ คลอง</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="ryTw"></tbody></table></div>
+        <h3 class="subh">แนวโน้มอัตราการไหล 14 วัน · แบบจำลอง GloFAS</h3>
+        <div class="grid2" id="ryRivers"></div>
+        <div class="legend"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span><span>แบบจำลองความละเอียดราว 5 กม. ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</span></div>
+      </section>
+      <section class="panel" id="ry-roads" aria-labelledby="hryroads">
+        <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hryroads">ข่าวถนนน้ำท่วม ระยอง</h2></div><span class="meta" id="ryEvAsof"></span></div>
+        <div class="roadhead" id="ryEvHead"></div>
+        <div class="roadgrid">
+          <div><h3 class="subh" style="margin-top:0">เหตุการณ์ที่แจ้งเข้ามา · ทางหลวงและถนนในพื้นที่</h3>
+            <ul class="roadlist" id="ryEvList"></ul>
+            <div class="attr">เหตุการณ์: Longdo Event โดย iTIC Foundation (CC BY 4.0) เป็นรายงานจากประชาชนและกรมทางหลวง ยังไม่ผ่านการตรวจสอบ ตำแหน่งอาจคลาดเคลื่อน</div></div>
+          <div><h3 class="subh" style="margin-top:0">ข่าวถนนและเส้นทาง</h3>
+            <ul class="news" id="ryRoadNews"></ul></div>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="hrynews" id="ry-news">
+    <div class="panel-h"><div><span class="eyebrow">ข่าว</span><h2 id="hrynews">ข่าวน้ำท่วมระยอง</h2></div><span class="meta">Google News</span></div>
+    <div class="tabs" role="tablist" id="ryTabs"></div>
+    <label class="srh" for="ryQ">ค้นหาข่าว</label>
+    <input id="ryQ" class="search" type="search" placeholder="กรองหัวข้อข่าว เช่น แกลง, ปลวกแดง, เขื่อน, สุขุมวิท">
+    <ul class="news" id="ryNews"></ul>
+    <div class="links">
+      <a href="https://www.tmd.go.th" target="_blank" rel="noopener">กรมอุตุนิยมวิทยา ↗</a>
+      <a href="https://www.thaiwater.net" target="_blank" rel="noopener">ThaiWater (สสน.) ↗</a>
+      <a href="https://www.disaster.go.th" target="_blank" rel="noopener">ปภ. ↗</a>
+    </div>
   </section>
+    </div>
+  </div>
 
-  <section class="panel v-bkk" aria-labelledby="htw" id="tw">
-    <div class="panel-h"><div><span class="eyebrow">แม่น้ำ</span><h2 id="htw">ระดับน้ำ ThaiWater</h2></div><span class="meta">สสน. · สถานีโทรมาตร</span></div>
-    <div class="chips" id="twsum"></div>
-    <h3 class="subh">แม่น้ำเจ้าพระยา เหนือ → ใต้</h3>
-    <div class="profile" id="twriver"></div>
-    <div class="legend"><span><i class="sw" style="height:0;border-top:1.5px dashed var(--ink-2)"></i>ระดับตลิ่ง</span><span>% = ระดับน้ำเทียบความจุลำน้ำ (100% = เต็มตลิ่ง)</span></div>
-    <div class="row" style="justify-content:space-between;margin:22px 0 8px"><h3>กรุงเทพฯ และปริมณฑล</h3><div class="tabs" id="twprov"></div></div>
-    <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="twtbl"></tbody></table></div>
-    <div id="twmore"></div>
-  </section>
-
-  <section class="panel v-bkk" aria-labelledby="htmd" id="tmdsec">
-    <div class="panel-h"><div><span class="eyebrow">พยากรณ์</span><h2 id="htmd">พยากรณ์ 24 ชม. กรมอุตุนิยมวิทยา</h2></div><span class="meta num" id="tmdDate"></span></div>
-    <div class="tmdtxt" id="tmd"></div>
-  </section>
-
-  <section class="panel v-bkk" aria-labelledby="h7" id="d7">
-    <div class="panel-h"><div><span class="eyebrow">พยากรณ์</span><h2 id="h7">พยากรณ์ 7 วัน กรุงเทพฯ</h2></div><span class="meta" id="d7src">Open-Meteo</span></div>
-    <div class="days" id="days"></div>
-  </section>
-
-  <section class="panel v-bkk" aria-labelledby="hnews" id="newssec">
-    <div class="panel-h"><div><span class="eyebrow">ข่าว</span><h2 id="hnews">ฟีดข่าว 3 วันล่าสุด</h2></div><span class="meta">Google News</span></div>
-    <div class="tabs" role="tablist" id="tabs"></div>
-    <label class="srh" for="q">ค้นหาข่าว</label>
-    <input id="q" class="search" type="search" placeholder="กรองหัวข้อข่าว เช่น ลาดกระบัง, ทางด่วน, สุวรรณภูมิ">
-    <ul class="news" id="news"></ul>
-  </section>
-
-  <div class="grid2">
-    <section class="panel" aria-labelledby="hct" id="contacts">
-      <div class="panel-h"><div><span class="eyebrow">ความช่วยเหลือ</span><h2 id="hct">สายด่วน</h2></div><span class="meta">แตะเพื่อโทร</span></div>
-      <div class="contacts">
-        <a class="ct" href="tel:1555"><b>1555</b><span>ศูนย์รับแจ้ง กทม.</span></a>
-        <a class="ct" href="tel:1784"><b>1784</b><span>ปภ. สาธารณภัย</span></a>
-        <a class="ct" href="tel:1669"><b>1669</b><span>เจ็บป่วยฉุกเฉิน</span></a>
-        <a class="ct" href="tel:1182"><b>1182</b><span>กรมอุตุนิยมวิทยา</span></a>
-      </div>
-      <div class="links">
-        <a href="https://www.tmd.go.th" target="_blank" rel="noopener">กรมอุตุนิยมวิทยา ↗</a>
-        <a href="https://www.thaiwater.net" target="_blank" rel="noopener">ThaiWater ↗</a>
-        <a href="https://www.rid.go.th" target="_blank" rel="noopener">กรมชลประทาน ↗</a>
-      </div>
-    </section>
+  <div class="stack">
     <section class="panel" aria-labelledby="hplate" id="plates">
       <div class="panel-h"><div><span class="eyebrow">ความช่วยเหลือ</span><h2 id="hplate">ป้ายทะเบียนหายจากน้ำท่วม?</h2></div><span class="meta">เว็บไซต์ภายนอก</span></div>
       <p style="margin:0 0 14px;color:var(--ink-2)">ค้นหาป้ายทะเบียนที่มีคนเก็บได้ หรือโพสต์บอกเมื่อเจอป้ายของคนอื่น</p>
       <a class="btn primary" href="https://hapaitabien.pages.dev/" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">ค้นหา / โพสต์ป้ายทะเบียน ↗</a>
       <div class="attr" style="margin-top:8px">hapaitabien.pages.dev</div>
+    </section>
+    <section class="panel" aria-labelledby="hct" id="contacts">
+      <div class="panel-h"><div><span class="eyebrow">ความช่วยเหลือ</span><h2 id="hct">สายด่วนฉุกเฉิน</h2></div><span class="meta" id="ctArea">แตะเพื่อโทร</span></div>
+      <div class="contacts" id="ctGrid"></div>
+      <div class="note" id="ctNote"></div>
+      <div class="links" id="ctLinks"></div>
     </section>
   </div>
 
@@ -632,7 +662,7 @@ function fmtTs(iso){ if(!iso)return ""; const d=new Date(iso); const b=new Date(
   const t=todayStr(); const ds=b.getFullYear()+"-"+String(b.getMonth()+1).padStart(2,"0")+"-"+String(b.getDate()).padStart(2,"0");
   return (ds===t?"วันนี้":b.getDate()+" "+TH_M[b.getMonth()])+"<br>"+hh+":"+mm;}
 
-let DATA=null, TAB="flood", SHOWALL=false;
+let DATA=null, TAB="flood";
 try{TAB=localStorage.getItem("wf-tab")||"flood"}catch(e){}
 
 // data refreshes hourly; "stale" once two runs are missed
@@ -642,11 +672,12 @@ function renderFresh(d){
   $("freshTxt").innerHTML="อัปเดต <b class='num'>"+hm(d.updatedAt)+"</b> · "+rel(d.updatedAt)
     +(ageH>2?" · ข้อมูลเก่า":"<span class='nx'>"+(next>Date.now()?" · รอบถัดไป "+hm(new Date(next).toISOString())+" น.":" · กำลังรอรอบถัดไป")+"</span>");
 }
+const draw48=d=>{render48(d.weather,"c48","s48");render48((d.rayong||{}).weather,"ryC48","ryS48");};
 function render(d){
   if(!d) return; DATA=d;
   // freshness
   renderFresh(d);
-  renderAlertBar(d); renderSummary(d); renderZones(d); renderAlerts(d); renderRoads(d); renderBma(d); renderNow(d); render48(d); renderRiver(d); renderTw(d); renderDays(d); renderRayong(d); renderTmd(d); renderTabs(); renderNews();
+  renderAlertBar(d); renderSummary(d); renderZones(d); renderAlerts(d); renderRoads(d); renderBma(d); renderEvents(d); renderNow(d); draw48(d); renderRiver(d); renderDamBkk(d); renderTw(d); renderRyRoads(d); renderDays(d); renderRayong(d); renderTmd(d); renderTabs(); renderNews();
 }
 
 function renderAlerts(d){
@@ -660,12 +691,14 @@ function renderAlerts(d){
   el.querySelectorAll("button[data-t]").forEach(b=>b.onclick=()=>{const p=$(b.dataset.t);const c=p.classList.toggle("clip");b.textContent=c?"อ่านทั้งหมด":"ย่อ";});
 }
 
+// forecast source badge: Google Weather is the headline source, Open-Meteo shows as the fallback
+const gbadge=w=>!w?"":w.src==="google"?'<span class="gb g">Google Weather</span>':'<span class="gb">Open-Meteo · สำรอง</span>';
 function renderNow(d){
-  const w=d.weather; if(!w){$("now").innerHTML="";$("wxsrc").textContent="";return;}
+  const w=d.weather; if(!w){$("now").innerHTML="";$("wxsrc").innerHTML="";return;}
   const c=w.current, t=todayStr(); const today=w.daily.find(x=>x.date===t)||{};
   const next24=w.hourly.slice(0,24).reduce((a,h)=>a+(h.p||0),0);
   const past=w.daily.filter(x=>x.date<t).slice(-7).reduce((a,x)=>a+(x.rain||0),0);
-  $("wxsrc").textContent=(w.src==="google"?"Google Weather":"Open-Meteo")+(w.stale?" · ข้อมูลรอบก่อน":"");
+  $("wxsrc").innerHTML=gbadge(w)+(w.stale?'<span class="gb st">ข้อมูลรอบก่อน</span>':"");
   $("now").innerHTML=`
    <div><span class="lbl">ตอนนี้ · กรุงเทพฯ</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,32)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${c.desc?esc(c.desc):wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
    <div><span class="lbl">ฝนขณะนี้</span><span class="v">${(+c.rain).toFixed(1)}<small>มม.</small></span><span class="s">ลม ${esc(c.wind)} กม./ชม.</span></div>
@@ -687,10 +720,10 @@ function hoverChart(box,W,idxAt,xAt,html){
 const boxW=id=>{const w=$(id).clientWidth;return w>0?Math.max(300,w):1000};
 const f1=v=>+(+v).toFixed(1);
 const dayLbl=s=>{const d=pd(s);return s===todayStr()?"วันนี้":TH_D[d.getDay()]+" "+d.getDate()+" "+TH_M[d.getMonth()]};
-function render48(d){
-  const w=d.weather, h=(w&&w.hourly)||[];
-  if(!h.length){$("c48").innerHTML="<div class='empty'>ไม่มีข้อมูลพยากรณ์รายชั่วโมง</div>";$("s48").textContent="";return;}
-  const W=boxW("c48"), sm=W<600, H=sm?214:240, L=30, R=6, T=26, base=H-62, sy=base+12, sh=14, n=h.length, bw=(W-L-R)/n;
+function render48(w,cid,sid){
+  const h=(w&&w.hourly)||[];
+  if(!h.length){$(cid).innerHTML="<div class='empty'>ไม่มีข้อมูลพยากรณ์รายชั่วโมง</div>";$(sid).textContent="";return;}
+  const W=boxW(cid), sm=W<600, H=sm?214:240, L=30, R=6, T=26, base=H-62, sy=base+12, sh=14, n=h.length, bw=(W-L-R)/n;
   const mx=Math.max(...h.map(x=>x.p||0)), step=mx<=4?1:mx<=10?2:mx<=25?5:10, top=Math.max(step*4,Math.ceil(mx/step)*step);
   const y=v=>base-(v/top)*(base-T), xc=i=>f1(L+i*bw+bw/2);
   let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="ฝนรายชั่วโมงและโอกาสฝน 48 ชั่วโมงข้างหน้า">`;
@@ -705,13 +738,24 @@ function render48(d){
   s+=`<text x="${L-6}" y="${sy+sh-3}" text-anchor="end">%</text><line class="axis" x1="${L}" x2="${W-R}" y1="${base}" y2="${base}"/>`;
   s+=`<line class="hov" x1="0" x2="0" y1="${T-4}" y2="${sy+sh}" visibility="hidden"/></svg><div class="tip" hidden></div>`;
   s+=`<div class="legend"><span><i class="sw" style="background:var(--water);height:9px;width:9px"></i>ฝน มม./ชม.</span><span><i class="sw" style="height:9px;width:30px;background:linear-gradient(90deg,color-mix(in srgb,var(--water) 12%,transparent),var(--water))"></i>โอกาสฝน 0–100%</span><span>แตะหรือชี้ที่กราฟเพื่อดูค่ารายชั่วโมง</span></div>`;
-  $("c48").innerHTML=s;
-  hoverChart($("c48"),W,sx=>sx<L||sx>W-R?null:Math.min(n-1,Math.floor((sx-L)/bw)),xc,
+  $(cid).innerHTML=s;
+  hoverChart($(cid),W,sx=>sx<L||sx>W-R?null:Math.min(n-1,Math.floor((sx-L)/bw)),xc,
     i=>`<b>${dayLbl(h[i].d)} ${h[i].t} น.</b><br>ฝน ${(h[i].p||0).toFixed(1)} มม. · โอกาสฝน ${h[i].pp??0}%${h[i].ts!=null?` · พายุฝนฟ้าคะนอง ${h[i].ts}%`:""}`);
   const pk=h.reduce((a,x)=>(x.p||0)>(a.p||0)?x:a,h[0]||{});
-  $("s48").innerHTML=(pk&&pk.p>0?`ฝนหนักสุดช่วง <span class="num">${esc(pk.t)}</span> น. ${pk.d===todayStr()?"วันนี้":pd(pk.d).getDate()+" "+TH_M[pd(pk.d).getMonth()]} ราว <span class="num">${pk.p}</span> มม./ชม. เวลาทั้งหมดเป็นเวลาไทย`:"ไม่มีฝนที่วัดได้ใน 48 ชม. ข้างหน้า")+(w.stale?' · <span style="color:var(--warn)">รอบนี้ดึงพยากรณ์ใหม่ไม่สำเร็จ แสดงข้อมูลรอบก่อน</span>':"");
+  $(sid).innerHTML=(pk&&pk.p>0?`ฝนหนักสุดช่วง <span class="num">${esc(pk.t)}</span> น. ${pk.d===todayStr()?"วันนี้":pd(pk.d).getDate()+" "+TH_M[pd(pk.d).getMonth()]} ราว <span class="num">${pk.p}</span> มม./ชม. เวลาทั้งหมดเป็นเวลาไทย`:"ไม่มีฝนที่วัดได้ใน 48 ชม. ข้างหน้า")+(w.stale?' · <span style="color:var(--warn)">รอบนี้ดึงพยากรณ์ใหม่ไม่สำเร็จ แสดงข้อมูลรอบก่อน</span>':"");
 }
 
+// Chao Phraya dam release (C.13) and the gauges up/downstream with a measured discharge
+function renderDamBkk(d){
+  const el=$("damBkk"), rv=((d.thaiwater||{}).river||[]).filter(x=>x.q!=null);
+  if(!rv.length){el.innerHTML="<div class='empty'>ยังไม่มีข้อมูลการระบายน้ำ</div>";return;}
+  const dam=rv.find(x=>x.code==="C.13")||rv[0], oth=rv.filter(x=>x!==dam), old=x=>twAgeH(x.t)>24;
+  const card=(x,main)=>`<div class="dam${main?" main":""}${old(x)?" stale":""}"><span class="lbl">${esc(x.name)}${main?" · ระบายน้ำ":""}</span>
+    <span class="v">${Math.round(x.q).toLocaleString()}<small>ม³/วินาที</small></span>
+    <span class="s">${x.pct!=null?"ระดับน้ำ "+x.pct.toFixed(0)+"% ของความจุลำน้ำ · ":""}${trend(x.dwl)}</span>
+    <span class="sub num">${esc(x.code)} · ${esc(fmtTw(x.t))}${old(x)?" · ข้อมูลค้าง":""}</span></div>`;
+  el.innerHTML=card(dam,true)+oth.map(x=>card(x,false)).join("");
+}
 // discharge chart (GloFAS): forecast side shaded from today, worst-case member dashed; returns where today sits
 function flowChart(id,r,label){
   const W=boxW(id), sm=W<600, H=sm?200:230, L=sm?46:54, R=8, T=12, B=28, iw=W-L-R, ih=H-T-B, n=r.length;
@@ -770,7 +814,7 @@ function dayCards(daily){
 }
 function renderDays(d){
   const w=d.weather; if(!w){$("days").innerHTML="";return;}
-  $("days").innerHTML=dayCards(w.daily); $("d7src").textContent=w.src==="google"?"Google Weather":"Open-Meteo";
+  $("days").innerHTML=dayCards(w.daily);
 }
 
 function renderTmd(d){
@@ -973,6 +1017,48 @@ function renderBma(d){
   if(SELB!=null&&wet.some(s=>s.id===SELB))focusBma(SELB,true);
 }
 
+// ---- flood events (Longdo/iTIC) + flood-risk points (BMA, loaded on demand from data/risk.json) ----
+const EMAP=mkMap("evwrap","evin","ezin","ezout");
+const EVBY={doh:"กรมทางหลวง",itic:"iTIC",user:"ประชาชนแจ้ง"};
+const evIso=s=>s?s.replace(" ","T")+"+07:00":"";
+const evCol=x=>x.by==="doh"?"var(--water)":"var(--warn)";
+const RSCOL={1:"var(--crit)",2:"var(--ink-3)",3:"var(--warn)",4:"var(--water)",5:"var(--ok)"};
+let EVALL=false, SELE=null, RISKON=false, RISK=null, RISKST="idle";
+function loadRisk(){ if(RISKST!=="idle")return; RISKST="loading";
+  fetch("data/risk.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>{RISK=j&&j.p&&j.p.length?j:null;RISKST=RISK?"ok":"fail";renderEvents(DATA);}).catch(()=>{RISKST="fail";renderEvents(DATA);}); }
+function focusEvent(id,scrollList){SELE=id;
+  document.querySelectorAll("#evlist li").forEach(li=>li.classList.toggle("sel",li.dataset.id===id));
+  document.querySelectorAll("#evsvg .ev").forEach(g=>g.setAttribute("opacity",id==null||g.dataset.id===id?"1":".3"));
+  if(scrollList){const li=document.querySelector(`#evlist li[data-id="${id}"]`);if(li)li.scrollIntoView({block:"nearest",behavior:"smooth"});}
+  else{const x=(((DATA||{}).events||{}).items||[]).find(v=>v.id===id);if(x)EMAP.pan([proj(x.p)]);}}
+function renderEvents(d){
+  const E=d.events, sec=$("evt"); if(!E){sec.hidden=true;return;} sec.hidden=false;
+  const items=(E.items||[]).filter(x=>new Date(evIso(x.e))>Date.now());
+  const n=k=>items.filter(x=>x.by===k).length;
+  $("evAsof").textContent=E.fetched?"ดึงข้อมูล "+hm(E.fetched)+" น. · "+rel(E.fetched):"";
+  $("evHead").innerHTML=`<span class="chip"><b>${items.length}</b> เหตุการณ์</span><span class="chip"><span class="lv" style="background:var(--water)"></span>กรมทางหลวง <b>${n("doh")}</b></span><span class="chip"><span class="lv" style="background:var(--warn)"></span>ประชาชน/iTIC <b>${n("itic")+n("user")}</b></span>
+    ${E.stale?`<span class="chip" style="color:var(--warn)">รอบล่าสุดดึงข้อมูลไม่สำเร็จ แสดงข้อมูลเมื่อ ${hm(E.fetched)} น.</span>`:""}
+    <button class="btn" id="riskTgl" aria-pressed="${RISKON}">${RISKON?"ซ่อน":"แสดง"}จุดเสี่ยงน้ำท่วม กทม.</button>
+    ${RISKON&&RISKST==="loading"?'<span class="muted small">กำลังโหลดจุดเสี่ยง…</span>':""}${RISKON&&RISKST==="fail"?'<span class="chip" style="color:var(--warn)">โหลดจุดเสี่ยงไม่ได้</span>':""}
+    <a href="${esc(E.source||"https://event.longdo.com/")}" target="_blank" rel="noopener">ที่มา: ${esc(E.src||"Longdo Event")} ↗</a>`;
+  $("riskTgl").onclick=()=>{RISKON=!RISKON;if(RISKON)loadRisk();renderEvents(DATA);};
+  $("evRiskLg").hidden=!(RISKON&&RISKST==="ok");
+  let svg="";
+  if(RISKON&&RISKST==="ok"){const st=RISK.status||{},cs=RISK.cause||{};
+    svg+=RISK.p.map(r=>{const P=proj([r[0],r[1]]);return inMap(P)?`<circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="8" fill="${RSCOL[r[4]]||"var(--ink-3)"}" opacity=".6" stroke="#fff" stroke-width="2"><title>${esc(r[2])} · เขต${esc(r[3])} · ${esc(st[r[4]]||"")} · ${esc(cs[r[5]]||"")}</title></circle>`:""}).join("");}
+  svg+=items.slice().reverse().map(x=>{const P=proj(x.p);return inMap(P)?`<g class="ev bdot" data-id="${x.id}" tabindex="0"><title>${esc(x.t)} · ${esc(EVBY[x.by]||"")}</title><circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="16" fill="${evCol(x)}" stroke="#fff" stroke-width="4"/></g>`:""}).join("");
+  $("evsvg").innerHTML=svg;
+  $("evsvg").querySelectorAll(".ev").forEach(g=>{const f=()=>focusEvent(g.dataset.id,true);g.onclick=f;g.onkeydown=e=>{if(e.key==="Enter")f()};});
+  const shown=EVALL?items:items.slice(0,12);
+  $("evlist").innerHTML=(shown.map(x=>`<li data-id="${x.id}"><div class="rh"><button data-id="${x.id}">${esc(x.t)}</button><span class="dep" style="background:var(--surface-2);color:${evCol(x)}">${esc(EVBY[x.by]||"")}</span></div>
+    <div class="segs"><div><span>${x.d?esc(x.d)+" · ":""}แจ้งเมื่อ ${fmtTs(evIso(x.s)).replace("<br>"," ")} น.</span><a href="https://www.google.com/maps/search/?api=1&query=${x.p.join(",")}" target="_blank" rel="noopener">Google Maps ↗</a></div></div></li>`).join("")
+    ||`<li><span class="muted">ตอนนี้ไม่มีเหตุการณ์น้ำท่วมที่แจ้งเข้ามาในพื้นที่นี้</span></li>`)
+    +(shown.length<items.length?`<li><button class="linkbtn" id="evmore" style="padding:10px 2px">ดูอีก ${items.length-shown.length} เหตุการณ์</button></li>`:"");
+  $("evlist").querySelectorAll(".rh button").forEach(b=>b.onclick=()=>focusEvent(b.dataset.id,false));
+  const m=$("evmore"); if(m)m.onclick=()=>{EVALL=true;renderEvents(DATA);};
+  if(SELE!=null&&items.some(x=>x.id===SELE))focusEvent(SELE,true);
+}
+
 const LVN={5:"ล้นตลิ่ง",4:"น้ำมาก",3:"ปกติ",2:"น้ำน้อย",1:"น้ำน้อยวิกฤติ"};
 let TWP="ทั้งหมด", TWALL=false;
 try{TWP=localStorage.getItem("wf-twp")||"ทั้งหมด"}catch(e){}
@@ -1032,6 +1118,25 @@ const damNet=(x,full)=>{if(x.inflow==null||x.release==null)return "";const net=+
   return `<div class="sub"${net>0?' style="color:var(--crit)"':""}>${net>0?"สุทธิ +"+net:net<0?"สุทธิ "+net:"รับเท่าระบาย"}${net?" ล้าน ม³/วัน":""}</div>`
     +(full?`<div class="sub" style="color:var(--crit)">เกินความจุสูงสุดแล้ว</div>`:toMax!=null&&toMax<30?`<div class="sub" style="color:var(--warn)">เต็มความจุสูงสุดในราว ${Math.max(1,Math.round(toMax))} วัน ถ้าน้ำไหลเข้าเท่าเดิม</div>`:"");};
 const fmtDay=s=>!s?"":s===todayStr()?"วันนี้":" "+(+s.slice(8,10))+" "+TH_M[+s.slice(5,7)-1];
+// Rayong road block: reported flood events (Longdo/iTIC) + road news, the counterpart of the Bangkok road sections
+const RY_ROAD_RE=/ถนน|ทางหลวง|สัญจร|จราจร|เส้นทาง|สะพาน|ปิด|ผ่านไม่ได้|สุขุมวิท/;
+let RYEVALL=false;
+function renderRyRoads(d){
+  const R=d.rayong||{}, E=R.events, items=evLive(E), bl=items.filter(x=>ROADBLOCK_RE.test(x.t)), n=k=>items.filter(x=>x.by===k).length;
+  $("ryEvAsof").textContent=E&&E.fetched?"ดึงข้อมูล "+hm(E.fetched)+" น. · "+rel(E.fetched):"";
+  $("ryEvHead").innerHTML=E?`<span class="chip"><b>${items.length}</b> เหตุการณ์</span><span class="chip"><span class="lv lv5"></span>ผ่านไม่ได้/ปิดถนน <b>${bl.length}</b></span><span class="chip"><span class="lv" style="background:var(--water)"></span>กรมทางหลวง <b>${n("doh")}</b></span><span class="chip"><span class="lv" style="background:var(--warn)"></span>ประชาชน/iTIC <b>${n("itic")+n("user")}</b></span>
+    ${E.stale?`<span class="chip" style="color:var(--warn)">รอบล่าสุดดึงข้อมูลไม่สำเร็จ แสดงข้อมูลเมื่อ ${hm(E.fetched)} น.</span>`:""}
+    <a href="${esc(E.source||"https://event.longdo.com/")}" target="_blank" rel="noopener">ที่มา: ${esc(E.src||"Longdo Event")} ↗</a>`
+    :`<span class="chip" style="color:var(--warn)">ตอนนี้ยังดึงรายงานเหตุการณ์ไม่ได้</span>`;
+  const shown=RYEVALL?items:items.slice(0,8);
+  $("ryEvList").innerHTML=(shown.map(x=>`<li><div class="rh"><b>${esc(x.t)}</b><span class="dep" style="background:var(--surface-2);color:${evCol(x)}">${esc(EVBY[x.by]||"")}</span></div>
+    <div class="segs"><div><span>${x.d?esc(x.d)+" · ":""}แจ้งเมื่อ ${fmtTs(evIso(x.s)).replace("<br>"," ")} น.</span><a href="https://www.google.com/maps/search/?api=1&query=${x.p.join(",")}" target="_blank" rel="noopener">Google Maps ↗</a></div></div></li>`).join("")
+    ||`<li><span class="muted">${E?"ตอนนี้ไม่มีเหตุการณ์น้ำท่วมถนนที่แจ้งเข้ามาในพื้นที่นี้":"ยังไม่มีข้อมูล"}</span></li>`)
+    +(shown.length<items.length?`<li><button class="linkbtn" id="ryEvMore" style="padding:10px 2px">ดูอีก ${items.length-shown.length} เหตุการณ์</button></li>`:"");
+  const m=$("ryEvMore"); if(m)m.onclick=()=>{RYEVALL=true;renderRyRoads(DATA);};
+  const nw=(R.news||[]).filter(x=>RY_ROAD_RE.test(x.title)).slice(0,8);
+  $("ryRoadNews").innerHTML=nw.map(newsLi).join("")||`<li class="empty">ยังไม่พบข่าวถนนน้ำท่วมระยอง</li>`;
+}
 let RYALL=false;
 function renderRayong(d){
   const R=d.rayong, sec=$("rayong"); const w=R&&R.weather;
@@ -1042,17 +1147,7 @@ function renderRayong(d){
   if(!has){$("ryAsof").textContent="";return;}
   const c=w&&w.current, t=todayStr();
   $("ryAsof").textContent="อัปเดต "+fmtTs(d.updatedAt).replace("<br>"," ")+(w&&w.stale?" · พยากรณ์อาจเก่า":"");
-  // at-a-glance tiles: TMD warnings, fullest reservoir, stations over the bank, wettest gauge
-  const rn=(R.rain||[]).filter(x=>twAgeH(x.t)<=6), wv=(R.water||[]).filter(x=>twAgeH(x.t)<=24), ov=wv.filter(x=>x.over);
-  const aw=alertItems(d,"ry").filter(x=>x.hit), wn=aw.length, dm=(R.dams||[]).slice().sort((a,b)=>(b.pct||0)-(a.pct||0))[0], top=rn[0];
-  $("ryHead").innerHTML=[
-    {lbl:"ประกาศเตือนภัยในพื้นที่",href:wn?"#abarRy":"#ry-now",s:wn?(aw.some(x=>x.lvl==="crit")?"crit":"warn"):"ok",pill:wn?"เตือนภัย":"ไม่มีประกาศ",val:`${wn}<small>ฉบับ</small>`,sub:wn?esc(aw[0].title):"ไม่มีประกาศที่ระบุ จ.ระยอง"},
-    dm?{lbl:"อ่างเก็บน้ำ",href:"#ry-dams",s:damHot(dm)?"crit":(dm.pct||0)>=80?"warn":"ok",pill:dm.max&&dm.storage>dm.max?"เกินความจุสูงสุด":damHot(dm)?"เกินระดับปกติ":(dm.pct||0)>=80?"น้ำมาก":"ปกติ",
-      val:`${(dm.pct||0).toFixed(0)}<small>%</small>`,sub:`อ่างฯ ${esc(dm.name)} · ${dm.storage??"—"} ล้าน ม³`}:naTile("อ่างเก็บน้ำ","#ry-dams"),
-    wv.length?{lbl:"ระดับน้ำในลำน้ำ",href:"#ry-water",s:ov.length?"crit":"ok",pill:ov.length?"ล้นตลิ่ง":"ปกติ",val:`${ov.length}<small>/ ${wv.length} สถานีล้นตลิ่ง</small>`,
-      sub:ov.length?ov.map(x=>esc(x.name)).join(", "):"ทุกสถานีต่ำกว่าตลิ่ง"}:naTile("ระดับน้ำในลำน้ำ","#ry-water"),
-    top?{lbl:"ฝนวัดได้ 24 ชม.",href:"#ry-rain",s:top.mm>=90?"crit":top.mm>=35?"warn":"ok",pill:top.mm>=90?"หนักมาก":top.mm>=35?"ฝนหนัก":"ปกติ",
-      val:`${top.mm.toFixed(1)}<small>มม.</small>`,sub:`สูงสุดที่ ${esc(top.name)}${top.amphoe?" · "+esc(top.amphoe):""}`}:naTile("ฝนวัดได้ 24 ชม.","#ry-rain")].map(tile).join("");
+  $("ryHead").innerHTML=tilesFor(d,"ry");
   $("ryWarn").innerHTML=(R.warnings||[]).map(x=>`<div class="alert crit" style="margin-bottom:10px"><span class="tag">ประกาศกรมอุตุนิยมวิทยา ฉบับที่ ${esc(x.no)} · กล่าวถึง จ.ระยอง</span><h3>${esc(x.title)}</h3><p>${esc(x.headline)}</p></div>`).join("");
   if(w&&c){const dl=w.daily.filter(x=>x.date<t).slice(-3).reduce((a,x)=>a+(x.rain||0),0), p0=w.points[0]||{};
     $("ryNow").innerHTML=`<div><span class="lbl">ตอนนี้ · เมืองระยอง</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${c.desc?esc(c.desc):wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
@@ -1085,9 +1180,6 @@ function renderRayong(d){
      <td class="n">${trend(s.dwl)}</td>
      <td><div style="display:flex;align-items:center;gap:6px;font-size:12.5px"><span class="lv lv${s.lvl||0}"></span>${LVN[s.lvl]||"—"} <span class="num sub">${pc.toFixed(0)}%</span></div><div class="bar"><i style="width:${Math.min(100,pc/120*100)}%;background:${lvCol(s.lvl)}"></i></div></td>
      <td class="n sub">${esc(fmtTw(s.t))}</td></tr>`}).join("")||`<tr><td colspan="6" class="empty">ไม่มีข้อมูลสถานีใน จ.ระยอง</td></tr>`;
-  const nw=R.news||[];
-  $("ryNews").innerHTML=nw.slice(0,12).map(x=>{const fresh=x.ts&&(Date.now()-new Date(x.ts))<3*3.6e6;
-    return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="tm">${fmtTs(x.ts)}</span><span><div class="tt">${esc(x.title)}${fresh?'<span class="new">ใหม่</span>':""}</div><div class="src">${esc(x.src)}</div></span></a></li>`}).join("")||`<li class="empty">ยังไม่พบข่าวน้ำท่วมระยอง</li>`;
   // 7-day watch plan: forecast rain per district per day, the day's worst, high water and waves off the city
   const pts=(w&&w.points)||[], mar=R.marine, dates=[...new Set(pts.flatMap(p=>(p.days||[]).map(x=>x.date)))].filter(x=>x>=t).sort().slice(0,7);
   const heat=rainHeat;
@@ -1103,7 +1195,8 @@ function renderRayong(d){
       +`<tr><td>คลื่นสูงสุด</td>${dates.map(dd=>{const v=md[dd]&&md[dd].wave;return `<td class="hm"${v>=2?' style="color:var(--crit);font-weight:600"':""}>${v!=null?v.toFixed(1)+" ม.":"—"}</td>`}).join("")}</tr></tbody>`;
   } else $("ryPlan").innerHTML=`<tbody><tr><td class="empty">ยังไม่มีข้อมูลพยากรณ์รายอำเภอ</td></tr></tbody>`;
   const srcA=w&&w.src==="google"?"Google Weather":"Open-Meteo", srcP=w&&w.points_src==="google"?"Google Weather":"Open-Meteo";
-  $("ryDaysSrc").textContent=srcA===srcP?srcA:srcA+" · รายอำเภอ "+srcP;
+  $("ryDaysSrc").innerHTML=gbadge(w)+(w&&w.points_src&&w.points_src!==w.src?`<span class="gb">รายอำเภอ: ${esc(srcP)}</span>`:"")+(w&&w.stale?'<span class="gb st">ข้อมูลรอบก่อน</span>':"");
+  render48(w,"ryC48","ryS48");
   const mh=(mar&&mar.hourly)||[];
   if(mh.length>1){tideChart("ryTide",mh);
     const from=mh[0].d+"T"+mh[0].t, hs=((mar.days)||[]).flatMap(x=>x.high.map(h=>({d:x.date,t:h.t,h:h.h}))).filter(h=>h.d+"T"+h.t>=from).slice(0,2);
@@ -1126,7 +1219,7 @@ const AREA={bkk:{id:"abarBkk",cls:" v-bkk",re:/กรุงเทพ|ปริ�
 function alertItems(d,k){
   const A=AREA[k], it=[];
   ((d.tmd&&d.tmd.warnings)||[]).forEach(w=>{const txt=(w.title||"")+" "+(w.headline||""), hit=A.re.test(txt);
-    const href=k==="bkk"?"#alerts":/ระยอง/.test(txt)?"#ryWarn":(w.url||"#ry-now");
+    const href=k==="bkk"?"#alerts":/ระยอง/.test(txt)?"#ryWarn":(w.url||"#ry-fc");
     it.push({lvl:/หนักมาก|พายุ|รุนแรง/.test(w.title||"")?"crit":"warn",hit,title:w.title,src:"กรมอุตุนิยมวิทยา ฉบับที่ "+(w.no||"-"),
       when:w.start?"มีผล "+w.start.slice(5,16)+(w.end?" ถึง "+w.end.slice(5,16):""):"",href,ext:/^https?:/.test(href)});});
   ((d.galerts||{})[A.g]||[]).forEach(a=>it.push({lvl:/EXTREME|SEVERE/.test(a.severity||"")?"crit":"warn",hit:true,title:a.title||a.event,
@@ -1145,56 +1238,102 @@ function renderAlertBar(d){
       :`<span class="pill p-ok">ไม่มีประกาศเตือนภัย</span><span>ขณะนี้ไม่มีประกาศเตือนภัยสาธารณะที่ระบุ${A.name}${other?` · มีประกาศอื่นของกรมอุตุฯ ${other} ฉบับ`:""}</span><span class="ab-o">ตรวจจากกรมอุตุฯ${k==="bkk"?", ปภ.":""} และ Google Public Alerts</span>`;}
 }
 
-// ---- situation summary: four tiles, each with its own state pill, linking to the detail ----
-const ST={crit:"วิกฤต",warn:"เฝ้าระวัง",ok:"ปกติ",na:"ไม่มีข้อมูล"};
+// ---- situation summary: the same five tiles for each area (rain forecast · warnings · water · dam/reservoir · roads) ----
+const ST={crit:"วิกฤต",warn:"เฝ้าระวัง",ok:"ปกติ",na:"ไม่มีข้อมูล",info:"ล่าสุด"};
 const tile=o=>`<a class="tile s-${o.s}" href="${o.href}"><span class="t-top"><span class="t-lbl">${o.lbl}</span><span class="pill p-${o.s}">${o.pill||ST[o.s]}</span></span><span class="t-val">${o.val}</span><span class="t-sub">${o.sub||""}</span></a>`;
 const naTile=(lbl,href)=>({lbl,href,s:"na",val:"—",sub:"ยังไม่มีข้อมูลในรอบนี้"});
 const bmaLive=B=>!!(B&&(B.sites||[]).length)&&(B.fetched?(Date.now()-new Date(B.fetched))/3.6e6:99)<=3;
-function renderSummary(d){
-  // same list as the warning bar, so the two never disagree
-  const ws=alertItems(d,"bkk").filter(x=>x.hit), wc=ws.some(x=>x.lvl==="crit");
-  const t=[{lbl:"ประกาศเตือนภัยในพื้นที่",href:ws.length?"#abarBkk":"#tmdsec",s:ws.length?(wc?"crit":"warn"):"ok",pill:ws.length?(wc?"เตือนภัย":"เฝ้าระวัง"):"ไม่มีประกาศ",
-    val:`${ws.length}<small>ฉบับ</small>`,sub:ws.length?esc(ws[0].title):"ไม่มีประกาศเตือนภัยที่ระบุกรุงเทพฯ และปริมณฑล"}];
-  const B=d.bma;
-  if(bmaLive(B)){const wet=B.sites.filter(bWet).sort((a,b)=>b.cm-a.cm), n20=wet.filter(s=>s.cm>=20).length;
-    t.push({lbl:"น้ำบนถนน · เซนเซอร์ กทม.",href:"#bma",s:n20?"crit":wet.length?"warn":"ok",pill:n20?"ท่วม 20 ซม.+":wet.length?"มีน้ำขัง":"ปกติ",val:`${wet.length}<small>จุด</small>`,
-      sub:wet.length?`≥20 ซม. ${n20} จุด · ลึกสุด ${esc(wet[0].name)} ${bCm(wet[0])}`:"ไม่มีจุดที่วัดน้ำบนถนนได้"});}
-  else{const it=(d.roads&&d.roads.items)||[], n20=it.filter(x=>(x.depth||0)>=20).length;
-    t.push(it.length?{lbl:"ถนนน้ำท่วม · ควรเลี่ยง",href:"#roads",s:n20?"crit":"warn",pill:n20?"ท่วม 20 ซม.+":"มีน้ำขัง",val:`${it.length}<small>เส้นทาง</small>`,sub:`ท่วม 20 ซม.+ ${n20} เส้นทาง`}:naTile("น้ำบนถนน","#bma"));}
-  const w=d.weather, h=(w&&w.hourly)||[];
-  if(h.length){const n24=h.slice(0,24).reduce((a,x)=>a+(x.p||0),0), pk=h.slice(0,24).reduce((a,x)=>(x.p||0)>(a.p||0)?x:a,h[0]);
-    t.push({lbl:"ฝน 24 ชม. ข้างหน้า",href:"#rainsec",s:n24>=90?"crit":n24>=35?"warn":"ok",pill:n24>=90?"หนักมาก":n24>=35?"ฝนหนัก":n24>=10?"ปานกลาง":"เล็กน้อย",
+const evLive=E=>((E&&E.items)||[]).filter(x=>new Date(evIso(x.e))>Date.now());
+const ROADBLOCK_RE=/ผ่านไม่ได้|ปิดการจราจร|ปิดถนน|ห้ามผ่าน/;
+function tilesFor(d,k){
+  const ry=k==="ry", R=d.rayong||{}, w=ry?R.weather:d.weather, FC=ry?"#ry-fc":"#fc", WT=ry?"#ry-water":"#water", out=[];
+  // 1) rain over the next 24 h, from the headline forecast (Google Weather when available)
+  const h=((w&&w.hourly)||[]).slice(0,24);
+  if(h.length){const n24=h.reduce((a,x)=>a+(x.p||0),0), pk=h.reduce((a,x)=>(x.p||0)>(a.p||0)?x:a,h[0]);
+    out.push({lbl:"ฝน 24 ชม. ข้างหน้า"+(w.src==="google"?" · Google":""),href:FC,s:n24>=90?"crit":n24>=35?"warn":"ok",pill:n24>=90?"หนักมาก":n24>=35?"ฝนหนัก":n24>=10?"ปานกลาง":"เล็กน้อย",
       val:`${n24.toFixed(1)}<small>มม.</small>`,sub:pk&&pk.p>0?`หนักสุดราว ${esc(pk.t)} น. · ${pk.p} มม./ชม.`:"ไม่มีฝนที่วัดได้"});}
-  else t.push(naTile("ฝน 24 ชม. ข้างหน้า","#rainsec"));
-  const rv=((d.thaiwater||{}).river||[]).filter(s=>twAgeH(s.t)<=24);
-  if(rv.length){const ov=rv.filter(s=>s.over), hi=rv.slice().sort((a,b)=>(b.pct??0)-(a.pct??0))[0], much=rv.some(s=>s.lvl===4);
-    t.push({lbl:"แม่น้ำเจ้าพระยา",href:"#tw",s:ov.length?"crit":much?"warn":"ok",pill:ov.length?"ล้นตลิ่ง":much?"น้ำมาก":"ปกติ",
-      val:`${ov.length}<small>/ ${rv.length} สถานีล้นตลิ่ง</small>`,sub:`สูงสุด ${esc(hi.name)} ${(hi.pct??0).toFixed(0)}% ของความจุลำน้ำ`});}
-  else t.push(naTile("แม่น้ำเจ้าพระยา","#tw"));
-  $("sumBkk").innerHTML=t.map(tile).join("");
+  else out.push(naTile("ฝน 24 ชม. ข้างหน้า",FC));
+  // 2) official warnings that name the area (same list as the warning bar)
+  const ws=alertItems(d,k).filter(x=>x.hit), wc=ws.some(x=>x.lvl==="crit");
+  out.push({lbl:"ประกาศเตือนภัยในพื้นที่",href:ws.length?(ry?"#abarRy":"#abarBkk"):FC,s:ws.length?(wc?"crit":"warn"):"ok",pill:ws.length?(wc?"เตือนภัย":"เฝ้าระวัง"):"ไม่มีประกาศ",
+    val:`${ws.length}<small>ฉบับ</small>`,sub:ws.length?esc(ws[0].title):ry?"ไม่มีประกาศที่ระบุ จ.ระยอง":"ไม่มีประกาศเตือนภัยที่ระบุกรุงเทพฯ และปริมณฑล"});
+  // 3) river / canal water against the bank
+  if(ry){const wv=(R.water||[]).filter(x=>twAgeH(x.t)<=24), ov=wv.filter(x=>x.over);
+    out.push(wv.length?{lbl:"ระดับน้ำในลำน้ำ",href:WT,s:ov.length?"crit":"ok",pill:ov.length?"ล้นตลิ่ง":"ปกติ",val:`${ov.length}<small>/ ${wv.length} สถานีล้นตลิ่ง</small>`,
+      sub:ov.length?ov.map(x=>esc(x.name)).join(", "):"ทุกสถานีต่ำกว่าตลิ่ง"}:naTile("ระดับน้ำในลำน้ำ",WT));}
+  else{const rv=((d.thaiwater||{}).river||[]).filter(s=>twAgeH(s.t)<=24);
+    if(rv.length){const ov=rv.filter(s=>s.over), hi=rv.slice().sort((a,b)=>(b.pct??0)-(a.pct??0))[0], much=rv.some(s=>s.lvl===4);
+      out.push({lbl:"แม่น้ำเจ้าพระยา",href:WT,s:ov.length?"crit":much?"warn":"ok",pill:ov.length?"ล้นตลิ่ง":much?"น้ำมาก":"ปกติ",
+        val:`${ov.length}<small>/ ${rv.length} สถานีล้นตลิ่ง</small>`,sub:`สูงสุด ${esc(hi.name)} ${(hi.pct??0).toFixed(0)}% ของความจุลำน้ำ`});}
+    else out.push(naTile("แม่น้ำเจ้าพระยา",WT));}
+  // 4) dam / reservoir
+  if(ry){const dm=(R.dams||[]).slice().sort((a,b)=>(b.pct||0)-(a.pct||0))[0], hot=dm&&((dm.pct||0)>=100||(dm.max&&dm.storage>dm.max));
+    out.push(dm?{lbl:"อ่างเก็บน้ำ",href:WT,s:hot?"crit":(dm.pct||0)>=80?"warn":"ok",pill:dm.max&&dm.storage>dm.max?"เกินความจุสูงสุด":hot?"เกินระดับปกติ":(dm.pct||0)>=80?"น้ำมาก":"ปกติ",
+      val:`${(dm.pct||0).toFixed(0)}<small>%</small>`,sub:`อ่างฯ ${esc(dm.name)} · ${dm.storage??"—"} ล้าน ม³`}:naTile("อ่างเก็บน้ำ",WT));}
+  else{const c=((d.thaiwater||{}).river||[]).find(s=>s.code==="C.13");
+    out.push(c&&c.q!=null&&twAgeH(c.t)<=24?{lbl:"เขื่อนเจ้าพระยา · ระบายน้ำ",href:WT,s:"info",pill:"ล่าสุด",val:`${Math.round(c.q).toLocaleString()}<small>ม³/วินาที</small>`,sub:`ท้ายเขื่อน สถานี C.13 · วัดเมื่อ ${esc(fmtTw(c.t))} น.`}:naTile("เขื่อนเจ้าพระยา · ระบายน้ำ",WT));}
+  // 5) flooded roads
+  if(ry){const ev=evLive(R.events), bl=ev.filter(x=>ROADBLOCK_RE.test(x.t));
+    out.push(R.events?{lbl:"ถนนน้ำท่วม · ที่แจ้งเข้ามา",href:"#ry-roads",s:bl.length?"crit":ev.length?"warn":"ok",pill:bl.length?"ผ่านไม่ได้":ev.length?"มีเหตุการณ์":"ไม่มีรายงาน",
+      val:`${ev.length}<small>เหตุการณ์</small>`,sub:bl.length?esc(bl[0].t):ev.length?esc(ev[0].t):"ไม่มีเหตุการณ์น้ำท่วมถนนที่แจ้งเข้ามา"}:naTile("ถนนน้ำท่วม","#ry-roads"));}
+  else{const B=d.bma;
+    if(bmaLive(B)){const wet=B.sites.filter(bWet).sort((a,b)=>b.cm-a.cm), n20=wet.filter(s=>s.cm>=20).length;
+      out.push({lbl:"น้ำบนถนน · เซนเซอร์ กทม.",href:"#bma",s:n20?"crit":wet.length?"warn":"ok",pill:n20?"ท่วม 20 ซม.+":wet.length?"มีน้ำขัง":"ปกติ",val:`${wet.length}<small>จุด</small>`,
+        sub:wet.length?`≥20 ซม. ${n20} จุด · ลึกสุด ${esc(wet[0].name)} ${bCm(wet[0])}`:"ไม่มีจุดที่วัดน้ำบนถนนได้"});}
+    else{const it=(d.roads&&d.roads.items)||[], n20=it.filter(x=>(x.depth||0)>=20).length;
+      out.push(it.length?{lbl:"ถนนน้ำท่วม · ควรเลี่ยง",href:"#roads",s:n20?"crit":"warn",pill:n20?"ท่วม 20 ซม.+":"มีน้ำขัง",val:`${it.length}<small>เส้นทาง</small>`,sub:`ท่วม 20 ซม.+ ${n20} เส้นทาง`}:naTile("ถนนน้ำท่วม","#roads"));}}
+  return out.map(tile).join("");
 }
+function renderSummary(d){$("sumBkk").innerHTML=tilesFor(d,"bkk");}
 
 const TABS=[["shelter","ปภ./ศูนย์พักพิง"],["flood","น้ำท่วม"],["rain","ฝนตกหนัก"],["forecast","พยากรณ์อากาศ"]];
+// Rayong has one news query, so its categories are cut from the titles
+const RYCATS=[["all","ทั้งหมด",null],["shelter","ศูนย์พักพิง/ช่วยเหลือ",/พักพิง|อพยพ|ช่วยเหลือ|ถุงยังชีพ|แจก|โรงครัว/],["road","ถนน/จราจร",RY_ROAD_RE],["rain","ฝน/น้ำป่า/อ่างเก็บน้ำ",/ฝน|น้ำป่า|น้ำหลาก|พายุ|เขื่อน|อ่างเก็บน้ำ|คลอง|ทับมา/]];
+const NEWSCFG={bkk:{tabs:"tabs",q:"q",list:"news",tab:TAB,all:false},ry:{tabs:"ryTabs",q:"ryQ",list:"ryNews",tab:"all",all:false}};
+function newsCats(k){
+  if(k==="bkk"){const n=(DATA&&DATA.news)||{};return TABS.map(([c,l])=>[c,l,n[c]||[]]);}
+  const all=(DATA&&DATA.rayong&&DATA.rayong.news)||[];return RYCATS.map(([c,l,re])=>[c,l,re?all.filter(x=>re.test(x.title)):all]);
+}
+function newsLi(x){const fresh=x.ts&&(Date.now()-new Date(x.ts))<3*3.6e6;
+  return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="tm">${fmtTs(x.ts)}</span><span><div class="tt">${esc(x.title)}${fresh?'<span class="new">ใหม่</span>':""}</div><div class="src">${esc(x.src)}</div></span></a></li>`;}
 function renderTabs(){
-  const n=(DATA&&DATA.news)||{};
-  $("tabs").innerHTML=TABS.map(([k,l])=>`<button class="tab" role="tab" aria-selected="${k===TAB}" data-k="${k}">${l}<span class="c">${(n[k]||[]).length}</span></button>`).join("");
-  $("tabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{TAB=b.dataset.k;SHOWALL=false;try{localStorage.setItem("wf-tab",TAB)}catch(e){}renderTabs();renderNews();});
+  for(const k of ["bkk","ry"]){const C=NEWSCFG[k], cats=newsCats(k); if(!cats.some(x=>x[0]===C.tab))C.tab=cats[0][0];
+    $(C.tabs).innerHTML=cats.map(([c,l,it])=>`<button class="tab" role="tab" aria-selected="${c===C.tab}" data-k="${c}">${l}<span class="c">${it.length}</span></button>`).join("");
+    $(C.tabs).querySelectorAll(".tab").forEach(b=>b.onclick=()=>{C.tab=b.dataset.k;C.all=false;if(k==="bkk"){try{localStorage.setItem("wf-tab",C.tab)}catch(e){}}renderTabs();renderNews();});}
 }
 function renderNews(){
-  const q=$("q").value.trim().toLowerCase(); const list=((DATA&&DATA.news&&DATA.news[TAB])||[]).filter(x=>!q||(x.title+" "+x.src).toLowerCase().includes(q));
-  if(!list.length){$("news").innerHTML=`<li class="empty">${q?"ไม่พบข่าวที่ตรงกับคำค้น":"ยังไม่มีข่าวในหมวดนี้"}</li>`;return;}
-  const full=list.length; const shown=(SHOWALL||q)?list:list.slice(0,10);
-  $("news").innerHTML=shown.map(x=>{const fresh=x.ts&&(Date.now()-new Date(x.ts))<3*3.6e6;
-    return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="tm">${fmtTs(x.ts)}</span><span><div class="tt">${esc(x.title)}${fresh?'<span class="new">ใหม่</span>':""}</div><div class="src">${esc(x.src)}</div></span></a></li>`}).join("")+(shown.length<full?`<li><button class="linkbtn" id="more" style="padding:10px 2px">ดูอีก ${full-shown.length} ข่าว</button></li>`:"");
-  const m=$("more"); if(m) m.onclick=()=>{SHOWALL=true;renderNews();};
+  for(const k of ["bkk","ry"]){const C=NEWSCFG[k], cat=newsCats(k).find(x=>x[0]===C.tab), q=$(C.q).value.trim().toLowerCase();
+    const list=((cat&&cat[2])||[]).filter(x=>!q||(x.title+" "+x.src).toLowerCase().includes(q));
+    if(!list.length){$(C.list).innerHTML=`<li class="empty">${q?"ไม่พบข่าวที่ตรงกับคำค้น":"ยังไม่มีข่าวในหมวดนี้"}</li>`;continue;}
+    const shown=(C.all||q)?list:list.slice(0,10), mid="more-"+k;
+    $(C.list).innerHTML=shown.map(newsLi).join("")+(shown.length<list.length?`<li><button class="linkbtn" id="${mid}" style="padding:10px 2px">ดูอีก ${list.length-shown.length} ข่าว</button></li>`:"");
+    const m=$(mid); if(m)m.onclick=()=>{C.all=true;renderNews();};}
 }
-$("q").addEventListener("input",renderNews);
+$("q").addEventListener("input",renderNews); $("ryQ").addEventListener("input",renderNews);
+
+// ---- emergency numbers by area (national lines checked against DDPM / BMA / DOH / PEA / MEA / MWA announcements) ----
+const CONTACTS={
+  bkk:{area:"กรุงเทพฯ และปริมณฑล",
+    items:[["1555","ศูนย์รับแจ้ง กทม. น้ำท่วมขัง จุดเสี่ยง"],["1784","ปภ. ขอความช่วยเหลือ อพยพ"],["1669","เจ็บป่วยฉุกเฉิน"],["199","ดับเพลิง · กู้ภัย"],["1130","การไฟฟ้านครหลวง ไฟดับ"],["1125","การประปานครหลวง"],["191","ตำรวจ"],["1182","กรมอุตุนิยมวิทยา"]],
+    note:"น้ำท่วมขังหรือจุดเสี่ยงในกรุงเทพฯ แจ้งสายด่วน กทม. 1555 หรือสำนักงานเขตในพื้นที่ · ขออพยพหรือแจ้งอุทกภัย โทร 1784 หรือ LINE @1784DDPM ตลอด 24 ชม.",
+    links:[["กรมอุตุนิยมวิทยา","https://www.tmd.go.th"],["ระดับน้ำ กทม. (สำนักการระบายน้ำ)","https://weather.bangkok.go.th/flood/"],["ThaiWater","https://www.thaiwater.net"]]},
+  ry:{area:"จ.ระยอง",
+    items:[["1784","ปภ. ขอความช่วยเหลือ อพยพ แจ้งอุทกภัย"],["1669","เจ็บป่วยฉุกเฉิน"],["199","ดับเพลิง · กู้ภัย"],["191","ตำรวจ"],["1193","ตำรวจทางหลวง"],["1586","กรมทางหลวง สภาพเส้นทาง"],["1129","การไฟฟ้าส่วนภูมิภาค ไฟดับ"],["1182","กรมอุตุนิยมวิทยา"]],
+    note:"ไฟดับในระยองแจ้ง กฟภ. 1129 · ทางหลวงปิดหรือน้ำท่วมถนน โทร 1586 · ขออพยพหรือแจ้งอุทกภัย โทร 1784 หรือ LINE @1784DDPM ตลอด 24 ชม.",
+    links:[["กรมอุตุนิยมวิทยา","https://www.tmd.go.th"],["ThaiWater (สสน.)","https://www.thaiwater.net"],["กรมชลประทาน","https://www.rid.go.th"],["ปภ.","https://www.disaster.go.th"]]}};
+function renderContacts(v){
+  const C=CONTACTS[v]||CONTACTS.bkk;
+  $("ctArea").textContent=C.area+" · แตะเพื่อโทร";
+  $("ctGrid").innerHTML=C.items.map(([n,t])=>`<a class="ct" href="tel:${n}"><b>${n}</b><span>${esc(t)}</span></a>`).join("");
+  $("ctNote").textContent=C.note;
+  $("ctLinks").innerHTML=C.links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(t)} ↗</a>`).join("");
+}
 
 // seed data embedded at publish time
 try{render(JSON.parse($("seed").textContent))}catch(e){}
 setInterval(()=>{if(DATA)renderFresh(DATA);},60000);
 let RSZ=0, LASTW=0;
-window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{const w=document.querySelector(".wrap").clientWidth;if(DATA&&w!==LASTW){LASTW=w;render48(DATA);renderRiver(DATA);renderRayong(DATA);}},150);});
+window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{const w=document.querySelector(".wrap").clientWidth;if(DATA&&w!==LASTW){LASTW=w;draw48(DATA);renderRiver(DATA);renderRayong(DATA);}},150);});
 
 // theme: follows the system (or the host's own choice) until the viewer picks light or dark here
 (()=>{const b=$("themeBtn"), root=document.documentElement, host=root.getAttribute("data-theme");
@@ -1213,9 +1352,9 @@ window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{cons
 (()=>{const wrap=document.querySelector(".wrap"), ul=document.querySelector(".qnav ul");
   const LBL={bkk:"ศูนย์ติดตามฝนและน้ำท่วม · กรุงเทพฯ",ry:"ศูนย์ติดตามฝนและน้ำท่วม · ระยอง"};
   const toTop=()=>window.scrollTo({top:0,left:0,behavior:"instant"});
-  function setView(v){wrap.dataset.view=v;$("tabBkk").setAttribute("aria-selected",v==="bkk");$("tabRy").setAttribute("aria-selected",v==="ry");$("hdrLbl").textContent=LBL[v];ul.scrollLeft=0;
+  function setView(v){wrap.dataset.view=v;$("tabBkk").setAttribute("aria-selected",v==="bkk");$("tabRy").setAttribute("aria-selected",v==="ry");$("hdrLbl").textContent=LBL[v];ul.scrollLeft=0;renderContacts(v);
     // charts drawn while their view was hidden used a fallback width; redraw them at the real one
-    if(DATA)requestAnimationFrame(()=>{if(v==="bkk"){render48(DATA);renderRiver(DATA);}else renderRayong(DATA);});
+    if(DATA)requestAnimationFrame(()=>{if(v==="bkk"){draw48(DATA);renderRiver(DATA);}else{draw48(DATA);renderRayong(DATA);}});
     if(v==="ry"&&window.__ryRadarLoad){const l=window.__ryRadarLoad;window.__ryRadarLoad=null;l();}}
   const fromHash=()=>/^#(rayong$|ry-)/.test(location.hash)?"ry":"bkk";
   document.querySelectorAll(".vtabs button").forEach(b=>b.onclick=()=>{const v=b.dataset.view;if(wrap.dataset.view===v)return;setView(v);toTop();
@@ -1228,10 +1367,10 @@ window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{cons
     if(el&&el.closest(".v-bkk")&&wrap.dataset.view!=="bkk")setView("bkk");});
   // a #rayong link wins; otherwise reopen the area this viewer picked last time
   let saved="bkk"; try{saved=localStorage.getItem("wf-view")||"bkk"}catch(e){}
-  if(fromHash()==="ry"){setView("ry");toTop();} else if(!location.hash&&saved==="ry")setView("ry");
+  if(fromHash()==="ry"){setView("ry");toTop();} else if(!location.hash&&saved==="ry")setView("ry"); else renderContacts("bkk");
 })();
 (()=>{const links=[...document.querySelectorAll(".qnav a")];
-  const groups={sumBkk:["sumBkk","alerts"],water:["water","tw"],tmdsec:["tmdsec","d7"],ryHead:["ryHead","ryWarn"]};
+  const groups={sumBkk:["sumBkk","alerts"],roads:["roads","bma","evt"],newssec:["newssec","cbsec"],plates:["plates","contacts"],ryHead:["ryHead","ryWarn"]};
   const owner={};links.forEach(a=>{const k=a.hash.slice(1);(groups[k]||[k]).forEach(id=>owner[id]=a);});
   const set=a=>{links.forEach(l=>l.removeAttribute("aria-current"));if(a){a.setAttribute("aria-current","true");const u=a.closest("ul");if(a.offsetLeft<u.scrollLeft||a.offsetLeft+a.offsetWidth>u.scrollLeft+u.clientWidth)u.scrollTo({left:a.offsetLeft-16,behavior:"smooth"});}};
   const vis=new Map();

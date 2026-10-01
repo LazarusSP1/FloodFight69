@@ -2,7 +2,7 @@
 """Weather Fight feed builder — fetches flood/rain/forecast data for Bangkok
 and writes feed.json (one document for the dashboard's db at feed/latest).
 Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, rain gauges and reservoirs, BMA road-flood sensors,
-TMD open data API, Google News RSS, road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
+TMD open data API, Longdo Event flood reports (iTIC), Google News RSS, road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
 Usage: python3 fetch_feed.py [out.json]
 Optional env: ROADS_URL=<article url> forces the flooded-roads source article (Thairath first, else any outlet found via Google News);
 PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found;
@@ -963,6 +963,32 @@ def merge_reports(new, prev):
     out.sort(key=lambda x: x["ts"], reverse=True)
     return out[:40]
 
+# ---- flood events (Longdo Event by iTIC Foundation: DOH admin + citizen reports, CC BY 4.0) ----
+EVENTS_URL = "https://event.longdo.com/feed/json"
+EVENTS_BBOX = (13.45, 14.10, 100.30, 101.00)  # lat min/max, lon min/max: Bangkok and the surrounding provinces
+EVENTS_BBOX_RY = (12.55, 13.30, 101.05, 101.95)  # Rayong and its borders
+_longdo_rows = None
+
+def flood_events(bbox=EVENTS_BBOX):
+    global _longdo_rows
+    if _longdo_rows is None:  # one download serves both areas
+        _longdo_rows = json.loads(get(EVENTS_URL))
+    now = dt.datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S")  # the feed's times are Thai local time
+    out = []
+    for e in _longdo_rows:
+        if str(e.get("type")) != "6" or (e.get("stop") or "") < now:  # type 6 = น้ำท่วม; skip expired
+            continue
+        lat, lon = float(e["latitude"]), float(e["longitude"])
+        if not (bbox[0] <= lat <= bbox[1] and bbox[2] <= lon <= bbox[3]):
+            continue
+        who = (e.get("contributor") or "").lower()
+        out.append({"id": str(e["eid"]), "t": clean(e["title"]), "d": clean(e.get("description") or "")[:200],
+                    "p": [round(lat, 5), round(lon, 5)], "s": e["start"], "e": e["stop"],
+                    "by": "doh" if who.startswith("doh") else "itic" if who.startswith("itic") else "user", "sev": e.get("severity")})
+    out.sort(key=lambda x: x["s"], reverse=True)
+    return {"fetched": dt.datetime.now(TZ).isoformat(timespec="minutes"), "src": "Longdo Event / iTIC Foundation (CC BY 4.0)",
+            "source": "https://event.longdo.com/", "items": out[:200]}
+
 # ---- rain radar (TMD Suvarnabhumi 120 km loop) ----
 import base64, io
 RADAR_GIF = "https://weather.tmd.go.th/svp/svp120loop.gif"
@@ -1060,6 +1086,7 @@ def main():
         "thaiwater": safe(thaiwater, None),
         "zones": safe(bkk_zones, None),
         "bma": safe(bma_sensors, None),
+        "events": safe(flood_events, None),
         "roads": safe(roads, None),
         "reports": safe(road_reports, None),
         "radar": safe(radar, None),
@@ -1072,7 +1099,8 @@ def main():
         doc["bma"] = bma_from_file()
     doc["rayong"] = {"weather": safe(rayong_weather, None), "news": safe(rayong_news, None),
                      "rain": safe(rayong_rain, None), "dams": safe(rayong_dams, None),
-                     "rivers": safe(rayong_rivers, None), "marine": safe(rayong_marine, None), "radar": safe(rayong_radar, None)}
+                     "rivers": safe(rayong_rivers, None), "marine": safe(rayong_marine, None), "radar": safe(rayong_radar, None),
+                     "events": safe(lambda: flood_events(EVENTS_BBOX_RY), None)}
     prev_path = os.environ.get("PREV_FEED")
     if prev_path and os.path.exists(prev_path):
         try:
@@ -1081,7 +1109,7 @@ def main():
             if doc["roads"] is None and prev.get("roads"):
                 doc["roads"] = dict(prev["roads"], carried=True)
             # keep the last good block when a source fails this run
-            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones"):
+            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones", "events"):
                 if not doc.get(k) and prev.get(k):
                     doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
             if not (doc.get("tmd") or {}).get("daily") and (prev.get("tmd") or {}).get("daily"):
@@ -1096,7 +1124,7 @@ def main():
             for k in ("news", "rain", "dams", "rivers"):  # each item carries its own time, so the page can tell it is old
                 if doc["rayong"][k] is None:
                     doc["rayong"][k] = pr.get(k) or []
-            for k in ("marine", "radar"):
+            for k in ("marine", "radar", "events"):
                 if doc["rayong"][k] is None and pr.get(k):
                     doc["rayong"][k] = dict(pr[k], stale=True)
             for k, v in doc["news"].items():
@@ -1147,7 +1175,7 @@ def main():
           ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
           f"; google={'off' if not GW_KEY else ','.join(k + ('=FAIL' if k in GW_ERR else '=ok') for k in ('bkk', 'rayong'))}"
           f"; rayong radar={(doc['rayong'].get('radar') or {}).get('frames', 0)} marine={'ok' if doc['rayong'].get('marine') else 'none'} rivers={len(doc['rayong']['rivers'])}"
-          f"; rayong news={len(doc['rayong']['news'])} water={len(doc['rayong']['water'])} rain={len(doc['rayong']['rain'])} dams={len(doc['rayong']['dams'])} weather={'ok' if doc['rayong']['weather'] else 'none'}; reports={len(doc['reports'])}; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
+          f"; rayong news={len(doc['rayong']['news'])} water={len(doc['rayong']['water'])} rain={len(doc['rayong']['rain'])} dams={len(doc['rayong']['dams'])} weather={'ok' if doc['rayong']['weather'] else 'none'}; reports={len(doc['reports'])}; events={len((doc['events'] or {}).get('items', []))}/{len((doc['rayong'].get('events') or {}).get('items', []))}; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
 
 if __name__ == "__main__":
     main()
