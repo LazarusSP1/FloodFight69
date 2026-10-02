@@ -1,9 +1,9 @@
 <title>FloodFight69</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* FloodFight69 2.0 · deep-water palette; semantic ok/warn/crit kept apart from the blue accent */
+/* FloodFight69 2.1 · Metro: flat colour tiles, square corners, type-led; each area has its own tile colour */
 :root{
   --bg:#EDF1F4; --surface:#FFFFFF; --surface-2:#F4F7F9; --surface-3:#E4EAEF; --ink:#0F2230; --ink-2:#47596A; --ink-3:#768795;
   --line:#DCE3E9; --line-2:#C5D0D9; --accent:#0A6C9E; --accent-ink:#FFFFFF; --accent-soft:#DCEDF7;
@@ -83,7 +83,7 @@ header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-
 .sos svg{width:15px;height:15px}
 /* phones: area switch and hotline on the first row, section links get a full-width row of their own */
 @media (max-width:620px){.qnav{flex-wrap:wrap;row-gap:6px;justify-content:space-between}.qnav ul{order:3;flex-basis:100%}}
-.wrap[data-view="ry"] .v-bkk,.wrap[data-view="bkk"] .v-ry{display:none!important}
+.wrap:not([data-view="bkk"]) .v-bkk,.wrap:not([data-view="ry"]) .v-ry,.wrap:not([data-view="cm"]) .v-cm{display:none!important}
 
 /* public warning bar */
 .abar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 14px;border-radius:var(--r);font-size:13.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
@@ -338,6 +338,100 @@ table.plan tr.sep td{border-top:2px solid var(--line-2)}
 footer{display:grid;gap:6px;font-size:12.5px;color:var(--ink-3);padding-top:6px;border-top:1px solid var(--line)}
 footer p{margin:0;max-width:110ch}
 .foot-brand{font-family:var(--display);font-weight:700;color:var(--ink-2);font-size:14px;display:flex;align-items:center;gap:8px}
+
+/* ===================== FloodFight69 2.1 · Metro layer ===================== */
+:root{--r:0px;--shadow:none;--tile:#0050EF;--tile-ink:#FFFFFF;
+  --aq0:#7A7A7A;--aq1:#3BCCFF;--aq2:#92D050;--aq3:#FFE600;--aq4:#FFA200;--aq5:#F04646;
+  --m-crit:#B0102F;--m-warn:#F0A30A;--m-ok:#1E7B34;--m-na:#6D6D6D;
+  --bg:#EEEEEE;--surface:#FFFFFF;--surface-2:#F4F4F4;--surface-3:#E2E2E2;--line:#DDDDDD;--line-2:#C4C4C4;--ink:#141414;--ink-2:#4A4A4A;--ink-3:#767676}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101010;--surface:#1C1C1C;--surface-2:#242424;--surface-3:#2E2E2E;--line:#303030;--line-2:#444444;--ink:#F1F1F1;--ink-2:#B5B5B5;--ink-3:#8A8A8A}}
+:root[data-theme="dark"]{--bg:#101010;--surface:#1C1C1C;--surface-2:#242424;--surface-3:#2E2E2E;--line:#303030;--line-2:#444444;--ink:#F1F1F1;--ink-2:#B5B5B5;--ink-3:#8A8A8A}
+/* area colours: the tile fill, plus a text accent that stays readable on light and dark */
+.wrap[data-view="bkk"]{--tile:#0050EF;--accent:#0050EF}
+.wrap[data-view="ry"]{--tile:#00797F;--accent:#00737A}
+.wrap[data-view="cm"]{--tile:#2D7A32;--accent:#2B7330}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wrap[data-view="bkk"]{--accent:#82AEFF}:root:not([data-theme="light"]) .wrap[data-view="ry"]{--accent:#4FD3D8}:root:not([data-theme="light"]) .wrap[data-view="cm"]{--accent:#86D98A}}
+:root[data-theme="dark"] .wrap[data-view="bkk"]{--accent:#82AEFF}:root[data-theme="dark"] .wrap[data-view="ry"]{--accent:#4FD3D8}:root[data-theme="dark"] .wrap[data-view="cm"]{--accent:#86D98A}
+.wrap{--accent-soft:color-mix(in srgb,var(--tile) 14%,var(--surface));--accent-ink:#FFFFFF}
+body{background:var(--bg)}
+h2{font-weight:400;letter-spacing:-.005em}
+.panel-h h2{font-size:24px;font-weight:300}
+.eyebrow{text-transform:uppercase;letter-spacing:.09em;font-size:11.5px;font-weight:600}
+.panel,.tile,.alert,.abar,.btn,.tab,.chip,.pill,.search,.gb,.now,.day,.mapwrap,.radarimg,.tblwrap,.roadlist,.ct,.dam,.cbitem,.addbox,.tmdtxt>div,.mapctl,.fresh,.iconbtn,.vtabs,.vtabs button,.qnav a,.tip{border-radius:0!important}
+.panel{border:0;box-shadow:none;border-top:3px solid var(--tile);padding:20px 22px 22px}
+@media (max-width:520px){.panel{padding:16px 14px 18px}}
+.panel.hero{background:var(--surface);border-top-width:8px;border-top-color:var(--tile)}
+.hero .now{border:0;background:transparent;gap:6px}
+.hero .now>div{background:var(--surface-2)}
+.subh{font-weight:500;font-size:15.5px;border-left:4px solid var(--tile);padding-left:10px}
+/* pivot navigation */
+.qnav{background:color-mix(in srgb,var(--bg) 92%,transparent);border-bottom:1px solid var(--line)}
+.vtabs{background:transparent;padding:0;gap:0}
+.vtabs button{font-size:17px;font-weight:400;color:var(--ink-3);padding:6px 12px;border-bottom:3px solid transparent;box-shadow:none!important}
+.vtabs button:hover{color:var(--ink)}
+.vtabs button[aria-selected="true"]{background:transparent;color:var(--ink);border-bottom-color:var(--tile);font-weight:600}
+.qnav a{font-size:13px}
+.qnav a[aria-current="true"]{background:var(--tile);color:#fff}
+.qnav a.sos{background:var(--m-crit);color:#fff}
+/* summary: live tiles in solid colour */
+.summary{gap:8px}
+.tile{border:0;min-height:138px;padding:14px 16px;color:#fff;background:var(--m-na);transition:transform .12s}
+.tile:hover{transform:scale(.985);border:0}
+.tile.s-crit{background:var(--m-crit)}.tile.s-warn{background:var(--m-warn);color:#1A1A1A}.tile.s-ok{background:var(--m-ok)}.tile.s-info{background:var(--tile)}.tile.s-na{background:var(--m-na)}
+.tile .t-lbl,.tile .t-sub,.tile .t-val small{color:inherit;opacity:.88}
+.tile .t-val,.tile.s-crit .t-val,.tile.s-warn .t-val,.tile.s-na .t-val{color:inherit;font-weight:300;font-size:36px}
+.tile .pill{background:rgba(255,255,255,.2);color:inherit}
+.tile.s-warn .pill{background:rgba(0,0,0,.12)}
+.tile .pill::before{background:currentColor}
+/* area banner */
+.pbanner{position:relative;overflow:hidden;background:var(--tile);color:#fff;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px 20px;padding:20px 22px;min-height:168px}
+.pb-art{position:absolute;right:0;bottom:0;width:min(560px,82%);color:#fff;opacity:.5;pointer-events:none}
+.pb-art svg{display:block;width:100%;height:auto}
+.pb-txt,.pb-live{position:relative}
+.pb-en{display:block;font-size:12px;letter-spacing:.32em;font-weight:600;opacity:.85}
+.pb-th{font-family:var(--display);font-size:44px;font-weight:300;line-height:1.1;margin:2px 0 4px}
+.pb-sub{font-size:13px;opacity:.85}
+.pb-live{display:grid;gap:8px;justify-items:end;text-align:right}
+.pb-now{display:flex;align-items:center;gap:10px}
+.pb-now .wx{filter:brightness(1.6) saturate(.6)}
+.pb-t{font-family:var(--display);font-size:46px;font-weight:300;line-height:1}
+.pb-d{font-size:12.5px;line-height:1.4;opacity:.9;text-align:left}
+.pb-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.pbanner .gb{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.35)}
+.pbanner .gb.aqb{border:0}
+@media (max-width:620px){.pbanner{grid-template-columns:1fr}.pb-live{justify-items:start;text-align:left}.pb-chips{justify-content:flex-start}.pb-th{font-size:36px}.pb-art{width:100%;opacity:.35}}
+/* 10-day strip scrolls sideways like a Metro panorama */
+.days{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(98px,1fr);overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.day{border:1px solid var(--line);background:var(--surface-2)}
+.day.today{border:2px solid var(--tile);background:var(--accent-soft)}
+.tsx{font-size:11px;color:var(--warn);font-weight:600}
+/* from the catchment to Bangkok */
+.flowline{display:flex;gap:4px;margin:2px 0 6px;flex-wrap:wrap}
+.flowline span{position:relative;background:var(--tile);color:#fff;font-size:12.5px;font-weight:600;padding:6px 18px 6px 14px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,0 100%,8px 50%)}
+.flowline span:first-child{clip-path:polygon(0 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,0 100%)}
+.damtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:8px}
+.damt{display:grid;gap:3px;align-content:start;padding:13px 15px;color:#fff;background:var(--m-ok);min-height:150px}
+.damt.s-crit{background:var(--m-crit)}.damt.s-warn{background:var(--m-warn);color:#1A1A1A}
+.damt .lbl,.aqt .lbl{color:inherit;opacity:.9}
+.damt .lbl{font-weight:600;font-size:14px}.damt .riv{font-size:12px;opacity:.85}
+.damt .v{font-family:var(--display);font-size:38px;font-weight:300;line-height:1.05;margin-top:4px}.damt .v small{font-size:15px;margin-left:2px}
+.damt .s,.damt .sub{font-size:12.5px;opacity:.92;color:inherit}
+.dam,.dam.main{border:0;border-left:4px solid var(--tile)}
+/* air quality */
+.aqtiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:760px){.aqtiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.aqt{display:grid;gap:3px;align-content:start;padding:13px 15px;min-height:124px;color:#141414}
+.aqt .lbl{font-size:13px;font-weight:600}.aqt .v{font-family:var(--display);font-size:38px;font-weight:300;line-height:1.05}.aqt .v small{font-size:13px;margin-left:4px}.aqt .s{font-size:12.5px}
+.aq0{background:var(--aq0);color:#fff}.aq1{background:var(--aq1)}.aq2{background:var(--aq2)}.aq3{background:var(--aq3)}.aq4{background:var(--aq4)}.aq5{background:var(--aq5);color:#fff}
+.aqt.aq1,.aqt.aq2,.aqt.aq3,.aqt.aq4,.aqpill.aq1,.aqpill.aq2,.aqpill.aq3,.aqpill.aq4,.gb.aq1,.gb.aq2,.gb.aq3,.gb.aq4{color:#141414!important}
+.pinb{display:inline-block;font-size:11px;font-weight:600;padding:0 6px;background:var(--tile);color:#fff;vertical-align:1px}
+.aqpill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;white-space:nowrap}
+.aqlegend .sw{width:14px;height:10px}
+/* hotlines as tiles */
+.ct{background:var(--surface-2);border-left:4px solid var(--tile)}
+.ct b{font-weight:300;font-size:28px}
+.chip{border-radius:0}
+footer{border-top:3px solid var(--tile)}
 </style>
 
 <div class="wrap" data-view="bkk">
@@ -350,7 +444,7 @@ footer p{margin:0;max-width:110ch}
       </svg>
       <div>
         <span class="eyebrow" id="hdrLbl">ศูนย์ติดตามฝนและน้ำท่วม · กรุงเทพฯ</span>
-        <h1>FloodFight69 <span class="ver">2.0</span></h1>
+        <h1>FloodFight69 <span class="ver">2.1</span></h1>
       </div>
     </div>
     <div class="hdr-r">
@@ -363,20 +457,30 @@ footer p{margin:0;max-width:110ch}
     <div class="vtabs" role="tablist" aria-label="เลือกพื้นที่">
       <button type="button" role="tab" id="tabBkk" data-view="bkk" aria-selected="true">กรุงเทพฯ</button>
       <button type="button" role="tab" id="tabRy" data-view="ry" aria-selected="false">ระยอง<span class="vdot" id="tabRyDot" title="มีประกาศเตือน น้ำล้นตลิ่ง หรืออ่างเก็บน้ำเกินระดับปกติ"></span></button>
+      <button type="button" role="tab" id="tabCm" data-view="cm" aria-selected="false">เชียงใหม่<span class="vdot" id="tabCmDot" title="มีประกาศเตือน น้ำล้นตลิ่ง หรืออ่างเก็บน้ำเกินระดับปกติ"></span></button>
     </div>
     <ul>
       <li class="v-bkk"><a href="#sumBkk">ภาพรวม</a></li>
       <li class="v-bkk"><a href="#fc">พยากรณ์</a></li>
       <li class="v-bkk"><a href="#radar">เรดาร์</a></li>
-      <li class="v-bkk"><a href="#water">ระดับน้ำ</a></li>
+      <li class="v-bkk"><a href="#water">แม่น้ำ·เขื่อน</a></li>
+      <li class="v-bkk"><a href="#aq">ฝุ่น</a></li>
       <li class="v-bkk"><a href="#roads">ถนนน้ำท่วม</a></li>
       <li class="v-bkk"><a href="#newssec">ข่าว</a></li>
       <li class="v-ry"><a href="#ryHead">ภาพรวม</a></li>
       <li class="v-ry"><a href="#ry-fc">พยากรณ์</a></li>
       <li class="v-ry"><a href="#ry-radar">เรดาร์</a></li>
-      <li class="v-ry"><a href="#ry-water">ระดับน้ำ</a></li>
+      <li class="v-ry"><a href="#ry-water">แม่น้ำ·เขื่อน</a></li>
+      <li class="v-ry"><a href="#ry-aq">ฝุ่น</a></li>
       <li class="v-ry"><a href="#ry-roads">ถนนน้ำท่วม</a></li>
       <li class="v-ry"><a href="#ry-news">ข่าว</a></li>
+      <li class="v-cm"><a href="#cmHead">ภาพรวม</a></li>
+      <li class="v-cm"><a href="#cm-fc">พยากรณ์</a></li>
+      <li class="v-cm"><a href="#cm-radar">เรดาร์</a></li>
+      <li class="v-cm"><a href="#cm-water">แม่น้ำ·เขื่อน</a></li>
+      <li class="v-cm"><a href="#cm-aq">ฝุ่น</a></li>
+      <li class="v-cm"><a href="#cm-roads">ถนนน้ำท่วม</a></li>
+      <li class="v-cm"><a href="#cm-news">ข่าว</a></li>
       <li><a href="#plates">ป้ายทะเบียน</a></li>
     </ul>
     <a class="sos" href="#contacts" aria-label="สายด่วนฉุกเฉิน"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><span class="t">สายด่วน</span></a>
@@ -384,6 +488,7 @@ footer p{margin:0;max-width:110ch}
 
   <!-- กรุงเทพฯ: พยากรณ์ Google → เรดาร์ → ระดับน้ำ → ถนนน้ำท่วม → ข่าว -->
   <div class="stack v-bkk" id="bkk">
+  <section class="pbanner pb-bkk" id="bkkBanner" aria-label="กรุงเทพมหานคร"></section>
   <section class="abar" id="abarBkk" aria-label="แถบเตือนภัยสาธารณะ กรุงเทพฯ" aria-live="polite"></section>
   <section class="summary" id="sumBkk" aria-label="ภาพรวมสถานการณ์กรุงเทพฯ"></section>
   <section id="alerts" class="stack" aria-label="ประกาศเตือนภัย"></section>
@@ -393,7 +498,7 @@ footer p{margin:0;max-width:110ch}
     <h3 class="subh">ฝนรายชั่วโมง 48 ชั่วโมงข้างหน้า</h3>
     <div class="chartbox" id="c48" style="margin-top:4px"></div>
     <div class="note" id="s48"></div>
-    <h3 class="subh">พยากรณ์ 7 วัน</h3>
+    <h3 class="subh">พยากรณ์ 10 วัน</h3>
     <div class="days" id="days"></div>
     <h3 class="subh">ฝนพยากรณ์รายพื้นที่</h3>
     <div class="tblwrap"><table class="tw plan" id="zoneTbl"></table></div>
@@ -426,8 +531,15 @@ footer p{margin:0;max-width:110ch}
     </div>
   </section>
   <section class="panel" aria-labelledby="hwater" id="water">
-    <div class="panel-h"><div><span class="eyebrow">น้ำ</span><h2 id="hwater">ระดับน้ำในคลองและเขื่อน</h2></div><span class="meta">สสน. ThaiWater · เขื่อนเจ้าพระยา · ปตร.</span></div>
-    <h3 class="subh" style="margin-top:0">เขื่อนเจ้าพระยา</h3>
+    <div class="panel-h"><div><span class="eyebrow">น้ำ · จากต้นน้ำถึงกรุงเทพฯ</span><h2 id="hwater">ฝนเหนือเขื่อน เขื่อน แม่น้ำ และคลอง</h2></div><span class="meta">Google Weather · กรมชลประทาน · สสน. ThaiWater</span></div>
+    <div class="flowline" aria-hidden="true"><span>ฝนเหนือเขื่อน</span><span>เขื่อนใหญ่</span><span>เจ้าพระยา</span><span>กรุงเทพฯ</span></div>
+    <h3 class="subh">ฝนเหนือเขื่อน 10 วันข้างหน้า (มม./วัน)</h3>
+    <div class="tblwrap"><table class="tw plan" id="upTbl"></table></div>
+    <div class="note" id="upNote"></div>
+    <h3 class="subh">เขื่อนใหญ่ลุ่มเจ้าพระยาที่ส่งผลต่อกรุงเทพฯ</h3>
+    <div class="damtiles" id="damsBkk"></div>
+    <div class="note">ข้อมูลรายวันจากกรมชลประทานผ่าน ThaiWater · % เทียบความจุที่ระดับเก็บกักปกติ (เกิน 100% = เกินระดับเก็บกักปกติ) · ไหลเข้า/ระบายเป็นล้าน ม³ ต่อวัน · น้ำที่เขื่อนระบายใช้เวลาหลายวันกว่าจะถึงกรุงเทพฯ</div>
+    <h3 class="subh">เขื่อนเจ้าพระยาและจุดวัดอัตราการไหล</h3>
     <div class="damrow" id="damBkk"></div>
     <div id="tw">
       <h3 class="subh">ระดับน้ำสถานีโทรมาตร ลำน้ำ คลอง และ ปตร.</h3>
@@ -443,6 +555,18 @@ footer p{margin:0;max-width:110ch}
         <div class="chartbox" id="criver" style="margin-top:0"></div>
         <div class="legend"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span></div>
         <div class="note" id="sriver"></div>
+  </section>
+  <section class="panel" id="aq" aria-labelledby="hbkkaq">
+    <div class="panel-h"><div><span class="eyebrow">อากาศ</span><h2 id="hbkkaq">ฝุ่น PM2.5 และคุณภาพอากาศ</h2></div><span class="meta" id="bkkAqAsof"></span></div>
+    <div class="aqtiles" id="bkkAqNow"></div>
+    <div class="note" id="bkkAqAdvice"></div>
+    <h3 class="subh">พยากรณ์ PM2.5 72 ชั่วโมงข้างหน้า</h3>
+    <div class="chartbox" id="bkkAqChart" style="margin-top:4px"></div>
+    <h3 class="subh">สถานีตรวจวัด กรมควบคุมมลพิษ</h3>
+    <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">PM2.5</th><th class="n">PM10</th><th class="n">O₃</th><th class="n">NO₂</th><th class="n">CO</th><th>ระดับ AQI</th><th class="n">เวลา</th></tr></thead><tbody id="bkkAqTbl"></tbody></table></div>
+    <div id="bkkAqMore"></div>
+    <div class="legend aqlegend"><span><i class="sw aq1"></i>ดีมาก</span><span><i class="sw aq2"></i>ดี</span><span><i class="sw aq3"></i>ปานกลาง</span><span><i class="sw aq4"></i>เริ่มมีผลต่อสุขภาพ</span><span><i class="sw aq5"></i>มีผลต่อสุขภาพ</span></div>
+    <div class="attr">ค่าที่วัดได้: Air4Thai กรมควบคุมมลพิษ (PM2.5/PM10 µg/m³ · O₃/NO₂ ppb · CO ppm) สีตามเกณฑ์ AQI ของ คพ. · พยากรณ์: Open-Meteo Air Quality (แบบจำลอง CAMS) ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</div>
   </section>
   <section class="panel" aria-labelledby="hroads" id="roads">
     <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hroads">ถนนน้ำท่วม ควรหลีกเลี่ยง</h2></div><span class="meta" id="roadsAsof"></span></div>
@@ -515,6 +639,7 @@ footer p{margin:0;max-width:110ch}
 
   <!-- ระยอง: โครงเดียวกับกรุงเทพฯ -->
   <div class="v-ry stack" id="rayong">
+    <section class="pbanner pb-ry" id="ryBanner" aria-label="จ.ระยอง"></section>
     <section class="abar" id="abarRy" aria-label="แถบเตือนภัยสาธารณะ ระยอง" aria-live="polite"></section>
     <div class="panel empty" id="ryEmpty" hidden>ยังไม่มีข้อมูลของ จ.ระยอง ระบบจะลองดึงใหม่ในรอบถัดไป</div>
     <div class="stack" id="ryBody">
@@ -527,7 +652,7 @@ footer p{margin:0;max-width:110ch}
         <h3 class="subh">ฝนรายชั่วโมง 48 ชั่วโมงข้างหน้า · เมืองระยอง</h3>
         <div class="chartbox" id="ryC48" style="margin-top:4px"></div>
         <div class="note" id="ryS48"></div>
-        <h3 class="subh">พยากรณ์ 7 วัน</h3>
+        <h3 class="subh">พยากรณ์ 10 วัน</h3>
         <div class="days" id="ryDays"></div>
         <h3 class="subh">ฝนพยากรณ์รายอำเภอ (มม./วัน) · น้ำขึ้นและคลื่นหน้าเมืองระยอง</h3>
         <div class="tblwrap"><table class="tw plan" id="ryPlan"></table></div>
@@ -566,15 +691,28 @@ footer p{margin:0;max-width:110ch}
         </div>
       </section>
       <section class="panel" id="ry-water" aria-labelledby="hrywater">
-        <div class="panel-h"><div><span class="eyebrow">น้ำ</span><h2 id="hrywater">ระดับน้ำในคลองและเขื่อน</h2></div><span class="meta">สสน. ThaiWater · กรมชลประทาน</span></div>
+        <div class="panel-h"><div><span class="eyebrow">น้ำ</span><h2 id="hrywater">อ่างเก็บน้ำ แม่น้ำ และคลอง</h2></div><span class="meta">สสน. ThaiWater · กรมชลประทาน</span></div>
         <h3 class="subh" style="margin-top:0">อ่างเก็บน้ำขนาดใหญ่</h3>
         <div class="tblwrap"><table class="tw"><thead><tr><th>อ่างเก็บน้ำ</th><th class="n">ปริมาณน้ำ ล้าน ม³</th><th>เทียบความจุปกติ</th><th class="n">ไหลเข้า / ระบาย ต่อวัน</th></tr></thead><tbody id="ryDams"></tbody></table></div>
         <div class="note">ข้อมูลรายวันจากกรมชลประทานผ่าน ThaiWater · ปริมาณเป็นล้าน ม³ · เกิน 100% = เกินระดับเก็บกักปกติ · วันที่จะเต็มความจุสูงสุดคำนวณจากน้ำไหลเข้าลบน้ำระบายของวันล่าสุด</div>
         <h3 class="subh">ระดับน้ำสถานีโทรมาตรใน จ.ระยอง · ลำน้ำ คลอง</h3>
         <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="ryTw"></tbody></table></div>
+        <div id="ryTwMore"></div>
         <h3 class="subh">แนวโน้มอัตราการไหล 14 วัน · แบบจำลอง GloFAS</h3>
         <div class="grid2" id="ryRivers"></div>
         <div class="legend"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span><span>แบบจำลองความละเอียดราว 5 กม. ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</span></div>
+      </section>
+      <section class="panel" id="ry-aq" aria-labelledby="hryaq">
+        <div class="panel-h"><div><span class="eyebrow">อากาศ</span><h2 id="hryaq">ฝุ่น PM2.5 และคุณภาพอากาศ</h2></div><span class="meta" id="ryAqAsof"></span></div>
+        <div class="aqtiles" id="ryAqNow"></div>
+        <div class="note" id="ryAqAdvice"></div>
+        <h3 class="subh">พยากรณ์ PM2.5 72 ชั่วโมงข้างหน้า</h3>
+        <div class="chartbox" id="ryAqChart" style="margin-top:4px"></div>
+        <h3 class="subh">สถานีตรวจวัด กรมควบคุมมลพิษ</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">PM2.5</th><th class="n">PM10</th><th class="n">O₃</th><th class="n">NO₂</th><th class="n">CO</th><th>ระดับ AQI</th><th class="n">เวลา</th></tr></thead><tbody id="ryAqTbl"></tbody></table></div>
+        <div id="ryAqMore"></div>
+        <div class="legend aqlegend"><span><i class="sw aq1"></i>ดีมาก</span><span><i class="sw aq2"></i>ดี</span><span><i class="sw aq3"></i>ปานกลาง</span><span><i class="sw aq4"></i>เริ่มมีผลต่อสุขภาพ</span><span><i class="sw aq5"></i>มีผลต่อสุขภาพ</span></div>
+        <div class="attr">ค่าที่วัดได้: Air4Thai กรมควบคุมมลพิษ (PM2.5/PM10 µg/m³ · O₃/NO₂ ppb · CO ppm) สีตามเกณฑ์ AQI ของ คพ. · พยากรณ์: Open-Meteo Air Quality (แบบจำลอง CAMS) ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</div>
       </section>
       <section class="panel" id="ry-roads" aria-labelledby="hryroads">
         <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hryroads">ข่าวถนนน้ำท่วม ระยอง</h2></div><span class="meta" id="ryEvAsof"></span></div>
@@ -602,6 +740,106 @@ footer p{margin:0;max-width:110ch}
     </div>
   </div>
 
+
+  <div class="v-cm stack" id="chiangmai">
+    <section class="pbanner pb-cm" id="cmBanner" aria-label="จ.เชียงใหม่"></section>
+    <section class="abar" id="abarCm" aria-label="แถบเตือนภัยสาธารณะ เชียงใหม่" aria-live="polite"></section>
+    <div class="panel empty" id="cmEmpty" hidden>ยังไม่มีข้อมูลของ จ.เชียงใหม่ ระบบจะลองดึงใหม่ในรอบถัดไป</div>
+    <div class="stack" id="cmBody">
+      <section class="summary" id="cmHead" aria-label="ภาพรวมสถานการณ์เชียงใหม่"></section>
+      <div class="stack" id="cmWarn"></div>
+      <section class="panel hero" id="cm-fc" aria-labelledby="hcmfc">
+        <div class="panel-h"><div><span class="eyebrow">พยากรณ์</span><h2 id="hcmfc">สภาพอากาศและพยากรณ์ฝน เชียงใหม่</h2></div><span class="gbadge" id="cmDaysSrc"></span></div>
+        <div class="meta" id="cmAsof" style="margin:-8px 0 10px"></div>
+        <div class="now" id="cmNow" aria-label="สภาพอากาศเชียงใหม่ตอนนี้"></div>
+        <h3 class="subh">ฝนรายชั่วโมง 48 ชั่วโมงข้างหน้า · เมืองเชียงใหม่</h3>
+        <div class="chartbox" id="cmC48" style="margin-top:4px"></div>
+        <div class="note" id="cmS48"></div>
+        <h3 class="subh">พยากรณ์ 10 วัน</h3>
+        <div class="days" id="cmDays"></div>
+        <h3 class="subh">ฝนพยากรณ์รายอำเภอ (มม./วัน)</h3>
+        <div class="tblwrap"><table class="tw plan" id="cmPlan"></table></div>
+        <div class="legend"><span><i class="heat" style="background:color-mix(in srgb,var(--water) 12%,transparent)"></i><i class="heat" style="background:color-mix(in srgb,var(--water) 45%,transparent)"></i>ฝนน้อย → มาก</span><span><i class="heat" style="background:var(--warn-bg);border:1px solid var(--warn)"></i>ฝนหนัก 35 มม.+</span><span><i class="heat" style="background:var(--crit-bg);border:1px solid var(--crit)"></i>ฝนหนักมาก 90 มม.+</span><span>เกณฑ์ปริมาณฝนรายวันของกรมอุตุฯ</span></div>
+        <h3 class="subh">ฝนที่วัดได้จริง 24 ชม. · สถานีโทรมาตร ThaiWater</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ฝน 24 ชม.</th><th class="n">เวลาวัด</th></tr></thead><tbody id="cmRain"></tbody></table></div>
+        <div id="cmRainMore"></div>
+        <h3 class="subh">ฝนพยากรณ์รายอำเภอ</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>พื้นที่</th><th class="n">ฝน 24 ชม.ที่ผ่านมา</th><th class="n">พยากรณ์ 24 ชม.</th><th class="n">พยากรณ์ 48 ชม.</th><th class="n">โอกาสฝน</th></tr></thead><tbody id="cmPts"></tbody></table></div>
+        <div class="note">ตารางนี้เป็นค่าพยากรณ์จากแบบจำลอง ไม่ใช่ค่าที่วัดได้จริง · ส้ม = ฝนหนัก (35 มม.+) · แดง = ฝนหนักมาก (90 มม.+)</div>
+        <div class="tmdtxt" id="cmTmd"></div>
+      </section>
+      <section class="panel" id="cm-radar" aria-labelledby="hcmradar">
+        <div class="panel-h"><div><span class="eyebrow">เชียงใหม่ · ฝน</span><h2 id="hcmradar">เรดาร์ฝน เชียงใหม่</h2></div><span class="meta">กรมอุตุฯ · สถานีเรดาร์เชียงใหม่</span></div>
+        <div class="radargrid">
+          <div>
+            <div class="radarimg" style="aspect-ratio:1/1"><img id="cmRadarImg" alt="ภาพเรดาร์ฝนสถานีเชียงใหม่ ครอบคลุมภาคเหนือตอนบน"></div>
+            <div class="rctl"><button class="btn" id="cmRplay" aria-label="เล่นหรือหยุดภาพเคลื่อนไหว">▶ เล่น</button>
+              <label for="cmRslider" class="srh">เลือกเฟรมเรดาร์เชียงใหม่</label><input type="range" id="cmRslider" min="0" max="0" value="0"><span class="num" id="cmRlabel"></span></div>
+          </div>
+          <div style="display:grid;gap:14px">
+            <p class="small muted" style="margin:0">ภาพย้อนหลังล่าสุด เล่นต่อกันเพื่อดูว่ากลุ่มฝนกำลังเคลื่อนไปทางไหน <b>เวลาบนภาพเป็น UTC</b> บวก 7 ชม. จะเป็นเวลาไทย สีบอกความแรงของสัญญาณสะท้อน (dBZ) ยิ่งสูงฝนยิ่งหนัก</p>
+            <div class="scale" aria-label="ความหมายของสี">
+              <div><i style="background:#1DA83A"></i>เขียว 10–27 dBZ · ฝนเล็กน้อย</div>
+              <div><i style="background:#F2E600"></i>เหลือง 31–34 dBZ · ฝนปานกลาง</div>
+              <div><i style="background:#F28C00"></i>ส้ม 37–44 dBZ · ฝนหนัก</div>
+              <div><i style="background:#D40000"></i>แดง 45–54 dBZ · ฝนหนักมาก</div>
+              <div><i style="background:#D000D0"></i>ม่วง/ชมพู 57+ dBZ · พายุรุนแรง อาจมีลูกเห็บ</div>
+            </div>
+            <div class="links" style="margin-top:0"><a href="https://weather.tmd.go.th/cmploop.php" target="_blank" rel="noopener">เรดาร์เชียงใหม่ กรมอุตุฯ (ต้นฉบับ) ↗</a></div>
+            <span class="sub" id="cmRfetched"></span>
+          </div>
+        </div>
+      </section>
+      <section class="panel" id="cm-water" aria-labelledby="hcmwater">
+        <div class="panel-h"><div><span class="eyebrow">น้ำ</span><h2 id="hcmwater">อ่างเก็บน้ำ แม่น้ำ และคลอง</h2></div><span class="meta">สสน. ThaiWater · กรมชลประทาน</span></div>
+        <h3 class="subh" style="margin-top:0">อ่างเก็บน้ำขนาดใหญ่</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>อ่างเก็บน้ำ</th><th class="n">ปริมาณน้ำ ล้าน ม³</th><th>เทียบความจุปกติ</th><th class="n">ไหลเข้า / ระบาย ต่อวัน</th></tr></thead><tbody id="cmDams"></tbody></table></div>
+        <div class="note">ข้อมูลรายวันจากกรมชลประทานผ่าน ThaiWater · ปริมาณเป็นล้าน ม³ · เกิน 100% = เกินระดับเก็บกักปกติ · วันที่จะเต็มความจุสูงสุดคำนวณจากน้ำไหลเข้าลบน้ำระบายของวันล่าสุด</div>
+        <h3 class="subh">ระดับน้ำสถานีโทรมาตรใน จ.เชียงใหม่ · แม่น้ำปิงและลำน้ำสาขา</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">ระดับน้ำ ม.รทก.</th><th class="n">เทียบตลิ่ง</th><th class="n">เปลี่ยนแปลง</th><th>ความจุลำน้ำ</th><th class="n">เวลา</th></tr></thead><tbody id="cmTw"></tbody></table></div>
+        <div id="cmTwMore"></div>
+        <h3 class="subh">แนวโน้มอัตราการไหล 14 วัน · แบบจำลอง GloFAS</h3>
+        <div class="grid2" id="cmRivers"></div>
+        <div class="legend"><span><i class="sw" style="background:var(--water)"></i>ค่าคาดการณ์</span><span><i class="sw" style="background:var(--crit)"></i>กรณีสูงสุด</span><span>แบบจำลองความละเอียดราว 5 กม. ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</span></div>
+      </section>
+      <section class="panel" id="cm-aq" aria-labelledby="hcmaq">
+        <div class="panel-h"><div><span class="eyebrow">อากาศ</span><h2 id="hcmaq">ฝุ่น PM2.5 และคุณภาพอากาศ</h2></div><span class="meta" id="cmAqAsof"></span></div>
+        <div class="aqtiles" id="cmAqNow"></div>
+        <div class="note" id="cmAqAdvice"></div>
+        <h3 class="subh">พยากรณ์ PM2.5 72 ชั่วโมงข้างหน้า</h3>
+        <div class="chartbox" id="cmAqChart" style="margin-top:4px"></div>
+        <h3 class="subh">สถานีตรวจวัด กรมควบคุมมลพิษ</h3>
+        <div class="tblwrap"><table class="tw"><thead><tr><th>สถานี</th><th class="n">PM2.5</th><th class="n">PM10</th><th class="n">O₃</th><th class="n">NO₂</th><th class="n">CO</th><th>ระดับ AQI</th><th class="n">เวลา</th></tr></thead><tbody id="cmAqTbl"></tbody></table></div>
+        <div id="cmAqMore"></div>
+        <div class="legend aqlegend"><span><i class="sw aq1"></i>ดีมาก</span><span><i class="sw aq2"></i>ดี</span><span><i class="sw aq3"></i>ปานกลาง</span><span><i class="sw aq4"></i>เริ่มมีผลต่อสุขภาพ</span><span><i class="sw aq5"></i>มีผลต่อสุขภาพ</span></div>
+        <div class="attr">ค่าที่วัดได้: Air4Thai กรมควบคุมมลพิษ (PM2.5/PM10 µg/m³ · O₃/NO₂ ppb · CO ppm) สีตามเกณฑ์ AQI ของ คพ. · พยากรณ์: Open-Meteo Air Quality (แบบจำลอง CAMS) ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</div>
+      </section>
+      <section class="panel" id="cm-roads" aria-labelledby="hcmroads">
+        <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hcmroads">ข่าวถนนน้ำท่วม เชียงใหม่</h2></div><span class="meta" id="cmEvAsof"></span></div>
+        <div class="roadhead" id="cmEvHead"></div>
+        <div class="roadgrid">
+          <div><h3 class="subh" style="margin-top:0">เหตุการณ์ที่แจ้งเข้ามา · ทางหลวงและถนนในพื้นที่</h3>
+            <ul class="roadlist" id="cmEvList"></ul>
+            <div class="attr">เหตุการณ์: Longdo Event โดย iTIC Foundation (CC BY 4.0) เป็นรายงานจากประชาชนและกรมทางหลวง ยังไม่ผ่านการตรวจสอบ ตำแหน่งอาจคลาดเคลื่อน</div></div>
+          <div><h3 class="subh" style="margin-top:0">ข่าวถนนและเส้นทาง</h3>
+            <ul class="news" id="cmRoadNews"></ul></div>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="hcmnews" id="cm-news">
+    <div class="panel-h"><div><span class="eyebrow">ข่าว</span><h2 id="hcmnews">ข่าวน้ำท่วมเชียงใหม่</h2></div><span class="meta">Google News</span></div>
+    <div class="tabs" role="tablist" id="cmTabs"></div>
+    <label class="srh" for="cmQ">ค้นหาข่าว</label>
+    <input id="cmQ" class="search" type="search" placeholder="กรองหัวข้อข่าว เช่น แม่ริม, ฝาง, แม่น้ำปิง, ฝุ่น">
+    <ul class="news" id="cmNews"></ul>
+    <div class="links">
+      <a href="https://www.tmd.go.th" target="_blank" rel="noopener">กรมอุตุนิยมวิทยา ↗</a>
+      <a href="https://www.thaiwater.net" target="_blank" rel="noopener">ThaiWater (สสน.) ↗</a>
+      <a href="https://www.disaster.go.th" target="_blank" rel="noopener">ปภ. ↗</a>
+    </div>
+  </section>
+    </div>
+  </div>
+
   <div class="stack">
     <section class="panel" aria-labelledby="hplate" id="plates">
       <div class="panel-h"><div><span class="eyebrow">ความช่วยเหลือ</span><h2 id="hplate">ป้ายทะเบียนหายจากน้ำท่วม?</h2></div><span class="meta">เว็บไซต์ภายนอก</span></div>
@@ -618,7 +856,7 @@ footer p{margin:0;max-width:110ch}
   </div>
 
   <footer id="foot">
-    <div class="foot-brand">FloodFight69 <span class="ver">2.0</span></div>
+    <div class="foot-brand">FloodFight69 <span class="ver">2.1</span></div>
     <p>ข้อมูลใช้ประกอบการตัดสินใจเท่านั้น ตรวจสอบประกาศทางการเสมอ · อัปเดตอัตโนมัติทุก 1 ชั่วโมง</p>
     <p>ที่มา: Google Weather API และ Open-Meteo (สภาพอากาศและพยากรณ์), Open-Meteo GloFAS (แบบจำลองอัตราการไหล ไม่ใช่ค่าวัดจากสถานี), Open-Meteo Marine (น้ำขึ้นน้ำลงและคลื่น แบบจำลอง), ThaiWater / สสน. (ระดับน้ำ ฝน อ่างเก็บน้ำ), สำนักการระบายน้ำ กทม. (เซนเซอร์น้ำบนถนน), กรมอุตุนิยมวิทยา (TMD Open Data, เรดาร์), จส.100, สวพ.91, Google News RSS · แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap</p>
   </footer>
@@ -627,11 +865,16 @@ footer p{margin:0;max-width:110ch}
 <script type="application/json" id="seed">__SEED__</script>
 <script type="application/json" id="radarSeed">__RADAR__</script>
 <script type="application/json" id="radarRySeed">__RADAR_RY__</script>
+<script type="application/json" id="radarCmSeed">__RADAR_CM__</script>
 <script type="application/json" id="alertSeed">__ALERTS__</script>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// provinces outside Bangkok share one layout; ids are the prefix + a name (ryNow, cmNow …), sections "<prefix>-…"
+const PV={ry:{key:"rayong",name:"ระยอง",city:"เมืองระยอง",Cap:"Ry",tmd:"east",tmdName:"ภาคตะวันออก",re:/ระยอง|ภาคตะวันออก|อ่าวไทยตอนบน|ประเทศไทยตอนบน/,marine:true},
+  cm:{key:"chiangmai",name:"เชียงใหม่",city:"เมืองเชียงใหม่",Cap:"Cm",tmd:"north",tmdName:"ภาคเหนือ",pin:["P.1"],re:/เชียงใหม่|ภาคเหนือ|ประเทศไทยตอนบน/,marine:false}};
+const VIEWS=["bkk","ry","cm"];
 const TH_D=["อา.","จ.","อ.","พ.","พฤ.","ศ.","ส."];
 const TH_M=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 const WMO={0:"ฟ้าโปร่ง",1:"มีเมฆบางส่วน",2:"มีเมฆบางส่วน",3:"เมฆมาก",45:"หมอก",48:"หมอก",51:"ฝนปรอย",53:"ฝนปรอย",55:"ฝนปรอยหนา",61:"ฝนเล็กน้อย",63:"ฝนปานกลาง",65:"ฝนหนัก",80:"ฝนซู่",81:"ฝนซู่ปานกลาง",82:"ฝนซู่หนัก",95:"พายุฝนฟ้าคะนอง",96:"ฝนฟ้าคะนอง ลูกเห็บ",99:"ฝนฟ้าคะนอง ลูกเห็บ"};
@@ -672,12 +915,13 @@ function renderFresh(d){
   $("freshTxt").innerHTML="อัปเดต <b class='num'>"+hm(d.updatedAt)+"</b> · "+rel(d.updatedAt)
     +(ageH>2?" · ข้อมูลเก่า":"<span class='nx'>"+(next>Date.now()?" · รอบถัดไป "+hm(new Date(next).toISOString())+" น.":" · กำลังรอรอบถัดไป")+"</span>");
 }
-const draw48=d=>{render48(d.weather,"c48","s48");render48((d.rayong||{}).weather,"ryC48","ryS48");};
+const draw48=d=>{render48(d.weather,"c48","s48");for(const pk in PV)render48((d[PV[pk].key]||{}).weather,pk+"C48",pk+"S48");};
 function render(d){
   if(!d) return; DATA=d;
+  renderBanners(d); renderAQAll(d); renderUpstream(d); renderDamsBkk(d);
   // freshness
   renderFresh(d);
-  renderAlertBar(d); renderSummary(d); renderZones(d); renderAlerts(d); renderRoads(d); renderBma(d); renderEvents(d); renderNow(d); draw48(d); renderRiver(d); renderDamBkk(d); renderTw(d); renderRyRoads(d); renderDays(d); renderRayong(d); renderTmd(d); renderTabs(); renderNews();
+  renderAlertBar(d); renderSummary(d); renderZones(d); renderAlerts(d); renderRoads(d); renderBma(d); renderEvents(d); renderNow(d); draw48(d); renderRiver(d); renderDamBkk(d); renderTw(d); renderProvRoads(d,"ry"); renderProvRoads(d,"cm"); renderDays(d); renderProv(d,"ry"); renderProv(d,"cm"); renderTmd(d); renderTabs(); renderNews();
 }
 
 function renderAlerts(d){
@@ -756,6 +1000,115 @@ function renderDamBkk(d){
     <span class="sub num">${esc(x.code)} · ${esc(fmtTw(x.t))}${old(x)?" · ข้อมูลค้าง":""}</span></div>`;
   el.innerHTML=card(dam,true)+oth.map(x=>card(x,false)).join("");
 }
+// ---- province banners: a Metro live tile per area, with a flat drawing of the place ----
+const ART={
+  bkk:`<svg viewBox="0 0 420 140" aria-hidden="true"><g fill="currentColor">
+    <g opacity=".22"><rect x="250" y="44" width="26" height="70"/><rect x="282" y="26" width="20" height="88"/><rect x="306" y="56" width="30" height="58"/><rect x="342" y="34" width="18" height="80"/><rect x="364" y="62" width="34" height="52"/><rect x="290" y="12" width="4" height="16"/></g>
+    <g opacity=".9"><path d="M120 6l4 14h-8zM113 20h14l3 14h-20zM109 34h22l3 16h-28zM104 50h32l4 20h-40zM98 70h44l5 24h-54zM90 94h60v20H90z"/>
+    <path d="M58 46l3 10h-6zM53 56h10l2 12H51zM48 68h20l3 18H45zM43 86h30v28H43z" opacity=".75"/><path d="M182 46l3 10h-6zM177 56h10l2 12h-14zM172 68h20l3 18h-26zM167 86h30v28h-30z" opacity=".75"/></g>
+    <path d="M0 116h420v24H0z" opacity=".3"/><path d="M0 122c20-6 40 6 60 0s40-6 60 0 40 6 60 0 40-6 60 0 40 6 60 0 40-6 60 0 40 6 60 0" fill="none" stroke="currentColor" stroke-width="3" opacity=".6"/>
+    <path d="M0 132c20-6 40 6 60 0s40-6 60 0 40 6 60 0 40-6 60 0 40 6 60 0 40-6 60 0 40 6 60 0" fill="none" stroke="currentColor" stroke-width="3" opacity=".35"/></g></svg>`,
+  ry:`<svg viewBox="0 0 420 140" aria-hidden="true"><g fill="currentColor">
+    <circle cx="330" cy="40" r="22" opacity=".85"/><path d="M150 96c18-30 44-46 70-46s48 18 66 46z" opacity=".35"/><path d="M40 96c10-14 26-22 40-22s26 8 34 22z" opacity=".25"/>
+    <g opacity=".9"><path d="M206 92h52l-8 12h-36z"/><path d="M230 40v50h-22z"/><path d="M234 46v44h18z" opacity=".7"/></g>
+    <path d="M0 104h420v36H0z" opacity=".28"/><path d="M0 108c17-7 35 7 52 0s35-7 52 0 35 7 52 0 35-7 52 0 35 7 52 0 35-7 52 0 35 7 52 0 35-7 56 0" fill="none" stroke="currentColor" stroke-width="3" opacity=".7"/>
+    <path d="M0 122c17-7 35 7 52 0s35-7 52 0 35 7 52 0 35-7 52 0 35 7 52 0 35-7 52 0 35 7 52 0 35-7 56 0" fill="none" stroke="currentColor" stroke-width="3" opacity=".45"/>
+    <path d="M0 134c17-7 35 7 52 0s35-7 52 0 35 7 52 0 35-7 52 0 35 7 52 0 35-7 52 0 35 7 52 0 35-7 56 0" fill="none" stroke="currentColor" stroke-width="3" opacity=".25"/></g></svg>`,
+  cm:`<svg viewBox="0 0 420 140" aria-hidden="true"><g fill="currentColor">
+    <path d="M0 110L70 52l50 34 80-66 70 54 46-30 104 66z" opacity=".25"/><path d="M0 124l90-48 60 30 70-40 90 52 50-22 60 28z" opacity=".4"/>
+    <g opacity=".95"><path d="M200 8l2 10h-4zM196 18h8v6h-8zM190 24a10 10 0 0 1 20 0v6h-20zM186 30h28l4 8h-36z"/></g>
+    <g opacity=".85"><path d="M60 140V104h8v-6h8v6h8v-6h8v6h8v-6h8v6h8v-6h8v6h8v36zM84 140v-20a12 12 0 0 1 24 0v20z" fill-rule="evenodd"/></g>
+    <g opacity=".5"><circle cx="300" cy="30" r="10"/><circle cx="314" cy="26" r="13"/><circle cx="330" cy="31" r="9"/><rect x="296" y="31" width="40" height="9" rx="4"/></g></g></svg>`};
+const AREAKEY={bkk:"bkk",ry:"rayong",cm:"chiangmai"};
+const BANNER={bkk:{th:"กรุงเทพมหานคร",en:"BANGKOK"},ry:{th:"ระยอง",en:"RAYONG"},cm:{th:"เชียงใหม่",en:"CHIANG MAI"}};
+function renderBanners(d){
+  for(const k of VIEWS){const el=$(k+"Banner"); if(!el)continue;
+    const w=k==="bkk"?d.weather:(d[PV[k].key]||{}).weather, c=w&&w.current, h=((w&&w.hourly)||[]).slice(0,24), n24=h.reduce((a,x)=>a+(x.p||0),0);
+    const A=d.aq&&d.aq[AREAKEY[k]], pm=aqHeadline(A);
+    el.innerHTML=`<div class="pb-art">${ART[k]}</div>
+      <div class="pb-txt"><span class="pb-en">${BANNER[k].en}</span><h2 class="pb-th">${BANNER[k].th}</h2><span class="pb-sub">ฝน · แม่น้ำ · เขื่อน · ฝุ่น · น้ำท่วม</span></div>
+      <div class="pb-live">${c?`<div class="pb-now">${wxIcon(c.code,40)}<span class="pb-t">${Math.round(c.temp)}°</span><span class="pb-d">${c.desc?esc(c.desc):wmo(c.code)}<br>ฝน 24 ชม.ข้างหน้า ${n24.toFixed(1)} มม.</span></div>`:""}
+        <div class="pb-chips">${w?gbadge(w):""}${pm?`<span class="gb aqb aq${pm.lvl}">PM2.5 ${pm.v.toFixed(0)} µg/m³ · ${AQL[pm.lvl]}</span>`:""}</div></div>`;}
+}
+
+// ---- air quality: Air4Thai stations (measured) + Open-Meteo CAMS forecast (model), Thai AQI scale of the PCD ----
+const AQL=["ไม่มีข้อมูล","ดีมาก","ดี","ปานกลาง","เริ่มมีผลต่อสุขภาพ","มีผลต่อสุขภาพ"];
+const pmLvl=v=>v==null?0:v<=15?1:v<=25?2:v<=37.5?3:v<=75?4:5;
+const AQADV=["","คุณภาพอากาศดีมาก เหมาะกับกิจกรรมกลางแจ้งและการท่องเที่ยว","คุณภาพอากาศดี ทำกิจกรรมกลางแจ้งได้ตามปกติ",
+  "ทำกิจกรรมกลางแจ้งได้ตามปกติ ผู้ที่ต้องดูแลสุขภาพเป็นพิเศษ (เด็ก ผู้สูงอายุ ผู้มีโรคทางเดินหายใจหรือหัวใจ) ควรสังเกตอาการและลดเวลาอยู่กลางแจ้ง",
+  "ควรลดเวลาทำกิจกรรมกลางแจ้ง ใช้หน้ากากป้องกันฝุ่น PM2.5 เมื่ออยู่นอกอาคาร หากมีอาการไอ หายใจลำบาก แน่นหน้าอก ควรพบแพทย์",
+  "ควรงดกิจกรรมกลางแจ้งและอยู่ในอาคาร ใช้หน้ากากป้องกันฝุ่น PM2.5 ทุกครั้งที่ออกนอกอาคาร หากมีอาการผิดปกติควรรีบพบแพทย์"];
+const aqFresh=A=>((A&&A.stations)||[]).filter(s=>s.pm25!=null&&twAgeH(s.t)<=3);
+// the worst fresh station reading, else the model's value for now
+function aqHeadline(A){const st=aqFresh(A); if(st.length){const top=st.reduce((a,b)=>b.pm25>a.pm25?b:a);return {v:top.pm25,lvl:top.cid||pmLvl(top.pm25),src:"st",name:top.name};}
+  const f=A&&A.fc&&A.fc.now; return f&&f.pm25!=null?{v:f.pm25,lvl:pmLvl(f.pm25),src:"fc"}:null;}
+const AQALL={bkk:false,ry:false,cm:false};
+function aqChart(id,h){
+  const box=$(id); if(!box)return; if(!h||h.length<2){box.innerHTML="<div class='empty'>ยังไม่มีข้อมูลพยากรณ์</div>";return;}
+  const W=boxW(id), H=W<600?180:200, L=34, R=6, T=22, base=H-34, n=h.length, bw=(W-L-R)/n;
+  const mx=Math.max(40,...h.map(x=>x.pm25||0)), step=mx<=50?10:mx<=100?25:50, top=Math.ceil(mx/step)*step, y=v=>base-(v/top)*(base-T), xc=i=>f1(L+i*bw+bw/2);
+  let sv=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="พยากรณ์ฝุ่น PM2.5 รายชั่วโมง 72 ชั่วโมงข้างหน้า">`;
+  for(let v=0;v<=top;v+=step)sv+=`<line class="grid" x1="${L}" x2="${W-R}" y1="${f1(y(v))}" y2="${f1(y(v))}"/><text x="${L-6}" y="${f1(y(v)+4)}" text-anchor="end">${v}</text>`;
+  [15,25,37.5,75].filter(v=>v<top).forEach(v=>sv+=`<line x1="${L}" x2="${W-R}" y1="${f1(y(v))}" y2="${f1(y(v))}" stroke="var(--aq${pmLvl(v+0.01)})" stroke-width="1.2" stroke-dasharray="4 4" opacity=".9"/>`);
+  sv+=`<text class="th" x="${L}" y="${T-8}">${dayLbl(h[0].d)}</text>`;
+  h.forEach((x,i)=>{const v=x.pm25||0, x0=L+i*bw;
+    if(v>0)sv+=`<rect x="${f1(x0+.5)}" y="${f1(y(v))}" width="${f1(Math.max(1,bw-1))}" height="${f1(base-y(v))}" fill="var(--aq${pmLvl(v)})"/>`;
+    if(x.t==="00:00"&&i>0)sv+=`<line class="sep" x1="${f1(x0)}" x2="${f1(x0)}" y1="${T-20}" y2="${base}"/><text class="th" x="${f1(x0+6)}" y="${T-8}">${dayLbl(x.d)}</text>`;
+    if(+x.t.slice(0,2)%6===0)sv+=`<text x="${xc(i)}" y="${H-12}" text-anchor="middle">${x.t.slice(0,2)}</text>`;});
+  sv+=`<line class="axis" x1="${L}" x2="${W-R}" y1="${base}" y2="${base}"/><line class="hov" x1="0" x2="0" y1="${T-4}" y2="${base}" visibility="hidden"/></svg><div class="tip" hidden></div>`;
+  box.innerHTML=sv;
+  hoverChart(box,W,sx=>sx<L||sx>W-R?null:Math.min(n-1,Math.floor((sx-L)/bw)),xc,i=>`<b>${dayLbl(h[i].d)} ${h[i].t} น.</b><br>PM2.5 ${h[i].pm25??"—"} µg/m³ · ${AQL[pmLvl(h[i].pm25)]}`);
+}
+function renderAQ(d,k){
+  const px=k, A=d.aq&&d.aq[AREAKEY[k]], el=$(px+"AqNow"); if(!el)return;
+  $(px+"AqAsof").textContent=d.aq&&d.aq.fetched?"อัปเดต "+hm(d.aq.fetched)+" น."+(d.aq.stale?" · ข้อมูลรอบก่อน":""):"";
+  if(!A){el.innerHTML="<div class='empty'>ยังไม่มีข้อมูลคุณภาพอากาศ</div>";$(px+"AqAdvice").textContent="";aqChart(px+"AqChart",null);$(px+"AqTbl").innerHTML="";return;}
+  const st=(A.stations||[]), fr=aqFresh(A), fc=A.fc, hh=(fc&&fc.hourly)||[], hd=aqHeadline(A);
+  const med=fr.length?fr.map(s=>s.pm25).sort((a,b)=>a-b)[Math.floor(fr.length/2)]:null;
+  const nx=hh.slice(0,24), pk=nx.length?nx.reduce((a,b)=>(b.pm25||0)>(a.pm25||0)?b:a):null;
+  const pm10=fr.filter(s=>s.pm10!=null).reduce((a,s)=>Math.max(a,s.pm10),-1);
+  const tileA=(lbl,v,unit,lvl,sub)=>`<div class="aqt aq${lvl}"><span class="lbl">${lbl}</span><span class="v">${v}<small>${unit}</small></span><span class="s">${sub}</span></div>`;
+  el.innerHTML=[
+    hd?tileA(hd.src==="st"?"PM2.5 สูงสุดในพื้นที่":"PM2.5 ตอนนี้ (แบบจำลอง)",hd.v.toFixed(1),"µg/m³",hd.lvl,AQL[hd.lvl]+(hd.name?" · "+esc(hd.name):"")):tileA("PM2.5 ตอนนี้","—","",0,"ไม่มีข้อมูล"),
+    med!=null?tileA("ค่ากลางทุกสถานี",med.toFixed(1),"µg/m³",pmLvl(med),`${fr.length} สถานีที่ส่งข้อมูล`):tileA("ค่ากลางทุกสถานี","—","",0,"ไม่มีสถานีที่ส่งข้อมูลล่าสุด"),
+    pk?tileA("พยากรณ์ 24 ชม. สูงสุด",(pk.pm25||0).toFixed(0),"µg/m³",pmLvl(pk.pm25),`ช่วง ${esc(pk.t)} น. ${pk.d===todayStr()?"วันนี้":dayLbl(pk.d)} · แบบจำลอง`):tileA("พยากรณ์ 24 ชม.","—","",0,"ไม่มีข้อมูล"),
+    pm10>=0?tileA("PM10 สูงสุด",pm10.toFixed(0),"µg/m³",pm10<=50?2:pm10<=80?3:pm10<=120?4:5,"ฝุ่นละอองขนาดไม่เกิน 10 ไมครอน"):tileA("AQI แบบจำลอง (US)",fc&&fc.now&&fc.now.aqi!=null?fc.now.aqi:"—","",0,"ไม่มีค่า PM10 จากสถานี")].join("");
+  $(px+"AqAdvice").innerHTML=hd?`<b>${AQL[hd.lvl]}:</b> ${AQADV[hd.lvl]}`:"";
+  aqChart(px+"AqChart",hh);
+  const shown=AQALL[k]?st:st.slice(0,10), lv=s=>s.cid||pmLvl(s.pm25), v=(x,dp)=>x==null?"—":x.toFixed(dp);
+  $(px+"AqTbl").innerHTML=shown.map(s=>{const old=twAgeH(s.t)>3;
+    return `<tr class="${old?"stale":""}"><td><div>${esc(s.name)}</div><div class="sub">${esc((s.area||"").split(",")[0])}${old?" · ข้อมูลค้าง":""}</div></td>
+      <td class="n"><b>${v(s.pm25,1)}</b></td><td class="n">${v(s.pm10,0)}</td><td class="n">${v(s.o3,0)}</td><td class="n">${v(s.no2,0)}</td><td class="n">${v(s.co,2)}</td>
+      <td><span class="aqpill aq${lv(s)}">${AQL[lv(s)]}${s.aqi!=null?" · "+s.aqi:""}</span></td><td class="n sub">${esc((s.t||"").slice(11)||"—")}</td></tr>`}).join("")
+    ||`<tr><td colspan="8" class="empty">${A.stations?"ไม่มีสถานีตรวจวัดในพื้นที่นี้":"ตอนนี้ยังดึงข้อมูลจาก Air4Thai ไม่ได้"}</td></tr>`;
+  $(px+"AqMore").innerHTML=shown.length<st.length?`<button class="linkbtn" id="${px}AqM" style="padding:10px 2px">ดูอีก ${st.length-shown.length} สถานี</button>`:"";
+  const m=$(px+"AqM"); if(m)m.onclick=()=>{AQALL[k]=true;renderAQ(DATA,k);};
+}
+function renderAQAll(d){VIEWS.forEach(k=>renderAQ(d,k));}
+
+// ---- Bangkok: rain over the upstream catchments (10 days) and the big Chao Phraya-basin dams ----
+function renderUpstream(d){
+  const U=d.upstream||[], t=todayStr();
+  if(!U.length){$("upTbl").innerHTML=`<tbody><tr><td class="empty">ยังไม่มีข้อมูลฝนเหนือเขื่อน</td></tr></tbody>`;$("upNote").textContent="";return;}
+  const dates=[...new Set(U.flatMap(u=>(u.days||[]).map(x=>x.date)))].filter(x=>x>=t).sort().slice(0,10);
+  $("upTbl").innerHTML=`<thead><tr><th>พื้นที่</th>${dates.map(x=>`<th>${x===t?"วันนี้":TH_D[pd(x).getDay()]+" "+pd(x).getDate()}</th>`).join("")}<th>รวม</th></tr></thead><tbody>`
+    +U.map(u=>{const m=Object.fromEntries((u.days||[]).map(x=>[x.date,x.rain])), sum=dates.reduce((a,dd)=>a+(m[dd]||0),0);
+      return `<tr><td><b>${esc(u.name)}</b><div class="sub">${esc(u.ex)}</div></td>${dates.map(dd=>m[dd]==null?`<td class="hm">—</td>`:`<td class="hm" style="${rainHeat(m[dd])}">${(+m[dd]).toFixed(1)}</td>`).join("")}<td class="hm"><b>${sum.toFixed(0)}</b></td></tr>`}).join("")+"</tbody>";
+  const top=U.slice().sort((a,b)=>b.sum10-a.sum10)[0], g=U.every(u=>u.src==="google");
+  $("upNote").innerHTML=`ฝนสะสม 10 วันมากสุด: <b>${esc(top.name)}</b> ราว <span class="num">${top.sum10.toFixed(0)}</span> มม. · ฝนที่ตกเหนือเขื่อนจะไหลเข้าอ่างและเพิ่มการระบายในอีกหลายวันต่อมา · ที่มา ${g?'<span class="gb g">Google Weather</span>':"Open-Meteo"}`;
+}
+function renderDamsBkk(d){
+  const D=d.dams||[], el=$("damsBkk");
+  if(!D.length){el.innerHTML="<div class='empty'>ยังไม่มีข้อมูลเขื่อน</div>";return;}
+  el.innerHTML=D.map(x=>{const pc=x.pct||0, full=x.max&&x.storage>x.max, net=x.inflow!=null&&x.release!=null?+(x.inflow-x.release).toFixed(2):null;
+    const s=full||pc>=100?"crit":pc>=80?"warn":"ok";
+    return `<div class="damt s-${s}"><span class="lbl">เขื่อน${esc(x.name)}</span><span class="riv">${esc(x.river||x.prov||"")}</span>
+      <span class="v">${pc.toFixed(0)}<small>%</small></span>
+      <span class="s">${full?"เกินความจุสูงสุด":pc>=100?"เกินระดับเก็บกักปกติ":pc>=80?"น้ำมาก":"ปกติ"} · ${x.storage!=null?Math.round(x.storage).toLocaleString():"—"} ล้าน ม³</span>
+      <span class="s">ไหลเข้า ${x.inflow??"—"} · ระบาย <b>${x.release??"—"}</b> ล้าน ม³/วัน${net!=null&&net!==0?` · สุทธิ ${net>0?"+":""}${net}`:""}</span>
+      <span class="sub">ข้อมูล${esc(fmtDay(x.date))}</span></div>`}).join("");
+}
+
 // discharge chart (GloFAS): forecast side shaded from today, worst-case member dashed; returns where today sits
 function flowChart(id,r,label){
   const W=boxW(id), sm=W<600, H=sm?200:230, L=sm?46:54, R=8, T=12, B=28, iw=W-L-R, ih=H-T-B, n=r.length;
@@ -805,12 +1158,12 @@ function tideChart(id,h){
 }
 
 function dayCards(daily){
-  const t=todayStr(); const f=daily.filter(x=>x.date>=t).slice(0,7); const mx=Math.max(20,...f.map(x=>x.rain||0));
+  const t=todayStr(); const f=daily.filter(x=>x.date>=t).slice(0,10); const mx=Math.max(20,...f.map(x=>x.rain||0));
   return f.map(x=>{const dd=pd(x.date);const heavy=(x.rain||0)>=35;
     return `<div class="day${x.date===t?" today":""}${heavy?" heavy":""}"><span class="dn">${x.date===t?"วันนี้":TH_D[dd.getDay()]+" "+dd.getDate()}</span>
     <span class="ic">${wxIcon(x.code,34)}<span>${wmo(x.code)}</span></span><span class="r">${(x.rain||0).toFixed(1)} มม.</span>
     <div class="gauge" aria-hidden="true"><i style="width:${Math.min(100,(x.rain||0)/mx*100)}%"></i></div>
-    <span class="t">${Math.round(x.tmin)}–${Math.round(x.tmax)}° · ${x.pp??"—"}%</span></div>`}).join("");
+    <span class="t">${Math.round(x.tmin)}–${Math.round(x.tmax)}° · ${x.pp??"—"}%</span>${x.ts!=null&&x.ts>=30?`<span class="tsx" title="โอกาสพายุฝนฟ้าคะนอง">⚡ ${x.ts}%</span>`:""}</div>`}).join("");
 }
 function renderDays(d){
   const w=d.weather; if(!w){$("days").innerHTML="";return;}
@@ -881,9 +1234,11 @@ function mkRadar(ids){ // ids: img, slider, label, play, fetched
 }
 const RAD=mkRadar({img:"radarImg",slider:"rslider",label:"rlabel",play:"rplay",fetched:"rfetched"});
 const RADRY=mkRadar({img:"ryRadarImg",slider:"ryRslider",label:"ryRlabel",play:"ryRplay",fetched:"ryRfetched"});
+const RADCM=mkRadar({img:"cmRadarImg",slider:"cmRslider",label:"cmRlabel",play:"cmRplay",fetched:"cmRfetched"});
 const setFrames=(a,f)=>RAD.set(a,f);
 try{const rs=JSON.parse($("radarSeed").textContent); if(rs&&rs.img)RAD.set([rs.img],rs.fetched);}catch(e){}
 try{const rs=JSON.parse($("radarRySeed").textContent); if(rs&&rs.img)RADRY.set([rs.img],rs.fetched);}catch(e){}
+try{const rs=JSON.parse($("radarCmSeed").textContent); if(rs&&rs.img)RADCM.set([rs.img],rs.fetched);}catch(e){}
 
 // ---- flooded roads map ----
 const MZ=13, MX0=1633448.391111111, MY0=966316.281874623, MW=3030, MH=2280;
@@ -1120,106 +1475,108 @@ const damNet=(x,full)=>{if(x.inflow==null||x.release==null)return "";const net=+
 const fmtDay=s=>!s?"":s===todayStr()?"วันนี้":" "+(+s.slice(8,10))+" "+TH_M[+s.slice(5,7)-1];
 // Rayong road block: reported flood events (Longdo/iTIC) + road news, the counterpart of the Bangkok road sections
 const RY_ROAD_RE=/ถนน|ทางหลวง|สัญจร|จราจร|เส้นทาง|สะพาน|ปิด|ผ่านไม่ได้|สุขุมวิท/;
-let RYEVALL=false;
-function renderRyRoads(d){
-  const R=d.rayong||{}, E=R.events, items=evLive(E), bl=items.filter(x=>ROADBLOCK_RE.test(x.t)), n=k=>items.filter(x=>x.by===k).length;
-  $("ryEvAsof").textContent=E&&E.fetched?"ดึงข้อมูล "+hm(E.fetched)+" น. · "+rel(E.fetched):"";
-  $("ryEvHead").innerHTML=E?`<span class="chip"><b>${items.length}</b> เหตุการณ์</span><span class="chip"><span class="lv lv5"></span>ผ่านไม่ได้/ปิดถนน <b>${bl.length}</b></span><span class="chip"><span class="lv" style="background:var(--water)"></span>กรมทางหลวง <b>${n("doh")}</b></span><span class="chip"><span class="lv" style="background:var(--warn)"></span>ประชาชน/iTIC <b>${n("itic")+n("user")}</b></span>
+const EVALLP={ry:false,cm:false};
+function renderProvRoads(d,pk){
+  const P=PV[pk], R=d[P.key]||{}, E=R.events, items=evLive(E), bl=items.filter(x=>ROADBLOCK_RE.test(x.t)), n=k=>items.filter(x=>x.by===k).length, id=x=>$(pk+x);
+  id("EvAsof").textContent=E&&E.fetched?"ดึงข้อมูล "+hm(E.fetched)+" น. · "+rel(E.fetched):"";
+  id("EvHead").innerHTML=E?`<span class="chip"><b>${items.length}</b> เหตุการณ์</span><span class="chip"><span class="lv lv5"></span>ผ่านไม่ได้/ปิดถนน <b>${bl.length}</b></span><span class="chip"><span class="lv" style="background:var(--water)"></span>กรมทางหลวง <b>${n("doh")}</b></span><span class="chip"><span class="lv" style="background:var(--warn)"></span>ประชาชน/iTIC <b>${n("itic")+n("user")}</b></span>
     ${E.stale?`<span class="chip" style="color:var(--warn)">รอบล่าสุดดึงข้อมูลไม่สำเร็จ แสดงข้อมูลเมื่อ ${hm(E.fetched)} น.</span>`:""}
     <a href="${esc(E.source||"https://event.longdo.com/")}" target="_blank" rel="noopener">ที่มา: ${esc(E.src||"Longdo Event")} ↗</a>`
     :`<span class="chip" style="color:var(--warn)">ตอนนี้ยังดึงรายงานเหตุการณ์ไม่ได้</span>`;
-  const shown=RYEVALL?items:items.slice(0,8);
-  $("ryEvList").innerHTML=(shown.map(x=>`<li><div class="rh"><b>${esc(x.t)}</b><span class="dep" style="background:var(--surface-2);color:${evCol(x)}">${esc(EVBY[x.by]||"")}</span></div>
+  const shown=EVALLP[pk]?items:items.slice(0,8);
+  id("EvList").innerHTML=(shown.map(x=>`<li><div class="rh"><b>${esc(x.t)}</b><span class="dep" style="background:var(--surface-2);color:${evCol(x)}">${esc(EVBY[x.by]||"")}</span></div>
     <div class="segs"><div><span>${x.d?esc(x.d)+" · ":""}แจ้งเมื่อ ${fmtTs(evIso(x.s)).replace("<br>"," ")} น.</span><a href="https://www.google.com/maps/search/?api=1&query=${x.p.join(",")}" target="_blank" rel="noopener">Google Maps ↗</a></div></div></li>`).join("")
     ||`<li><span class="muted">${E?"ตอนนี้ไม่มีเหตุการณ์น้ำท่วมถนนที่แจ้งเข้ามาในพื้นที่นี้":"ยังไม่มีข้อมูล"}</span></li>`)
-    +(shown.length<items.length?`<li><button class="linkbtn" id="ryEvMore" style="padding:10px 2px">ดูอีก ${items.length-shown.length} เหตุการณ์</button></li>`:"");
-  const m=$("ryEvMore"); if(m)m.onclick=()=>{RYEVALL=true;renderRyRoads(DATA);};
+    +(shown.length<items.length?`<li><button class="linkbtn" id="${pk}EvMore" style="padding:10px 2px">ดูอีก ${items.length-shown.length} เหตุการณ์</button></li>`:"");
+  const m=id("EvMore"); if(m)m.onclick=()=>{EVALLP[pk]=true;renderProvRoads(DATA,pk);};
   const nw=(R.news||[]).filter(x=>RY_ROAD_RE.test(x.title)).slice(0,8);
-  $("ryRoadNews").innerHTML=nw.map(newsLi).join("")||`<li class="empty">ยังไม่พบข่าวถนนน้ำท่วมระยอง</li>`;
+  id("RoadNews").innerHTML=nw.map(newsLi).join("")||`<li class="empty">ยังไม่พบข่าวถนนน้ำท่วม${esc(P.name)}</li>`;
 }
-let RYALL=false;
-function renderRayong(d){
-  const R=d.rayong, sec=$("rayong"); const w=R&&R.weather;
+const PALL={ry:false,cm:false}, TWALLP={ry:false,cm:false};
+function renderProv(d,pk){
+  const P=PV[pk], R=d[P.key], w=R&&R.weather, id=x=>$(pk+x);
   const has=!!(R&&(w||(R.news||[]).length||(R.water||[]).length||(R.warnings||[]).length||(R.rain||[]).length||(R.dams||[]).length));
-  $("ryBody").hidden=!has; $("ryEmpty").hidden=has;
+  id("Body").hidden=!has; id("Empty").hidden=has;
   const damHot=x=>(x.pct||0)>=100||(x.max&&x.storage>x.max);
-  $("tabRyDot").classList.toggle("on",!!(R&&((R.warnings||[]).length||(R.water||[]).some(x=>x.over&&twAgeH(x.t)<=24)||(R.dams||[]).some(damHot))));
-  if(!has){$("ryAsof").textContent="";return;}
+  $("tab"+P.Cap+"Dot").classList.toggle("on",!!(R&&((R.warnings||[]).length||(R.water||[]).some(x=>x.over&&twAgeH(x.t)<=24)||(R.dams||[]).some(damHot))));
+  if(!has){id("Asof").textContent="";return;}
   const c=w&&w.current, t=todayStr();
-  $("ryAsof").textContent="อัปเดต "+fmtTs(d.updatedAt).replace("<br>"," ")+(w&&w.stale?" · พยากรณ์อาจเก่า":"");
-  $("ryHead").innerHTML=tilesFor(d,"ry");
-  $("ryWarn").innerHTML=(R.warnings||[]).map(x=>`<div class="alert crit" style="margin-bottom:10px"><span class="tag">ประกาศกรมอุตุนิยมวิทยา ฉบับที่ ${esc(x.no)} · กล่าวถึง จ.ระยอง</span><h3>${esc(x.title)}</h3><p>${esc(x.headline)}</p></div>`).join("");
-  if(w&&c){const dl=w.daily.filter(x=>x.date<t).slice(-3).reduce((a,x)=>a+(x.rain||0),0), p0=w.points[0]||{};
-    $("ryNow").innerHTML=`<div><span class="lbl">ตอนนี้ · เมืองระยอง</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${c.desc?esc(c.desc):wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
+  id("Asof").textContent="อัปเดต "+fmtTs(d.updatedAt).replace("<br>"," ")+(w&&w.stale?" · พยากรณ์อาจเก่า":"");
+  id("Head").innerHTML=tilesFor(d,pk);
+  id("Warn").innerHTML=(R.warnings||[]).map(x=>`<div class="alert crit" style="margin-bottom:10px"><span class="tag">ประกาศกรมอุตุนิยมวิทยา ฉบับที่ ${esc(x.no)} · กล่าวถึง จ.${esc(P.name)}</span><h3>${esc(x.title)}</h3><p>${esc(x.headline)}</p></div>`).join("");
+  if(w&&c){const dl=w.daily.filter(x=>x.date<t).slice(-3).reduce((a,x)=>a+(x.rain||0),0), p0=(w.points||[])[0]||{};
+    id("Now").innerHTML=`<div><span class="lbl">ตอนนี้ · ${esc(P.city)}</span><span class="v" style="display:flex;align-items:center;gap:8px">${wxIcon(c.code,30)}<span>${esc(c.temp)}<small>°C</small></span></span><span class="s">${c.desc?esc(c.desc):wmo(c.code)} · ชื้น ${esc(c.rh)}%</span></div>
      <div><span class="lbl">ฝนขณะนี้</span><span class="v num">${(+c.rain).toFixed(1)}<small>มม.</small></span><span class="s">ลม ${esc(c.wind)} กม./ชม.</span></div>
      <div><span class="lbl">24 ชม. ข้างหน้า</span><span class="v num">${(+p0.next24||0).toFixed(1)}<small>มม.</small></span><span class="s">โอกาสฝน ${esc(p0.pp??"—")}%</span></div>
      <div><span class="lbl">สะสม 3 วันที่ผ่านมา</span><span class="v num">${dl.toFixed(0)}<small>มม.</small></span><span class="s"${dl>=150?' style="color:var(--crit)"':""}>${dl>=150?"ฝนสะสมสูงมาก เสี่ยงน้ำป่า/น้ำหลาก":dl>=60?"ดินเริ่มอิ่มน้ำ":"ฝนสะสมไม่มาก"}</span></div>`;
     const cls=rainCol;
-    $("ryPts").innerHTML=w.points.map(x=>`<tr><td>${esc(x.name)}</td><td class="n" style="color:${cls(x.past24)}">${x.past24.toFixed(1)} มม.</td><td class="n" style="color:${cls(x.next24)}">${x.next24.toFixed(1)} มม.</td><td class="n" style="color:${cls(x.next48)}">${x.next48.toFixed(1)} มม.</td><td class="n">${x.pp}%</td></tr>`).join("");
-    $("ryDays").innerHTML=dayCards(w.daily);
-  } else {$("ryNow").innerHTML="";$("ryPts").innerHTML="";$("ryDays").innerHTML="";}
-  const east=d.tmd&&d.tmd.daily&&d.tmd.daily.east;
-  $("ryTmd").innerHTML=east?`<div><span class="lbl">พยากรณ์ภาคตะวันออก 24 ชม. · กรมอุตุฯ</span><p>${esc(east)}</p></div>`:"";
-  const rs=R.rain||[], rsh=RYALL?rs:rs.slice(0,8);
-  $("ryRain").innerHTML=rsh.map(x=>{const old=twAgeH(x.t)>6;
+    id("Pts").innerHTML=(w.points||[]).map(x=>`<tr><td>${esc(x.name)}</td><td class="n" style="color:${cls(x.past24)}">${x.past24.toFixed(1)} มม.</td><td class="n" style="color:${cls(x.next24)}">${x.next24.toFixed(1)} มม.</td><td class="n" style="color:${cls(x.next48)}">${x.next48.toFixed(1)} มม.</td><td class="n">${x.pp}%</td></tr>`).join("");
+    id("Days").innerHTML=dayCards(w.daily);
+  } else {id("Now").innerHTML="";id("Pts").innerHTML="";id("Days").innerHTML="";}
+  const tx=d.tmd&&d.tmd.daily&&d.tmd.daily[P.tmd];
+  id("Tmd").innerHTML=tx?`<h3 class="subh">คำพยากรณ์กรมอุตุนิยมวิทยา</h3><div><span class="lbl">พยากรณ์${P.tmdName} 24 ชม.</span><p>${esc(tx)}</p></div>`:"";
+  const rs=R.rain||[], rsh=PALL[pk]?rs:rs.slice(0,8);
+  id("Rain").innerHTML=rsh.map(x=>{const old=twAgeH(x.t)>6;
     return `<tr class="${old?"stale":""}"><td><div>${esc(x.name)}</div><div class="sub">${esc(x.amphoe||"")}${x.agency?" · "+esc(x.agency):""}${old?" · ข้อมูลค้าง":""}</div></td>
-     <td class="n" style="color:${rainCol(x.mm||0)}">${(x.mm||0).toFixed(1)} มม.</td><td class="n sub">${esc(fmtTw(x.t))}</td></tr>`}).join("")||`<tr><td colspan="3" class="empty">ยังไม่มีข้อมูลฝนจากสถานีใน จ.ระยอง</td></tr>`;
-  $("ryRainMore").innerHTML=rsh.length<rs.length?`<button class="linkbtn" id="ryRm" style="padding:10px 2px">ดูอีก ${rs.length-rsh.length} สถานี</button>`:"";
-  const rm=$("ryRm"); if(rm)rm.onclick=()=>{RYALL=true;renderRayong(DATA);};
-  $("ryDams").innerHTML=(R.dams||[]).map(x=>{const hot=damHot(x), full=x.max&&x.storage>x.max, pc=x.pct||0;
+     <td class="n" style="color:${rainCol(x.mm||0)}">${(x.mm||0).toFixed(1)} มม.</td><td class="n sub">${esc(fmtTw(x.t))}</td></tr>`}).join("")||`<tr><td colspan="3" class="empty">ยังไม่มีข้อมูลฝนจากสถานีใน จ.${esc(P.name)}</td></tr>`;
+  id("RainMore").innerHTML=rsh.length<rs.length?`<button class="linkbtn" id="${pk}Rm" style="padding:10px 2px">ดูอีก ${rs.length-rsh.length} สถานี</button>`:"";
+  const rm=id("Rm"); if(rm)rm.onclick=()=>{PALL[pk]=true;renderProv(DATA,pk);};
+  id("Dams").innerHTML=(R.dams||[]).map(x=>{const hot=damHot(x), full=x.max&&x.storage>x.max, pc=x.pct||0;
     const col=hot?"var(--crit)":pc>=80?"var(--water)":"var(--ok)";
     return `<tr><td><div>อ่างฯ ${esc(x.name)}</div><div class="sub">ข้อมูล${esc(fmtDay(x.date))}</div></td>
      <td class="n">${x.storage!=null?x.storage.toFixed(1):"—"}<div class="sub">ปกติ ${x.normal??"—"} · สูงสุด ${x.max??"—"}</div></td>
      <td><div style="display:flex;align-items:center;gap:6px;font-size:12.5px"><span class="lv" style="background:${col}"></span>${full?"เกินความจุสูงสุด":hot?"เกินระดับเก็บกักปกติ":pc>=80?"น้ำมาก":"ปกติ"} <span class="num sub">${pc.toFixed(0)}%</span></div><div class="bar"><i style="width:${Math.min(100,pc/120*100)}%;background:${col}"></i></div></td>
      <td class="n">${x.inflow??"—"} / ${x.release??"—"}${damNet(x,full)}${x.spill?`<div class="sub" style="color:var(--crit)">ล้นทางระบายน้ำล้น ${x.spill}</div>`:""}</td></tr>`}).join("")||`<tr><td colspan="4" class="empty">ไม่มีข้อมูลอ่างเก็บน้ำ</td></tr>`;
-  const st=R.water||[];
-  $("ryTw").innerHTML=st.map(s=>{const stale=twAgeH(s.t)>24;const pc=s.pct??0;
-    return `<tr class="${stale?"stale":""}"><td><div>${esc(s.name)}</div><div class="sub">${esc(s.code)} · ${esc(s.amphoe||"")}${stale?" · ข้อมูลค้าง":""}</div></td>
+  // key gauges first (Chiang Mai: P.1 สะพานนวรัฐ, the city's reference station), then the fullest; 12 rows until asked for more
+  const pin=P.pin||[], sAll=[...(R.water||[]).filter(s=>pin.includes(s.code)),...(R.water||[]).filter(s=>!pin.includes(s.code))], st=TWALLP[pk]?sAll:sAll.slice(0,12);
+  id("Tw").innerHTML=st.map(s=>{const stale=twAgeH(s.t)>24;const pc=s.pct??0;
+    return `<tr class="${stale?"stale":""}"><td><div>${pin.includes(s.code)?'<span class="pinb">สถานีหลัก</span> ':""}${esc(s.name)}</div><div class="sub">${esc(s.code)} · ${esc(s.amphoe||"")}${stale?" · ข้อมูลค้าง":""}</div></td>
      <td class="n">${s.wl!=null?s.wl.toFixed(2):"—"}<div class="sub">ตลิ่ง ${s.bank!=null?s.bank.toFixed(2):"—"}</div></td>
      <td class="n" style="color:${s.over?"var(--crit)":"inherit"}">${s.over?"+":"−"}${s.diff!=null?s.diff.toFixed(2):"—"}<div class="sub">${s.over?"ล้นตลิ่ง":"ต่ำกว่าตลิ่ง"}</div></td>
      <td class="n">${trend(s.dwl)}</td>
      <td><div style="display:flex;align-items:center;gap:6px;font-size:12.5px"><span class="lv lv${s.lvl||0}"></span>${LVN[s.lvl]||"—"} <span class="num sub">${pc.toFixed(0)}%</span></div><div class="bar"><i style="width:${Math.min(100,pc/120*100)}%;background:${lvCol(s.lvl)}"></i></div></td>
-     <td class="n sub">${esc(fmtTw(s.t))}</td></tr>`}).join("")||`<tr><td colspan="6" class="empty">ไม่มีข้อมูลสถานีใน จ.ระยอง</td></tr>`;
-  // 7-day watch plan: forecast rain per district per day, the day's worst, high water and waves off the city
-  const pts=(w&&w.points)||[], mar=R.marine, dates=[...new Set(pts.flatMap(p=>(p.days||[]).map(x=>x.date)))].filter(x=>x>=t).sort().slice(0,7);
-  const heat=rainHeat;
+     <td class="n sub">${esc(fmtTw(s.t))}</td></tr>`}).join("")||`<tr><td colspan="6" class="empty">ไม่มีข้อมูลสถานีใน จ.${esc(P.name)}</td></tr>`;
+  id("TwMore").innerHTML=st.length<sAll.length?`<button class="linkbtn" id="${pk}TwM" style="padding:10px 2px">ดูอีก ${sAll.length-st.length} สถานี</button>`:"";
+  const tm=id("TwM"); if(tm)tm.onclick=()=>{TWALLP[pk]=true;renderProv(DATA,pk);};
+  // 10-day watch plan: forecast rain per district per day, the day's worst; Rayong adds high water and waves off the city
+  const pts=(w&&w.points)||[], mar=P.marine?R.marine:null, dates=[...new Set(pts.flatMap(p=>(p.days||[]).map(x=>x.date)))].filter(x=>x>=t).sort().slice(0,10);
   if(dates.length){
     const md=Object.fromEntries(((mar&&mar.days)||[]).map(x=>[x.date,x]));
     const worst=dates.map(dd=>Math.max(0,...pts.map(p=>((p.days||[]).find(x=>x.date===dd)||{}).rain||0)));
     const hw=dd=>{const x=md[dd]; if(!x||!x.high.length)return "—"; const tp=x.high.reduce((a,b)=>b.h>a.h?b:a); return `${tp.h.toFixed(2)} ม.<div class="sub">${tp.t} น.</div>`};
-    $("ryPlan").innerHTML=`<thead><tr><th>พื้นที่</th>${dates.map(x=>`<th>${x===t?"วันนี้":TH_D[pd(x).getDay()]+" "+pd(x).getDate()}</th>`).join("")}</tr></thead><tbody>`
+    id("Plan").innerHTML=`<thead><tr><th>พื้นที่</th>${dates.map(x=>`<th>${x===t?"วันนี้":TH_D[pd(x).getDay()]+" "+pd(x).getDate()}</th>`).join("")}</tr></thead><tbody>`
       +pts.map(p=>{const m=Object.fromEntries((p.days||[]).map(x=>[x.date,x.rain]));
-        return `<tr><td>${esc(p.name)}</td>${dates.map(dd=>m[dd]==null?`<td class="hm">—</td>`:`<td class="hm" style="${heat(m[dd])}">${(+m[dd]).toFixed(1)}</td>`).join("")}</tr>`}).join("")
+        return `<tr><td>${esc(p.name)}</td>${dates.map(dd=>m[dd]==null?`<td class="hm">—</td>`:`<td class="hm" style="${rainHeat(m[dd])}">${(+m[dd]).toFixed(1)}</td>`).join("")}</tr>`}).join("")
       +`<tr class="sep"><td><b>ระดับเฝ้าระวัง</b></td>${worst.map(v=>`<td><span class="pill p-${v>=90?"crit":v>=35?"warn":"ok"}">${v>=90?"หนักมาก":v>=35?"ฝนหนัก":v>=10?"ปานกลาง":"เล็กน้อย"}</span></td>`).join("")}</tr>`
-      +`<tr><td>น้ำขึ้นสูงสุด</td>${dates.map(dd=>`<td class="hm">${hw(dd)}</td>`).join("")}</tr>`
-      +`<tr><td>คลื่นสูงสุด</td>${dates.map(dd=>{const v=md[dd]&&md[dd].wave;return `<td class="hm"${v>=2?' style="color:var(--crit);font-weight:600"':""}>${v!=null?v.toFixed(1)+" ม.":"—"}</td>`}).join("")}</tr></tbody>`;
-  } else $("ryPlan").innerHTML=`<tbody><tr><td class="empty">ยังไม่มีข้อมูลพยากรณ์รายอำเภอ</td></tr></tbody>`;
-  const srcA=w&&w.src==="google"?"Google Weather":"Open-Meteo", srcP=w&&w.points_src==="google"?"Google Weather":"Open-Meteo";
-  $("ryDaysSrc").innerHTML=gbadge(w)+(w&&w.points_src&&w.points_src!==w.src?`<span class="gb">รายอำเภอ: ${esc(srcP)}</span>`:"")+(w&&w.stale?'<span class="gb st">ข้อมูลรอบก่อน</span>':"");
-  render48(w,"ryC48","ryS48");
-  const mh=(mar&&mar.hourly)||[];
-  if(mh.length>1){tideChart("ryTide",mh);
-    const from=mh[0].d+"T"+mh[0].t, hs=((mar.days)||[]).flatMap(x=>x.high.map(h=>({d:x.date,t:h.t,h:h.h}))).filter(h=>h.d+"T"+h.t>=from).slice(0,2);
-    $("ryTideNote").innerHTML=(hs.length?"น้ำขึ้นถัดไป "+hs.map(h=>`<span class="num">${h.t}</span> น. ${h.d===t?"วันนี้":dayLbl(h.d)} (${h.h.toFixed(2)} ม.)`).join(" และ ")+" · ":"")
-      +"ช่วงน้ำขึ้นสูง น้ำจากแม่น้ำระยองและคลองต่างๆ จะระบายลงทะเลได้ช้า · ระดับเทียบระดับทะเลปานกลาง จากแบบจำลอง Open-Meteo Marine"+(mar.stale?" · ข้อมูลรอบก่อน":"");}
-  else{$("ryTide").innerHTML="<div class='empty'>ยังไม่มีข้อมูลระดับน้ำทะเล</div>";$("ryTideNote").textContent="";}
+      +(mar?`<tr><td>น้ำขึ้นสูงสุด</td>${dates.map(dd=>`<td class="hm">${hw(dd)}</td>`).join("")}</tr>`
+      +`<tr><td>คลื่นสูงสุด</td>${dates.map(dd=>{const v=md[dd]&&md[dd].wave;return `<td class="hm"${v>=2?' style="color:var(--crit);font-weight:600"':""}>${v!=null?v.toFixed(1)+" ม.":"—"}</td>`}).join("")}</tr>`:"")+`</tbody>`;
+  } else id("Plan").innerHTML=`<tbody><tr><td class="empty">ยังไม่มีข้อมูลพยากรณ์รายอำเภอ</td></tr></tbody>`;
+  const srcP=w&&w.points_src==="google"?"Google Weather":"Open-Meteo";
+  id("DaysSrc").innerHTML=gbadge(w)+(w&&w.points_src&&w.points_src!==w.src?`<span class="gb">รายอำเภอ: ${esc(srcP)}</span>`:"")+(w&&w.stale?'<span class="gb st">ข้อมูลรอบก่อน</span>':"");
+  render48(w,pk+"C48",pk+"S48");
+  if(id("Tide")){const mh=(mar&&mar.hourly)||[];
+    if(mh.length>1){tideChart(pk+"Tide",mh);
+      const from=mh[0].d+"T"+mh[0].t, hs=((mar.days)||[]).flatMap(x=>x.high.map(h=>({d:x.date,t:h.t,h:h.h}))).filter(h=>h.d+"T"+h.t>=from).slice(0,2);
+      id("TideNote").innerHTML=(hs.length?"น้ำขึ้นถัดไป "+hs.map(h=>`<span class="num">${h.t}</span> น. ${h.d===t?"วันนี้":dayLbl(h.d)} (${h.h.toFixed(2)} ม.)`).join(" และ ")+" · ":"")
+        +"ช่วงน้ำขึ้นสูง น้ำจากแม่น้ำและคลองต่างๆ จะระบายลงทะเลได้ช้า · ระดับเทียบระดับทะเลปานกลาง จากแบบจำลอง Open-Meteo Marine"+(mar.stale?" · ข้อมูลรอบก่อน":"");}
+    else{id("Tide").innerHTML="<div class='empty'>ยังไม่มีข้อมูลระดับน้ำทะเล</div>";id("TideNote").textContent="";}}
   const rv=R.rivers||[];
-  $("ryRivers").innerHTML=rv.length?rv.map((x,k)=>`<div><h3 style="font-size:14.5px;margin-bottom:6px">${esc(x.name)}</h3><div class="chartbox" id="ryRiv${k}" style="margin-top:0"></div><div class="note" id="ryRivN${k}"></div></div>`).join("")
+  id("Rivers").innerHTML=rv.length?rv.map((x,k)=>`<div><h3 style="font-size:14.5px;margin-bottom:6px">${esc(x.name)}</h3><div class="chartbox" id="${pk}Riv${k}" style="margin-top:0"></div><div class="note" id="${pk}RivN${k}"></div></div>`).join("")
     :`<div class="empty">ยังไม่มีข้อมูลแม่น้ำ</div>`;
-  rv.forEach((x,k)=>{const sr=x.series||[]; if(sr.length<2)return; const {ti,fs}=flowChart("ryRiv"+k,sr,"อัตราการไหล"+x.name);
-    const fut=sr.slice(fs), pk=fut.reduce((a,z)=>(z.q||0)>(a.q||0)?z:a,fut[0]), cur=ti>=0?sr[ti].q:null, nx=ti>=0&&sr[ti+1]?sr[ti+1].q:null;
-    $("ryRivN"+k).innerHTML=(cur!=null?`วันนี้ราว <span class="num">${Math.round(cur).toLocaleString()}</span> ม³/วินาที${nx!=null?(nx>cur*1.05?' · <b style="color:var(--crit)">แนวโน้มเพิ่มขึ้น</b>':nx<cur*.95?" · แนวโน้มลดลง":" · ทรงตัว"):""} · `:"")
-      +`สูงสุดในช่วงคาดการณ์ <span class="num">${Math.round(pk.q||0).toLocaleString()}</span> ม³/วินาที วันที่ ${pd(pk.date).getDate()} ${TH_M[pd(pk.date).getMonth()]}`;});
+  rv.forEach((x,k)=>{const sr=x.series||[]; if(sr.length<2)return; const {ti,fs}=flowChart(pk+"Riv"+k,sr,"อัตราการไหล"+x.name);
+    const fut=sr.slice(fs), top=fut.reduce((a,z)=>(z.q||0)>(a.q||0)?z:a,fut[0]), cur=ti>=0?sr[ti].q:null, nx=ti>=0&&sr[ti+1]?sr[ti+1].q:null;
+    $(pk+"RivN"+k).innerHTML=(cur!=null?`วันนี้ราว <span class="num">${Math.round(cur).toLocaleString()}</span> ม³/วินาที${nx!=null?(nx>cur*1.05?' · <b style="color:var(--crit)">แนวโน้มเพิ่มขึ้น</b>':nx<cur*.95?" · แนวโน้มลดลง":" · ทรงตัว"):""} · `:"")
+      +`สูงสุดในช่วงคาดการณ์ <span class="num">${Math.round(top.q||0).toLocaleString()}</span> ม³/วินาที วันที่ ${pd(top.date).getDate()} ${TH_M[pd(top.date).getMonth()]}`;});
 }
 
 // ---- public warning bar: official warnings that name the area, a calm line when there are none ----
 // sources: TMD warnings, DDPM notices pasted into the page (Bangkok), Google Public Alerts (once it covers Thailand)
-const AREA={bkk:{id:"abarBkk",cls:" v-bkk",re:/กรุงเทพ|ปริมณฑล/,name:"กรุงเทพฯ และปริมณฑล",g:"bkk"},
-  ry:{id:"abarRy",cls:"",re:/ระยอง|ภาคตะวันออก|อ่าวไทยตอนบน/,name:"จ.ระยอง",g:"rayong"}};
+const AREA={bkk:{id:"abarBkk",cls:" v-bkk",re:/กรุงเทพ|ปริมณฑล|ประเทศไทยตอนบน/,name:"กรุงเทพฯ และปริมณฑล",g:"bkk"},
+  ry:{id:"abarRy",cls:"",re:PV.ry.re,name:"จ.ระยอง",g:"rayong"},cm:{id:"abarCm",cls:"",re:PV.cm.re,name:"จ.เชียงใหม่",g:"chiangmai"}};
 function alertItems(d,k){
   const A=AREA[k], it=[];
   ((d.tmd&&d.tmd.warnings)||[]).forEach(w=>{const txt=(w.title||"")+" "+(w.headline||""), hit=A.re.test(txt);
-    const href=k==="bkk"?"#alerts":/ระยอง/.test(txt)?"#ryWarn":(w.url||"#ry-fc");
+    const href=k==="bkk"?"#alerts":new RegExp(PV[k].name).test(txt)?"#"+k+"Warn":(w.url||"#"+k+"-fc");
     it.push({lvl:/หนักมาก|พายุ|รุนแรง/.test(w.title||"")?"crit":"warn",hit,title:w.title,src:"กรมอุตุนิยมวิทยา ฉบับที่ "+(w.no||"-"),
       when:w.start?"มีผล "+w.start.slice(5,16)+(w.end?" ถึง "+w.end.slice(5,16):""):"",href,ext:/^https?:/.test(href)});});
   ((d.galerts||{})[A.g]||[]).forEach(a=>it.push({lvl:/EXTREME|SEVERE/.test(a.severity||"")?"crit":"warn",hit:true,title:a.title||a.event,
@@ -1229,7 +1586,7 @@ function alertItems(d,k){
   return it;
 }
 function renderAlertBar(d){
-  for(const k of ["bkk","ry"]){const A=AREA[k], el=$(A.id), it=alertItems(d,k), hit=it.filter(x=>x.hit), other=it.length-hit.length, crit=hit.some(x=>x.lvl==="crit");
+  for(const k of VIEWS){const A=AREA[k], el=$(A.id), it=alertItems(d,k), hit=it.filter(x=>x.hit), other=it.length-hit.length, crit=hit.some(x=>x.lvl==="crit");
     el.className="abar "+(crit?"crit":hit.length?"warn":"calm")+A.cls;
     el.innerHTML=hit.length
       ?`<span class="pill p-${crit?"crit":"warn"}">ประกาศเตือนภัย ${hit.length} ฉบับ</span><span class="ab-area">${A.name}</span>
@@ -1246,7 +1603,7 @@ const bmaLive=B=>!!(B&&(B.sites||[]).length)&&(B.fetched?(Date.now()-new Date(B.
 const evLive=E=>((E&&E.items)||[]).filter(x=>new Date(evIso(x.e))>Date.now());
 const ROADBLOCK_RE=/ผ่านไม่ได้|ปิดการจราจร|ปิดถนน|ห้ามผ่าน/;
 function tilesFor(d,k){
-  const ry=k==="ry", R=d.rayong||{}, w=ry?R.weather:d.weather, FC=ry?"#ry-fc":"#fc", WT=ry?"#ry-water":"#water", out=[];
+  const ry=k!=="bkk", P=PV[k]||{}, R=(ry&&d[P.key])||{}, w=ry?R.weather:d.weather, FC=ry?`#${k}-fc`:"#fc", WT=ry?`#${k}-water`:"#water", out=[];
   // 1) rain over the next 24 h, from the headline forecast (Google Weather when available)
   const h=((w&&w.hourly)||[]).slice(0,24);
   if(h.length){const n24=h.reduce((a,x)=>a+(x.p||0),0), pk=h.reduce((a,x)=>(x.p||0)>(a.p||0)?x:a,h[0]);
@@ -1255,8 +1612,8 @@ function tilesFor(d,k){
   else out.push(naTile("ฝน 24 ชม. ข้างหน้า",FC));
   // 2) official warnings that name the area (same list as the warning bar)
   const ws=alertItems(d,k).filter(x=>x.hit), wc=ws.some(x=>x.lvl==="crit");
-  out.push({lbl:"ประกาศเตือนภัยในพื้นที่",href:ws.length?(ry?"#abarRy":"#abarBkk"):FC,s:ws.length?(wc?"crit":"warn"):"ok",pill:ws.length?(wc?"เตือนภัย":"เฝ้าระวัง"):"ไม่มีประกาศ",
-    val:`${ws.length}<small>ฉบับ</small>`,sub:ws.length?esc(ws[0].title):ry?"ไม่มีประกาศที่ระบุ จ.ระยอง":"ไม่มีประกาศเตือนภัยที่ระบุกรุงเทพฯ และปริมณฑล"});
+  out.push({lbl:"ประกาศเตือนภัยในพื้นที่",href:ws.length?(ry?"#abar"+P.Cap:"#abarBkk"):FC,s:ws.length?(wc?"crit":"warn"):"ok",pill:ws.length?(wc?"เตือนภัย":"เฝ้าระวัง"):"ไม่มีประกาศ",
+    val:`${ws.length}<small>ฉบับ</small>`,sub:ws.length?esc(ws[0].title):ry?"ไม่มีประกาศที่ระบุ จ."+P.name:"ไม่มีประกาศเตือนภัยที่ระบุกรุงเทพฯ และปริมณฑล"});
   // 3) river / canal water against the bank
   if(ry){const wv=(R.water||[]).filter(x=>twAgeH(x.t)<=24), ov=wv.filter(x=>x.over);
     out.push(wv.length?{lbl:"ระดับน้ำในลำน้ำ",href:WT,s:ov.length?"crit":"ok",pill:ov.length?"ล้นตลิ่ง":"ปกติ",val:`${ov.length}<small>/ ${wv.length} สถานีล้นตลิ่ง</small>`,
@@ -1274,8 +1631,8 @@ function tilesFor(d,k){
     out.push(c&&c.q!=null&&twAgeH(c.t)<=24?{lbl:"เขื่อนเจ้าพระยา · ระบายน้ำ",href:WT,s:"info",pill:"ล่าสุด",val:`${Math.round(c.q).toLocaleString()}<small>ม³/วินาที</small>`,sub:`ท้ายเขื่อน สถานี C.13 · วัดเมื่อ ${esc(fmtTw(c.t))} น.`}:naTile("เขื่อนเจ้าพระยา · ระบายน้ำ",WT));}
   // 5) flooded roads
   if(ry){const ev=evLive(R.events), bl=ev.filter(x=>ROADBLOCK_RE.test(x.t));
-    out.push(R.events?{lbl:"ถนนน้ำท่วม · ที่แจ้งเข้ามา",href:"#ry-roads",s:bl.length?"crit":ev.length?"warn":"ok",pill:bl.length?"ผ่านไม่ได้":ev.length?"มีเหตุการณ์":"ไม่มีรายงาน",
-      val:`${ev.length}<small>เหตุการณ์</small>`,sub:bl.length?esc(bl[0].t):ev.length?esc(ev[0].t):"ไม่มีเหตุการณ์น้ำท่วมถนนที่แจ้งเข้ามา"}:naTile("ถนนน้ำท่วม","#ry-roads"));}
+    out.push(R.events?{lbl:"ถนนน้ำท่วม · ที่แจ้งเข้ามา",href:`#${k}-roads`,s:bl.length?"crit":ev.length?"warn":"ok",pill:bl.length?"ผ่านไม่ได้":ev.length?"มีเหตุการณ์":"ไม่มีรายงาน",
+      val:`${ev.length}<small>เหตุการณ์</small>`,sub:bl.length?esc(bl[0].t):ev.length?esc(ev[0].t):"ไม่มีเหตุการณ์น้ำท่วมถนนที่แจ้งเข้ามา"}:naTile("ถนนน้ำท่วม",`#${k}-roads`));}
   else{const B=d.bma;
     if(bmaLive(B)){const wet=B.sites.filter(bWet).sort((a,b)=>b.cm-a.cm), n20=wet.filter(s=>s.cm>=20).length;
       out.push({lbl:"น้ำบนถนน · เซนเซอร์ กทม.",href:"#bma",s:n20?"crit":wet.length?"warn":"ok",pill:n20?"ท่วม 20 ซม.+":wet.length?"มีน้ำขัง":"ปกติ",val:`${wet.length}<small>จุด</small>`,
@@ -1288,28 +1645,28 @@ function renderSummary(d){$("sumBkk").innerHTML=tilesFor(d,"bkk");}
 
 const TABS=[["shelter","ปภ./ศูนย์พักพิง"],["flood","น้ำท่วม"],["rain","ฝนตกหนัก"],["forecast","พยากรณ์อากาศ"]];
 // Rayong has one news query, so its categories are cut from the titles
-const RYCATS=[["all","ทั้งหมด",null],["shelter","ศูนย์พักพิง/ช่วยเหลือ",/พักพิง|อพยพ|ช่วยเหลือ|ถุงยังชีพ|แจก|โรงครัว/],["road","ถนน/จราจร",RY_ROAD_RE],["rain","ฝน/น้ำป่า/อ่างเก็บน้ำ",/ฝน|น้ำป่า|น้ำหลาก|พายุ|เขื่อน|อ่างเก็บน้ำ|คลอง|ทับมา/]];
-const NEWSCFG={bkk:{tabs:"tabs",q:"q",list:"news",tab:TAB,all:false},ry:{tabs:"ryTabs",q:"ryQ",list:"ryNews",tab:"all",all:false}};
+const RYCATS=[["all","ทั้งหมด",null],["shelter","ศูนย์พักพิง/ช่วยเหลือ",/พักพิง|อพยพ|ช่วยเหลือ|ถุงยังชีพ|แจก|โรงครัว/],["road","ถนน/จราจร",RY_ROAD_RE],["rain","ฝน/น้ำป่า/อ่างเก็บน้ำ",/ฝน|น้ำป่า|น้ำหลาก|พายุ|เขื่อน|อ่างเก็บน้ำ|คลอง|ทับมา|แม่น้ำ/],["air","ฝุ่น/หมอกควัน",/ฝุ่น|PM ?2\.5|หมอกควัน|คุณภาพอากาศ|ไฟป่า/i]];
+const NEWSCFG={bkk:{tabs:"tabs",q:"q",list:"news",tab:TAB,all:false},ry:{tabs:"ryTabs",q:"ryQ",list:"ryNews",tab:"all",all:false},cm:{tabs:"cmTabs",q:"cmQ",list:"cmNews",tab:"all",all:false}};
 function newsCats(k){
   if(k==="bkk"){const n=(DATA&&DATA.news)||{};return TABS.map(([c,l])=>[c,l,n[c]||[]]);}
-  const all=(DATA&&DATA.rayong&&DATA.rayong.news)||[];return RYCATS.map(([c,l,re])=>[c,l,re?all.filter(x=>re.test(x.title)):all]);
+  const all=(DATA&&DATA[PV[k].key]&&DATA[PV[k].key].news)||[];return RYCATS.map(([c,l,re])=>[c,l,re?all.filter(x=>re.test(x.title)):all]);
 }
 function newsLi(x){const fresh=x.ts&&(Date.now()-new Date(x.ts))<3*3.6e6;
   return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="tm">${fmtTs(x.ts)}</span><span><div class="tt">${esc(x.title)}${fresh?'<span class="new">ใหม่</span>':""}</div><div class="src">${esc(x.src)}</div></span></a></li>`;}
 function renderTabs(){
-  for(const k of ["bkk","ry"]){const C=NEWSCFG[k], cats=newsCats(k); if(!cats.some(x=>x[0]===C.tab))C.tab=cats[0][0];
+  for(const k of VIEWS){const C=NEWSCFG[k], cats=newsCats(k); if(!cats.some(x=>x[0]===C.tab))C.tab=cats[0][0];
     $(C.tabs).innerHTML=cats.map(([c,l,it])=>`<button class="tab" role="tab" aria-selected="${c===C.tab}" data-k="${c}">${l}<span class="c">${it.length}</span></button>`).join("");
     $(C.tabs).querySelectorAll(".tab").forEach(b=>b.onclick=()=>{C.tab=b.dataset.k;C.all=false;if(k==="bkk"){try{localStorage.setItem("wf-tab",C.tab)}catch(e){}}renderTabs();renderNews();});}
 }
 function renderNews(){
-  for(const k of ["bkk","ry"]){const C=NEWSCFG[k], cat=newsCats(k).find(x=>x[0]===C.tab), q=$(C.q).value.trim().toLowerCase();
+  for(const k of VIEWS){const C=NEWSCFG[k], cat=newsCats(k).find(x=>x[0]===C.tab), q=$(C.q).value.trim().toLowerCase();
     const list=((cat&&cat[2])||[]).filter(x=>!q||(x.title+" "+x.src).toLowerCase().includes(q));
     if(!list.length){$(C.list).innerHTML=`<li class="empty">${q?"ไม่พบข่าวที่ตรงกับคำค้น":"ยังไม่มีข่าวในหมวดนี้"}</li>`;continue;}
     const shown=(C.all||q)?list:list.slice(0,10), mid="more-"+k;
     $(C.list).innerHTML=shown.map(newsLi).join("")+(shown.length<list.length?`<li><button class="linkbtn" id="${mid}" style="padding:10px 2px">ดูอีก ${list.length-shown.length} ข่าว</button></li>`:"");
     const m=$(mid); if(m)m.onclick=()=>{C.all=true;renderNews();};}
 }
-$("q").addEventListener("input",renderNews); $("ryQ").addEventListener("input",renderNews);
+VIEWS.forEach(k=>$(NEWSCFG[k].q).addEventListener("input",renderNews));
 
 // ---- emergency numbers by area (national lines checked against DDPM / BMA / DOH / PEA / MEA / MWA announcements) ----
 const CONTACTS={
@@ -1320,7 +1677,11 @@ const CONTACTS={
   ry:{area:"จ.ระยอง",
     items:[["1784","ปภ. ขอความช่วยเหลือ อพยพ แจ้งอุทกภัย"],["1669","เจ็บป่วยฉุกเฉิน"],["199","ดับเพลิง · กู้ภัย"],["191","ตำรวจ"],["1193","ตำรวจทางหลวง"],["1586","กรมทางหลวง สภาพเส้นทาง"],["1129","การไฟฟ้าส่วนภูมิภาค ไฟดับ"],["1182","กรมอุตุนิยมวิทยา"]],
     note:"ไฟดับในระยองแจ้ง กฟภ. 1129 · ทางหลวงปิดหรือน้ำท่วมถนน โทร 1586 · ขออพยพหรือแจ้งอุทกภัย โทร 1784 หรือ LINE @1784DDPM ตลอด 24 ชม.",
-    links:[["กรมอุตุนิยมวิทยา","https://www.tmd.go.th"],["ThaiWater (สสน.)","https://www.thaiwater.net"],["กรมชลประทาน","https://www.rid.go.th"],["ปภ.","https://www.disaster.go.th"]]}};
+    links:[["กรมอุตุนิยมวิทยา","https://www.tmd.go.th"],["ThaiWater (สสน.)","https://www.thaiwater.net"],["กรมชลประทาน","https://www.rid.go.th"],["ปภ.","https://www.disaster.go.th"]]},
+  cm:{area:"จ.เชียงใหม่",
+    items:[["1784","ปภ. ขอความช่วยเหลือ อพยพ แจ้งอุทกภัย"],["1669","เจ็บป่วยฉุกเฉิน"],["199","ดับเพลิง · กู้ภัย"],["191","ตำรวจ"],["1193","ตำรวจทางหลวง"],["1586","กรมทางหลวง สภาพเส้นทาง"],["1129","การไฟฟ้าส่วนภูมิภาค ไฟดับ"],["1182","กรมอุตุนิยมวิทยา"]],
+    note:"น้ำป่าหรือแม่น้ำปิงล้นตลิ่ง ขออพยพหรือแจ้งอุทกภัย โทร 1784 หรือ LINE @1784DDPM ตลอด 24 ชม. · ทางหลวงปิดหรือดินสไลด์ โทร 1586 · ไฟดับแจ้ง กฟภ. 1129 · ค่าฝุ่นล่าสุดดูได้ที่ Air4Thai",
+    links:[["กรมอุตุนิยมวิทยา","https://www.tmd.go.th"],["ThaiWater (สสน.)","https://www.thaiwater.net"],["Air4Thai คุณภาพอากาศ","https://air4thai.pcd.go.th"],["ปภ.","https://www.disaster.go.th"]]}};
 function renderContacts(v){
   const C=CONTACTS[v]||CONTACTS.bkk;
   $("ctArea").textContent=C.area+" · แตะเพื่อโทร";
@@ -1333,7 +1694,7 @@ function renderContacts(v){
 try{render(JSON.parse($("seed").textContent))}catch(e){}
 setInterval(()=>{if(DATA)renderFresh(DATA);},60000);
 let RSZ=0, LASTW=0;
-window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{const w=document.querySelector(".wrap").clientWidth;if(DATA&&w!==LASTW){LASTW=w;draw48(DATA);renderRiver(DATA);renderRayong(DATA);}},150);});
+window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{const w=document.querySelector(".wrap").clientWidth;if(DATA&&w!==LASTW){LASTW=w;draw48(DATA);renderRiver(DATA);for(const pk in PV)renderProv(DATA,pk);renderAQAll(DATA);}},150);});
 
 // theme: follows the system (or the host's own choice) until the viewer picks light or dark here
 (()=>{const b=$("themeBtn"), root=document.documentElement, host=root.getAttribute("data-theme");
@@ -1348,29 +1709,29 @@ window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{cons
   apply();})();
 
 // quick nav: highlight the section in view
-// two views: กรุงเทพฯ (default) and ระยอง; #rayong / #ry-… opens the Rayong tab
+// three views: กรุงเทพฯ (default), ระยอง, เชียงใหม่; #rayong / #ry-… and #chiangmai / #cm-… open those tabs
 (()=>{const wrap=document.querySelector(".wrap"), ul=document.querySelector(".qnav ul");
-  const LBL={bkk:"ศูนย์ติดตามฝนและน้ำท่วม · กรุงเทพฯ",ry:"ศูนย์ติดตามฝนและน้ำท่วม · ระยอง"};
+  const LBL={bkk:"ศูนย์ติดตามฝน น้ำ และอากาศ · กรุงเทพฯ",ry:"ศูนย์ติดตามฝน น้ำ และอากาศ · ระยอง",cm:"ศูนย์ติดตามฝน น้ำ และอากาศ · เชียงใหม่"};
   const toTop=()=>window.scrollTo({top:0,left:0,behavior:"instant"});
-  function setView(v){wrap.dataset.view=v;$("tabBkk").setAttribute("aria-selected",v==="bkk");$("tabRy").setAttribute("aria-selected",v==="ry");$("hdrLbl").textContent=LBL[v];ul.scrollLeft=0;renderContacts(v);
+  function setView(v){wrap.dataset.view=v;document.querySelectorAll(".vtabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.view===v));$("hdrLbl").textContent=LBL[v];ul.scrollLeft=0;renderContacts(v);
     // charts drawn while their view was hidden used a fallback width; redraw them at the real one
-    if(DATA)requestAnimationFrame(()=>{if(v==="bkk"){draw48(DATA);renderRiver(DATA);}else{draw48(DATA);renderRayong(DATA);}});
-    if(v==="ry"&&window.__ryRadarLoad){const l=window.__ryRadarLoad;window.__ryRadarLoad=null;l();}}
-  const fromHash=()=>/^#(rayong$|ry-)/.test(location.hash)?"ry":"bkk";
+    if(DATA)requestAnimationFrame(()=>{draw48(DATA);renderAQAll(DATA);if(v==="bkk")renderRiver(DATA);else renderProv(DATA,v);});
+    const lz=window.__radarLoad&&window.__radarLoad[v];if(lz){window.__radarLoad[v]=null;lz();}}
+  const fromHash=()=>/^#(rayong$|ry-)/.test(location.hash)?"ry":/^#(chiangmai$|cm-)/.test(location.hash)?"cm":"bkk";
   document.querySelectorAll(".vtabs button").forEach(b=>b.onclick=()=>{const v=b.dataset.view;if(wrap.dataset.view===v)return;setView(v);toTop();
     try{localStorage.setItem("wf-view",v)}catch(e){}
-    try{history.replaceState(null,"",v==="ry"?"#rayong":location.pathname+location.search);}catch(e){}});
+    try{history.replaceState(null,"",v!=="bkk"?"#"+PV[v].key:location.pathname+location.search);}catch(e){}});
   // a link switches the view only when its target belongs to the other view; shared sections (plates, hotlines) keep the current one
   window.addEventListener("hashchange",()=>{
-    if(fromHash()==="ry"){if(wrap.dataset.view!=="ry")setView("ry");return;}
+    const fh=fromHash(); if(fh!=="bkk"){if(wrap.dataset.view!==fh)setView(fh);return;}
     const el=document.getElementById(decodeURIComponent(location.hash.slice(1)));
     if(el&&el.closest(".v-bkk")&&wrap.dataset.view!=="bkk")setView("bkk");});
-  // a #rayong link wins; otherwise reopen the area this viewer picked last time
+  // a #rayong / #chiangmai link wins; otherwise reopen the area this viewer picked last time
   let saved="bkk"; try{saved=localStorage.getItem("wf-view")||"bkk"}catch(e){}
-  if(fromHash()==="ry"){setView("ry");toTop();} else if(!location.hash&&saved==="ry")setView("ry"); else renderContacts("bkk");
+  const fh=fromHash(); if(fh!=="bkk"){setView(fh);toTop();} else if(!location.hash&&PV[saved])setView(saved); else renderContacts("bkk");
 })();
 (()=>{const links=[...document.querySelectorAll(".qnav a")];
-  const groups={sumBkk:["sumBkk","alerts"],roads:["roads","bma","evt"],newssec:["newssec","cbsec"],plates:["plates","contacts"],ryHead:["ryHead","ryWarn"]};
+  const groups={sumBkk:["bkkBanner","sumBkk","alerts"],roads:["roads","bma","evt"],newssec:["newssec","cbsec"],plates:["plates","contacts"],ryHead:["ryBanner","ryHead","ryWarn"],cmHead:["cmBanner","cmHead","cmWarn"]};
   const owner={};links.forEach(a=>{const k=a.hash.slice(1);(groups[k]||[k]).forEach(id=>owner[id]=a);});
   const set=a=>{links.forEach(l=>l.removeAttribute("aria-current"));if(a){a.setAttribute("aria-current","true");const u=a.closest("ul");if(a.offsetLeft<u.scrollLeft||a.offsetLeft+a.offsetWidth>u.scrollLeft+u.clientWidth)u.scrollTo({left:a.offsetLeft-16,behavior:"smooth"});}};
   const vis=new Map();
@@ -1394,11 +1755,13 @@ window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{cons
         if(!newer&&!first) return;
         const n=(f&&f.radar&&f.radar.frames)||8; const fr=await Promise.all([...Array(n).keys()].map(i=>j("data/radar/f"+i+".json")));
         const ok=fr.filter(x=>x&&x.img).sort((a,b)=>a.i-b.i); if(ok.length)setFrames(ok.map(x=>x.img),ok[ok.length-1].fetched);
-        // Rayong frames (~600 KB) load only once the Rayong view is open
-        const rr=f&&f.rayong&&f.rayong.radar;
-        if(rr&&rr.frames){window.__ryRadarLoad=async()=>{const fy=await Promise.all([...Array(rr.frames).keys()].map(i=>j("data/radar_ry/f"+i+".json")));
-            const oy=fy.filter(x=>x&&x.img).sort((a,b)=>a.i-b.i); if(oy.length)RADRY.set(oy.map(x=>x.img),oy[oy.length-1].fetched);};
-          if(document.querySelector(".wrap").dataset.view==="ry"){const l=window.__ryRadarLoad;window.__ryRadarLoad=null;l();}}};
+        // province frames (~600 KB each) load only once that view is open
+        window.__radarLoad=window.__radarLoad||{};
+        for(const [pk,dir,R] of [["ry","radar_ry",RADRY],["cm","radar_cm",RADCM]]){const rr=f&&f[PV[pk].key]&&f[PV[pk].key].radar;
+          if(!(rr&&rr.frames))continue;
+          window.__radarLoad[pk]=async()=>{const fy=await Promise.all([...Array(rr.frames).keys()].map(i=>j("data/"+dir+"/f"+i+".json")));
+            const oy=fy.filter(x=>x&&x.img).sort((a,b)=>a.i-b.i); if(oy.length)R.set(oy.map(x=>x.img),oy[oy.length-1].fetched);};
+          if(document.querySelector(".wrap").dataset.view===pk){const l=window.__radarLoad[pk];window.__radarLoad[pk]=null;l();}}};
       await load(true);
       // new data lands hourly: check every 10 min and whenever the tab comes back, updating in place (no reload, so scroll and open tabs stay)
       const poll=()=>{if(document.visibilityState==="visible"&&Date.now()-last>2*60*1000)load(false);};
