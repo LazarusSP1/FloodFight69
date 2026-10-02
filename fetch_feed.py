@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Weather Fight feed builder — fetches flood/rain/forecast data for Bangkok
+"""Weather Fight feed builder — fetches flood/rain/forecast/air-quality data for Bangkok, Rayong and Chiang Mai
 and writes feed.json (one document for the dashboard's db at feed/latest).
-Sources: Open-Meteo forecast + GloFAS flood API, ThaiWater (HII) water levels, rain gauges and reservoirs, BMA road-flood sensors,
-TMD open data API, Google News RSS, road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
+Sources: Google Weather API (when keyed) over Open-Meteo forecast + GloFAS flood API, Air4Thai (PCD) + Open-Meteo air quality, TMD radars (Suvarnabhumi, Rayong, Chiang Mai), ThaiWater (HII) water levels, rain gauges and reservoirs, BMA road-flood sensors,
+TMD open data API, Longdo Event flood reports (iTIC), Google News RSS, road-flood reports from traffic radio จส.100 (js100.com) and สวพ.91 (fm91bkk.com, also via Google News).
 Usage: python3 fetch_feed.py [out.json]
 Optional env: ROADS_URL=<article url> forces the flooded-roads source article (Thairath first, else any outlet found via Google News);
 PREV_FEED=<path to previous feed JSON> keeps the previous roads block when no new article is found;
 BMA_FILE=<path to bma.json> is used when the BMA site blocks this machine (the file is uploaded by bma_push.py);
 GOOGLE_WEATHER_API_KEY=<key> takes current conditions and forecasts from the Google Weather API (Open-Meteo stays the fallback).
 Local runs also read KEY=value lines from .env.
-Also writes radar/f0.json..f7.json: batch-write each to db collection "radar", doc ids f0..f7.
+Also writes radar/, radar_ry/, radar_cm/ f0.json..f7.json: batch-write each to db collection "radar", doc ids f0..f7.
 If roads come back null, keep the previous roads block (see refresh task).
 """
-import json, sys, re, html, os, time, urllib.request, urllib.parse, datetime as dt
+import json, sys, re, html, os, ssl, time, urllib.request, urllib.parse, datetime as dt
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 
@@ -29,11 +29,11 @@ LAT, LON = 13.7563, 100.5018
 TZ = dt.timezone(dt.timedelta(hours=7))
 UA = {"User-Agent": "Mozilla/5.0 WeatherFight/1.0"}
 
-def get(url, timeout=30, tries=3, data=None):
+def get(url, timeout=30, tries=3, data=None, ctx=None):
     for k in range(tries):
         try:
             req = urllib.request.Request(url, headers=UA, data=data)
-            with urllib.request.urlopen(req, timeout=timeout) as r:
+            with urllib.request.urlopen(req, timeout=timeout, context=ctx) as r:
                 return r.read()
         except Exception:
             if k == tries - 1:
@@ -53,7 +53,7 @@ def weather():
         "current": "temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m",
         "hourly": "precipitation,precipitation_probability",
         "daily": "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max",
-        "past_days": 7, "forecast_days": 7,
+        "past_days": 7, "forecast_days": 10,
     })
     d = json.loads(get("https://api.open-meteo.com/v1/forecast?" + q))
     c = d["current"]
@@ -165,15 +165,17 @@ def google_alerts(lat, lon):
     return out
 
 def google_days(lat, lon):
-    """7-day forecast in the shape of weather()["daily"]: rain is day + night, pp the higher of the two."""
+    """10-day forecast (the API's maximum, one page) in the shape of weather()["daily"]: rain is day + night,
+    pp/ts the higher of the two halves."""
     daily = []
-    for x in [x for p in _gw("forecast/days:lookup", lat, lon, days=7, pageSize=7) for x in p.get("forecastDays", [])]:
+    for x in [x for p in _gw("forecast/days:lookup", lat, lon, days=10, pageSize=10) for x in p.get("forecastDays", [])]:
         dd, parts = x["displayDate"], [x.get("daytimeForecast") or {}, x.get("nighttimeForecast") or {}]
         pps = [v for v in (_q(p, "precipitation", "probability", "percent") for p in parts) if v is not None]
         daily.append({"date": f"{dd['year']:04}-{dd['month']:02}-{dd['day']:02}", "code": _wmo(parts[0].get("weatherCondition")),
                       "tmax": _q(x, "maxTemperature", "degrees"), "tmin": _q(x, "minTemperature", "degrees"),
                       "rain": round(sum(_q(p, "precipitation", "qpf", "quantity") or 0 for p in parts), 1),
-                      "pp": max(pps) if pps else None})
+                      "pp": max(pps) if pps else None,
+                      "ts": max([v for v in (p.get("thunderstormProbability") for p in parts) if v is not None], default=None)})
     return daily
 
 def with_google(w, lat, lon, place):
@@ -266,38 +268,55 @@ def thaiwater():
                 "bank": _f(s.get("min_bank")), "pct": _f(r.get("storage_percent")),
                 "lvl": r.get("situation_level"), "diff": _f(r.get("diff_wl_bank")),
                 "over": "ล้น" in (r.get("diff_wl_bank_text") or ""), "q": _f(r.get("discharge"))}
-    by_code = {}
-    area, rayong = [], []
+    by_code, area, provs = {}, [], {k: [] for k in PROVS}
+    names = {v["name"]: k for k, v in PROVS.items()}
     for r in rows:
         p = pack(r)
         if p["code"]:
             by_code[p["code"]] = p
         if p["prov"] in TW_PROV:
             area.append(p)
-        if p["prov"] == "ระยอง":
-            rayong.append(p)
-    area.sort(key=lambda x: x["pct"] if x["pct"] is not None else -1, reverse=True)
-    rayong.sort(key=lambda x: x["pct"] if x["pct"] is not None else -1, reverse=True)
-    return {"river": [by_code[c] for c in TW_RIVER if c in by_code], "area": area, "rayong": rayong}
+        if p["prov"] in names:
+            provs[names[p["prov"]]].append(p)
+    key = lambda x: x["pct"] if x["pct"] is not None else -1
+    area.sort(key=key, reverse=True)
+    for v in provs.values():
+        v.sort(key=key, reverse=True)
+    return dict({"river": [by_code[c] for c in TW_RIVER if c in by_code], "area": area}, **provs)
 
-# ---- Rayong focal point (flood situation in จ.ระยอง) ----
+# ---- provinces outside Bangkok (จ.ระยอง, จ.เชียงใหม่): the same blocks for each ----
 RAYONG_PTS = [("เมืองระยอง", 12.6814, 101.2816), ("บ้านค่าย", 12.7068, 101.3004), ("ปลวกแดง", 12.9833, 101.1667),
               ("วังจันทร์", 13.0333, 101.4), ("แกลง", 12.7833, 101.65)]
+CM_PTS = [("เมืองเชียงใหม่", 18.7883, 98.9853), ("แม่ริม", 18.9136, 98.9444), ("สันกำแพง", 18.7456, 99.1203),
+          ("จอมทอง", 18.4183, 98.6758), ("ฝาง", 19.9192, 99.2133)]
+PROVS = {
+    "rayong": {"name": "ระยอง", "pts": RAYONG_PTS,
+               "rivers": [("แม่น้ำระยอง", 12.69, 101.27), ("แม่น้ำประแสร์", 12.72, 101.66)],
+               "news": ("น้ำท่วม ระยอง", "ระยอง ฝนตกหนัก น้ำป่า อพยพ", "ระยอง ศูนย์พักพิง น้ำท่วม", "ระยอง ถนน น้ำท่วม เส้นทาง"),
+               "radar": ("https://weather.tmd.go.th/ryg/rygloop.gif", "radar_ry", "https://weather.tmd.go.th/rygloop.php"),
+               "bbox": (12.55, 13.30, 101.05, 101.95), "marine": True},
+    "chiangmai": {"name": "เชียงใหม่", "pts": CM_PTS,
+                  "rivers": [("แม่น้ำปิง (ตัวเมือง)", 18.79, 99.00), ("แม่น้ำปิง (แม่แตง)", 19.12, 98.94)],
+                  "news": ("น้ำท่วม เชียงใหม่", "เชียงใหม่ ฝนตกหนัก น้ำป่า แม่น้ำปิง", "เชียงใหม่ ฝุ่น PM2.5 หมอกควัน", "เชียงใหม่ ถนน น้ำท่วม เส้นทาง"),
+                  "radar": ("https://weather.tmd.go.th/cmp/cmpLoop.gif", "radar_cm", "https://weather.tmd.go.th/cmploop.php"),
+                  "bbox": (17.20, 20.15, 98.05, 99.60), "marine": False},
+}
 
-def rayong_weather():
-    """Open-Meteo for five points across the province: now, rain in the last/next 24 h, 7-day forecast for the city."""
+def prov_weather(key):
+    """Open-Meteo for five points across the province: now, rain in the last/next 24 h, 10-day forecast for the city."""
+    P = PROVS[key]["pts"]
     q = urllib.parse.urlencode({
-        "latitude": ",".join(str(p[1]) for p in RAYONG_PTS), "longitude": ",".join(str(p[2]) for p in RAYONG_PTS),
+        "latitude": ",".join(str(p[1]) for p in P), "longitude": ",".join(str(p[2]) for p in P),
         "timezone": "Asia/Bangkok",
         "current": "temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m",
         "hourly": "precipitation,precipitation_probability",
         "daily": "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max",
-        "past_days": 3, "forecast_days": 7})
+        "past_days": 3, "forecast_days": 10})
     res = json.loads(get("https://api.open-meteo.com/v1/forecast?" + q))
     res = res if isinstance(res, list) else [res]
     now = res[0]["current"]["time"][:13]
     pts = []
-    for (name, lat, lon), d in zip(RAYONG_PTS, res):
+    for (name, lat, lon), d in zip(P, res):
         h = d["hourly"]
         i = next((k for k, t in enumerate(h["time"]) if t[:13] >= now), 0)
         rain = [x or 0 for x in h["precipitation"]]
@@ -308,14 +327,20 @@ def rayong_weather():
                     "now": d["current"]["precipitation"],
                     "days": [{"date": t, "rain": r, "pp": pp} for t, r, pp in
                              zip(d["daily"]["time"], d["daily"]["precipitation_sum"], d["daily"]["precipitation_probability_max"])
-                             if t >= now[:10]][:7]})
-    c, dd = res[0]["current"], res[0]["daily"]
+                             if t >= now[:10]][:10]})
+    c, dd, h0 = res[0]["current"], res[0]["daily"], res[0]["hourly"]
+    i0 = next((k for k, t in enumerate(h0["time"]) if t[:13] >= now), 0)
     daily = [{"date": dd["time"][k], "code": dd["weather_code"][k], "tmax": dd["temperature_2m_max"][k],
               "tmin": dd["temperature_2m_min"][k], "rain": dd["precipitation_sum"][k],
               "pp": dd["precipitation_probability_max"][k]} for k in range(len(dd["time"]))]
+    hourly = [{"t": h0["time"][k][11:16], "d": h0["time"][k][:10], "p": h0["precipitation"][k], "pp": h0["precipitation_probability"][k]}
+              for k in range(i0, min(i0 + 48, len(h0["time"])))]
     return {"current": {"time": c["time"], "temp": c["temperature_2m"], "rh": c["relative_humidity_2m"],
                         "rain": c["precipitation"], "code": c["weather_code"], "wind": c["wind_speed_10m"]},
-            "points": pts, "daily": daily}
+            "points": pts, "daily": daily, "hourly": hourly}
+
+def rayong_weather():
+    return prov_weather("rayong")
 
 MARINE_PT = (12.64, 101.28)  # sea off Rayong city (หาดแสงจันทร์/แม่รำพึง), where the Rayong river meets the sea
 
@@ -338,30 +363,34 @@ def rayong_marine():
     return {"hourly": [{"t": t[k][11:16], "d": t[k][:10], "sl": _f(sl[k]), "wave": _f(wv[k])} for k in range(i0, min(i0 + 72, len(t)))],
             "days": [d for d in days.values() if d["date"] >= now[:10]][:7]}
 
-RAYONG_RIVERS = [("แม่น้ำระยอง", 12.69, 101.27), ("แม่น้ำประแสร์", 12.72, 101.66)]
+def _glofas(lat, lon):
+    q = urllib.parse.urlencode({"latitude": lat, "longitude": lon, "daily": "river_discharge,river_discharge_max",
+                                "past_days": 7, "forecast_days": 14})
+    d = json.loads(get("https://flood-api.open-meteo.com/v1/flood?" + q))["daily"]
+    return [{"date": d["time"][i], "q": _f(d["river_discharge"][i]), "qmax": _f(d["river_discharge_max"][i])} for i in range(len(d["time"]))]
 
-def rayong_rivers():
-    """GloFAS discharge (model, ~5 km grid) for the two main rivers: 7 days back, 14 ahead, with the worst-case member."""
-    out = []
-    for name, lat, lon in RAYONG_RIVERS:
-        q = urllib.parse.urlencode({"latitude": lat, "longitude": lon, "daily": "river_discharge,river_discharge_max",
-                                    "past_days": 7, "forecast_days": 14})
-        d = json.loads(get("https://flood-api.open-meteo.com/v1/flood?" + q))["daily"]
-        out.append({"name": name, "series": [{"date": d["time"][i], "q": _f(d["river_discharge"][i]), "qmax": _f(d["river_discharge_max"][i])}
-                                             for i in range(len(d["time"]))]})
-    return out
+def prov_rivers(key):
+    """GloFAS discharge (model, ~5 km grid) for the province's main rivers: 7 days back, 14 ahead, with the worst-case member."""
+    return [{"name": name, "series": _glofas(lat, lon)} for name, lat, lon in PROVS[key]["rivers"]]
 
 TW_RAIN = "https://api-v3.thaiwater.net/api/v1/thaiwater30/public/rain_24h"
 TW_MAIN = "https://api-v3.thaiwater.net/api/v1/thaiwater30/public/thailand_main"  # ~10 MB; only its "dam" block is used
+_CACHE = {}
+
+def _cached(key, fn):
+    """One download per run for the big ThaiWater files that several blocks read."""
+    if key not in _CACHE:
+        _CACHE[key] = fn()
+    return _CACHE[key]
 
 def _prov(r):
     return ((r.get("geocode") or {}).get("province_name") or {}).get("th")
 
-def rayong_rain():
-    """Measured rain over the last 24 h at every telemetry gauge in จ.ระยอง (ThaiWater), wettest first."""
-    out = []
-    for r in json.loads(get(TW_RAIN, timeout=90))["data"]:
-        if _prov(r) != "ระยอง" or r.get("rain_24h") is None:
+def prov_rain(key):
+    """Measured rain over the last 24 h at every telemetry gauge in the province (ThaiWater), wettest first."""
+    name, out = PROVS[key]["name"], []
+    for r in _cached("rain", lambda: json.loads(get(TW_RAIN, timeout=90))["data"]):
+        if _prov(r) != name or r.get("rain_24h") is None:
             continue
         s, g = r.get("station") or {}, r.get("geocode") or {}
         out.append({"name": (s.get("tele_station_name") or {}).get("th"), "amphoe": (g.get("amphoe_name") or {}).get("th"),
@@ -369,39 +398,131 @@ def rayong_rain():
                     "p": [s.get("tele_station_lat"), s.get("tele_station_long")],
                     "mm": _f(r["rain_24h"]), "t": r.get("rainfall_datetime")})
     out.sort(key=lambda x: x["mm"] or 0, reverse=True)
-    return out
+    return out[:60]  # Chiang Mai alone has ~350 gauges; the wettest 60 tell the story
 
-def rayong_dams():
-    """Large reservoirs in จ.ระยอง (RID daily report via ThaiWater). pct is storage against normal capacity,
+def _dam(r, river=None):
+    d = r.get("dam") or {}
+    return {"name": (d.get("dam_name") or {}).get("th"), "prov": _prov(r), "date": r.get("dam_date"), "river": river,
+            "pct": _f(r.get("dam_storage_percent")), "storage": _f(r.get("dam_storage")),
+            "normal": _f(d.get("normal_storage")), "max": _f(d.get("max_storage")),
+            "inflow": _f(r.get("dam_inflow")), "release": _f(r.get("dam_released")), "spill": _f(r.get("dam_spilled"))}
+
+def _dam_rows():
+    return _cached("dams", lambda: json.loads(get(TW_MAIN, timeout=180))["dam"]["data"]["data"])
+
+def prov_dams(key):
+    """Large reservoirs in the province (RID daily report via ThaiWater). pct is storage against normal capacity,
     so it can pass 100; inflow/release/spill are million m³ per day."""
-    out = []
-    for r in json.loads(get(TW_MAIN, timeout=120))["dam"]["data"]["data"]:
-        if _prov(r) != "ระยอง":
-            continue
-        d = r.get("dam") or {}
-        out.append({"name": (d.get("dam_name") or {}).get("th"), "date": r.get("dam_date"),
-                    "pct": _f(r.get("dam_storage_percent")), "storage": _f(r.get("dam_storage")),
-                    "normal": _f(d.get("normal_storage")), "max": _f(d.get("max_storage")),
-                    "inflow": _f(r.get("dam_inflow")), "release": _f(r.get("dam_released")), "spill": _f(r.get("dam_spilled"))})
+    out = [_dam(r) for r in _dam_rows() if _prov(r) == PROVS[key]["name"]]
     out.sort(key=lambda x: x["pct"] or 0, reverse=True)
     return out
 
-def rayong_news():
-    seen, out, ok = set(), [], False
-    for q in ("น้ำท่วม ระยอง", "ระยอง ฝนตกหนัก น้ำป่า อพยพ", "ระยอง ศูนย์พักพิง น้ำท่วม", "ระยอง ถนน น้ำท่วม เส้นทาง"):
+# large dams of the Chao Phraya basin, upstream of Bangkok, north to south along the water's way
+BKK_DAMS = [("ภูมิพล", "แม่น้ำปิง"), ("สิริกิติ์", "แม่น้ำน่าน"), ("แควน้อยบำรุงแดน", "แม่น้ำแควน้อย → น่าน"),
+            ("ทับเสลา", "ห้วยทับเสลา → สะแกกรัง"), ("กระเสียว", "ลำกระเสียว → ท่าจีน"), ("ป่าสักชลสิทธิ์", "แม่น้ำป่าสัก")]
+
+def bkk_dams():
+    """The reservoirs whose releases reach Bangkok (Chao Phraya, Pasak and Tha Chin), in BKK_DAMS order."""
+    rows = {((r.get("dam") or {}).get("dam_name") or {}).get("th"): r for r in _dam_rows()}
+    return [_dam(rows[n], river) for n, river in BKK_DAMS if n in rows]
+
+# rain over the catchments upstream of Bangkok, 10 days ahead: what will reach the dams and the river next
+UPSTREAM_PTS = [("เหนือเขื่อนภูมิพล", "ลุ่มน้ำปิง · ตาก", 17.35, 98.85), ("เหนือเขื่อนสิริกิติ์", "ลุ่มน้ำน่าน · อุตรดิตถ์", 17.95, 100.65),
+                ("นครสวรรค์ (ปากน้ำโพ)", "ปิง-น่านรวมเป็นเจ้าพระยา", 15.70, 100.13), ("เหนือเขื่อนป่าสักฯ", "ลุ่มน้ำป่าสัก · เพชรบูรณ์", 15.40, 101.10)]
+
+def upstream():
+    q = urllib.parse.urlencode({"latitude": ",".join(str(p[2]) for p in UPSTREAM_PTS), "longitude": ",".join(str(p[3]) for p in UPSTREAM_PTS),
+                                "timezone": "Asia/Bangkok", "daily": "precipitation_sum,precipitation_probability_max", "forecast_days": 10})
+    res = json.loads(get("https://api.open-meteo.com/v1/forecast?" + q))
+    res = res if isinstance(res, list) else [res]
+    out = []
+    for (name, ex, lat, lon), d in zip(UPSTREAM_PTS, res):
+        days = [{"date": t, "rain": r, "pp": pp} for t, r, pp in
+                zip(d["daily"]["time"], d["daily"]["precipitation_sum"], d["daily"]["precipitation_probability_max"])]
+        src = "open-meteo"
+        if GW_KEY:
+            try:
+                days, src = [{"date": x["date"], "rain": x["rain"], "pp": x["pp"]} for x in google_days(lat, lon)], "google"
+            except Exception as e:
+                GW_ERR["upstream"] = f"{type(e).__name__}: {e}"[:200]
+        out.append({"name": name, "ex": ex, "p": [lat, lon], "src": src, "days": days,
+                    "sum10": round(sum(x["rain"] or 0 for x in days), 1)})
+    return out
+
+def prov_news(key):
+    name, seen, out, ok = PROVS[key]["name"], set(), [], False
+    for q in PROVS[key]["news"]:
         try:
             items = gnews(q, 30)
         except Exception as e:
-            print("WARN rayong news", q, e, file=sys.stderr); continue
+            print("WARN", key, "news", q, e, file=sys.stderr); continue
         ok = True
         for it in items:
-            key = re.sub(r"\W", "", it["title"])[:40]
-            if "ระยอง" in it["title"] and key not in seen:
-                seen.add(key); out.append(it)
+            k = re.sub(r"\W", "", it["title"])[:40]
+            if name in it["title"] and k not in seen:
+                seen.add(k); out.append(it)
     if not ok:
-        raise RuntimeError("all Rayong news queries failed")
+        raise RuntimeError(f"all {key} news queries failed")
     out.sort(key=lambda x: x["ts"], reverse=True)
     return out[:25]
+
+# ---- air quality: Pollution Control Department stations (Air4Thai, measured) + Open-Meteo CAMS forecast (model) ----
+AQ_URL = "https://air4thai.pcd.go.th/services/getNewAQI_JSON.php"
+AQ_AREAS = {"bkk": ("กรุงเทพ", 13.75, 100.50), "rayong": ("ระยอง", 12.68, 101.28), "chiangmai": ("เชียงใหม่", 18.79, 98.98)}
+
+def _aqv(x):
+    v = _f((x or {}).get("value"))
+    return None if v is None or v < 0 else v
+
+def _aq_ctx():
+    """Normal certificate checks plus the intermediates Air4Thai fails to send (see certs/letsencrypt-yr.pem)."""
+    ctx = ssl.create_default_context()
+    pem = os.path.join(os.path.dirname(os.path.abspath(__file__)), "certs", "letsencrypt-yr.pem")
+    if os.path.exists(pem):
+        ctx.load_verify_locations(cafile=pem)
+    return ctx
+
+def air_quality():
+    """Per area: measured values at each Air4Thai station (Thai AQI colour ids 1-5) and 72 h of modelled PM2.5/AQI.
+    Each half fails on its own, so a down Air4Thai still leaves the forecast (and the other way round)."""
+    out = {k: {"stations": None, "fc": None} for k in AQ_AREAS}
+    try:
+        for s in json.loads(get(AQ_URL, timeout=60, ctx=_aq_ctx()))["stations"]:
+            a = s.get("AQILast") or {}
+            for k, (needle, _, _) in AQ_AREAS.items():
+                if needle not in (s.get("areaTH") or ""):
+                    continue
+                out[k]["stations"] = out[k]["stations"] or []
+                aq = a.get("AQI") or {}
+                out[k]["stations"].append({"id": s.get("stationID"), "name": (s.get("nameTH") or "").strip(), "area": s.get("areaTH"),
+                    "p": [_f(s.get("lat")), _f(s.get("long"))], "t": f"{a.get('date', '')} {a.get('time', '')}".strip(),
+                    "pm25": _aqv(a.get("PM25")), "pm10": _aqv(a.get("PM10")), "o3": _aqv(a.get("O3")), "co": _aqv(a.get("CO")),
+                    "no2": _aqv(a.get("NO2")), "so2": _aqv(a.get("SO2")),
+                    "aqi": (lambda v: None if v is None or v < 0 else int(v))(_f(aq.get("aqi"))),
+                    "cid": (lambda c: c if 1 <= c <= 5 else 0)(int(_f(aq.get("color_id")) or 0)),  # 1 ดีมาก … 5 มีผลกระทบต่อสุขภาพ; 0 = no reading
+                    "param": aq.get("param")})
+        for k in out:
+            if out[k]["stations"] is not None:
+                out[k]["stations"].sort(key=lambda x: x["pm25"] if x["pm25"] is not None else -1, reverse=True)
+    except Exception as e:
+        print("WARN air4thai", e, file=sys.stderr)
+    try:
+        A = list(AQ_AREAS.items())
+        q = urllib.parse.urlencode({"latitude": ",".join(str(v[1]) for _, v in A), "longitude": ",".join(str(v[2]) for _, v in A),
+                                    "timezone": "Asia/Bangkok", "hourly": "pm2_5,pm10,us_aqi", "current": "pm2_5,pm10,us_aqi", "forecast_days": 4})
+        res = json.loads(get("https://air-quality-api.open-meteo.com/v1/air-quality?" + q))
+        res = res if isinstance(res, list) else [res]
+        now = dt.datetime.now(TZ).strftime("%Y-%m-%dT%H")
+        for (k, _), d in zip(A, res):
+            h = d["hourly"]
+            i = next((j for j, t in enumerate(h["time"]) if t[:13] >= now), 0)
+            out[k]["fc"] = {"now": {"pm25": _f(d["current"]["pm2_5"]), "pm10": _f(d["current"]["pm10"]), "aqi": d["current"]["us_aqi"]},
+                            "hourly": [{"d": h["time"][j][:10], "t": h["time"][j][11:16], "pm25": _f(h["pm2_5"][j]), "aqi": h["us_aqi"][j]}
+                                       for j in range(i, min(i + 72, len(h["time"])))]}
+    except Exception as e:
+        print("WARN aq forecast", e, file=sys.stderr)
+    out["fetched"] = dt.datetime.now(TZ).isoformat(timespec="minutes")
+    return out
 
 # ---- BMA road-flood sensors (สำนักการระบายน้ำ กทม., weather.bangkok.go.th/flood/) ----
 BMA_SENSORS = "https://weather.bangkok.go.th/Flood/PageMap/GetDataTable"
@@ -1028,19 +1149,44 @@ def merge_reports(new, prev):
     out.sort(key=lambda x: x["ts"], reverse=True)
     return out[:40]
 
+# ---- flood events (Longdo Event by iTIC Foundation: DOH admin + citizen reports, CC BY 4.0) ----
+EVENTS_URL = "https://event.longdo.com/feed/json"
+EVENTS_BBOX = (13.45, 14.10, 100.30, 101.00)  # lat min/max, lon min/max: Bangkok and the surrounding provinces
+_longdo_rows = None
+
+def flood_events(bbox=EVENTS_BBOX):
+    global _longdo_rows
+    if _longdo_rows is None:  # one download serves both areas
+        _longdo_rows = json.loads(get(EVENTS_URL))
+    now = dt.datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S")  # the feed's times are Thai local time
+    out = []
+    for e in _longdo_rows:
+        if str(e.get("type")) != "6" or (e.get("stop") or "") < now:  # type 6 = น้ำท่วม; skip expired
+            continue
+        lat, lon = float(e["latitude"]), float(e["longitude"])
+        if not (bbox[0] <= lat <= bbox[1] and bbox[2] <= lon <= bbox[3]):
+            continue
+        who = (e.get("contributor") or "").lower()
+        out.append({"id": str(e["eid"]), "t": clean(e["title"]), "d": clean(e.get("description") or "")[:200],
+                    "p": [round(lat, 5), round(lon, 5)], "s": e["start"], "e": e["stop"],
+                    "by": "doh" if who.startswith("doh") else "itic" if who.startswith("itic") else "user", "sev": e.get("severity")})
+    out.sort(key=lambda x: x["s"], reverse=True)
+    return {"fetched": dt.datetime.now(TZ).isoformat(timespec="minutes"), "src": "Longdo Event / iTIC Foundation (CC BY 4.0)",
+            "source": "https://event.longdo.com/", "items": out[:200]}
+
 # ---- rain radar (TMD Suvarnabhumi 120 km loop) ----
 import base64, io
 RADAR_GIF = "https://weather.tmd.go.th/svp/svp120loop.gif"
-RADAR_RY_GIF = "https://weather.tmd.go.th/ryg/rygloop.gif"  # TMD Rayong radar, 240 km: the whole east coast
 RADAR_FRAMES = 8
 
 def radar(out_dir=None):
     return _radar(RADAR_GIF, out_dir or os.environ.get("RADAR_DIR", "radar"), "https://weather.tmd.go.th/svp120loop.php")
 
-def rayong_radar():
-    """Frames go next to the Bangkok ones, as radar_ry/f<i>.json."""
+def prov_radar(key):
+    """Frames go next to the Bangkok ones, as radar_ry/f<i>.json, radar_cm/f<i>.json."""
+    gif, sub, page = PROVS[key]["radar"]
     base = os.environ.get("RADAR_DIR", "radar").rstrip("/\\")
-    return _radar(RADAR_RY_GIF, os.path.join(os.path.dirname(base) or ".", "radar_ry"), "https://weather.tmd.go.th/rygloop.php")
+    return _radar(gif, os.path.join(os.path.dirname(base) or ".", sub), page)
 
 def _radar(gif, out_dir, source):
     """Writes the most recent loop frames as <out_dir>/f<i>.json ({i, n, img: data-URI webp, fetched})
@@ -1078,7 +1224,7 @@ def tmd_daily():
     regions = {x.findtext("RegionNameThai"): clean(x.findtext("DescriptionThai")) for x in f.iter("RegionForecast")}
     return {"date": clean(f.findtext("Date")), "overall": clean(f.findtext("OverallDescriptionThai"))[:1500],
             "bkk": regions.get("กรุงเทพและปริมณฑล", ""), "central": regions.get("ภาคกลาง", ""),
-            "east": regions.get("ภาคตะวันออก", "")}
+            "east": regions.get("ภาคตะวันออก", ""), "north": regions.get("ภาคเหนือ", "")}
 
 def gnews(query, n=20):
     url = "https://news.google.com/rss/search?" + urllib.parse.urlencode(
@@ -1124,7 +1270,11 @@ def main():
         "river": safe(river, []),
         "thaiwater": safe(thaiwater, None),
         "zones": safe(bkk_zones, None),
+        "dams": safe(bkk_dams, None),
+        "upstream": safe(upstream, None),
+        "aq": safe(air_quality, None),
         "bma": safe(bma_sensors, None),
+        "events": safe(flood_events, None),
         "roads": safe(roads, None),
         "reports": safe(road_reports, None),
         "radar": safe(radar, None),
@@ -1135,9 +1285,12 @@ def main():
         if BMA_ERR:
             doc["bma_err"] = BMA_ERR
         doc["bma"] = bma_from_file()
-    doc["rayong"] = {"weather": safe(rayong_weather, None), "news": safe(rayong_news, None),
-                     "rain": safe(rayong_rain, None), "dams": safe(rayong_dams, None),
-                     "rivers": safe(rayong_rivers, None), "marine": safe(rayong_marine, None), "radar": safe(rayong_radar, None)}
+    for key in PROVS:
+        doc[key] = {"weather": safe(lambda: prov_weather(key), None), "news": safe(lambda: prov_news(key), None),
+                    "rain": safe(lambda: prov_rain(key), None), "dams": safe(lambda: prov_dams(key), None),
+                    "rivers": safe(lambda: prov_rivers(key), None), "radar": safe(lambda: prov_radar(key), None),
+                    "marine": safe(rayong_marine, None) if PROVS[key]["marine"] else None,
+                    "events": safe(lambda: flood_events(PROVS[key]["bbox"]), None)}
     prev_path = os.environ.get("PREV_FEED")
     if prev_path and os.path.exists(prev_path):
         try:
@@ -1146,24 +1299,28 @@ def main():
             if doc["roads"] is None and prev.get("roads"):
                 doc["roads"] = dict(prev["roads"], carried=True)
             # keep the last good block when a source fails this run
-            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones"):
+            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones", "events", "aq"):
                 if not doc.get(k) and prev.get(k):
                     doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
+            for k in ("dams", "upstream"):  # lists: items carry their own dates
+                if doc[k] is None:
+                    doc[k] = prev.get(k) or []
             if not (doc.get("tmd") or {}).get("daily") and (prev.get("tmd") or {}).get("daily"):
                 doc["tmd"]["daily"] = prev["tmd"]["daily"]
             # None = fetch failed (an empty list is a real "nothing new" answer)
             if doc["tmd"]["warnings"] is None:
                 doc["tmd"]["warnings"] = (prev.get("tmd") or {}).get("warnings") or []
             doc["reports"] = merge_reports(doc["reports"], prev.get("reports"))
-            pr = prev.get("rayong") or {}
-            if doc["rayong"]["weather"] is None and pr.get("weather"):
-                doc["rayong"]["weather"] = dict(pr["weather"], stale=True)
-            for k in ("news", "rain", "dams", "rivers"):  # each item carries its own time, so the page can tell it is old
-                if doc["rayong"][k] is None:
-                    doc["rayong"][k] = pr.get(k) or []
-            for k in ("marine", "radar"):
-                if doc["rayong"][k] is None and pr.get(k):
-                    doc["rayong"][k] = dict(pr[k], stale=True)
+            for key in PROVS:
+                pr, cur = prev.get(key) or {}, doc[key]
+                if cur["weather"] is None and pr.get("weather"):
+                    cur["weather"] = dict(pr["weather"], stale=True)
+                for k in ("news", "rain", "dams", "rivers"):  # each item carries its own time, so the page can tell it is old
+                    if cur[k] is None:
+                        cur[k] = pr.get(k) or []
+                for k in ("marine", "radar", "events"):
+                    if cur[k] is None and pr.get(k) and (k != "marine" or PROVS[key]["marine"]):
+                        cur[k] = dict(pr[k], stale=True)
             for k, v in doc["news"].items():
                 if v is None:
                     doc["news"][k] = (prev.get("news") or {}).get(k) or []
@@ -1173,23 +1330,24 @@ def main():
         doc["tmd"]["warnings"] = []
     # Google (when a key is set) goes over whatever Open-Meteo gave, fresh or carried over
     doc["weather"] = with_google(doc["weather"], LAT, LON, "bkk")
-    p0 = RAYONG_PTS[0]
-    rw = doc["rayong"]["weather"] = with_google(doc["rayong"]["weather"], p0[1], p0[2], "rayong")
-    if rw and rw.get("src") == "google" and rw.get("points"):  # the city row of the district table follows Google too
-        h = rw["hourly"]
-        rw["points"][0].update(next24=round(sum(x["p"] for x in h[:24]), 1), next48=round(sum(x["p"] for x in h[:48]), 1),
-                               pp=max([x["pp"] or 0 for x in h[:24]], default=0))
-    if rw and rw.get("src") == "google" and rw.get("points"):
-        try:
-            gd = [google_days(p["p"][0], p["p"][1]) for p in rw["points"]]
-            for p, days in zip(rw["points"], gd):
-                p["days"] = [{"date": x["date"], "rain": x["rain"], "pp": x["pp"]} for x in days]
-            rw["points_src"] = "google"
-        except Exception as e:
-            GW_ERR["rayong_points"] = f"{type(e).__name__}: {e}"[:200]
+    for key in PROVS:
+        p0 = PROVS[key]["pts"][0]
+        rw = doc[key]["weather"] = with_google(doc[key]["weather"], p0[1], p0[2], key)
+        if rw and rw.get("src") == "google" and rw.get("points"):  # the city row of the district table follows Google too
+            h = rw["hourly"]
+            rw["points"][0].update(next24=round(sum(x["p"] for x in h[:24]), 1), next48=round(sum(x["p"] for x in h[:48]), 1),
+                                   pp=max([x["pp"] or 0 for x in h[:24]], default=0))
+            try:
+                gd = [google_days(p["p"][0], p["p"][1]) for p in rw["points"]]
+                for p, days in zip(rw["points"], gd):
+                    p["days"] = [{"date": x["date"], "rain": x["rain"], "pp": x["pp"]} for x in days]
+                rw["points_src"] = "google"
+            except Exception as e:
+                GW_ERR[key + "_points"] = f"{type(e).__name__}: {e}"[:200]
     if GW_KEY:
         doc["galerts"] = {}
-        for place, lat, lon in (("bkk", LAT, LON), ("rayong", RAYONG_PTS[0][1], RAYONG_PTS[0][2])):
+        places = [("bkk", LAT, LON)] + [(k, PROVS[k]["pts"][0][1], PROVS[k]["pts"][0][2]) for k in PROVS]
+        for place, lat, lon in places:
             try:
                 doc["galerts"][place] = google_alerts(lat, lon)
             except Exception as e:
@@ -1198,21 +1356,29 @@ def main():
         doc["google_err"] = GW_ERR
     if doc["reports"] is None:
         doc["reports"] = []
-    warn_ry = [w for w in doc["tmd"]["warnings"] if "ระยอง" in (w.get("title") or "") + (w.get("headline") or "")]
-    doc["rayong"].update({k: doc["rayong"][k] or [] for k in ("news", "rain", "dams", "rivers")})
-    doc["rayong"].update({"warnings": warn_ry,
-                          "water": (doc.get("thaiwater") or {}).get("rayong") or []})
+    tw = doc.get("thaiwater") or {}
+    for key in PROVS:
+        name, cur = PROVS[key]["name"], doc[key]
+        cur.update({k: cur[k] or [] for k in ("news", "rain", "dams", "rivers")})
+        cur.update({"warnings": [w for w in doc["tmd"]["warnings"] if name in (w.get("title") or "") + (w.get("headline") or "")],
+                    "water": tw.get(key) or []})
     doc["news"] = {k: v or [] for k, v in doc["news"].items()}
     if _GEO_CACHE_PATH:
         json.dump(_geo_cache, open(_GEO_CACHE_PATH, "w", encoding="utf-8"), ensure_ascii=False)
     out = sys.argv[1] if len(sys.argv) > 1 else "feed.json"
     s = json.dumps(doc, ensure_ascii=False, separators=(",", ":"))
     open(out, "w", encoding="utf-8").write(s)
-    print(f"wrote {out}: {len(s.encode())} bytes; news " +
-          ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
-          f"; google={'off' if not GW_KEY else ','.join(k + ('=FAIL' if k in GW_ERR else '=ok') for k in ('bkk', 'rayong'))}"
-          f"; rayong radar={(doc['rayong'].get('radar') or {}).get('frames', 0)} marine={'ok' if doc['rayong'].get('marine') else 'none'} rivers={len(doc['rayong']['rivers'])}"
-          f"; rayong news={len(doc['rayong']['news'])} water={len(doc['rayong']['water'])} rain={len(doc['rayong']['rain'])} dams={len(doc['rayong']['dams'])} weather={'ok' if doc['rayong']['weather'] else 'none'}; reports={len(doc['reports'])}; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
+    pv = lambda k: (f"{k}: weather={(doc[k]['weather'] or {}).get('src', 'none')} radar={(doc[k].get('radar') or {}).get('frames', 0)} "
+                    f"water={len(doc[k]['water'])} rain={len(doc[k]['rain'])} dams={len(doc[k]['dams'])} rivers={len(doc[k]['rivers'])} "
+                    f"news={len(doc[k]['news'])} events={len((doc[k].get('events') or {}).get('items', []))}")
+    aq = doc.get("aq") or {}
+    print(f"wrote {out}: {len(s.encode())} bytes; news " + ", ".join(f"{k}={len(v)}" for k, v in doc["news"].items()) +
+          f"; google={'off' if not GW_KEY else ','.join(k + ('=FAIL' if k in GW_ERR else '=ok') for k in ['bkk', *PROVS])}"
+          f"; dams_bkk={len(doc['dams'] or [])} upstream={len(doc['upstream'] or [])}"
+          f"; aq=" + ",".join(f"{k}:{len((aq.get(k) or {}).get('stations') or [])}st{'+fc' if (aq.get(k) or {}).get('fc') else ''}" for k in AQ_AREAS) +
+          f"; {'; '.join(pv(k) for k in PROVS)}; reports={len(doc['reports'])}; events={len((doc['events'] or {}).get('items', []))}"
+          f"; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}"
+          f"; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
 
 if __name__ == "__main__":
     main()
