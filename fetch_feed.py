@@ -298,7 +298,8 @@ PROVS = {
     "chiangmai": {"name": "เชียงใหม่", "pts": CM_PTS,
                   "rivers": [("แม่น้ำปิง (ตัวเมือง)", 18.79, 99.00), ("แม่น้ำปิง (แม่แตง)", 19.12, 98.94)],
                   "news": ("น้ำท่วม เชียงใหม่", "เชียงใหม่ ฝนตกหนัก น้ำป่า แม่น้ำปิง", "เชียงใหม่ ฝุ่น PM2.5 หมอกควัน", "เชียงใหม่ ถนน น้ำท่วม เส้นทาง"),
-                  "radar": ("https://weather.tmd.go.th/cmp/cmpLoop.gif", "radar_cm", "https://weather.tmd.go.th/cmploop.php"),
+                  "radar": (("https://weather.tmd.go.th/cmi/cmiloop.gif", "https://weather.tmd.go.th/cmi/cmiLoop.gif", "https://weather.tmd.go.th/cmiloop.gif"),
+                            "radar_cm", "https://weather.tmd.go.th/cmiloop.php"),  # cmi = Chiang Mai (cmp is the Chumphon radar)
                   "bbox": (17.20, 20.15, 98.05, 99.60), "marine": False},
 }
 
@@ -687,7 +688,14 @@ def prov_radar(key):
     """Frames go next to the Bangkok ones, as radar_ry/f<i>.json, radar_cm/f<i>.json."""
     gif, sub, page = PROVS[key]["radar"]
     base = os.environ.get("RADAR_DIR", "radar").rstrip("/\\")
-    return _radar(gif, os.path.join(os.path.dirname(base) or ".", sub), page)
+    out_dir = os.path.join(os.path.dirname(base) or ".", sub)
+    err = None
+    for url in ([gif] if isinstance(gif, str) else gif):  # first loop address that answers wins
+        try:
+            return _radar(url, out_dir, page)
+        except Exception as e:
+            err = e
+    raise err
 
 def _radar(gif, out_dir, source):
     """Writes the most recent loop frames as <out_dir>/f<i>.json ({i, n, img: data-URI webp, fetched})
@@ -814,6 +822,8 @@ def main():
                     if cur[k] is None:
                         cur[k] = pr.get(k) or []
                 for k in ("marine", "radar", "events"):
+                    if k == "radar" and not os.path.exists(os.path.join(os.path.dirname(os.environ.get("RADAR_DIR", "radar").rstrip("/\\")) or ".", PROVS[key]["radar"][1], "f0.json")):
+                        continue  # frames were removed (wrong station): nothing to carry over
                     if cur[k] is None and pr.get(k) and (k != "marine" or PROVS[key]["marine"]):
                         cur[k] = dict(pr[k], stale=True)
             for k, v in doc["news"].items():
