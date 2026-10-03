@@ -300,7 +300,7 @@ PROVS = {
                   "news": ("น้ำท่วม เชียงใหม่", "เชียงใหม่ ฝนตกหนัก น้ำป่า แม่น้ำปิง", "เชียงใหม่ ฝุ่น PM2.5 หมอกควัน", "เชียงใหม่ ถนน น้ำท่วม เส้นทาง"),
                   "radar": (("https://weather.tmd.go.th/cmi/cmiloop.gif", "https://weather.tmd.go.th/cmi/cmiLoop.gif", "https://weather.tmd.go.th/cmiloop.gif"),
                             "radar_cm", "https://weather.tmd.go.th/cmiloop.php"),
-                  "radar_find": ["https://weather.tmd.go.th/cmiloop.php", "https://weather.tmd.go.th/lpnloop.php", "https://weather.tmd.go.th/lamphunloop.php"],  # cmi = Chiang Mai (cmp is the Chumphon radar)
+                  "radar_find": ["https://weather.tmd.go.th/", "https://weather.tmd.go.th/radar.php", "https://weather.tmd.go.th/cmiloop.php", "https://weather.tmd.go.th/lpnloop.php", "https://weather.tmd.go.th/lamphunloop.php"],  # cmi = Chiang Mai (cmp is the Chumphon radar)
                   "bbox": (17.20, 20.15, 98.05, 99.60), "marine": False},
 }
 
@@ -696,13 +696,16 @@ def prov_radar(key):
     for k in range(2):  # 0: the known addresses, 1: whatever the station's own TMD page links to
         for url in urls:
             try:
-                return _radar(url, out_dir, page)
+                r = _radar(url, out_dir, page)
+                if tried:
+                    RADAR_DBG[key] = tried[-15:] + [f"ok {url}"]
+                return r
             except Exception as e:
                 err = e
                 tried.append(f"{url} -> {type(e).__name__}")
         if k == 0 and PROVS[key].get("radar_find"):
             urls = [u for u in _radar_find(PROVS[key]["radar_find"], tried) if u not in urls]
-    RADAR_DBG[key] = tried[-12:]
+    RADAR_DBG[key] = tried[-16:]
     raise err
 
 RADAR_DBG = {}  # province -> what the radar search tried (goes into feed.json as radar_dbg)
@@ -710,7 +713,21 @@ RADAR_DBG = {}  # province -> what the radar search tried (goes into feed.json a
 def _radar_find(pages, log):
     """Reads TMD radar pages and returns the animated-loop gif addresses they link to."""
     found = []
-    for p in pages:
+    pages = list(pages)
+    for p in pages:  # pages grows while the indexes are read
+        if p.endswith("/") or p.endswith("radar.php"):  # an index of stations: follow the link naming the area
+            try:
+                idx = get(p, timeout=30, tries=2).decode("utf-8", "ignore")
+            except Exception as e:
+                log.append(f"index {p} -> {type(e).__name__}")
+                continue
+            links = [(urllib.parse.urljoin(p, h), re.sub(r"<[^>]+>|\s+", " ", t).strip())
+                     for h, t in re.findall(r"""<a[^>]+href=["']([^"']*loop[^"']*\.php)["'][^>]*>(.*?)</a>""", idx, re.I | re.S)]
+            log.append(f"index {p} -> {len(idx)}B links={[(u.rsplit('/', 1)[-1], t[:30]) for u, t in links][:40]}")
+            for u, t in links:
+                if re.search(r"เชียงใหม่|ลำพูน|chiang|lamphun", t + u, re.I) and u not in pages:
+                    pages.append(u)
+            continue
         try:
             body = get(p, timeout=30, tries=2).decode("utf-8", "ignore")
         except Exception as e:
