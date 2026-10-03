@@ -752,7 +752,7 @@ footer{border-top:3px solid var(--tile)}
               <div><i style="background:#D40000"></i>แดง 45–54 dBZ · ฝนหนักมาก</div>
               <div><i style="background:#D000D0"></i>ม่วง/ชมพู 57+ dBZ · พายุรุนแรง อาจมีลูกเห็บ</div>
             </div>
-            <div class="links" style="margin-top:0"><a href="https://weather.tmd.go.th/cmploop.php" target="_blank" rel="noopener">เรดาร์เชียงใหม่ กรมอุตุฯ (ต้นฉบับ) ↗</a></div>
+            <div class="links" style="margin-top:0"><a href="https://weather.tmd.go.th/cmiloop.php" target="_blank" rel="noopener">เรดาร์เชียงใหม่ กรมอุตุฯ (ต้นฉบับ) ↗</a></div>
             <span class="sub" id="cmRfetched"></span>
           </div>
         </div>
@@ -1614,6 +1614,7 @@ window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{cons
         // province frames (~600 KB each) load only once that view is open
         window.__radarLoad=window.__radarLoad||{};
         for(const [pk,dir,R] of [["ry","radar_ry",RADRY],["cm","radar_cm",RADCM]]){const rr=f&&f[PV[pk].key]&&f[PV[pk].key].radar;
+          const rp=$(pk+"-radar"); if(rp)rp.hidden=!(rr&&rr.frames);  // no loop yet (e.g. new station address): hide the empty panel
           if(!(rr&&rr.frames))continue;
           window.__radarLoad[pk]=async()=>{const fy=await Promise.all([...Array(rr.frames).keys()].map(i=>j("data/"+dir+"/f"+i+".json")));
             const oy=fy.filter(x=>x&&x.img).sort((a,b)=>a.i-b.i); if(oy.length)R.set(oy.map(x=>x.img),oy[oy.length-1].fetched);};
