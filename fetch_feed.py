@@ -912,6 +912,68 @@ def _page_text(url):
         published = (m.group(1) or m.group(2)) if m else ""
     return body, paras, published, headline
 
+# ---- tidy road names / segments read from news text ----
+BKK_DISTRICTS = ["พระนคร", "ดุสิต", "หนองจอก", "บางรัก", "บางเขน", "บางกะปิ", "ปทุมวัน", "ป้อมปราบศัตรูพ่าย", "พระโขนง", "มีนบุรี",
+    "ลาดกระบัง", "ยานนาวา", "สัมพันธวงศ์", "พญาไท", "ธนบุรี", "บางกอกใหญ่", "ห้วยขวาง", "คลองสาน", "ตลิ่งชัน", "บางกอกน้อย", "บางขุนเทียน",
+    "ภาษีเจริญ", "หนองแขม", "ราษฎร์บูรณะ", "บางพลัด", "ดินแดง", "บึงกุ่ม", "สาทร", "บางซื่อ", "จตุจักร", "บางคอแหลม", "ประเวศ", "คลองเตย",
+    "สวนหลวง", "จอมทอง", "ดอนเมือง", "ราชเทวี", "ลาดพร้าว", "วัฒนา", "บางแค", "หลักสี่", "สายไหม", "คันนายาว", "สะพานสูง", "วังทองหลาง",
+    "คลองสามวา", "บางนา", "ทวีวัฒนา", "ทุ่งครุ", "บางบอน"]
+# words that end a road name in running text ("ถนนกรุงเทพกรีฑาตั้งแต่ซอย 9", "ถนนลาดกระบังตลอดสาย", "ถนนสูงประมาณ 30 ซม.")
+# only words that cannot be part of a Bangkok road name; short ones ("ที่" in พระรามที่ 9, "งด" in ทางด่วน, "น้ำ" in ท่าน้ำนนท์) stay out
+_NAME_CUT = re.compile(r"ตั้งแต่|ตลอด|ทั้งสาย|ทั้งเส้น|ทั้งขา|ทั้งสอง|แยก|ซอย|ช่วง|บริเวณ|ระหว่าง|ขาเข้า|ขาออก|มุ่งหน้า|ระดับ|ประมาณ|ท่วม|และ|หรือ|ตัดกับ|เนื่องจาก|ทำให้|แต่|โดย|ซึ่ง")
+# a name that starts like this is prose, not a road ("ถนนสูงประมาณ 30 ซม.", "ถนนที่ยังมีน้ำ…")
+_NAME_PROSE = re.compile(r"^(?:สูง|ประมาณ|น้ำ|ท่วม|ที่|และ|หรือ|ใน|ยัง|เป็น|รถ|งด|ระดับ|ตลอด|ทั้ง|แต่|โดย|ซึ่ง|มี|ซอย|แยก|ช่วง|บริเวณ)")
+_PROSE_CUT = re.compile(r"\s*(?:ระดับน้ำ|สำหรับ|แต่|โดย|ซึ่ง|เนื่องจาก|ขณะที่|ทั้งนี้|อย่างไรก็ตาม|ส่วน|และยัง|ลดลง|เพิ่มขึ้น|ประมาณ|ท่วมสูง|สูง\s*\d|\d+\s*(?:ซม|เซนติเมตร))")
+_SEG_JUNK = {"และ", "หรือ", "ที่", "ใน", "ของ", "บน", "ตลอดสาย", "ทั้งสาย", "ทั้งเส้น"}
+
+def _tidy_name(name):
+    """-> (road name without 'ถ.' / None, extra location text from the cut-off tail)."""
+    n = re.sub(r"^(?:ถนน|ถ\.)\s*", "", name or "").strip(" ,.-–")
+    extra = ""
+    if _NAME_PROSE.match(n):
+        return None, ""  # 'ถนนสูงประมาณ…', 'ถนนน้ำท่วม…': no road name, just prose
+    m = _NAME_CUT.search(n)
+    if m:
+        if m.start() < 3:
+            return None, ""
+        n, extra = n[:m.start()], n[m.start():]
+        em = re.match(r"(?:ตั้งแต่)?\s*(ซอย\s*\S+|แยก\s*\S+)", extra)
+        extra = em.group(1) if em else ""
+    for d in sorted(BKK_DISTRICTS, key=len, reverse=True):  # 'หลวงแพ่งลาดกระบัง' = road + district
+        if n.endswith(d) and len(n) - len(d) >= 3 and n[-len(d) - 1] not in "-–":  # 'ประเวศ-ลาดกระบัง' is a route, keep it
+            n, extra = n[:-len(d)], extra or "เขต" + d
+            break
+    n = re.sub(r"บาง$", "", n) if len(n) >= 6 else n  # 'หลวงแพ่งบาง': a cut-off place name, not part of the road
+    n = n.strip(" ,.-–")
+    return (n, extra) if len(n) >= 3 else (None, "")
+
+def _tidy_text(t):
+    t = _PROSE_CUT.split(re.sub(r"\s+", " ", t or ""))[0].strip(" ,.-–")
+    t = re.sub(r"^(?:บริเวณ|ช่วง|ใกล้|หน้า)\s*", "", t).strip(" ,.-–") if len(t) > 12 else t
+    return t[:60].rsplit(" ", 1)[0] if len(t) > 60 and " " in t[:60] else t[:60]
+
+def _tidy_items(items):
+    out = []
+    for it in items:
+        name, extra = _tidy_name(it["road"])
+        if not name:
+            continue
+        segs = []
+        for sg in it["segs"]:
+            sg = dict(sg)
+            for k in ("from", "to", "near"):
+                if k in sg:
+                    sg[k] = _tidy_text(sg[k])
+            if "near" in sg and (len(sg["near"]) < 3 or sg["near"] in _SEG_JUNK):
+                continue
+            if "from" in sg and (len(sg["from"]) < 2 or len(sg.get("to", "")) < 2):
+                continue
+            segs.append(sg)
+        if extra and not segs:
+            segs.append({"near": extra})
+        out.append(dict(it, road="ถ." + name, segs=segs))
+    return out
+
 _FALLBACK_USED = False  # set by _best_items: the loose depth-based reading produced the list
 
 def _best_items(*texts):
@@ -936,6 +998,7 @@ def _best_items(*texts):
                 items = []
             if len(items) > len(best):
                 best, _FALLBACK_USED = items, True
+    best = _tidy_items(best)
     merged = {}
     for it in best:  # merge duplicate roads
         if it["road"] in merged:
@@ -968,7 +1031,7 @@ def roads():
         if items:
             print("   " + " | ".join(f"{i['road']} {i['depth'] or '-'}cm" for i in items[:6]), file=sys.stderr)
         # water recedes -> lists get short; the loose reading is trusted from 3 roads, the exact formats from 5
-        if len(items) < (3 if _FALLBACK_USED else 5):
+        if len(items) < 3:
             continue
         mt = re.search(r"(?:เวลา|รอบ)\s*(\d{1,2}[.:]\d{2})\s*น\.", body or paras)
         road_pts = {}
