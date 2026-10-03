@@ -299,7 +299,8 @@ PROVS = {
                   "rivers": [("แม่น้ำปิง (ตัวเมือง)", 18.79, 99.00), ("แม่น้ำปิง (แม่แตง)", 19.12, 98.94)],
                   "news": ("น้ำท่วม เชียงใหม่", "เชียงใหม่ ฝนตกหนัก น้ำป่า แม่น้ำปิง", "เชียงใหม่ ฝุ่น PM2.5 หมอกควัน", "เชียงใหม่ ถนน น้ำท่วม เส้นทาง"),
                   "radar": (("https://weather.tmd.go.th/cmi/cmiloop.gif", "https://weather.tmd.go.th/cmi/cmiLoop.gif", "https://weather.tmd.go.th/cmiloop.gif"),
-                            "radar_cm", "https://weather.tmd.go.th/cmiloop.php"),  # cmi = Chiang Mai (cmp is the Chumphon radar)
+                            "radar_cm", "https://weather.tmd.go.th/cmiloop.php"),
+                  "radar_find": ["https://weather.tmd.go.th/cmiloop.php", "https://weather.tmd.go.th/lpnloop.php", "https://weather.tmd.go.th/lamphunloop.php"],  # cmi = Chiang Mai (cmp is the Chumphon radar)
                   "bbox": (17.20, 20.15, 98.05, 99.60), "marine": False},
 }
 
@@ -690,12 +691,36 @@ def prov_radar(key):
     base = os.environ.get("RADAR_DIR", "radar").rstrip("/\\")
     out_dir = os.path.join(os.path.dirname(base) or ".", sub)
     err = None
-    for url in ([gif] if isinstance(gif, str) else gif):  # first loop address that answers wins
-        try:
-            return _radar(url, out_dir, page)
-        except Exception as e:
-            err = e
+    tried = []
+    urls = [gif] if isinstance(gif, str) else list(gif)
+    for k in range(2):  # 0: the known addresses, 1: whatever the station's own TMD page links to
+        for url in urls:
+            try:
+                return _radar(url, out_dir, page)
+            except Exception as e:
+                err = e
+                tried.append(f"{url} -> {type(e).__name__}")
+        if k == 0 and PROVS[key].get("radar_find"):
+            urls = [u for u in _radar_find(PROVS[key]["radar_find"], tried) if u not in urls]
+    RADAR_DBG[key] = tried[-12:]
     raise err
+
+RADAR_DBG = {}  # province -> what the radar search tried (goes into feed.json as radar_dbg)
+
+def _radar_find(pages, log):
+    """Reads TMD radar pages and returns the animated-loop gif addresses they link to."""
+    found = []
+    for p in pages:
+        try:
+            body = get(p, timeout=30, tries=2).decode("utf-8", "ignore")
+        except Exception as e:
+            log.append(f"page {p} -> {type(e).__name__}")
+            continue
+        gifs = [urllib.parse.urljoin(p, m) for m in re.findall(r"""["'(]([^"'()\s]+?\.gif)""", body, re.I)]
+        loops = [g for g in gifs if re.search(r"loop", g, re.I)] or gifs
+        log.append(f"page {p} -> {len(body)}B gifs={loops[:6]}")
+        found += [g for g in loops if g not in found]
+    return found
 
 def _radar(gif, out_dir, source):
     """Writes the most recent loop frames as <out_dir>/f<i>.json ({i, n, img: data-URI webp, fetched})
@@ -859,6 +884,8 @@ def main():
                 GW_ERR["alerts_" + place] = f"{type(e).__name__}: {e}"[:200]
     if GW_ERR:
         doc["google_err"] = GW_ERR
+    if RADAR_DBG:
+        doc["radar_dbg"] = RADAR_DBG
     tw = doc.get("thaiwater") or {}
     for key in PROVS:
         name, cur = PROVS[key]["name"], doc[key]
