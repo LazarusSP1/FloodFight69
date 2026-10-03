@@ -465,7 +465,7 @@ footer{border-top:3px solid var(--tile)}
       <li class="v-bkk"><a href="#radar">เรดาร์</a></li>
       <li class="v-bkk"><a href="#water">แม่น้ำ·เขื่อน</a></li>
       <li class="v-bkk"><a href="#aq">ฝุ่น</a></li>
-      <li class="v-bkk"><a href="#roads">ถนนน้ำท่วม</a></li>
+      <li class="v-bkk"><a href="#bma">ถนนน้ำท่วม</a></li>
       <li class="v-bkk"><a href="#newssec">ข่าว</a></li>
       <li class="v-ry"><a href="#ryHead">ภาพรวม</a></li>
       <li class="v-ry"><a href="#ry-fc">พยากรณ์</a></li>
@@ -568,25 +568,6 @@ footer{border-top:3px solid var(--tile)}
     <div class="legend aqlegend"><span><i class="sw aq1"></i>ดีมาก</span><span><i class="sw aq2"></i>ดี</span><span><i class="sw aq3"></i>ปานกลาง</span><span><i class="sw aq4"></i>เริ่มมีผลต่อสุขภาพ</span><span><i class="sw aq5"></i>มีผลต่อสุขภาพ</span></div>
     <div class="attr">ค่าที่วัดได้: Air4Thai กรมควบคุมมลพิษ (PM2.5/PM10 µg/m³ · O₃/NO₂ ppb · CO ppm) สีตามเกณฑ์ AQI ของ คพ. · พยากรณ์: Open-Meteo Air Quality (แบบจำลอง CAMS) ใช้ดูแนวโน้ม ไม่ใช่ค่าวัดจริง</div>
   </section>
-  <section class="panel" aria-labelledby="hroads" id="roads">
-    <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hroads">ถนนน้ำท่วม ควรหลีกเลี่ยง</h2></div><span class="meta" id="roadsAsof"></span></div>
-    <div class="roadhead" id="roadsHead"></div>
-    <div class="roadgrid" id="roadgrid">
-      <div>
-        <div class="mapwrap" id="mapwrap"><div class="mapctl"><button id="zin" aria-label="ขยายแผนที่">+</button><button id="zout" aria-label="ย่อแผนที่">−</button></div>
-          <div class="mapin" id="mapin"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="mapsvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งถนนที่มีน้ำท่วมขัง"></svg></div>
-        </div>
-        <div class="legend"><span><i class="sw" style="background:var(--crit);height:5px"></i>ท่วม 20 ซม.+</span><span><i class="sw" style="background:var(--warn);height:5px"></i>15 ซม.</span><span><i class="sw" style="background:var(--water);height:5px"></i>10 ซม.</span><span><i class="sw" style="background:var(--ok);height:5px"></i>น้ำลดแล้ว</span><span>แตะจุดบนแผนที่เพื่อดูรายละเอียด</span></div>
-        <div class="attr">แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap · ตำแหน่งจากการค้นหาชื่อซอย/ถนน (Nominatim) อาจคลาดเคลื่อนได้</div>
-      </div>
-      <ul class="roadlist" id="roadlist"></ul>
-    </div>
-    <div id="rrep" hidden>
-      <div class="row" style="justify-content:space-between;margin:22px 0 8px"><h3>รายงานสดจากวิทยุจราจร · 24 ชม.ล่าสุด</h3><div class="tabs" id="rrtabs"></div></div>
-      <ul class="news" id="rrlist"></ul>
-      <div class="attr">ที่มา: <a href="https://www.js100.com/en/site/traffic" target="_blank" rel="noopener">จส.100</a> · <a href="https://www.fm91bkk.com/" target="_blank" rel="noopener">สวพ.91</a> · รายงานจากเจ้าหน้าที่และผู้ฟัง สถานการณ์อาจเปลี่ยนแล้ว</div>
-    </div>
-  </section>
   <section class="panel" aria-labelledby="hbma" id="bma">
     <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hbma">ระดับน้ำบนถนน เซนเซอร์ กทม.</h2></div><span class="meta" id="bmaAsof"></span></div>
     <div class="roadhead" id="bmaHead"></div>
@@ -600,20 +581,6 @@ footer{border-top:3px solid var(--tile)}
         <div class="attr">ข้อมูล: สำนักการระบายน้ำ กทม. · ค่าที่มี ≥ มาจากเซนเซอร์แบบขั้น (5/10/15/20 ซม.) ค่าจริงอาจสูงกว่านี้ · แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap</div>
       </div>
       <ul class="roadlist" id="bmalist"></ul>
-    </div>
-  </section>
-  <section class="panel" aria-labelledby="hevt" id="evt" hidden>
-    <div class="panel-h"><div><span class="eyebrow">ถนน</span><h2 id="hevt">เหตุการณ์น้ำท่วม กรุงเทพฯ และปริมณฑล</h2></div><span class="meta" id="evAsof"></span></div>
-    <div class="roadhead" id="evHead"></div>
-    <div class="roadgrid">
-      <div>
-        <div class="mapwrap" id="evwrap"><div class="mapctl"><button id="ezin" aria-label="ขยายแผนที่">+</button><button id="ezout" aria-label="ย่อแผนที่">−</button></div>
-          <div class="mapin" id="evin"><img src="basemap.webp" alt="แผนที่กรุงเทพฯ" draggable="false"><svg id="evsvg" viewBox="0 0 3030 2280" preserveAspectRatio="none" role="img" aria-label="ตำแหน่งเหตุการณ์น้ำท่วมที่แจ้งเข้ามา และจุดเสี่ยงน้ำท่วมของ กทม."></svg></div>
-        </div>
-        <div class="legend"><span><span class="lv" style="background:var(--water)"></span> กรมทางหลวง</span><span><span class="lv" style="background:var(--warn)"></span> ประชาชน/iTIC แจ้ง</span><span id="evRiskLg" hidden><span class="lv lv5"></span> จุดเสี่ยง: เร่งด่วน · <span class="lv" style="background:var(--warn)"></span> กำลังแก้ไข · <span class="lv" style="background:var(--water)"></span> แก้บางส่วน · <span class="lv lv0"></span> แก้เสร็จ</span></div>
-        <div class="attr" id="evAttr">เหตุการณ์: Longdo Event โดย iTIC Foundation (CC BY 4.0) เป็นรายงานจากประชาชนและกรมทางหลวง ยังไม่ผ่านการตรวจสอบ · จุดเสี่ยง: สำนักการระบายน้ำ กทม. เป็นจุดที่น้ำท่วมบ่อย ไม่ใช่สถานะน้ำตอนนี้ · แผนที่ © ผู้ร่วมพัฒนา OpenStreetMap</div>
-      </div>
-      <ul class="roadlist" id="evlist"></ul>
     </div>
   </section>
   <section class="panel" aria-labelledby="hnews" id="newssec">
@@ -921,7 +888,7 @@ function render(d){
   renderBanners(d); renderAQAll(d); renderUpstream(d); renderDamsBkk(d);
   // freshness
   renderFresh(d);
-  renderAlertBar(d); renderSummary(d); renderZones(d); renderAlerts(d); renderRoads(d); renderBma(d); renderEvents(d); renderNow(d); draw48(d); renderRiver(d); renderDamBkk(d); renderTw(d); renderProvRoads(d,"ry"); renderProvRoads(d,"cm"); renderDays(d); renderProv(d,"ry"); renderProv(d,"cm"); renderTmd(d); renderTabs(); renderNews();
+  renderAlertBar(d); renderSummary(d); renderZones(d); renderAlerts(d); renderBma(d); renderNow(d); draw48(d); renderRiver(d); renderDamBkk(d); renderTw(d); renderProvRoads(d,"ry"); renderProvRoads(d,"cm"); renderDays(d); renderProv(d,"ry"); renderProv(d,"cm"); renderTmd(d); renderTabs(); renderNews();
 }
 
 function renderAlerts(d){
@@ -1262,75 +1229,7 @@ function mkMap(wrap,inner,zin,zout){const w=$(wrap),m=$(inner);const o={z:1,
   pan(pts){if(!pts.length)return;if(o.z<2)o.zoom(2);const cx=pts.reduce((a,p)=>a+p[0],0)/pts.length/MW, cy=pts.reduce((a,p)=>a+p[1],0)/pts.length/MH;
     requestAnimationFrame(()=>requestAnimationFrame(()=>{w.scrollTo({left:cx*w.scrollWidth-w.clientWidth/2,top:cy*w.scrollHeight-w.clientHeight/2,behavior:"smooth"});}));}};
   $(zin).onclick=()=>o.zoom(o.z*2); $(zout).onclick=()=>o.zoom(o.z/2); return o;}
-const RMAP=mkMap("mapwrap","mapin","zin","zout");
-let SELR=-1;
-function focusRoad(i,scrollList){
-  SELR=i; const R=DATA&&DATA.roads; if(!R)return;
-  document.querySelectorAll("#roadlist li").forEach(li=>li.classList.toggle("sel",+li.dataset.i===i));
-  document.querySelectorAll("#mapsvg .seg").forEach(g=>g.setAttribute("opacity",i<0||+g.dataset.i===i?"1":".25"));
-  if(scrollList){const li=document.querySelector(`#roadlist li[data-i="${i}"]`);if(li)li.scrollIntoView({block:"nearest",behavior:"smooth"});}
-  const it=R.items[i]; if(!it)return; const pts=[];it.segs.forEach(s=>["p","a","b"].forEach(k=>s[k]&&pts.push(proj(s[k]))));if(!pts.length&&it.p)pts.push(proj(it.p));
-  if(!scrollList)RMAP.pan(pts);
-}
-// a radio report says the water has gone and traffic moves again
-const CLEAR_RE=/น้ำลด|คืนผิว|สัญจรได้|(?:รถ(?:เล็ก|ทุกชนิด)?|ทุกช่องทาง)\s*(?:สามารถ)?\s*ผ่านได้|แห้งแล้ว|เปิดการจราจร/;
-const STILL_RE=/ยัง(?:มี)?(?:น้ำ)?(?:ท่วม|สูง)|น้ำยังสูง|ห้ามผ่าน|ไม่สามารถ(?:ผ่าน|สัญจร)|ปิด(?:การ)?จราจร/;
-const isClear=t=>CLEAR_RE.test(t)&&!STILL_RE.test(t);
-const roadKey=r=>(r||"").replace(/^(?:ถ\.|ถนน)\s*/,"").trim().split(/\s/)[0];
-// latest report about this road decides: clear (✓) only if the newest mention says the water is gone
-function roadClear(it,d){const k=roadKey(it.road); if(k.length<3)return null;
-  const since=(d.roads&&d.roads.published)||"";
-  const hits=(d.reports||[]).filter(x=>x.ts>=since&&x.text.includes(k)&&(isClear(x.text)||/ท่วม|น้ำ/.test(x.text)))
-    .sort((a,b)=>b.ts.localeCompare(a.ts));
-  return hits.length&&isClear(hits[0].text)?hits[0]:null;}
 const hm=ts=>{const b=new Date(new Date(ts).getTime()+(new Date().getTimezoneOffset()+420)*60000);return String(b.getHours()).padStart(2,"0")+":"+String(b.getMinutes()).padStart(2,"0")};
-let RRSRC="ทั้งหมด", RRALL=false;
-function renderReports(d){
-  const all=d.reports||[]; $("rrep").hidden=!all.length; if(!all.length)return;
-  const srcs=["ทั้งหมด",...new Set(all.map(x=>x.src))]; if(!srcs.includes(RRSRC))RRSRC="ทั้งหมด";
-  $("rrtabs").innerHTML=srcs.length>2?srcs.map(k=>`<button class="tab" role="tab" aria-selected="${k===RRSRC}" data-k="${esc(k)}">${esc(k)}<span class="c">${k==="ทั้งหมด"?all.length:all.filter(x=>x.src===k).length}</span></button>`).join(""):"";
-  $("rrtabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{RRSRC=b.dataset.k;RRALL=false;renderReports(DATA);});
-  const list=all.filter(x=>RRSRC==="ทั้งหมด"||x.src===RRSRC), shown=RRALL?list:list.slice(0,8);
-  $("rrlist").innerHTML=shown.map(x=>{const fresh=x.ts&&(Date.now()-new Date(x.ts))<2*3.6e6;
-    return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener"><span class="tm">${fmtTs(x.ts)}</span><span><div class="tt">${isClear(x.text)?'<span class="ck" title="น้ำลด รถผ่านได้" aria-label="น้ำลด รถผ่านได้">✓</span> ':""}${esc(x.text)}${fresh?'<span class="new">ใหม่</span>':""}</div><div class="src">${esc(x.src)}${isClear(x.text)?' · <span class="okc">น้ำลด รถผ่านได้</span>':""}${x.depth?` · <span class="dep ${depCls(x.depth)}">~${x.depth} ซม.</span>`:""}</div></span></a></li>`}).join("")
-    +(shown.length<list.length?`<li><button class="linkbtn" id="rrmore" style="padding:10px 2px">ดูอีก ${list.length-shown.length} รายงาน</button></li>`:"");
-  const m=$("rrmore"); if(m)m.onclick=()=>{RRALL=true;renderReports(DATA);};
-}
-function renderRoads(d){
-  const R=d.roads, sec=$("roads"), has=!!(R&&R.items&&R.items.length);
-  renderReports(d);
-  if(!has&&!(d.reports||[]).length){sec.hidden=true;return;} sec.hidden=false;
-  $("roadsHead").hidden=$("roadgrid").hidden=!has;
-  if(!has){$("roadsAsof").textContent="";return;}
-  const pub=R.published?new Date(R.published):null; const ageH=pub?(Date.now()-pub)/3.6e6:99;
-  const n20=R.items.filter(x=>(x.depth||0)>=20).length;
-  $("roadsAsof").textContent=(R.asof?"ข้อมูล กทม. "+R.asof+" น.":"")+(pub?" · "+rel(R.published):"");
-  $("roadsHead").innerHTML=`<span class="chip"><b>${R.items.length}</b> เส้นทาง</span><span class="chip"><span class="lv lv5"></span>ท่วม 20 ซม.+ <b>${n20}</b></span>${(()=>{const n=R.items.filter(it=>roadClear(it,d)).length;return n?`<span class="chip"><span class="ck" aria-hidden="true">✓</span>น้ำลด รถผ่านได้ <b>${n}</b></span>`:""})()}
-    ${ageH>12||R.carried?`<span class="chip" style="color:var(--warn)">ยังไม่มีประกาศรอบใหม่ ข้อมูลอาจไม่เป็นปัจจุบัน</span>`:""}
-    <button class="btn" id="copyRoads">คัดลอกรายชื่อถนน</button>
-    <a href="${esc(R.source)}" target="_blank" rel="noopener">ที่มา: ${esc(R.headline||"ข่าว")}</a>
-    <a href="https://now.bangkok.go.th/flood-alert.html" target="_blank" rel="noopener">ระบบเตือนน้ำท่วมถนน กทม. (สด)</a>`;
-  $("copyRoads").onclick=async(e)=>{const txt="ถนนน้ำท่วมควรเลี่ยง ("+(R.asof||"")+" น.)\n"+R.items.map((it,i)=>`${i+1}. ${it.road}${it.depth?" ~"+it.depth+" ซม.":""}: `+it.segs.map(s=>s.near!==undefined?"ใกล้ "+s.near:s.from+" – "+s.to).join(", ")).join("\n");
-    try{await navigator.clipboard.writeText(txt);e.target.textContent="คัดลอกแล้ว";}catch(err){e.target.textContent="คัดลอกไม่ได้";}setTimeout(()=>e.target.textContent="คัดลอกรายชื่อถนน",2000);};
-  // map
-  let svg="";
-  const CLR=R.items.map(it=>roadClear(it,d));
-  R.items.forEach((it,i)=>{const c=CLR[i]?"var(--ok)":depCol(it.depth||0);let g="";
-    it.segs.forEach(s=>{
-      if(s.a&&s.b&&km(s.a,s.b)<4){const A=proj(s.a),B=proj(s.b);if(inMap(A)&&inMap(B))g+=`<line x1="${A[0].toFixed(1)}" y1="${A[1].toFixed(1)}" x2="${B[0].toFixed(1)}" y2="${B[1].toFixed(1)}" stroke="${c}" stroke-width="14"/><circle cx="${A[0].toFixed(1)}" cy="${A[1].toFixed(1)}" r="11" fill="${c}" stroke="#fff" stroke-width="4"/><circle cx="${B[0].toFixed(1)}" cy="${B[1].toFixed(1)}" r="11" fill="${c}" stroke="#fff" stroke-width="4"/>`;}
-      else ["p","a","b"].forEach(k=>{if(s[k]){const P=proj(s[k]);if(inMap(P))g+=`<circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="15" fill="${c}" stroke="#fff" stroke-width="4"/>`;}});
-    });
-    if(!g&&it.p){const P=proj(it.p);if(inMap(P))g=`<circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="15" fill="${c}" stroke="#fff" stroke-width="4" stroke-dasharray="6 5"/>`;}
-    if(g)svg+=`<g class="seg" data-i="${i}" tabindex="0"><title>${esc(it.road)}${it.depth?" · "+it.depth+" ซม.":""}</title>${g}</g>`;});
-  $("mapsvg").innerHTML=svg;
-  $("mapsvg").querySelectorAll(".seg").forEach(g=>{const f=()=>focusRoad(+g.dataset.i,true);g.onclick=f;g.onkeydown=e=>{if(e.key==="Enter")f()};});
-  // list
-  $("roadlist").innerHTML=R.items.map((it,i)=>`<li data-i="${i}"${CLR[i]?' class="clear"':""}><div class="rh">${CLR[i]?'<span class="ck" aria-hidden="true">✓</span>':""}<button data-i="${i}">${esc(it.road)}</button>${it.depth&&!CLR[i]?`<span class="dep ${depCls(it.depth)}">${it.depth} ซม.+</span>`:""}${CLR[i]?`<a class="okc" href="${esc(CLR[i].url)}" target="_blank" rel="noopener">น้ำลด รถผ่านได้ · ${esc(CLR[i].src)} ${hm(CLR[i].ts)} น.</a>`:""}</div>
-    <div class="segs">${it.segs.map(s=>`<div><span>${s.near!==undefined?"ใกล้ "+esc(s.near):esc(s.from)+" → "+esc(s.to)}</span><a href="${esc(gmSeg(it,s))}" target="_blank" rel="noopener">Google Maps ↗</a></div>`).join("")||`<div><span>ทั้งสาย</span><a href="${esc("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(gq(it.road)+" กรุงเทพมหานคร"))}" target="_blank" rel="noopener">Google Maps ↗</a></div>`}</div></li>`).join("");
-  $("roadlist").querySelectorAll(".rh button").forEach(b=>b.onclick=()=>focusRoad(+b.dataset.i,false));
-  if(SELR>=0)focusRoad(SELR,false);
-}
-
 // ---- BMA road-flood sensors ----
 // st: 0 ขัดข้อง, 5 ขัดข้องชั่วคราว, 1 ปกติ, 2 น้ำท่วมเล็กน้อย, 3 น้ำท่วม; a site silent for 3 h counts as offline too
 const BMAP=mkMap("bmawrap","bmain","bzin","bzout");
@@ -1370,48 +1269,6 @@ function renderBma(d){
     :`<li><span class="muted">ตอนนี้ไม่มีจุดที่เซนเซอร์วัดน้ำบนถนนได้ (${all.length-off} จุดส่งข้อมูลปกติ)</span></li>`;
   $("bmalist").querySelectorAll(".rh button").forEach(b=>b.onclick=()=>focusBma(+b.dataset.id,false));
   if(SELB!=null&&wet.some(s=>s.id===SELB))focusBma(SELB,true);
-}
-
-// ---- flood events (Longdo/iTIC) + flood-risk points (BMA, loaded on demand from data/risk.json) ----
-const EMAP=mkMap("evwrap","evin","ezin","ezout");
-const EVBY={doh:"กรมทางหลวง",itic:"iTIC",user:"ประชาชนแจ้ง"};
-const evIso=s=>s?s.replace(" ","T")+"+07:00":"";
-const evCol=x=>x.by==="doh"?"var(--water)":"var(--warn)";
-const RSCOL={1:"var(--crit)",2:"var(--ink-3)",3:"var(--warn)",4:"var(--water)",5:"var(--ok)"};
-let EVALL=false, SELE=null, RISKON=false, RISK=null, RISKST="idle";
-function loadRisk(){ if(RISKST!=="idle")return; RISKST="loading";
-  fetch("data/risk.json").then(r=>r.ok?r.json():Promise.reject()).then(j=>{RISK=j&&j.p&&j.p.length?j:null;RISKST=RISK?"ok":"fail";renderEvents(DATA);}).catch(()=>{RISKST="fail";renderEvents(DATA);}); }
-function focusEvent(id,scrollList){SELE=id;
-  document.querySelectorAll("#evlist li").forEach(li=>li.classList.toggle("sel",li.dataset.id===id));
-  document.querySelectorAll("#evsvg .ev").forEach(g=>g.setAttribute("opacity",id==null||g.dataset.id===id?"1":".3"));
-  if(scrollList){const li=document.querySelector(`#evlist li[data-id="${id}"]`);if(li)li.scrollIntoView({block:"nearest",behavior:"smooth"});}
-  else{const x=(((DATA||{}).events||{}).items||[]).find(v=>v.id===id);if(x)EMAP.pan([proj(x.p)]);}}
-function renderEvents(d){
-  const E=d.events, sec=$("evt"); if(!E){sec.hidden=true;return;} sec.hidden=false;
-  const items=(E.items||[]).filter(x=>new Date(evIso(x.e))>Date.now());
-  const n=k=>items.filter(x=>x.by===k).length;
-  $("evAsof").textContent=E.fetched?"ดึงข้อมูล "+hm(E.fetched)+" น. · "+rel(E.fetched):"";
-  $("evHead").innerHTML=`<span class="chip"><b>${items.length}</b> เหตุการณ์</span><span class="chip"><span class="lv" style="background:var(--water)"></span>กรมทางหลวง <b>${n("doh")}</b></span><span class="chip"><span class="lv" style="background:var(--warn)"></span>ประชาชน/iTIC <b>${n("itic")+n("user")}</b></span>
-    ${E.stale?`<span class="chip" style="color:var(--warn)">รอบล่าสุดดึงข้อมูลไม่สำเร็จ แสดงข้อมูลเมื่อ ${hm(E.fetched)} น.</span>`:""}
-    <button class="btn" id="riskTgl" aria-pressed="${RISKON}">${RISKON?"ซ่อน":"แสดง"}จุดเสี่ยงน้ำท่วม กทม.</button>
-    ${RISKON&&RISKST==="loading"?'<span class="muted small">กำลังโหลดจุดเสี่ยง…</span>':""}${RISKON&&RISKST==="fail"?'<span class="chip" style="color:var(--warn)">โหลดจุดเสี่ยงไม่ได้</span>':""}
-    <a href="${esc(E.source||"https://event.longdo.com/")}" target="_blank" rel="noopener">ที่มา: ${esc(E.src||"Longdo Event")} ↗</a>`;
-  $("riskTgl").onclick=()=>{RISKON=!RISKON;if(RISKON)loadRisk();renderEvents(DATA);};
-  $("evRiskLg").hidden=!(RISKON&&RISKST==="ok");
-  let svg="";
-  if(RISKON&&RISKST==="ok"){const st=RISK.status||{},cs=RISK.cause||{};
-    svg+=RISK.p.map(r=>{const P=proj([r[0],r[1]]);return inMap(P)?`<circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="8" fill="${RSCOL[r[4]]||"var(--ink-3)"}" opacity=".6" stroke="#fff" stroke-width="2"><title>${esc(r[2])} · เขต${esc(r[3])} · ${esc(st[r[4]]||"")} · ${esc(cs[r[5]]||"")}</title></circle>`:""}).join("");}
-  svg+=items.slice().reverse().map(x=>{const P=proj(x.p);return inMap(P)?`<g class="ev bdot" data-id="${x.id}" tabindex="0"><title>${esc(x.t)} · ${esc(EVBY[x.by]||"")}</title><circle cx="${P[0].toFixed(1)}" cy="${P[1].toFixed(1)}" r="16" fill="${evCol(x)}" stroke="#fff" stroke-width="4"/></g>`:""}).join("");
-  $("evsvg").innerHTML=svg;
-  $("evsvg").querySelectorAll(".ev").forEach(g=>{const f=()=>focusEvent(g.dataset.id,true);g.onclick=f;g.onkeydown=e=>{if(e.key==="Enter")f()};});
-  const shown=EVALL?items:items.slice(0,12);
-  $("evlist").innerHTML=(shown.map(x=>`<li data-id="${x.id}"><div class="rh"><button data-id="${x.id}">${esc(x.t)}</button><span class="dep" style="background:var(--surface-2);color:${evCol(x)}">${esc(EVBY[x.by]||"")}</span></div>
-    <div class="segs"><div><span>${x.d?esc(x.d)+" · ":""}แจ้งเมื่อ ${fmtTs(evIso(x.s)).replace("<br>"," ")} น.</span><a href="https://www.google.com/maps/search/?api=1&query=${x.p.join(",")}" target="_blank" rel="noopener">Google Maps ↗</a></div></div></li>`).join("")
-    ||`<li><span class="muted">ตอนนี้ไม่มีเหตุการณ์น้ำท่วมที่แจ้งเข้ามาในพื้นที่นี้</span></li>`)
-    +(shown.length<items.length?`<li><button class="linkbtn" id="evmore" style="padding:10px 2px">ดูอีก ${items.length-shown.length} เหตุการณ์</button></li>`:"");
-  $("evlist").querySelectorAll(".rh button").forEach(b=>b.onclick=()=>focusEvent(b.dataset.id,false));
-  const m=$("evmore"); if(m)m.onclick=()=>{EVALL=true;renderEvents(DATA);};
-  if(SELE!=null&&items.some(x=>x.id===SELE))focusEvent(SELE,true);
 }
 
 const LVN={5:"ล้นตลิ่ง",4:"น้ำมาก",3:"ปกติ",2:"น้ำน้อย",1:"น้ำน้อยวิกฤติ"};
@@ -1637,8 +1494,7 @@ function tilesFor(d,k){
     if(bmaLive(B)){const wet=B.sites.filter(bWet).sort((a,b)=>b.cm-a.cm), n20=wet.filter(s=>s.cm>=20).length;
       out.push({lbl:"น้ำบนถนน · เซนเซอร์ กทม.",href:"#bma",s:n20?"crit":wet.length?"warn":"ok",pill:n20?"ท่วม 20 ซม.+":wet.length?"มีน้ำขัง":"ปกติ",val:`${wet.length}<small>จุด</small>`,
         sub:wet.length?`≥20 ซม. ${n20} จุด · ลึกสุด ${esc(wet[0].name)} ${bCm(wet[0])}`:"ไม่มีจุดที่วัดน้ำบนถนนได้"});}
-    else{const it=(d.roads&&d.roads.items)||[], n20=it.filter(x=>(x.depth||0)>=20).length;
-      out.push(it.length?{lbl:"ถนนน้ำท่วม · ควรเลี่ยง",href:"#roads",s:n20?"crit":"warn",pill:n20?"ท่วม 20 ซม.+":"มีน้ำขัง",val:`${it.length}<small>เส้นทาง</small>`,sub:`ท่วม 20 ซม.+ ${n20} เส้นทาง`}:naTile("ถนนน้ำท่วม","#roads"));}}
+    else out.push(naTile("น้ำบนถนน · เซนเซอร์ กทม.","#bma"));}
   return out.map(tile).join("");
 }
 function renderSummary(d){$("sumBkk").innerHTML=tilesFor(d,"bkk");}
@@ -1731,7 +1587,7 @@ window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{cons
   const fh=fromHash(); if(fh!=="bkk"){setView(fh);toTop();} else if(!location.hash&&PV[saved])setView(saved); else renderContacts("bkk");
 })();
 (()=>{const links=[...document.querySelectorAll(".qnav a")];
-  const groups={sumBkk:["bkkBanner","sumBkk","alerts"],roads:["roads","bma","evt"],newssec:["newssec","cbsec"],plates:["plates","contacts"],ryHead:["ryBanner","ryHead","ryWarn"],cmHead:["cmBanner","cmHead","cmWarn"]};
+  const groups={sumBkk:["bkkBanner","sumBkk","alerts"],roads:["bma"],newssec:["newssec","cbsec"],plates:["plates","contacts"],ryHead:["ryBanner","ryHead","ryWarn"],cmHead:["cmBanner","cmHead","cmWarn"]};
   const owner={};links.forEach(a=>{const k=a.hash.slice(1);(groups[k]||[k]).forEach(id=>owner[id]=a);});
   const set=a=>{links.forEach(l=>l.removeAttribute("aria-current"));if(a){a.setAttribute("aria-current","true");const u=a.closest("ul");if(a.offsetLeft<u.scrollLeft||a.offsetLeft+a.offsetWidth>u.scrollLeft+u.clientWidth)u.scrollTo({left:a.offsetLeft-16,behavior:"smooth"});}};
   const vis=new Map();

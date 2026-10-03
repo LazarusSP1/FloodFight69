@@ -1337,9 +1337,6 @@ def main():
         "upstream": safe(upstream, None),
         "aq": safe(air_quality, None),
         "bma": safe(bma_sensors, None),
-        "events": safe(flood_events, None),
-        "roads": safe(roads, None),
-        "reports": safe(road_reports, None),
         "radar": safe(radar, None),
         "tmd": {"warnings": safe(tmd_warnings, None), "daily": safe(tmd_daily, None)},
         "news": news(),
@@ -1359,10 +1356,8 @@ def main():
         try:
             prev = json.load(open(prev_path, encoding="utf-8"))
             prev = prev.get("data", prev) if isinstance(prev, dict) else {}
-            if doc["roads"] is None and prev.get("roads"):
-                doc["roads"] = dict(prev["roads"], carried=True)
             # keep the last good block when a source fails this run
-            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones", "events", "aq"):
+            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones", "aq"):
                 if not doc.get(k) and prev.get(k):
                     doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
             for k in ("dams", "upstream"):  # lists: items carry their own dates
@@ -1373,7 +1368,6 @@ def main():
             # None = fetch failed (an empty list is a real "nothing new" answer)
             if doc["tmd"]["warnings"] is None:
                 doc["tmd"]["warnings"] = (prev.get("tmd") or {}).get("warnings") or []
-            doc["reports"] = merge_reports(doc["reports"], prev.get("reports"))
             for key in PROVS:
                 pr, cur = prev.get(key) or {}, doc[key]
                 if cur["weather"] is None and pr.get("weather"):
@@ -1417,8 +1411,6 @@ def main():
                 GW_ERR["alerts_" + place] = f"{type(e).__name__}: {e}"[:200]
     if GW_ERR:
         doc["google_err"] = GW_ERR
-    if doc["reports"] is None:
-        doc["reports"] = []
     tw = doc.get("thaiwater") or {}
     for key in PROVS:
         name, cur = PROVS[key]["name"], doc[key]
@@ -1439,9 +1431,9 @@ def main():
           f"; google={'off' if not GW_KEY else ','.join(k + ('=FAIL' if k in GW_ERR else '=ok') for k in ['bkk', *PROVS])}"
           f"; dams_bkk={len(doc['dams'] or [])} upstream={len(doc['upstream'] or [])}"
           f"; aq=" + ",".join(f"{k}:{len((aq.get(k) or {}).get('stations') or [])}st{'+fc' if (aq.get(k) or {}).get('fc') else ''}" for k in AQ_AREAS) +
-          f"; {'; '.join(pv(k) for k in PROVS)}; reports={len(doc['reports'])}; events={len((doc['events'] or {}).get('items', []))}"
+          f"; {'; '.join(pv(k) for k in PROVS)}"
           f"; bma_sites={len((doc['bma'] or {}).get('sites', []))}{' (relay)' if (doc['bma'] or {}).get('via') else ''}"
-          f"; radar_frames={(doc['radar'] or {}).get('frames', 0)}; roads={len((doc['roads'] or {}).get('items', []))}{' (carried over)' if (doc['roads'] or {}).get('carried') else ''}")
+          f"; radar_frames={(doc['radar'] or {}).get('frames', 0)}")
 
 if __name__ == "__main__":
     main()
