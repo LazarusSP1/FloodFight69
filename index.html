@@ -1457,6 +1457,9 @@ const ST={crit:"วิกฤต",warn:"เฝ้าระวัง",ok:"ปก�
 const tile=o=>`<a class="tile s-${o.s}" href="${o.href}"><span class="t-top"><span class="t-lbl">${o.lbl}</span><span class="pill p-${o.s}">${o.pill||ST[o.s]}</span></span><span class="t-val">${o.val}</span><span class="t-sub">${o.sub||""}</span></a>`;
 const naTile=(lbl,href)=>({lbl,href,s:"na",val:"—",sub:"ยังไม่มีข้อมูลในรอบนี้"});
 const bmaLive=B=>!!(B&&(B.sites||[]).length)&&(B.fetched?(Date.now()-new Date(B.fetched))/3.6e6:99)<=3;
+const EVBY={doh:"กรมทางหลวง",itic:"iTIC",user:"ประชาชนแจ้ง"};
+const evCol=x=>x.by==="doh"?"var(--water)":"var(--warn)";
+const evIso=s=>s?s.replace(" ","T")+"+07:00":"";
 const evLive=E=>((E&&E.items)||[]).filter(x=>new Date(evIso(x.e))>Date.now());
 const ROADBLOCK_RE=/ผ่านไม่ได้|ปิดการจราจร|ปิดถนน|ห้ามผ่าน/;
 function tilesFor(d,k){
@@ -1547,7 +1550,7 @@ function renderContacts(v){
 }
 
 // seed data embedded at publish time
-try{render(JSON.parse($("seed").textContent))}catch(e){}
+try{render(JSON.parse($("seed").textContent))}catch(e){console.error("render failed",e)}
 setInterval(()=>{if(DATA)renderFresh(DATA);},60000);
 let RSZ=0, LASTW=0;
 window.addEventListener("resize",()=>{clearTimeout(RSZ);RSZ=setTimeout(()=>{const w=document.querySelector(".wrap").clientWidth;if(DATA&&w!==LASTW){LASTW=w;draw48(DATA);renderRiver(DATA);for(const pk in PV)renderProv(DATA,pk);renderAQAll(DATA);}},150);});
