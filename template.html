@@ -104,7 +104,7 @@ header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-
 .t-lbl{font-size:13px;color:var(--ink-2);font-weight:500}
 .t-val{font-family:var(--display);font-size:30px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
 .t-val small{font-family:var(--body);font-size:13.5px;font-weight:500;color:var(--ink-2);margin-left:5px}
-.t-sub{font-size:12.5px;color:var(--ink-3);line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.t-sub{font-size:12.5px;color:var(--ink-3);line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical}
 .tile.s-crit{border-color:color-mix(in srgb,var(--crit) 40%,var(--line))} .tile.s-crit .t-val{color:var(--crit)}
 .tile.s-warn{border-color:color-mix(in srgb,var(--warn) 40%,var(--line))} .tile.s-warn .t-val{color:var(--warn)}
 .tile.s-na .t-val{color:var(--ink-3)}
@@ -131,7 +131,7 @@ header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-
 .alert.crit .tag{color:var(--crit)}
 .alert h3{font-size:16.5px}
 .alert p{margin:0;font-size:14px;color:var(--ink-2);white-space:pre-line;max-width:75ch}
-.alert p.clip{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.alert p.clip{display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 
 /* buttons, tabs, chips */
 .btn{font:inherit;font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;line-height:1.3}
@@ -1100,9 +1100,9 @@ function flowChart(id,r,label){
 function renderRiver(d){
   const r=d.river||[]; if(r.length<2){$("criver").innerHTML="<div class='empty'>ไม่มีข้อมูล</div>";$("sriver").textContent="";return;}
   const {ti,fs}=flowChart("criver",r,"กราฟอัตราการไหลแม่น้ำเจ้าพระยา");
-  const fut=r.slice(fs); const pk=fut.reduce((a,z)=>z.q>a.q?z:a,fut[0]); const pkm=fut.reduce((a,z)=>z.qmax>a.qmax?z:a,fut[0]);
+  const fut=r.slice(fs); const pk=fut.length?fut.reduce((a,z)=>z.q>a.q?z:a,fut[0]):(r[0]||{}); const pkm=fut.length?fut.reduce((a,z)=>z.qmax>a.qmax?z:a,fut[0]):(r[0]||{});
   const cur=ti>=0?r[ti].q:null;
-  $("sriver").innerHTML=(cur?`วันนี้ราว <span class="num">${Math.round(cur).toLocaleString()}</span> ม³/วินาที · `:"")+`คาดสูงสุด <span class="num">${Math.round(pk.q).toLocaleString()}</span> ช่วง ${pd(pk.date).getDate()} ${TH_M[pd(pk.date).getMonth()]} (กรณีเลวร้าย <span class="num">${Math.round(pkm.qmax).toLocaleString()}</span>)`;
+  $("sriver").innerHTML=(cur?`วันนี้ราว <span class="num">${Math.round(cur).toLocaleString()}</span> ม³/วินาที · `:"")+(pk.date?`คาดสูงสุด <span class="num">${Math.round(pk.q||0).toLocaleString()}</span> ช่วง ${pd(pk.date).getDate()} ${TH_M[pd(pk.date).getMonth()]} (กรณีเลวร้าย <span class="num">${Math.round(pkm.qmax||0).toLocaleString()}</span>)`:"");
 }
 // sea level off Rayong city, 72 h: area + line, high waters marked
 function tideChart(id,h){
@@ -1306,8 +1306,8 @@ function renderTw(d){
 }
 
 // rain cell shading on the TMD daily scale: blue deepens to 35 mm, then warn (heavy) and crit (very heavy)
-const rainHeat=mm=>mm>=90?"background:var(--crit-bg);color:var(--crit);font-weight:600":mm>=35?"background:var(--warn-bg);color:var(--warn);font-weight:600"
-  :`background:color-mix(in srgb,var(--water) ${Math.round(4+Math.min(mm,35)/35*41)}%,transparent)`;
+function rainHeat(mm){return mm>=90?"background:var(--crit-bg);color:var(--crit);font-weight:600":mm>=35?"background:var(--warn-bg);color:var(--warn);font-weight:600"
+  :`background:color-mix(in srgb,var(--water) ${Math.round(4+Math.min(mm,35)/35*41)}%,transparent)`;}
 function renderZones(d){
   const Z=d.zones||[]; if(!Z.length){$("zoneTbl").innerHTML=`<tbody><tr><td class="empty">ยังไม่มีข้อมูลพยากรณ์รายพื้นที่</td></tr></tbody>`;$("zoneNote").textContent="";return;}
   const t=todayStr(), dd=[...new Set(Z.flatMap(z=>(z.days||[]).map(x=>x.date)))].filter(x=>x>t).sort().slice(0,2);
@@ -1400,7 +1400,7 @@ function renderProv(d,pk){
   if(dates.length){
     const md=Object.fromEntries(((mar&&mar.days)||[]).map(x=>[x.date,x]));
     const worst=dates.map(dd=>Math.max(0,...pts.map(p=>((p.days||[]).find(x=>x.date===dd)||{}).rain||0)));
-    const hw=dd=>{const x=md[dd]; if(!x||!x.high.length)return "—"; const tp=x.high.reduce((a,b)=>b.h>a.h?b:a); return `${tp.h.toFixed(2)} ม.<div class="sub">${tp.t} น.</div>`};
+    const hw=dd=>{const x=md[dd]; if(!x||!x.high||!x.high.length)return "—"; const tp=x.high.reduce((a,b)=>b.h>a.h?b:a); return `${tp.h.toFixed(2)} ม.<div class="sub">${tp.t} น.</div>`};
     id("Plan").innerHTML=`<thead><tr><th>พื้นที่</th>${dates.map(x=>`<th>${x===t?"วันนี้":TH_D[pd(x).getDay()]+" "+pd(x).getDate()}</th>`).join("")}</tr></thead><tbody>`
       +pts.map(p=>{const m=Object.fromEntries((p.days||[]).map(x=>[x.date,x.rain]));
         return `<tr><td>${esc(p.name)}</td>${dates.map(dd=>m[dd]==null?`<td class="hm">—</td>`:`<td class="hm" style="${rainHeat(m[dd])}">${(+m[dd]).toFixed(1)}</td>`).join("")}</tr>`}).join("")
@@ -1421,9 +1421,9 @@ function renderProv(d,pk){
   id("Rivers").innerHTML=rv.length?rv.map((x,k)=>`<div><h3 style="font-size:14.5px;margin-bottom:6px">${esc(x.name)}</h3><div class="chartbox" id="${pk}Riv${k}" style="margin-top:0"></div><div class="note" id="${pk}RivN${k}"></div></div>`).join("")
     :`<div class="empty">ยังไม่มีข้อมูลแม่น้ำ</div>`;
   rv.forEach((x,k)=>{const sr=x.series||[]; if(sr.length<2)return; const {ti,fs}=flowChart(pk+"Riv"+k,sr,"อัตราการไหล"+x.name);
-    const fut=sr.slice(fs), top=fut.reduce((a,z)=>(z.q||0)>(a.q||0)?z:a,fut[0]), cur=ti>=0?sr[ti].q:null, nx=ti>=0&&sr[ti+1]?sr[ti+1].q:null;
+    const fut=sr.slice(fs), top=fut.length?fut.reduce((a,z)=>(z.q||0)>(a.q||0)?z:a,fut[0]):(sr[0]||{}), cur=ti>=0?sr[ti].q:null, nx=ti>=0&&sr[ti+1]?sr[ti+1].q:null;
     $(pk+"RivN"+k).innerHTML=(cur!=null?`วันนี้ราว <span class="num">${Math.round(cur).toLocaleString()}</span> ม³/วินาที${nx!=null?(nx>cur*1.05?' · <b style="color:var(--crit)">แนวโน้มเพิ่มขึ้น</b>':nx<cur*.95?" · แนวโน้มลดลง":" · ทรงตัว"):""} · `:"")
-      +`สูงสุดในช่วงคาดการณ์ <span class="num">${Math.round(top.q||0).toLocaleString()}</span> ม³/วินาที วันที่ ${pd(top.date).getDate()} ${TH_M[pd(top.date).getMonth()]}`;});
+      +(top.date?`สูงสุดในช่วงคาดการณ์ <span class="num">${Math.round(top.q||0).toLocaleString()}</span> ม³/วินาที วันที่ ${pd(top.date).getDate()} ${TH_M[pd(top.date).getMonth()]}`:"");});
 }
 
 // ---- public warning bar: official warnings that name the area, a calm line when there are none ----
