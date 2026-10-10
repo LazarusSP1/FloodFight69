@@ -298,9 +298,8 @@ PROVS = {
     "chiangmai": {"name": "เชียงใหม่", "pts": CM_PTS,
                   "rivers": [("แม่น้ำปิง (ตัวเมือง)", 18.79, 99.00), ("แม่น้ำปิง (แม่แตง)", 19.12, 98.94)],
                   "news": ("น้ำท่วม เชียงใหม่", "เชียงใหม่ ฝนตกหนัก น้ำป่า แม่น้ำปิง", "เชียงใหม่ ฝุ่น PM2.5 หมอกควัน", "เชียงใหม่ ถนน น้ำท่วม เส้นทาง"),
-                  "radar": (("https://weather.tmd.go.th/cmi/cmiloop.gif", "https://weather.tmd.go.th/cmi/cmiLoop.gif", "https://weather.tmd.go.th/cmiloop.gif"),
-                            "radar_cm", "https://weather.tmd.go.th/cmiloop.php"),
-                  "radar_find": ["https://weather.tmd.go.th/", "https://weather.tmd.go.th/radar.php", "https://weather.tmd.go.th/cmiloop.php", "https://weather.tmd.go.th/lpnloop.php", "https://weather.tmd.go.th/lamphunloop.php"],  # cmi = Chiang Mai (cmp is the Chumphon radar)
+                  "radar": (("https://weather.tmd.go.th/lmp/lmploop.gif",), "radar_cm", "https://weather.tmd.go.th/lmploop.php"),  # TMD has no Chiang Mai radar: Lamphun (lmp) is the next one over; cmp is Chumphon, cri is Chiang Rai
+                  "radar_find": ["https://weather.tmd.go.th/lmploop.php"],
                   "bbox": (17.20, 20.15, 98.05, 99.60), "marine": False},
 }
 
@@ -725,7 +724,7 @@ def _radar_find(pages, log):
                      for h, t in re.findall(r"""<a[^>]+href=["']([^"']*loop[^"']*\.php)["'][^>]*>(.*?)</a>""", idx, re.I | re.S)]
             log.append(f"index {p} -> {len(idx)}B links={[(u.rsplit('/', 1)[-1], t[:30]) for u, t in links][:40]}")
             for u, t in links:
-                if re.search(r"เชียงใหม่|ลำพูน|chiang|lamphun", t + u, re.I) and u not in pages:
+                if re.search(r"ลำพูน|lamphun", t + u, re.I) and u not in pages:
                     pages.append(u)
             continue
         try:
