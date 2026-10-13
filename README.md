@@ -42,7 +42,7 @@ cp .env.example .env            # ใส่ GH_TOKEN (ดูวิธีสร�
 docker compose run --rm bma-relay python bma_push.py --dry-run   # ทดสอบ: ต้องได้ "fetched ... sites"
 docker compose up -d --build     # รันทุกชั่วโมง เริ่มเองหลังรีบูต · ดู log: docker compose logs -f
 ```
-เมื่อโค้ดใน repo เปลี่ยน ให้ `git pull && docker compose up -d --build` · รันตรงโดยไม่ใช้ Docker ก็ได้: `python bma_push.py` (ใช้ `GH_TOKEN` หรือ gh CLI ที่ล็อกอินไว้)
+เมื่อโค้ดใน repo เปลี่ยน ให้ `git pull && docker compose up -d --build` · รันตรงโดยไม่ใช้ Docker ก็ได้: `python bma_push.py` (หรือรันวนลูป background ด้วย `python bma_push.py --loop`) ใช้ `GH_TOKEN` หรือ gh CLI ที่ล็อกอินไว้
 
 บอทจะใช้ `data/bma.json` เมื่ออายุไม่เกิน 6 ชม. ถ้าไม่มีข้อมูลที่ใหม่พอ หน้าเว็บจะแสดงลิงก์ไปหน้าสดของสำนักการระบายน้ำแทน
 

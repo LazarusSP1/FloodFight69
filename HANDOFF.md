@@ -1,4 +1,36 @@
-# HANDOFF · FloodFight69 2.1 (อัปเดต 2026-10-02)
+# HANDOFF · FloodFight69 2.1 (อัปเดต 2026-10-11)
+
+## 2.2 Manifest: ถอด BMA relay (วางแผนไว้ ยังไม่ลงมือ · 2026-10-11)
+ถอด relay ที่ส่ง `data/bma.json` จากเครื่องในบ้าน/ออฟฟิศขึ้น `main` (ข้อ 4 ด้านล่าง) ออกทั้งระบบ **ยังไม่มีการแก้โค้ด** รายการนี้คือขอบเขตงานที่จะทำ
+
+**ผลที่ตามมา:** Cloudflare ของ weather.bangkok.go.th ยังบล็อก GitHub Actions เมื่อไม่มี relay บอตจะดึงเซนเซอร์เองไม่ได้ (`bma_err` = 403) ส่วน "ระดับน้ำบนถนน เซนเซอร์ กทม." จะแสดงข้อความ "ดึงข้อมูลไม่ได้" + ลิงก์หน้าสดของสำนักการระบายน้ำตลอดเวลา ต้องตัดสินใจข้อ D ก่อนลงมือ
+
+**ลบไฟล์**
+- `bma_push.py`, `Dockerfile.bma`, `compose.yml`, `.dockerignore`
+- `data/bma.json` (commit "data: BMA sensors …" ทุกชั่วโมงจะหยุดไปเอง)
+- `.env.example`: ตัด `GH_TOKEN` ออก (เหลือแค่ `GOOGLE_WEATHER_API_KEY` ถ้ายังอยากเก็บไว้เป็นตัวอย่าง)
+
+**แก้ไฟล์**
+- `fetch_feed.py`: ลบ `BMA_FILE`, `BMA_FILE_MAX_H`, `bma_from_file()`, บรรทัด `doc["bma"] = bma_from_file()` (~835), ป้าย `(relay)` ใน log (~927), docstring บรรทัด 9 · `bma_sensors()` เป็นตัวที่ `bma_push.py` import ไปใช้ ถ้าเลือก D1 ให้เก็บไว้
+- `.github/workflows/refresh.yml`: ลบ env `BMA_FILE: data/bma.json`
+- `README.md`: ลบหัวข้อ "เซนเซอร์น้ำบนถนน กทม." (บรรทัด ~35–47) และบรรทัด 32–33 ในหัวข้อ "ไฟล์" · เปลี่ยนเลขเวอร์ชันหัวเรื่องเป็น 2.2
+- `HANDOFF.md`: ข้อ 4 ด้านล่างเป็นประวัติแล้ว
+
+**D) ต้องตัดสินใจ: ส่วนเซนเซอร์บนหน้าเว็บ**
+- D1 เก็บไว้: ยังเรียก `bma_sensors()` ตรงทุกรอบ ถ้าวันหนึ่ง Cloudflare ปล่อยให้ผ่านก็จะกลับมาแสดงเอง แต่ระหว่างนี้แสดงข้อความล้มเหลวตลอด
+- D2 ถอดทั้งฟีเจอร์ (แนะนำ ถ้าไม่มีแผนหาทางดึงแบบอื่น): ลบใน `fetch_feed.py` ส่วน `BMA_SENSORS` … `_bma_parse` (~529–620), `"bma"`/`bma_err` ใน doc และ carry-over key `"bma"` (~848) · ใน `template.html` ลบ section `#bma` (~571–584), ลิงก์ nav `#bma` (468), `renderBma`/`focusBma`/`BMAP`/`SELB` (~1233–1272), การเรียก `renderBma(d)` (891), `bmaLive` และช่องสรุปที่ใช้ (~1459, 1496–1500), `roads:["bma"]` ใน groups (1593) · `basemap.webp` ใช้กับแผนที่อื่นด้วยหรือไม่ ต้องเช็กก่อนลบ
+- ห้ามสับสนกับ `fetch_risk.py` / `data/risk.json` (จุดเสี่ยงจาก `bmagis.bangkok.go.th`) ซึ่ง **ไม่เกี่ยว** และคงไว้
+
+**งานนอก repo (เจ้าของเครื่อง relay ทำเอง)**
+- หยุดและลบ container: `docker compose down` ในโฟลเดอร์ที่รัน (`docker-bma-relay-1`) ก่อน merge ไม่งั้นจะยังอัปโหลด `data/bma.json` กลับมา
+- เพิกถอน fine-grained token (`GH_TOKEN` ใน `.env`) ที่ github.com/settings/personal-access-tokens แล้วลบ `.env` ในเครื่องนั้น
+
+**ตรวจหลัง merge**
+- รอบ refresh แรก Actions ไม่ล้ม, log ไม่มี `(relay)`, ไม่มี commit "data: BMA sensors" ใหม่
+- เปิดเว็บจริงแท็บ กทม. ไม่มี JS error และแสดงผลถึง footer (D1: ข้อความล้มเหลว + ลิงก์ · D2: ไม่มี section ถนนเซนเซอร์และช่องสรุปไม่อ้างถึง)
+
+---
+# รอบ 2.1 (2026-10-02)
 
 ## 0) รอบ 2.1 (ล่าสุด ยังไม่ commit ตอนเขียน)
 - **3 แท็บโครงเดียวกัน:** กรุงเทพฯ · ระยอง · เชียงใหม่ (ใหม่) ลำดับดูใน README · markup ของระยอง/เชียงใหม่มาจากแม่แบบเดียว (id = คำนำหน้า `ry`/`cm` + ชื่อ, section = `ry-…`/`cm-…`) JS ใช้ `PV`, `renderProv(d,pk)`, `renderProvRoads(d,pk)`, `tilesFor(d,k)` ร่วมกัน

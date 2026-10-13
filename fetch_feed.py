@@ -572,7 +572,7 @@ def _bma_fetch():
     print("WARN bma_sensors", last, file=sys.stderr)
     raise RuntimeError(last)
 
-BMA_FILE = os.environ.get("BMA_FILE")
+BMA_FILE = os.environ.get("BMA_FILE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "bma.json")
 BMA_FILE_MAX_H = 6
 
 def bma_from_file():
@@ -845,9 +845,18 @@ def main():
             prev = json.load(open(prev_path, encoding="utf-8"))
             prev = prev.get("data", prev) if isinstance(prev, dict) else {}
             # keep the last good block when a source fails this run
-            for k in ("weather", "river", "thaiwater", "bma", "radar", "zones", "aq"):
+            for k in ("weather", "river", "thaiwater", "radar", "zones", "aq"):
                 if not doc.get(k) and prev.get(k):
                     doc[k] = dict(prev[k], stale=True) if isinstance(prev[k], dict) else prev[k]
+            # bma: only carry over from prev if still within BMA_FILE_MAX_H
+            if not doc.get("bma") and prev.get("bma"):
+                try:
+                    pb = prev["bma"]
+                    age = dt.datetime.now(TZ) - dt.datetime.fromisoformat(pb["fetched"])
+                    if pb.get("sites") and age < dt.timedelta(hours=BMA_FILE_MAX_H):
+                        doc["bma"] = dict(pb, stale=True)
+                except Exception:
+                    pass
             for k in ("dams", "upstream"):  # lists: items carry their own dates
                 if doc[k] is None:
                     doc[k] = prev.get(k) or []
